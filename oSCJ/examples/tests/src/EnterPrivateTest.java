@@ -1,4 +1,3 @@
-
 /**
  *  This file is part of oSCJ.
  *
@@ -17,33 +16,30 @@
  *
  *
  *   Copyright 2009, 2010 
- *   @authors  Lei Zhao, Ales Plsek
+ *   @authors  Ales Plsek
  */
+//
 
-import javax.realtime.ImmortalMemory;
-import javax.realtime.MemoryArea;
-import javax.realtime.RealtimeThread;
+
+
+
 import javax.realtime.RelativeTime;
 import javax.safetycritical.CyclicExecutive;
 import javax.safetycritical.CyclicSchedule;
-import javax.safetycritical.MissionManager;
+import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.Safelet;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.Terminal;
 
-import edu.purdue.scj.BackingStoreID;
-import edu.purdue.scj.VMSupport;
-import edu.purdue.scj.utils.Utils;
+public class EnterPrivateTest extends CyclicExecutive {
 
-public class MyHelloWorld extends CyclicExecutive {
-
-    public MyHelloWorld() {
+    public EnterPrivateTest() {
         super(null);
     }
 
     public static void main(final String[] args) {
-        Safelet safelet = new MyHelloWorld();
+        Safelet safelet = new EnterPrivateTest();
         safelet.setUp();
         safelet.getSequencer().start();
         safelet.tearDown();
@@ -61,7 +57,7 @@ public class MyHelloWorld extends CyclicExecutive {
     }
 
     public void initialize() {
-        new WordHandler(20000, "\n HelloWorld!\n ", 5);
+        new WordHandler(20000, "Enter.\n", 1);
     }
 
     /**
@@ -75,18 +71,13 @@ public class MyHelloWorld extends CyclicExecutive {
     }
 
     public void setUp() {     
-        Terminal.getTerminal().write("set-up ...\n"); 
     }
 
     public void tearDown() {
-        Terminal.getTerminal().write("teardown ...\n");
     }
 
     public void cleanUp() {
-        Terminal.getTerminal().write("cleanUp ...\n");
     }
-
-    
     
     public class WordHandler extends PeriodicEventHandler {
 
@@ -103,8 +94,15 @@ public class MyHelloWorld extends CyclicExecutive {
          * 
          */
         public void handleEvent() {
-           Terminal.getTerminal().write(getName());
+           //Terminal.getTerminal().write(getName());
           
+           /**
+            * TESTING the "enterPrivateMemory"
+            */
+           EnterPrivate runnable = new EnterPrivate();
+           ManagedMemory mem =  ManagedMemory.getCurrentManagedMemory();
+           mem.enterPrivateMemory(300, runnable);
+           
            if (count_-- == 0)
                getCurrentMission().requestSequenceTermination();
         }
@@ -112,17 +110,21 @@ public class MyHelloWorld extends CyclicExecutive {
         
         public void cleanUp() {
         }
-
     
         public void register() {
         }
-
         
         public StorageParameters getThreadConfigurationParameters() {
             return null;
         }
     }
 
-
-
+    class EnterPrivate implements Runnable {
+        public void run() {
+            Terminal.getTerminal().write("EnterPrivateMemory OK.\n");
+        }
+    }
 }
+
+
+

@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+
+success=false
+failure=false
+
+i=0
+#puts ARGV.length
+
+$stdin.each_line {
+  | line |
+  if ARGV.length <= i               # output longer than expected
+    break
+  end
+    
+  if line.chomp == ARGV[i].chomp
+    success=true
+  elsif line.chomp != ARGV[i].chomp
+    failure=true
+  end
+  #puts line.chomp
+  #puts ARGV[i]
+  i = i + 1 
+}
+
+if ARGV.length != i                 # output longer/shorter than expected
+    success=false
+end
+
+if (not success) or failure
+  $stderr.puts "TEST FAILED."
+  exit 1
+else
+  $stderr.puts "SUCCESS."
+  exit 0
+end
+
+
