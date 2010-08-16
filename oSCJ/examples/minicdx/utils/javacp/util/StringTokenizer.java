@@ -60,6 +60,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * This class splits a string into tokens.  The caller can set on which
  * delimiters the string should be split and if the delimiters should be
@@ -80,6 +82,7 @@ package javacp.util;
  * @see java.io.StreamTokenizer
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public class StringTokenizer implements Enumeration
 {
   // WARNING: StringTokenizer is a CORE class in the bootstrap cycle. See the

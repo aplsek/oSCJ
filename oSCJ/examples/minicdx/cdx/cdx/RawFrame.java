@@ -22,7 +22,12 @@
  */
 package cdx;
 
-/*@javax.safetycritical.annotate.Scope("immortal")*/
+import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.Phase;
+
+@javax.safetycritical.annotate.Scope("immortal")
+@SCJAllowed(members=true)
 public class RawFrame {
     static private int   MAX_PLANES = 1000;
     static private int   MAX_SIGNS  = 10 * MAX_PLANES;
@@ -32,7 +37,8 @@ public class RawFrame {
     public final float[] positions  = new float[3 * MAX_PLANES];
     public int           planeCnt;
 
-    /*@javax.safetycritical.annotate.AllocFree*/
+    @SCJRestricted(mayAllocate=false)
+    @javax.safetycritical.annotate.RunsIn("cdx.CollisionDetectorHandler")
     public void copy(final int[] lengths_, final byte[] signs_, final float[] positions_) {
         for (int i = 0, pos = 0, pos2 = 0, pos3 = 0, pos4 = 0; i < lengths_.length; i++) {
             lengths[pos++] = lengths_[i];

@@ -64,6 +64,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import javax.safetycritical.annotate.SCJAllowed;
 
 /**
  * Linked list implementation of the List interface. In addition to the
@@ -93,6 +94,7 @@ import java.lang.reflect.Array;
  * @since 1.2
  * @status missing javadoc, but complete to 1.4
  */
+@SCJAllowed(members=true)
 public class LinkedList extends AbstractSequentialList
   implements List, Cloneable, Serializable
 {

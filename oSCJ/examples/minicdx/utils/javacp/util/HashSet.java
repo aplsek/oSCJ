@@ -64,6 +64,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import javax.safetycritical.annotate.SCJAllowed;
 
 /**
  * This class provides a HashMap-backed implementation of the Set interface.
@@ -98,6 +99,7 @@ import java.io.Serializable;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public class HashSet extends AbstractSet
   implements Set, Cloneable, Serializable
 {

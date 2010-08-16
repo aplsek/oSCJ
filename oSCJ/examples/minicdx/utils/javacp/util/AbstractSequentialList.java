@@ -60,6 +60,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * Abstract superclass to make it easier to implement the List interface when
  * backed by a sequential-access store, such as a linked list. For random
@@ -93,6 +95,7 @@ package javacp.util;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public abstract class AbstractSequentialList extends AbstractList
 {
   /**

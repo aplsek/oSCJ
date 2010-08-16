@@ -65,6 +65,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import javax.safetycritical.annotate.SCJAllowed;
 
 // NOTE: This implementation is very similar to that of Hashtable. If you fix
 // a bug in here, chances are you should make a similar change to the Hashtable
@@ -118,6 +119,7 @@ import java.io.Serializable;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public class HashMap extends AbstractMap
   implements Map, Cloneable, Serializable
 {

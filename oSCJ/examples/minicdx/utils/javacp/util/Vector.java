@@ -63,6 +63,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import javax.safetycritical.annotate.SCJAllowed;
 
 /**
  * The <code>Vector</code> classes implements growable arrays of Objects.
@@ -102,6 +103,7 @@ import java.lang.reflect.Array;
  * @since 1.0
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public class Vector extends AbstractList
   implements List, RandomAccess, Cloneable, Serializable
 {

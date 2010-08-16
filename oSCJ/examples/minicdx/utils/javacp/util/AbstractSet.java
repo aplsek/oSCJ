@@ -60,6 +60,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * An abstract implementation of Set to make it easier to create your own
  * implementations. In order to create a Set, subclass AbstractSet and
@@ -80,6 +82,7 @@ package javacp.util;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public abstract class AbstractSet extends AbstractCollection implements Set
 {
   /**

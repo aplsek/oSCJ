@@ -60,6 +60,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * An abstract implementation of Map to make it easier to create your own
  * implementations. In order to create an unmodifiable Map, subclass
@@ -86,6 +88,7 @@ package javacp.util;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public abstract class AbstractMap implements Map
 {
   /** An "enum" of iterator types. */

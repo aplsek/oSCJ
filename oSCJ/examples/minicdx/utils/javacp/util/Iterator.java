@@ -60,6 +60,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * An object which iterates over a collection. An Iterator is used to return
  * the items once only, in sequence, by successive calls to the next method.
@@ -76,6 +78,7 @@ package javacp.util;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public interface Iterator
 {
   /**

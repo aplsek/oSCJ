@@ -60,6 +60,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * A basic implementation of most of the methods in the List interface to make
  * it easier to create a List based on a random-access data structure. If
@@ -90,6 +92,7 @@ package javacp.util;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public abstract class AbstractList extends AbstractCollection implements List
 {
   /**

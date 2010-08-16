@@ -22,11 +22,14 @@
  */
 package cdx;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * All of our globally relevant constants.
  * 
  * @author Filip Pizlo
  */
+@SCJAllowed(members=true)
 public final class Constants {
     // I have added this so that we can specify the number of planes at runtime
     public static int           NUMBER_OF_PLANES                         = 6;
@@ -47,15 +50,15 @@ public final class Constants {
     public static int           DETECTOR_PRIORITY                        = 9;                                       // DETECTOR_STARTUP_PRIORITY
                                                                                                                      // +
                                                                                                                      // 1;
-    public static long          PERSISTENT_DETECTOR_SCOPE_SIZE           = 5*100*1000;
+    public static long          PERSISTENT_DETECTOR_SCOPE_SIZE           = 250*1000;//5*1000*1000;
     public static long          DETECTOR_PERIOD                          = 50;
-    public static long          TRANSIENT_DETECTOR_SCOPE_SIZE            = 5*100*1000;
+    public static long          TRANSIENT_DETECTOR_SCOPE_SIZE            = 100*1000;  //5*1000*1000;
 
     public static int           MAX_FRAMES                               = 1000;
 
     public static int           TIME_SCALE                               = 1;
     public static int           FPS                                      = 50;
-    public static int           BUFFER_FRAMES                            = 100;
+    public static int           BUFFER_FRAMES                            = 10;
     public static boolean       PRESIMULATE                              = false;
     public static boolean       SIMULATE_ONLY                            = false;
 
@@ -93,4 +96,6 @@ public final class Constants {
     public static boolean       DUMP_SENT_FRAMES                         = false;
     public static boolean       DEBUG_DETECTOR                           = false;
 
+    public static boolean FRAME_ON_THE_GO = true;
+    
 }

@@ -22,6 +22,8 @@
  */
 package cdx;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * The <code>Vector2d</code> class implements a 2-dimensional vector that can represent the position or velocity of an
  * object within a 2D space. This implementation uses public, non-final fields to avoid as much object creation as
@@ -29,7 +31,8 @@ package cdx;
  * 
  * @author Ben L. Titzer
  */
-/*@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")*/
+@SCJAllowed(members=true)
+@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")
 final class Vector2d {
 
     public float x, y;

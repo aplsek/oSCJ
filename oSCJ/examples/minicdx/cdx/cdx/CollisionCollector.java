@@ -22,6 +22,7 @@
  */
 package cdx;
 
+import javax.safetycritical.annotate.SCJAllowed;
 import javacp.util.ArrayList;
 import javacp.util.HashSet;
 import javacp.util.List;
@@ -31,7 +32,8 @@ import javacp.util.List;
  * 
  * @author Filip Pizlo
  */
-/*@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")*/
+@SCJAllowed(members=true)
+@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")
 public class CollisionCollector {
     /** A hash set of collisions. */
     private HashSet collisions = new HashSet();

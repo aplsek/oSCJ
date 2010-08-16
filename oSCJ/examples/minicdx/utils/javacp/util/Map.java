@@ -61,6 +61,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * An object that maps keys onto values. Keys cannot be duplicated. This
  * interface replaces the obsolete {@link Dictionary} abstract class.
@@ -100,6 +102,7 @@ package javacp.util;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public interface Map
 {
   /**

@@ -23,13 +23,15 @@
 package cdx;
 
 import java.io.DataOutputStream;
+import javax.safetycritical.annotate.SCJAllowed;
 
 /**
  * This thread runs only during start-up to run other threads. It runs in immortal memory, is allocated in immortal
  * memory, and it's constructor runs in immortal memory. It is a singleton, allocation from the Main class Ales: this
  * thread allocates - the scopes - the PersistentDetectorScope and TransientDetectorScope -
  */
-/*@javax.safetycritical.annotate.Scope("immortal")*/
+@SCJAllowed(members=true)
+@javax.safetycritical.annotate.Scope("immortal")
 public class ImmortalEntry implements Runnable {
 
     static public Object           initMonitor                  = new Object();
@@ -82,6 +84,7 @@ public class ImmortalEntry implements Runnable {
     /** Called only once during initialization. Runs in immortal memory */
     public void run() {
 
+        System.out.println("immortal entry....?.");
         System.out.println("Detector: detector priority is " + Constants.DETECTOR_PRIORITY);
         System.out.println("Detector: detector period is " + Constants.DETECTOR_PERIOD);
 

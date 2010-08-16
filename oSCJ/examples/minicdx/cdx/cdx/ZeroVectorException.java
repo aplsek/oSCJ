@@ -22,6 +22,8 @@
  */
 package cdx;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * The <code>ZeroVectorException</code> exception is thrown by utilities that perform calculations on vectors. If a
  * particular operation is undefined for the zero vector, a <code>ZeroVectorException</code> exception is thrown. The
@@ -30,6 +32,7 @@ package cdx;
  * 
  * @author Ben L. Titzer
  **/
+@SCJAllowed(members=true)
 class ZeroVectorException extends ArithmeticException {
 
     /**

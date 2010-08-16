@@ -24,7 +24,6 @@ import javax.safetycritical.Safelet;
 
 import cdx.Constants;
 import cdx.Level0Safelet;
-import edu.purdue.scj.utils.Utils;
 
 public class Launcher {
     public static void main(final String[] args) {
@@ -34,12 +33,9 @@ public class Launcher {
             Constants.DETECTOR_PERIOD = Integer.parseInt(args[1]);
         if (args.length > 2)
             Constants.MAX_FRAMES = Integer.parseInt(args[2]);
-        Utils.debugPrint("Planes: " + Constants.NUMBER_OF_PLANES);
-        Utils.debugPrint("Period: " + Constants.DETECTOR_PERIOD);
-        Utils.debugPrint("Frames: " + Constants.MAX_FRAMES);
         Safelet safelet = new Level0Safelet();
-        safelet.setup();
+        safelet.setUp();
         safelet.getSequencer().start();
-        safelet.teardown();
+        safelet.tearDown();
     }
 }

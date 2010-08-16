@@ -22,6 +22,7 @@
  */
 package cdx;
 
+import javax.safetycritical.annotate.SCJAllowed;
 import collision.Vector3d;
 
 /**
@@ -29,7 +30,8 @@ import collision.Vector3d;
  * 
  * @author Filip Pizlo
  */
-/*@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")*/
+@SCJAllowed(members=true)
+@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")
 class Collision {
     /** The aircraft that were involved. */
     // private ArrayList aircraft;

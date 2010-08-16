@@ -22,6 +22,7 @@
  */
 package cdx;
 
+import javax.safetycritical.annotate.SCJAllowed;
 import javacp.util.ArrayList;
 import javacp.util.HashMap;
 import javacp.util.Iterator;
@@ -33,6 +34,7 @@ import collision.Vector3d;
  * 
  * @author Filip Pizlo, Jeff Hagelberg
  */
+@SCJAllowed(members=true)
 /*@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")*/
 class Reducer {
 

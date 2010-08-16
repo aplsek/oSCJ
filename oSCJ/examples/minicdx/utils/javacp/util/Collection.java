@@ -60,6 +60,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * Interface that represents a collection of objects. This interface is the
  * root of the collection hierarchy, and does not provide any guarantees about
@@ -105,6 +107,7 @@ package javacp.util;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public interface Collection
 {
   /**

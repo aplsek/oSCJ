@@ -66,6 +66,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import javax.safetycritical.annotate.SCJAllowed;
 
 /**
  * An array-backed implementation of the List interface.  This implements
@@ -103,6 +104,7 @@ import java.lang.reflect.Array;
  * @see AbstractList
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public class ArrayList extends AbstractList
   implements List, RandomAccess, Cloneable, Serializable
 {

@@ -22,6 +22,9 @@
  */
 package collision;
 
+import javax.safetycritical.PrivateMemory;
+import javax.safetycritical.annotate.DefineScope;
+import javax.safetycritical.annotate.SCJAllowed;
 import cdx.ASCIIConverter;
 
 /**
@@ -31,7 +34,7 @@ import cdx.ASCIIConverter;
  * 
  * @author Ben L. Titzer
  */
-/*@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")*/
+@SCJAllowed(members=true)
 public final class Vector3d {
     public float x, y, z;
 

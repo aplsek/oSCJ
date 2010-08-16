@@ -61,6 +61,7 @@ exception statement from your version. */
 package javacp.util;
 
 import java.lang.reflect.Array;
+import javax.safetycritical.annotate.SCJAllowed;
 
 /**
  * A basic implementation of most of the methods in the Collection interface to
@@ -90,6 +91,7 @@ import java.lang.reflect.Array;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public abstract class AbstractCollection implements Collection
 {
   /**

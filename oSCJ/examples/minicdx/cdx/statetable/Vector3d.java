@@ -22,6 +22,11 @@
  */
 package statetable;
 
+import javax.safetycritical.PrivateMemory;
+import javax.safetycritical.annotate.DefineScope;
+import javax.safetycritical.annotate.Phase;
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * The <code>Vector3d</code> class implements a 3-dimensional vector that can represent the position or velocity of an
  * object within a 3D space. This implementation uses public, non-final fields to avoid as much object creation as
@@ -29,7 +34,7 @@ package statetable;
  * 
  * @author Ben L. Titzer
  */
-/*@javax.safetycritical.annotate.Scope("cdx.Level0Safelet")*/
+@SCJAllowed(members=true)
 public final class Vector3d {
     public float x, y, z;
 
@@ -53,6 +58,9 @@ public final class Vector3d {
         this.x = x;
         this.y = y;
         this.z = z;
+        
+        
+        
     }
 
     /**
@@ -78,7 +86,7 @@ public final class Vector3d {
      * @param z
      *            the coordinate on the z (elevation) axis
      */
-    /*@javax.safetycritical.annotate.AllocFree*/
+    @javax.safetycritical.annotate.SCJRestricted(mayAllocate=false)
     public void set(float x, float y, float z) {
         this.x = x;
         this.y = y;

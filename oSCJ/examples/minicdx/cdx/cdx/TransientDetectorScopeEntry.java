@@ -29,6 +29,10 @@ import javacp.util.Iterator;
 import javacp.util.LinkedList;
 import javacp.util.List;
 import javax.realtime.MemoryArea;
+import javax.realtime.RealtimeThread;
+import javax.safetycritical.annotate.RunsIn;
+import javax.safetycritical.annotate.SCJAllowed;
+import bench.BenchMem;
 import collision.Vector3d;
 
 /**
@@ -37,8 +41,10 @@ import collision.Vector3d;
  * thread runs in transient detector scope. The frame (currentFrame) lives in
  * immortal memory. The real collision detection starts here.
  */
-/* @javax.safetycritical.annotate.Scope("cdx.Level0Safelet") */
-/* @javax.safetycritical.annotate.RunsIn("cdx.CollisionDetectorHandler") */
+
+@SCJAllowed(members=true)
+@javax.safetycritical.annotate.Scope("cdx.Level0Safelet")
+@javax.safetycritical.annotate.RunsIn("cdx.CollisionDetectorHandler")
 public class TransientDetectorScopeEntry implements Runnable {
 
     private StateTable state;
@@ -59,11 +65,16 @@ public class TransientDetectorScopeEntry implements Runnable {
         Benchmarker.set(1);
 
         Benchmarker.set(Benchmarker.RAPITA_REDUCER_INIT);
+        BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         final Reducer reducer = new Reducer(voxelSize);
+        BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         Benchmarker.done(Benchmarker.RAPITA_REDUCER_INIT);
 
+        
         Benchmarker.set(Benchmarker.LOOK_FOR_COLLISIONS);
+        BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         int numberOfCollisions = lookForCollisions(reducer, createMotions());
+        BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         Benchmarker.done(Benchmarker.LOOK_FOR_COLLISIONS);
 
         if (cdx.ImmortalEntry.recordedRuns < cdx.ImmortalEntry.maxDetectorRuns) {
@@ -74,36 +85,17 @@ public class TransientDetectorScopeEntry implements Runnable {
             System.out.println("CD detected  " + numberOfCollisions
                     + " collisions.");
             int colIndex = 0;
-
-            /*
-             * for(final Iterator iter = collisions.iterator(); iter.hasNext();)
-             * { Collision col = (Collision) iter.next(); // fixme update /*
-             * List aircraft = col.getAircraftInvolved();
-             * System.out.println("CD collision "
-             * +colIndex+" occured at location "+col.getLocation() +
-             * " with "+aircraft.size()+" involved aircraft.");
-             * 
-             * for(final Iterator aiter = aircraft.iterator(); aiter.hasNext();)
-             * { Aircraft a = (Aircraft) aiter.next();
-             * 
-             * 
-             * 
-             * 
-             * 
-             * System.out.println("CD collision "+colIndex+" includes aircraft "+
-             * a); }
-             */
-            /*
-             * colIndex++; }
-             */
-
             System.out.println("");
         }
         Benchmarker.done(1);
+        
+        BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
     }
 
     public int lookForCollisions(final Reducer reducer, final List motions) {
         Benchmarker.set(2);
+       // BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+        
         final List check = reduceCollisionSet(reducer, motions);
         // final CollisionCollector c = new CollisionCollector();
 
@@ -117,6 +109,7 @@ public class TransientDetectorScopeEntry implements Runnable {
         for (final Iterator iter = check.iterator(); iter.hasNext();)
             c += determineCollisions((List) iter.next(), ret);
         Benchmarker.done(2);
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         return c; // .getCollisions();
     }
 
@@ -127,6 +120,8 @@ public class TransientDetectorScopeEntry implements Runnable {
      */
     public List reduceCollisionSet(final Reducer it, final List motions) {
         Benchmarker.set(3);
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+        
         final HashMap voxel_map = new HashMap();
         final HashMap graph_colors = new HashMap();
 
@@ -141,6 +136,8 @@ public class TransientDetectorScopeEntry implements Runnable {
             if (cur_set.size() > 1)
                 ret.add(cur_set);
         }
+        
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         Benchmarker.done(3);
         return ret;
     }
@@ -171,9 +168,11 @@ public class TransientDetectorScopeEntry implements Runnable {
          */
     }
 
+   //@javax.safetycritical.annotate.RunsIn("foobar")
     public int determineCollisions(final List motions, List ret) {
         // (Peta) changed to iterators so that it's not killing the algorithm
         Benchmarker.set(5);
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         int _ret = 0;
         Motion[] _motions = (Motion[]) motions.toArray(new Motion[motions
                 .size()]);
@@ -194,18 +193,8 @@ public class TransientDetectorScopeEntry implements Runnable {
             }
         }
         Benchmarker.done(5);
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         return _ret;
-        /*
-         * Old code: Benchmarker.set(5); int _ret=0; for (int i = 0; i <
-         * motions.size() - 1; i++) { final Motion one = (Motion)
-         * motions.get(i); //m2==two, m=one for (int j = i + 1; j <
-         * motions.size(); j++) { final Motion two = (Motion) motions.get(j); if
-         * (checkForDuplicates(ret, one, two)) { final Vector3d vec =
-         * one.findIntersection(two); if (vec != null) { ret.add(new
-         * Collision(one.getAircraft(), two.getAircraft(), vec)); _ret++; }
-         * 
-         * } } } Benchmarker.done(5); return _ret; //
-         */
     }
 
     public void dumpFrame(String debugPrefix) {
@@ -247,6 +236,8 @@ public class TransientDetectorScopeEntry implements Runnable {
      */
     public List createMotions() {
         Benchmarker.set(6);
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+        
         final List ret = new LinkedList();
         final HashSet poked = new HashSet();
 
@@ -303,14 +294,23 @@ public class TransientDetectorScopeEntry implements Runnable {
             }
         }
         Benchmarker.done(6);
+        
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+        
+        
         return ret;
     }
-
+    
+    
+  
+        
     /**
      * This Runnable enters the StateTable in order to allocate the callsign in
      * the PersistentScope
      */
-    /* @javax.safetycritical.annotate.RunsIn("cdx.Level0Safelet") */
+    @javax.safetycritical.annotate.Scope("cdx.Level0Safelet")
+    @javax.safetycritical.annotate.RunsIn("cdx.Level0Safelet")
+    @SCJAllowed(members=true)
     static class R implements Runnable {
         CallSign c;
         byte[] cs;

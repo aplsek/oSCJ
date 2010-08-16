@@ -65,6 +65,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import javax.safetycritical.annotate.SCJAllowed;
 
 // NOTE: This implementation is very similar to that of HashMap. If you fix
 // a bug in here, chances are you should make a similar change to the HashMap
@@ -122,6 +123,7 @@ import java.io.Serializable;
  * @since 1.0
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public class Hashtable extends Dictionary
   implements Map, Cloneable, Serializable
 {

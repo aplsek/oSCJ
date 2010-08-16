@@ -60,6 +60,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * A map which guarantees its key's iteration order. The entries in the
  * map are related by the <i>natural ordering</i> of the keys if they
@@ -94,6 +96,7 @@ package javacp.util;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public interface SortedMap extends Map
 {
   /**

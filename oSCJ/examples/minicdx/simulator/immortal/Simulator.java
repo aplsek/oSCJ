@@ -24,8 +24,10 @@
 
 package immortal;
 
-/*@javax.safetycritical.annotate.Scope("immortal")*/
+import javax.safetycritical.annotate.SCJAllowed;
 
+@javax.safetycritical.annotate.Scope("immortal")
+@SCJAllowed(members=true)
 public class Simulator extends PrecompiledSimulator {
     public Simulator() {}
 }

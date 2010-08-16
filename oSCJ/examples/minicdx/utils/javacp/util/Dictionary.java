@@ -61,6 +61,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * A Dictionary maps keys to values; <i>how</i> it does that is
  * implementation-specific.
@@ -79,6 +81,7 @@ package javacp.util;
  * @since 1.0
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public abstract class Dictionary
 {
   // WARNING: Dictionary is a CORE class in the bootstrap cycle. See the

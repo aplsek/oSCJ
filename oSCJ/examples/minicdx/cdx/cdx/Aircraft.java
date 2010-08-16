@@ -22,10 +22,13 @@
  */
 package cdx;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * @author Filip Pizlo
  */
-/*@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")*/
+@SCJAllowed(members=true)
+@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")
 class Aircraft implements Comparable {
     /** The callsign. Currently, the only data we hold. */
     private final byte[] callsign;

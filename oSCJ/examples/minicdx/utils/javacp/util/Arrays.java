@@ -63,6 +63,7 @@ package javacp.util;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import javax.safetycritical.annotate.SCJAllowed;
 
 /**
  * This class contains various static utility methods performing operations on
@@ -87,6 +88,7 @@ import java.lang.reflect.Array;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public class Arrays
 {
   /**

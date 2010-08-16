@@ -60,6 +60,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * An ordered collection (also known as a list). This collection allows
  * access to elements by position, as well as control on where elements
@@ -102,6 +104,7 @@ package javacp.util;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public interface List extends Collection
 {
   /**

@@ -59,6 +59,7 @@ exception statement from your version. */
 
 package javacp.util;
 import java.io.Serializable;
+import javax.safetycritical.annotate.SCJAllowed;
 
 /* Written using "Java Class Libraries", 2nd edition, ISBN 0-201-31002-3
  * hashCode algorithm taken from JDK 1.2 docs.
@@ -87,6 +88,7 @@ import java.io.Serializable;
  * @author Eric Blake (ebb9@email.byu.edu)
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public class BitSet implements Cloneable, Serializable
 {
   /**

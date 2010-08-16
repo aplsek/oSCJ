@@ -60,6 +60,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * Interface for objects that specify an ordering between objects. The ordering
  * should be <em>total</em>, such that any two objects of the correct type
@@ -93,6 +95,7 @@ package javacp.util;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public interface Comparator
 {
   /**

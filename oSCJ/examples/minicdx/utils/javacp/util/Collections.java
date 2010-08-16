@@ -62,6 +62,7 @@ exception statement from your version. */
 package javacp.util;
 
 import java.io.Serializable;
+import javax.safetycritical.annotate.SCJAllowed;
 
 /**
  * Utility class consisting of static methods that operate on, or return
@@ -92,6 +93,7 @@ import java.io.Serializable;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public class Collections
 {
   /**

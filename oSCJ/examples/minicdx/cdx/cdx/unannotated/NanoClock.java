@@ -24,8 +24,10 @@ package cdx.unannotated;
 
 import javax.realtime.AbsoluteTime;
 import javax.realtime.Clock;
+import javax.safetycritical.annotate.SCJAllowed;
 import cdx.Constants;
 
+@SCJAllowed(members=true)
 public class NanoClock {
 
     public static long baseMillis = -1;

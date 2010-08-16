@@ -60,6 +60,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * An extended version of Iterator to support the extra features of Lists. The
  * elements may be accessed in forward or reverse order, elements may be
@@ -81,6 +83,7 @@ package javacp.util;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public interface ListIterator extends Iterator
 {
   /**

@@ -61,6 +61,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * Marker interface used to inform <code>List</code> implementations that
  * they support fast (usually constant time) random access. This allows
@@ -80,6 +82,7 @@ package javacp.util;
  * @since 1.4
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public interface RandomAccess
 {
   // Tagging interface only.

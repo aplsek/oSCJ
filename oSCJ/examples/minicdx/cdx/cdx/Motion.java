@@ -22,6 +22,7 @@
  */
 package cdx;
 
+import javax.safetycritical.annotate.SCJAllowed;
 import collision.Vector3d;
 
 /**
@@ -30,7 +31,8 @@ import collision.Vector3d;
  * 
  * @author Filip Pizlo
  */
-/*@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")*/
+@SCJAllowed(members=true)
+@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")
 class Motion {
     /** The aircraft that we are referring to. */
     private final Aircraft aircraft;

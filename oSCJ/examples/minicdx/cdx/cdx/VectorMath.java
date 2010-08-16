@@ -22,6 +22,7 @@
  */
 package cdx;
 
+import javax.safetycritical.annotate.SCJAllowed;
 import collision.Vector3d;
 
 /**
@@ -32,6 +33,7 @@ import collision.Vector3d;
  * 
  * @author Ben L. Titzer
  */
+@SCJAllowed(members=true)
 final class VectorMath {
 
     /***********************************************************************************************

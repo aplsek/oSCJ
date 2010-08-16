@@ -60,6 +60,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * A collection that contains no duplicates. In other words, for two set
  * elements e1 and e2, <code>e1.equals(e2)</code> returns false. There
@@ -88,6 +90,7 @@ package javacp.util;
  * @since 1.2
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public interface Set extends Collection
 {
   /**

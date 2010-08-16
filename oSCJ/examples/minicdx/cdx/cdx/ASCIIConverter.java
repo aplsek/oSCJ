@@ -22,6 +22,8 @@
  */
 package cdx;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 // The purpose of this class is to allow printing debug messages with
 // callsigns (byte arrays) and floating point data from a no-heap thread.
 // With standard Java ways of doing this, we get MemoryAccessError, due to 
@@ -33,7 +35,7 @@ package cdx;
 // Note that these converters are intentionally incorrect. We have no
 // control over the use of thread locals in VM libraries, so these may very
 // not work / not be needed on other VMs.
-
+@SCJAllowed(members=true)
 public class ASCIIConverter {
     public static String bytesToString(byte[] bytes) {
 

@@ -22,8 +22,10 @@
  */
 package cdx;
 
-//import com.fiji.fivm.r1.*;
+import javax.safetycritical.annotate.SCJAllowed;
 
+//import com.fiji.fivm.r1.*;
+@SCJAllowed(members=true)
 public class Benchmarker {
 
     /*	@RuntimeImport

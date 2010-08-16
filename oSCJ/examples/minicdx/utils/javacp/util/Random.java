@@ -61,6 +61,7 @@ exception statement from your version. */
 package javacp.util;
 
 import java.io.Serializable;
+import javax.safetycritical.annotate.SCJAllowed;
 
 /**
  * This class generates pseudorandom numbers.  It uses the same
@@ -95,6 +96,7 @@ import java.io.Serializable;
  * @author Eric Blake (ebb9@email.byu.edu)
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public class Random implements Serializable
 {
   /**

@@ -61,6 +61,8 @@ exception statement from your version. */
 
 package javacp.util;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 /* Written using "Java Class Libraries", 2nd edition, ISBN 0-201-31002-3
  * "The Java Language Specification", ISBN 0-201-63451-1
  * plus online API docs for JDK 1.2 beta from http://www.javasoft.com.
@@ -80,6 +82,7 @@ package javacp.util;
  * @since 1.0
  * @status updated to 1.4
  */
+@SCJAllowed(members=true)
 public class Stack extends Vector
 {
   // We could use Vector methods internally for the following methods,
