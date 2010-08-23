@@ -20,5 +20,5 @@ rm -rf myhello.build
 # COMPILE AND RUN
 mkdir $HELLO_BUILD
 javac -cp $FIJI_HOME/lib/scj.jar -d $HELLO_BUILD $HELLO/src/MyHelloWorld*.java
-$FIJI_HOME/bin/fivmc -o myhello  $SCJFLAGS --scj-safelet MyHelloWorld $HELLO_BUILD/*.class
+$FIJI_HOME/bin/fivmc -o myhello -v 1  $SCJFLAGS --scj-safelet MyHelloWorld $HELLO_BUILD/*.class
 ./myhello MyHelloWorld
