@@ -3,6 +3,6 @@
 	<classpathentry kind="src" output="helloworld/build" path="helloworld/src"/>
 	<classpathentry kind="src" output="tests/build" path="tests/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/scj"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/scj-FIJI-SCOPE"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -36,14 +36,14 @@ import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 import edu.purdue.scj.utils.Utils;
 
-public class MyHelloWorld extends CyclicExecutive {
+public class HelloWorld extends CyclicExecutive {
 
-    public MyHelloWorld() {
+    public HelloWorld() {
         super(null);
     }
 
     public static void main(final String[] args) {
-        Safelet safelet = new MyHelloWorld();
+        Safelet safelet = new HelloWorld();
         safelet.setUp();
         safelet.getSequencer().start();
         safelet.tearDown();
@@ -61,7 +61,7 @@ public class MyHelloWorld extends CyclicExecutive {
     }
 
     public void initialize() {
-        new WordHandler(20000, "\n HelloWorld!\n ", 5);
+        new WordHandler(20000, "HelloWorld.\n", 1);
     }
 
     /**
@@ -75,15 +75,15 @@ public class MyHelloWorld extends CyclicExecutive {
     }
 
     public void setUp() {     
-        Terminal.getTerminal().write("set-up ...\n"); 
+        Terminal.getTerminal().write("set-up.\n"); 
     }
 
     public void tearDown() {
-        Terminal.getTerminal().write("teardown ...\n");
+        Terminal.getTerminal().write("teardown.\n");
     }
 
     public void cleanUp() {
-        Terminal.getTerminal().write("cleanUp ...\n");
+        Terminal.getTerminal().write("cleanUp.\n");
     }
 
     

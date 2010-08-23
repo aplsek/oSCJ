@@ -14,11 +14,11 @@ HELLO_BUILD=$HELLO/build
 
 # CLEAN-UP
 rm -rf $HELLO_BUILD
-rm -rf myhello
-rm -rf myhello.build
+rm -rf hello
+rm -rf hello.build
 
 # COMPILE AND RUN
 mkdir $HELLO_BUILD
-javac -cp $FIJI_HOME/lib/scj.jar -d $HELLO_BUILD $HELLO/src/MyHelloWorld*.java
-$FIJI_HOME/bin/fivmc -o myhello -v 1  $SCJFLAGS --scj-safelet MyHelloWorld $HELLO_BUILD/*.class
-./myhello MyHelloWorld
+javac -cp $FIJI_HOME/lib/scj.jar -d $HELLO_BUILD $HELLO/src/HelloWorld*.java
+$FIJI_HOME/bin/fivmc -o hello -v 1  $SCJFLAGS --scj-safelet HelloWorld $HELLO_BUILD/*.class
+./hello HelloWorld
