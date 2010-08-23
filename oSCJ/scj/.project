@@ -14,4 +14,16 @@
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>helloworld</name>
+			<type>2</type>
+			<location>/Users/plsek/_work/workspace_RT/scj-jsr302/oSCJ/examples/helloworld/src</location>
+		</link>
+		<link>
+			<name>test-suite</name>
+			<type>2</type>
+			<location>/Users/plsek/_work/workspace_RT/scj-jsr302/oSCJ/examples/tests/src</location>
+		</link>
+	</linkedResources>
 </projectDescription>
