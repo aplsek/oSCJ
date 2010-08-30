@@ -1,0 +1,29 @@
+JAVAC=@JAVAC@
+JAR=@JAR@
+
+include depend.mk
+
+
+FIJI_HOME=../../../../
+
+all: 
+
+clean:
+	rm -rf build
+	mkdir build
+	rm -rf hello*
+	rm -rf enterPrivate*
+	rm -rf immortalTest*
+	
+
+build-java: clean
+	$(JAVAC) -cp $(FIJI_HOME)/lib/scj.jar -d build/ src/*.java
+
+
+check-scj: build-java
+	$(RUBY) $(FIJI_HOME)/localbin/testmake check-scj
+
+recall:
+	 $(FIJI_HOME)/localbin/recall
+    
+    

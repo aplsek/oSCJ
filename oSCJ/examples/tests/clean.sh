@@ -8,9 +8,5 @@ set -x
 rm -rf build
 rm -rf hello.build
 rm -rf enterPrivate.build
-
 rm -rf hello
 rm -rf enterPrivate
-
-
-rm -rf log
