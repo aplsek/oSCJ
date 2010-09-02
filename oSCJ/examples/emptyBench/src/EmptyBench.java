@@ -20,25 +20,20 @@
  *   @authors  Lei Zhao, Ales Plsek
  */
 
-import javax.realtime.ImmortalMemory;
-import javax.realtime.MemoryArea;
 import javax.realtime.RealtimeThread;
 import javax.realtime.RelativeTime;
 import javax.safetycritical.CyclicExecutive;
 import javax.safetycritical.CyclicSchedule;
-import javax.safetycritical.MissionManager;
 import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.Safelet;
 import javax.safetycritical.StorageParameters;
-import javax.safetycritical.Terminal;
 
-import edu.purdue.scj.BackingStoreID;
-import edu.purdue.scj.VMSupport;
-import edu.purdue.scj.utils.Utils;
+import bench.BenchMem;
+import bench.Constants;
 
-public class HelloWorld extends CyclicExecutive {
+public class EmptyBench extends CyclicExecutive {
 
-    public HelloWorld() {
+    public EmptyBench() {
         super(null);
     }
 
@@ -49,10 +44,6 @@ public class HelloWorld extends CyclicExecutive {
         safelet.tearDown();
     }
 
-    private static void writeln(String msg) {
-        Terminal.getTerminal().writeln(msg);
-    }
-
     public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) {
         CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
         CyclicSchedule schedule = new CyclicSchedule(frames);
@@ -61,7 +52,7 @@ public class HelloWorld extends CyclicExecutive {
     }
 
     public void initialize() {
-        new WordHandler(20000, "HelloWorld.\n", 1);
+        new WordHandler(Constants.TRANSIENT_DETECTOR_SCOPE_SIZE, null, 1);
     }
 
     /**
@@ -71,58 +62,44 @@ public class HelloWorld extends CyclicExecutive {
      */
     // @Override
     public long missionMemorySize() {
-        return 5000000;
+        return Constants.PERSISTENT_DETECTOR_SCOPE_SIZE;
     }
 
     public void setUp() {     
-        Terminal.getTerminal().write("set-up.\n"); 
-    }
-
-    public void tearDown() {
-        Terminal.getTerminal().write("teardown.\n");
     }
 
     public void cleanUp() {
-        Terminal.getTerminal().write("cleanUp.\n");
+    }
+    
+    
+    
+    public void tearDown() {
+        BenchMem.dumpMemoryUsage();
     }
 
-    
+
     
     public class WordHandler extends PeriodicEventHandler {
 
-        private int count_;
-
         private WordHandler(long psize, String name, int count) {
             super(null, null, null, psize, name);
-            count_ = count;
         }
 
-        /**
-         * 
-         * Testing Enter Private Memory
-         * 
-         */
         public void handleEvent() {
-           Terminal.getTerminal().write(getName());
-          
-           if (count_-- == 0)
-               getCurrentMission().requestSequenceTermination();
+            for (int i=0; i < BenchMem.maxTraces;i++)
+                BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+            
+            getCurrentMission().requestSequenceTermination();
         }
-
         
         public void cleanUp() {
         }
 
-    
         public void register() {
         }
-
         
         public StorageParameters getThreadConfigurationParameters() {
             return null;
         }
     }
-
-
-
 }

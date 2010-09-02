@@ -4,8 +4,9 @@ set -e
 set -x
 
 
-FIJI_HOME="/Users/plsek/_work/fiji/fivm-pizloScope"
-SCJFLAGS="--scj --scj-scope-backing 12m --g-def-immortal-mem 1m"
+FIJI_HOME="../../../../"
+SCJFLAGS="--scj --scj-scope-backing 310k --g-def-immortal-mem 500k"   #700 scope, 500 imm
+FIJIFLAGS="--max-threads 5"  # -v 1
 
 # HELLO HOME
 HELLO=.
@@ -20,5 +21,5 @@ rm -rf hello.build
 # COMPILE AND RUN
 mkdir $HELLO_BUILD
 javac -cp $FIJI_HOME/lib/scj.jar -d $HELLO_BUILD $HELLO/src/HelloWorld*.java
-$FIJI_HOME/bin/fivmc -o hello -v 1  $SCJFLAGS --scj-safelet HelloWorld $HELLO_BUILD/*.class
-./hello HelloWorld
+$FIJI_HOME/bin/fivmc -o hello -v 1  $SCJFLAGS  $FIJIFLAGS $HELLO_BUILD/*.class
+./hello

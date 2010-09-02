@@ -50,16 +50,19 @@ public class TestImmortal extends CyclicExecutive {
         return 5000000;
     }
 
-    
-    
-    
-    
     /**
-     * This code should be running in IMMORTAL?
+     * This code should be running in IMMORTAL
+     * 
+     * Spec says: "... The infrastructure invokes setUp before invoking getSequencer.
+     * Application developers place code to be executed before the
+     * MissionSequencer begins to execute within this method. Upon entry into
+     * this method, the current allocation context is ImmortalMemoryArea. User
+     * code may introduce nested PrivateMemory areas for temporary computations.
+     * ..."
      */
     public void setUp() {
-        
-        //VMSupport.setCurrentArea(VMSupport.getImmortalArea());
+
+        VMSupport.setCurrentArea(VMSupport.getImmortalArea());
 
         // checking the instance of immortal memory
         MemoryArea immortal = ImmortalMemory.instance();
@@ -77,13 +80,12 @@ public class TestImmortal extends CyclicExecutive {
 
         if (sizeIM == size_VM && size_VM == size_CURR)
             testResult = true;
-        
-        
+
         if (!testResult) {
             System.out.println("im : " + im);
             System.out.println("im_VM : " + im_VM);
             System.out.println("curr_VM : " + curr_VM);
-            
+
             System.out.println("sizeIM : " + sizeIM);
             System.out.println("size_VM : " + size_VM);
             System.out.println("size_CURR : " + size_CURR);
@@ -113,15 +115,13 @@ public class TestImmortal extends CyclicExecutive {
          */
         public void handleEvent() {
             Terminal.getTerminal().write("Immortal Memory Test : START\n");
-            if (testResult) 
+            if (testResult)
                 Terminal.getTerminal().write("Immortal Memory test OK.\n");
-            else 
+            else
                 Terminal.getTerminal().write("Immortal Memory Test: FAILED.\n");
-            
+
             Terminal.getTerminal().write("Immortal Memory Test : END\n");
-            
-            
-            
+
             getCurrentMission().requestSequenceTermination();
         }
 
