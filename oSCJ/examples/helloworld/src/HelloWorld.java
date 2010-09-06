@@ -43,7 +43,7 @@ public class HelloWorld extends CyclicExecutive {
     }
 
     public static void main(final String[] args) {
-        Safelet safelet = new EmptyBench();
+        Safelet safelet = new HelloWorld();
         safelet.setUp();
         safelet.getSequencer().start();
         safelet.tearDown();
