@@ -4,7 +4,7 @@ set -e
 set -x
 
 # FIJI HOME
-FIJI=/Users/plsek/_work/fiji/fivm-root/
+FIJI=../../../../
 
 FIJI_FLAGS="--library FIJICORE --g-def-max-mem=830k -G cmr --pollcheck-mode portable --g-def-trigger=700k --more-opt --max-threads 5"
 
