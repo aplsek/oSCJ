@@ -10,7 +10,7 @@ data2 <- read.table(args[7])   # fiji - rt gc CDj
 
 data3 <- read.table(args[8])   # fiji - scj - emptyBench
 
-range <- c(0,350)
+range <- c(0,750)
 
 range_y <- c(380,850)
 

@@ -4,7 +4,7 @@ set -e
 set -x
 
 SCJ=../minicdx
-FIJI=/Users/plsek/_work/workspace_RT/cdj-vanilla-fiji-v1.2/bench/
+FIJI=../cdj-vanilla-fiji-v1.2/bench/
 EMPTY_SCJ=../emptyBench/
 
 timestamp=`date +"%m%d.%H%M"`
