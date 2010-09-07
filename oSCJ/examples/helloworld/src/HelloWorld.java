@@ -43,7 +43,7 @@ public class HelloWorld extends CyclicExecutive {
     }
 
     public static void main(final String[] args) {
-        Safelet safelet = new EmptyBench();
+        Safelet safelet = new HelloWorld();
         safelet.setUp();
         safelet.getSequencer().start();
         safelet.tearDown();
@@ -71,7 +71,7 @@ public class HelloWorld extends CyclicExecutive {
      */
     // @Override
     public long missionMemorySize() {
-        return 5000000;
+        return 100000;
     }
 
     public void setUp() {     
