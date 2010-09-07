@@ -55,10 +55,12 @@ public class Level0Safelet extends CyclicExecutive {
     public void setUp() {
         System.out.println("set up ales..!!!!");
        
-        
-        
+        ////////////////////////////////
+        //  MEMORY BENCHMARK INIT
+        BenchMem.init();
+        //
         // memory statistics
-        
+        //
         System.out.println("MEMORY STATISTICS:");
         ImmortalMemory imm  = ImmortalMemory.instance();
         System.out.println("IMMORTAL size [oSCJ]: " + imm.size());
@@ -167,7 +169,7 @@ public class Level0Safelet extends CyclicExecutive {
         
        // System.out.println("Mem setup at startup was:" + memSetup);
         //System.out.println("Mem setup END Was:" + memSetupEnd);
-        /*
+        
         if (Constants.PRINT_RESULTS) {
             System.out
                 .println("Dumping output [ timeBefore timeAfter heapFreeBefore heapFreeAfter detectedCollisions ] for "
@@ -216,7 +218,7 @@ public class Level0Safelet extends CyclicExecutive {
             }
             System.out.println("=====DETECTOR-RELEASE-STATS-END-ABOVE====");
         }
-        */
+        
         
         
         BenchMem.dumpMemoryUsage();

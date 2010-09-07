@@ -7,7 +7,7 @@ import cdx.ImmortalEntry;
 
 public class BenchMem {
 
-    static private int              OVERRUN = 2;
+    static private int             OVERRUN = 2;
     
     static public int              tracePoints  = 7;  // number of trace points per iteration
     static public int              maxDetectorRuns = Constants.MAX_FRAMES;
@@ -18,6 +18,7 @@ public class BenchMem {
     static public long[]           privateMemUsage = new long[maxTraces];
     static public long[]           missionMemUsage = new long[maxTraces];
     static public long[]           immortalMemUsage = new long[maxTraces];
+    static public long[]           runtimeMem = new long[maxTraces];
     
     static public long[]           limit = new long[maxTraces];
     
@@ -36,19 +37,23 @@ public class BenchMem {
     
     public static ImmortalMemory immortal = ImmortalMemory.instance();
     
+    
+    static private long immortalConsumed    =    0;
+    static private long heapConsumed        =    0;
+    
+    public static void init() {
+        immortalConsumed = immortal.memoryConsumed();
+        heapConsumed = Runtime.getRuntime().totalMemory();
+    }
+    
     public static void setMemUsage(long mem) {
         if (traces < maxTraces ) {
           long missionMem = RealtimeThread.getOuterMemoryArea(1).memoryConsumed();
           privateMemUsage[traces] = mem ;
           missionMemUsage[traces] =   missionMem;
+          
           immortalMemUsage[traces] =  immortal.memoryConsumed();
-           
-          if (mem == 0)
-              limit[traces] = Constants.PERSISTENT_DETECTOR_SCOPE_SIZE;
-          else
-              limit[traces] = Constants.PERSISTENT_DETECTOR_SCOPE_SIZE + Constants.TRANSIENT_DETECTOR_SCOPE_SIZE;
-          //System.out.println("Mem usage total: " + (Runtime.getRuntime().totalMemory() -
-          //    Runtime.getRuntime().freeMemory()) );
+          runtimeMem[traces]  = Runtime.getRuntime().totalMemory();
           
           traces++;
         }
@@ -67,7 +72,6 @@ public class BenchMem {
             missionIdnex++;
           }
           else {
-              //System.err.println("Memory Benchmark ERROR: Too many trace points!");
               missionIdnex++;
               err = true;
           } 
@@ -84,11 +88,13 @@ public class BenchMem {
         
         if (Constants.PRINT_RESULTS) {
             System.out
-                .println("Dumping output [ iterationNumber trace-point-number privateMemoryUsage missionMemoryUsage total-iter-Number] for "
-                        + ImmortalEntry.recordedRuns + " recorded detector runs, in ns");
+                .println("Dumping output [ iterationNumber privateMemoryUsage missionMemoryUsage immortalMem  scopeSizes runtimeMem] for "
+                        + ImmortalEntry.recordedRuns + " recorded detector runs, in bytes");
         }
         
         System.out.println("=====MEMORY-BENCH-STATS-START-BELOW====");
+        
+      
         
         for (int i = 0 ; i < traces - OVERRUN ; i++) {
             System.out.print(i);
@@ -98,13 +104,33 @@ public class BenchMem {
             System.out.print(privateMemUsage[i]);
             System.out.print(space);
             System.out.print(missionMemUsage[i]);
+            
+            //IMMORTAL :
             System.out.print(space);
             System.out.print(immortalMemUsage[i]);
+            
+            
             System.out.print(space);
-            System.out.print(limit[i]);
+            //System.out.print(limit[i]);
+            
+            // printing the size of MemoryArea Scopes - depending on if we have entered the private memory or not
+            if (privateMemUsage[i] == 0)
+                System.out.print(Constants.PERSISTENT_DETECTOR_SCOPE_SIZE);
+            else
+                System.out.print((Constants.PERSISTENT_DETECTOR_SCOPE_SIZE + Constants.TRANSIENT_DETECTOR_SCOPE_SIZE));
+            
+            
+            // HEAP:
+            System.out.print(space);
+            System.out.print(runtimeMem[i]);
+            
+            
+            
             System.out.println(space);
         }
         System.out.println("=====MEMORY-BENCH-STATS-END-ABOVE====");
+        System.out.println("Heap :" + heapConsumed);
+        System.out.println("Imm :" + immortalConsumed);
         
     }
 }

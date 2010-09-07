@@ -91,3 +91,49 @@ public class FrameBuffer {
         return buf;
     }
 }
+
+
+
+
+
+/*
+public RawFrame getFrame() {
+    
+    if (iterations % 100 == 0) {
+        planes += delta;
+        counter = 0;
+    }
+    
+    if (counter == 20) {
+        planes = Constants.NUMBER_OF_PLANES;
+        counter = 0;
+    }
+         
+    
+    for (byte k = 0; k < planes; k++) {
+        callsigns[6 * k] = 112;
+        callsigns[6 * k + 1] = 108;
+        callsigns[6 * k + 2] = 97;
+        callsigns[6 * k + 3] = 110;
+        callsigns[6 * k + 4] = 101;
+        callsigns[6 * k + 5] = (byte) (49 + k);
+    }
+    float positions[] = new float[60 * 3];
+
+    for (int k = 0; k < planes / 2; k++) {
+        positions[3 * k] = (float) (100 * Math.cos(t) + 500 + 50 * k);
+        positions[3 * k + 1] = 100.0f;
+        positions[3 * k + 2] = 5.0f;
+        positions[planes / 2 * 3 + 3 * k] = (float) (100 * Math.sin(t) + 500 + 50 * k);
+        positions[planes / 2 * 3 + 3 * k + 1] = 100.0f;
+        positions[planes / 2 * 3 + 3 * k + 2] = 5.0f;
+    }
+    // increase the time
+    t = t + 0.25f;
+    buf.copy(lengths, callsigns, positions);
+    
+    iterations++;
+    counter++;
+    
+    return buf;
+}*/

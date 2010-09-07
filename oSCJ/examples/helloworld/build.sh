@@ -21,5 +21,5 @@ rm -rf hello.build
 # COMPILE AND RUN
 mkdir $HELLO_BUILD
 javac -cp $FIJI_HOME/lib/scj.jar -d $HELLO_BUILD $HELLO/src/HelloWorld*.java
-$FIJI_HOME/bin/fivmc -o hello -v 1  $SCJFLAGS  $FIJIFLAGS $HELLO_BUILD/*.class
+$FIJI_HOME/bin/fivmc -o hello  $SCJFLAGS  $FIJIFLAGS $HELLO_BUILD/*.class
 ./hello
