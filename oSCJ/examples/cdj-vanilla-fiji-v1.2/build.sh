@@ -6,15 +6,20 @@ set -x
 # FIJI HOME
 FIJI=../../../../
 
-FIJI_FLAGS="--library FIJICORE --g-def-max-mem=830k -G cmr --pollcheck-mode portable --g-def-trigger=700k --more-opt --max-threads 5"
+FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --more-opt --max-threads 5 --uniprocessor"
 
+
+#--g-def-max-mem=830k --g-def-trigger=700k
+#--g-def-max-mem=830k --g-def-trigger=500k
+#--g-def-max-mem=1830k --g-def-trigger=1000k
 
 #CLEANUP
 echo "Cleaning class files..."
 find build/ -name "*.class" | xargs rm -f
 rm -rf cdj.jar
 rm -rf cdj_x86
-
+rm -rf build/
+mkdir build/
 
 
 find . -name *.java > list
