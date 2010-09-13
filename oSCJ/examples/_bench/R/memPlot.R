@@ -27,13 +27,13 @@ range_y <- c(380,850)
 
 
 
-mem3 <- (data1$V2 + data1$V3 + data1$V4 + data1$V6) / 1000
-mem1 <- ( data2$V4 ) / 1000
+mem_scj  <- (data1$V2 + data1$V3 + data1$V4 + data1$V6) / 1000
+mem_gc <- ( data2$V4 ) / 1000
 scopes <- (data1$V5 + 500000) /1000
 empty_bench <- (data3$V2 + data3$V3 + data3$V4 + data3$V6) / 1000
 
 scj_heap <- ( data1$V4 + data1$V6) / 1000
-time <- data.frame(mem3, mem1, scopes, scj_heap, empty_bench)
+time <- data.frame(mem_scj , mem_gc, scopes, scj_heap, empty_bench)
 
 pdf("mem_bench.pdf",width=25,height=10)
 
@@ -43,10 +43,10 @@ lty_a=c(1,1)
 matplot(time,xlim=range, ylim=range_y, type=type_a, lty=lty_a, xlab="Time", ylab="Memory Consumption [kB]",lwd=3)
 
 legend("bottomright", inset=.05, title="Legend",
-   c("oSCJ - memory used \n(private + mission + immortal + heap)","Fiji VM - RT GC","oSCJ - total memory", "oSCJ - heap+immortal"), col=c("black","red","green", "blue"), fill=c("black","red","green","blue"), horiz=TRUE)
+   c("oSCJ - memory used \n(private + mission + immortal + heap)","Fiji VM - RT GC","oSCJ - total memory", "oSCJ - heap+immortal", "oSCJ - Empty Benchmark"), col=c("black","red","green", "blue", "lightskyblue"), fill=c("black","red","green","blue", "lightskyblue"), horiz=TRUE)
 
 postscript()
-X11()	
+#X11()	
 
 max_mission <- max(data1$V3)
 max_private <- max(data1$V2)
@@ -58,7 +58,7 @@ max_empty <- max(empty_bench)
 print("MAX EMPTY")
 print(max_empty)
 
-print("max private nad mission:")
+print("max private and mission:")
 print(max_private)
 print(max_mission)
 print(max_immortal)
@@ -72,5 +72,15 @@ pr <- max_heap
 print("[  ...   ...    ....    ....]")
 print(pr)
 
+
+mean_scj <- mean(mem_scj)
+mean_GC <- mean(mem_gc)
+means <- data.frame(mean_scj,mean_GC)
+print("----------------------------")
+print("MEMORY USAGE: mean values")
+print(means)
+print(" ")
+print(" ")
+print("----------------------------")
 
 

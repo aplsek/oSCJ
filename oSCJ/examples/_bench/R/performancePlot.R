@@ -35,7 +35,7 @@ legend("bottomright", inset=.05, title="Legend",
    c("oSCJ","Fiji VM - RT GC"), col=c("black","red"), fill=c("black","red"), horiz=TRUE)
 
 postscript()
-X11()	
+#X11()	
 
 
 
@@ -51,6 +51,8 @@ mean_fiji <- mean(fiji)
 
 
 maxs <- data.frame(max_scj, max_fiji)
+print("----------------------------")
+print("PERFORMANCE:")
 print("")
 print("MAX values:")
 print(maxs)
@@ -61,3 +63,4 @@ print("MEAN values:")
 print(means)
 print("")
 print("")
+print("----------------------------")
