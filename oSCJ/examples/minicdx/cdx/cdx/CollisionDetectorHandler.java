@@ -33,7 +33,6 @@ import javax.safetycritical.annotate.SCJAllowed;
 import bench.BenchMem;
 
 import cdx.unannotated.NanoClock;
-import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 
 @SCJAllowed(members=true)
