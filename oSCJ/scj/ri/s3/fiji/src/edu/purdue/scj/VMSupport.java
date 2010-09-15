@@ -103,6 +103,11 @@ public class VMSupport {
     /** the maximum RT priority available for application threads */
     public static native int getMaxRTPriority();
 
+    
+    /** sets the RT priority to a thread */
+    public static native void setRTPriority(Thread t, int p);
+    
+    
     /** Not used now */
     public static native void setInterruptable(boolean set);
 

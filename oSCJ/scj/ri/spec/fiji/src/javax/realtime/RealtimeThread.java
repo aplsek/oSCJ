@@ -21,299 +21,339 @@
 
 package javax.realtime;
 
-import javax.safetycritical.annotate.Level;
+import static javax.safetycritical.annotate.Level.LEVEL_2;
+import static javax.safetycritical.annotate.Level.LEVEL_1;
 import javax.safetycritical.annotate.SCJAllowed;
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 //import edu.purdue.scj.utils.Utils;
+import edu.purdue.scj.utils.Utils;
 
 /**
  * OVM version of this class differs from fiji version in that we don't have to
  * enter the initArea manually before "run()", OVM will do it for us instead.
  */
-@SCJAllowed(Level.LEVEL_1)
+@SCJAllowed(LEVEL_1)
 public class RealtimeThread extends Thread implements Schedulable {
 
-	/**
-	 * Package private class for internal VM threads. These threads don't use
-	 * parameter objects at all, typically run at system level priority and can
-	 * do anything they want :). There's a no-heap version defined inside NHRT
-	 * that extends this one. No Schedulable methods, or public RTT methods
-	 * should be called on these threads, but it is okay to call thread methods
-	 * like start(), interrupt(), join(), if needed
-	 * 
-	 * 
-	 * TODO: This class is used by Timer as special system threads. What special
-	 * things should we do to it?
-	 */
-	// static class VMThread extends RealtimeThread {
-	//
-	// // The memory area aspects of VMThread are still unclear.
-	// // It is "transparent" when creating new RTT's or AEH in terms of
-	// // parameter objects, but the scope stack is copied
-	//
-	// VMThread() {
-	// setPriority(RealtimeJavaDispatcher.SYSTEM_PRIORITY);
-	// // all parameters are null
-	// }
-	// }
+    // TODO: what to do with this?
+    public static final int NORM_RT_PRIORITY = 0;
+    public static final int MAX_RT_PRIORITY = 0;
 
-	/** The scheduling parameters for this thread */
-	SchedulingParameters _sParams;
+    /**
+     * Package private class for internal VM threads. These threads don't use
+     * parameter objects at all, typically run at system level priority and can
+     * do anything they want :). There's a no-heap version defined inside NHRT
+     * that extends this one. No Schedulable methods, or public RTT methods
+     * should be called on these threads, but it is okay to call thread methods
+     * like start(), interrupt(), join(), if needed
+     * 
+     * 
+     * TODO: This class is used by Timer as special system threads. What special
+     * things should we do to it?
+     */
+    // static class VMThread extends RealtimeThread {
+    //
+    // // The memory area aspects of VMThread are still unclear.
+    // // It is "transparent" when creating new RTT's or AEH in terms of
+    // // parameter objects, but the scope stack is copied
+    //
+    // VMThread() {
+    // setPriority(RealtimeJavaDispatcher.SYSTEM_PRIORITY);
+    // // all parameters are null
+    // }
+    // }
 
-	/** The release parameters for this thread */
-	ReleaseParameters _rParams;
-	//
-	// /** The scheduler bound to this thread - we only have one type in OVM */
-	// PriorityScheduler _scheduler;
 
-	/**
-	 * The initial memory area associated with this thread, or with the
-	 * currently executing <code>Schedulable</code>.
-	 */
-	final MemoryArea initArea;
+    /** The scheduling parameters for this thread */
+    SchedulingParameters _sParams;
 
-	/**
-	 * The index of the initial memory area in the initial scope stack of this
-	 * thread. As returned by getInitialMemoryAreaIndex
-	 */
-	final int _initAreaIndex;
+    /** The release parameters for this thread */
+    ReleaseParameters _rParams;
+    //
+    // /** The scheduler bound to this thread - we only have one type in OVM */
+    // PriorityScheduler _scheduler;
 
-	/**
-	 * The current scope stack. Only accessed directly during construction,
-	 * startup.
-	 */
-	private ScopeStack _scopeStack;
+    /**
+     * The initial memory area associated with this thread, or with the
+     * currently executing <code>Schedulable</code>.
+     */
+    final MemoryArea initArea;
 
-	private Runnable _wrapper = new Runnable() {
-		public void run() {
-			RealtimeThread.super.run();
-		}
-	};
+    /**
+     * The index of the initial memory area in the initial scope stack of this
+     * thread. As returned by getInitialMemoryAreaIndex
+     */
+    final int _initAreaIndex;
 
-	/**
-	 * The absolute time this thread should be released (accounting for the
-	 * start specified in the release parameters). A periodic thread is
-	 * initially scheduled relative to this time.
-	 */
-	// private long _startTimeNanos = 0;
+    /**
+     * The current scope stack. Only accessed directly during construction,
+     * startup.
+     */
+    private ScopeStack _scopeStack;
 
-	/**
-	 * Internal locking object. This cannot be made different to the locking
-	 * object used in our parent. We use Thread.priority to hold both normal
-	 * java priorities and realtime priorities, hence we need to lock the Thread
-	 * object in setSchedulingParameters.
-	 */
-	// private Object _rtLock = this;
+    private Runnable _wrapper = new Runnable() {
+        public void run() {
+            RealtimeThread.super.run();
+        }
+    };
 
-	// private boolean _needEnter = true;
+    /**
+     * The absolute time this thread should be released (accounting for the
+     * start specified in the release parameters). A periodic thread is
+     * initially scheduled relative to this time.
+     */
+    // private long _startTimeNanos = 0;
 
-	/*
-	 * Setting the thread priority by using reflection instead of via
-	 * Thread.setPriority() is because the latter does not allow setting
-	 * priorities other than normal ones.
-	 */
-	// private static final Field _rt_priority;
+    /**
+     * Internal locking object. This cannot be made different to the locking
+     * object used in our parent. We use Thread.priority to hold both normal
+     * java priorities and realtime priorities, hence we need to lock the Thread
+     * object in setSchedulingParameters.
+     */
+    // private Object _rtLock = this;
 
-	// static {
-	// try {
-	// _rt_priority = Thread.class.getDeclaredField("priority");
-	// _rt_priority.setAccessible(true);
-	// } catch (NoSuchFieldException e) {
-	// throw new LinkageError(e.toString());
-	// }
-	// }
+    // private boolean _needEnter = true;
 
-	@SCJAllowed(INFRASTRUCTURE)
-	/** Used in primordial RTThread construction */
-	public RealtimeThread() {
-		initArea = ImmortalMemory.instance();
-		_scopeStack = new ScopeStack(this);
-		_initAreaIndex = 0;
-		
-		//////Utils.debugPrint("[SCJ] RealtimeThread.<init> @"
-		//		+ "\n\tcurrent area : " + getCurrentMemoryArea() + "\n\t InitArea: " + initArea
-		//		+ "\n\t ScopeStack:");
-	}
-	
-	
-	
-	@SCJAllowed(INFRASTRUCTURE)
-	/** Used in primordial RTThread construction */
-	public RealtimeThread(long bssize) {
-		initArea = ImmortalMemory.instance();
-		_scopeStack = new ScopeStack(this);
-		_initAreaIndex = 0;
-		//VMSupport.setTotalBackingStore(this, bssize);
-	}
+    /*
+     * Setting the thread priority by using reflection instead of via
+     * Thread.setPriority() is because the latter does not allow setting
+     * priorities other than normal ones.
+     */
+    // private static final Field _rt_priority;
 
-	@SCJAllowed(INFRASTRUCTURE)
-	public RealtimeThread(SchedulingParameters scheduling, MemoryArea area) {
-		this(scheduling, null, null, area, null, null);
-	}
+    // static {
+    // try {
+    // _rt_priority = Thread.class.getDeclaredField("priority");
+    // _rt_priority.setAccessible(true);
+    // } catch (NoSuchFieldException e) {
+    // throw new LinkageError(e.toString());
+    // }
+    // }
 
-	/*
-	 * TODO: Which of these parameters are allowed by SCJ is unclear. Currently,
-	 * we ignore all parameters except "scheduling". We don't support periodic
-	 * thread neither.
-	 */
-	@SCJAllowed(INFRASTRUCTURE)
-	public RealtimeThread(SchedulingParameters scheduling,
-			ReleaseParameters release, MemoryParameters memory,
-			MemoryArea area, ProcessingGroupParameters group, Runnable logic) {
-		super(logic);
+    @SCJAllowed(INFRASTRUCTURE)
+    /** Used in primordial RTThread construction */
+    public RealtimeThread() {
+        initArea = ImmortalMemory.instance();
+        _scopeStack = new ScopeStack(this);
+        _initAreaIndex = 0;
 
-		// _scheduler = (PriorityScheduler) Scheduler.getDefaultScheduler();
-		// if (scheduling == null)
-		// scheduling = _scheduler.getDefaultSchedulingParameters();
-		// setSchedulingParameters(scheduling);
-		_scopeStack = new ScopeStack(this, RealtimeThread
-				.currentRealtimeThread().getScopeStack());
-		if (area == null) {
-			////Utils.panic("null init area not allowed");
-		}
-		
-		initArea = area;
-		_initAreaIndex = _scopeStack.getDepth(true);
+        VMSupport.setRTPriority(this, VMSupport.getMinRTPriority());
+    }
 
-		////Utils.debugPrint("[SCJ] RealtimeThread.<init> @" + getCurrentMemoryArea() + "\n\t InitArea: " + area +	 "\n\t ScopeStack:");
-		_scopeStack.dump();
-	}
 
-	// @SCJAllowed(Level.LEVEL_2)
-	// public MemoryArea getMemoryArea() {
-	// return initArea;
-	// }
-	//
-	@SCJAllowed(Level.LEVEL_2)
-	public ReleaseParameters getReleaseParameters() {
-		return _rParams;
-	}
 
-	@SCJAllowed(Level.LEVEL_2)
-	public SchedulingParameters getSchedulingParameters() {
-		return _sParams;
-	}
+    @SCJAllowed(INFRASTRUCTURE)
+    /** Used in primordial RTThread construction */
+    public RealtimeThread(long bssize) {
+        initArea = ImmortalMemory.instance();
+        _scopeStack = new ScopeStack(this);
+        _initAreaIndex = 0;
+        //VMSupport.setTotalBackingStore(this, bssize);
+        
+        VMSupport.setRTPriority(this, VMSupport.getMinRTPriority());
+    }
 
-	/**
-	 * Allocates no memory. Treats the implicit this argument as a variable
-	 * residing in scoped memory.
-	 */
-	public void start() {
-		//////Utils.debugPrint("[SCJ] RealtimeThread.start() - enter");
 
-		
-		
-		
-		// need to make the MA of 'this' the current MA while we allocate
-		// all the associated helper objects.
-		// Note: we have a problem with exceptions. If they are created in
-		// 'this' area and propagate out then someone can catch an exception
-		// from a short-lived scope. We deal with IllegalThreadStateException
-		// ourselves - no problem. OOME is also no problem. Anything else is
-		// a bug - not sure what the consequences will be.
+    /**
+     * Used by the VM to create thread objects for threads started outside
+     * of Java. Note: caller is responsible for adding the thread to
+     * a group and InheritableThreadLocal.
+     * Note: This constructor should not call any methods that could result
+     * in a call to Thread.currentThread(), because that makes life harder
+     * for the VM.
+     *
+     * @param vmThread the native thread
+     * @param name the thread name or null to use the default naming scheme
+     * @param priority current priority
+     * @param daemon is the thread a background thread?
+     */
+   
+    //TODO: Fiji primordial thread
+    // @SCJAllowed(INFRASTRUCTURE)
+   // public RealtimeThread(VMThread vmThread, String name, int priority, boolean daemon)
+   // {
+   //     // priority and daemon are not needed
+   //     super(vmThread,name,priority,daemon);
+   // }
 
-		// TODO: how to understand the above comments about exception? - lei
 
-		BackingStoreID thisArea = VMSupport.areaOf(this);
-		BackingStoreID oldArea = VMSupport.setCurrentArea(thisArea);
+    @SCJAllowed(INFRASTRUCTURE)
+    public RealtimeThread(SchedulingParameters scheduling, MemoryArea area) {
+        this(scheduling, null, null, area, null, null);
+    }
 
-		// ////Utils.debugPrint("[SCJ] initial area:" + this.initArea);
+    /*
+     * TODO: Which of these parameters are allowed by SCJ is unclear. Currently,
+     * we ignore all parameters except "scheduling". We don't support periodic
+     * thread neither.
+     */
+    @SCJAllowed(INFRASTRUCTURE)
+    public RealtimeThread(SchedulingParameters scheduling,
+            ReleaseParameters release, MemoryParameters memory,
+            MemoryArea area, ProcessingGroupParameters group, Runnable logic) {
+        super(logic);
 
-		try {
-			// synchronized (_rtLock) {
-			// we need to ensure we only get called once per thread and
-			// we can't hold the lock while invoking super.start() so we
-			// use the start time as a flag
-			// if (_startTimeNanos != 0) {
-			// // we can do this in the right place - the extra set in
-			// // the finally clause doesn't hurt
-			// VMSupport.setCurrentArea(oldArea);
-			// throw new IllegalThreadStateException(
-			// "can't start a thread more than once");
-			// }
-			//
-			// AbsoluteTime now = Clock.getRealtimeClock().getTime();
-			// _startTimeNanos = now.toNanos();
-			// }
+        // _scheduler = (PriorityScheduler) Scheduler.getDefaultScheduler();
+        // if (scheduling == null)
+        // scheduling = _scheduler.getDefaultSchedulingParameters();
+        // setSchedulingParameters(scheduling);
+        _scopeStack = new ScopeStack(this, RealtimeThread
+                .currentRealtimeThread().getScopeStack());
+        if (area == null) {
+            Utils.panic("null init area not allowed");
+        }
 
-			try {
-				// release lock before calling super.start
-				// Note: this can't throw an exception other than OOME or an
-				// internal error of some kind. The former is a not a problem
-				// because it's allocated in immortal. For internal errors we
-				// don't try to do anything.
-				super.start();
-			} catch (OutOfMemoryError oome) {
-				// _startTimeNanos = 0; // restore to unstarted state
-				if (true) // avoid annoying javac warning
-					throw oome;
-			}
-		} finally {
-			VMSupport.setCurrentArea(oldArea);
-			//////Utils.debugPrint("[SCJ] RealtimeThread.start() - end");
-		}
-	}
+        initArea = area;
+        _initAreaIndex = _scopeStack.getDepth(true);
 
-	// FIXME: subclass overriding this method can mess up our code. We know
-	// users cannot do the bad thing because they are not allowed to subclass
-	// RealtimeThread. So what we should do is to clearly document this
-	// restriction.
-	@Override
-	public void run() {
-		
-		//////Utils.debugPrint("[SCJ][  " + getCurrentMemoryArea()
-		//		+ "] RealtimeThread.run()"
-		//		+ "\n\t - Attempt to enter initArea " + initArea);
-		
-		initArea.preScopeEnter(this);
-		RealtimeThread.currentRealtimeThread().getScopeStack().push(initArea);
-		initArea.enter(_wrapper);
-		RealtimeThread.currentRealtimeThread().getScopeStack().pop();
-		initArea.postScopeEnter();
-	}
+        _scopeStack.dump();
+        
+        VMSupport.setRTPriority(this, VMSupport.getMinRTPriority());
+        
+        //Utils.debugPrint("[SCJ] RealtimeThread.<init> @" + getCurrentMemoryArea() + "\n\t InitArea: " + area +    "\n\t ScopeStack:");
+    }
 
-	@SCJAllowed(Level.LEVEL_2)
-	public static RealtimeThread currentRealtimeThread() {
-		return (RealtimeThread) Thread.currentThread();
-	}
+    
+    
+    
+    
+    
+    
+    // @SCJAllowed(Level.LEVEL_2)
+    // public MemoryArea getMemoryArea() {
+    // return initArea;
+    // }
+    //
+    @SCJAllowed(LEVEL_2)
+    public ReleaseParameters getReleaseParameters() {
+        return _rParams;
+    }
 
-	@SCJAllowed(Level.LEVEL_1)
-	public static MemoryArea getCurrentMemoryArea() {
-		return MemoryArea.getMemoryAreaObject(VMSupport.getCurrentArea());
-	}
+    @SCJAllowed(LEVEL_2)
+    public SchedulingParameters getSchedulingParameters() {
+        return _sParams;
+    }
 
-	public static int getMemoryAreaStackDepth() {
-		return currentRealtimeThread().getScopeStack().getDepth(true);
-	}
+    /**
+     * Allocates no memory. Treats the implicit this argument as a variable
+     * residing in scoped memory.
+     */
+    public void start() {
+        //////Utils.debugPrint("[SCJ] RealtimeThread.start() - enter");
 
-	public static MemoryArea getOuterMemoryArea(int index) {
-		return currentRealtimeThread().getScopeStack().areaAt(index, true);
-	}
 
-	// /** NOTE: this is only called in construction */
-	// private void setSchedulingParameters(SchedulingParameters sParams) {
-	// PriorityParameters pParams = (PriorityParameters) sParams;
-	// int prio = pParams.getPriority();
-	//
-	// if (!_scheduler.isValid(prio))
-	// throw new IllegalArgumentException("priority " + prio
-	// + " out of range");
-	//
-	// _sParams = pParams;
-	// setPriorityInternal(PriorityScheduler.convertToVMPriority(prio));
-	// }
 
-	ScopeStack getScopeStack() {
-		return _scopeStack;
-	}
 
-	// void setPriorityInternal(int prio) {
-	// try {
-	// _rt_priority.setInt(this, prio);
-	// } catch (IllegalAccessException e) {
-	// throw new Error(e);
-	// }
-	// }
+        // need to make the MA of 'this' the current MA while we allocate
+        // all the associated helper objects.
+        // Note: we have a problem with exceptions. If they are created in
+        // 'this' area and propagate out then someone can catch an exception
+        // from a short-lived scope. We deal with IllegalThreadStateException
+        // ourselves - no problem. OOME is also no problem. Anything else is
+        // a bug - not sure what the consequences will be.
+
+        // TODO: how to understand the above comments about exception? - lei
+
+        BackingStoreID thisArea = VMSupport.areaOf(this);
+        BackingStoreID oldArea = VMSupport.setCurrentArea(thisArea);
+
+        // ////Utils.debugPrint("[SCJ] initial area:" + this.initArea);
+
+        try {
+            // synchronized (_rtLock) {
+            // we need to ensure we only get called once per thread and
+            // we can't hold the lock while invoking super.start() so we
+            // use the start time as a flag
+            // if (_startTimeNanos != 0) {
+            // // we can do this in the right place - the extra set in
+            // // the finally clause doesn't hurt
+            // VMSupport.setCurrentArea(oldArea);
+            // throw new IllegalThreadStateException(
+            // "can't start a thread more than once");
+            // }
+            //
+            // AbsoluteTime now = Clock.getRealtimeClock().getTime();
+            // _startTimeNanos = now.toNanos();
+            // }
+
+            try {
+                // release lock before calling super.start
+                // Note: this can't throw an exception other than OOME or an
+                // internal error of some kind. The former is a not a problem
+                // because it's allocated in immortal. For internal errors we
+                // don't try to do anything.
+                super.start();
+            } catch (OutOfMemoryError oome) {
+                // _startTimeNanos = 0; // restore to unstarted state
+                if (true) // avoid annoying javac warning
+                    throw oome;
+            }
+        } finally {
+            VMSupport.setCurrentArea(oldArea);
+            //////Utils.debugPrint("[SCJ] RealtimeThread.start() - end");
+        }
+    }
+
+    // FIXME: subclass overriding this method can mess up our code. We know
+    // users cannot do the bad thing because they are not allowed to subclass
+    // RealtimeThread. So what we should do is to clearly document this
+    // restriction.
+    @Override
+    public void run() {
+
+        //////Utils.debugPrint("[SCJ][  " + getCurrentMemoryArea()
+        //		+ "] RealtimeThread.run()"
+        //		+ "\n\t - Attempt to enter initArea " + initArea);
+
+        initArea.preScopeEnter(this);
+        RealtimeThread.currentRealtimeThread().getScopeStack().push(initArea);
+        initArea.enter(_wrapper);
+        RealtimeThread.currentRealtimeThread().getScopeStack().pop();
+        initArea.postScopeEnter();
+    }
+
+    @SCJAllowed(LEVEL_2)
+    public static RealtimeThread currentRealtimeThread() {
+        return (RealtimeThread) Thread.currentThread();
+    }
+
+    @SCJAllowed(LEVEL_1)
+    public static MemoryArea getCurrentMemoryArea() {
+        return MemoryArea.getMemoryAreaObject(VMSupport.getCurrentArea());
+    }
+
+    public static int getMemoryAreaStackDepth() {
+        return currentRealtimeThread().getScopeStack().getDepth(true);
+    }
+
+    public static MemoryArea getOuterMemoryArea(int index) {
+        return currentRealtimeThread().getScopeStack().areaAt(index, true);
+    }
+
+    // /** NOTE: this is only called in construction */
+    // private void setSchedulingParameters(SchedulingParameters sParams) {
+    // PriorityParameters pParams = (PriorityParameters) sParams;
+    // int prio = pParams.getPriority();
+    //
+    // if (!_scheduler.isValid(prio))
+    // throw new IllegalArgumentException("priority " + prio
+    // + " out of range");
+    //
+    // _sParams = pParams;
+    // setPriorityInternal(PriorityScheduler.convertToVMPriority(prio));
+    // }
+
+    ScopeStack getScopeStack() {
+        return _scopeStack;
+    }
+
+    // void setPriorityInternal(int prio) {
+    // try {
+    // _rt_priority.setInt(this, prio);
+    // } catch (IllegalAccessException e) {
+    // throw new Error(e);
+    // }
+    // }
 }
