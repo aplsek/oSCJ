@@ -47,7 +47,8 @@ public class BenchMem {
     }
     
     public static void setMemUsage(long mem) {
-        if (traces < maxTraces ) {
+        
+		if (traces < maxTraces ) {
           long missionMem = RealtimeThread.getOuterMemoryArea(1).memoryConsumed();
           privateMemUsage[traces] = mem ;
           missionMemUsage[traces] =   missionMem;
@@ -62,12 +63,14 @@ public class BenchMem {
             traces++;
             err = true;
         }
+		 
     }
     
     
     
     public static void setMissionUsage(long mem) {
-        if (missionIdnex < maxDetectorRuns ) {
+        
+		if (missionIdnex < maxDetectorRuns ) {
             missionMemUsage[missionIdnex] = mem;
             missionIdnex++;
           }
@@ -75,6 +78,7 @@ public class BenchMem {
               missionIdnex++;
               err = true;
           } 
+		 
     }
     
     public static void dumpMemoryUsage() {

@@ -22,9 +22,9 @@
 package edu.purdue.scj;
 
 public class VMSupport {
-
+	
     /*------ Memory ------*/
-
+	
     /**
      * Enter and run the "logic" in "store". The "store" must be either a scoped
      * memory just created by pushScope() or the immortal memory.
@@ -35,15 +35,15 @@ public class VMSupport {
      * during the start-up phase, which is the period after the main method of
      * the Launcher has been executed and before the very first SCJ thread runs.
      */
-
+	
     public static native void enter(BackingStoreID store, Runnable logic);
-
+	
     /**
      * Create a new scope with "size" byte on top of the current thread's
      * backing store stack. Return the ID of the new scope.
      */
     public static native BackingStoreID pushScope(long size);
-
+	
     /**
      * Pop the scope on top of the current thread's backing store stack. 
      * 
@@ -53,38 +53,38 @@ public class VMSupport {
      * scope which was just popped -- which is no longer valid. popScope now returns void.
      */
     public static native void popScope();
-
+	
     /** Get the object associated with the scope */
     public static native Object getNote(BackingStoreID scope);
-
+	
     /** Associate the note with scope */
     public static native void setNote(BackingStoreID scope, Object note);
-
+	
     /**
      * Set the scope as current allocation space and return the previous one.
      * The "scope" can be on any one of the currently active threads' scope
      * stack or be the immortal memory.
      */
     public static native BackingStoreID setCurrentArea(BackingStoreID scope);
-
+	
     /** Get the ID of the scope which serves as current allocation space. */
     public static native BackingStoreID getCurrentArea();
-
+	
     /** Get the ID of immortal memory */
     public static native BackingStoreID getImmortalArea();
-
+	
     /** Get the scope where object ref was allocated in */
     public static native BackingStoreID areaOf(Object ref);
-
+	
     /** As the name suggests */
     public static native long getScopeSize(BackingStoreID scope);
-
+	
     /** As the name suggests */
     public static native long memoryConsumed(BackingStoreID scope);
-
+	
     /** As the name suggests */
     public static native long memoryRemaining(BackingStoreID scope);
-
+	
     // /**
     // * Create and push a "size" byte large scope on the ScopeStack stack of
     // * thread t. Return the ID.
@@ -94,65 +94,70 @@ public class VMSupport {
     //
     // /** Pop the top of thread t's ScopeStack stack. */
     // public static native void popScopeInStackSpace(Thread t);
-
+	
     /*------ Thread ------*/
-
+	
     /** the minimum RT priority available for application threads */
     public static native int getMinRTPriority();
-
+	
     /** the maximum RT priority available for application threads */
     public static native int getMaxRTPriority();
-
+	
+    
+    /** sets the RT priority to a thread */
+    public static native void setThreadPriority(Thread t, int p);
+    
+    
     /** Not used now */
     public static native void setInterruptable(boolean set);
-
+	
     /** Not used now */
     public static native void threadSetInterrupted(Thread t, boolean set);
-
+	
     /**
      * @return 0 if succeed; -1 if sleep time was in the past; 1 if sleep was
      *         interrupted.
      */
     public static native int delayCurrentThreadAbsolute(long nanos);
-
+	
     /*------ Per-Thread Parameters ------*/
-
+	
     public static native void setTotalBackingStore(Thread t, long size);
-
+	
     /** Not used now */
     public static native void setNativeStackSize(Thread t, long size);
-
+	
     /** Not used now */
     public static native void setJavaStackSize(Thread t, long size);
-
+	
     /*------ Time -------*/
-
+	
     /** In nanosecond. */
     public static native long getCurrentTime();
-
+	
     /** In nanosecond. */
     public static native long getClockResolution();
-
+	
     /*------ PCE -------*/
-
+	
     /** Not used now */
     public static native int getPriorityCeiling(Object obj);
-
+	
     /** Not used now */
     public static native void setPriorityCeiling(Object obj, int ceiling);
-
+	
     /*------ Size Of -------*/
-
+	
     public static native long sizeOf(Class clazz);
-
+	
     public static native long sizeOfReferenceArray(int length);
-
+	
     public static native long sizeOfPrimitiveArray(int length, Class clazz);
-
+	
     // static native long sizeOfMonitor();
-
+	
     /*------ Async Events & Interrupt Handling-------*/
-
+	
     // static native void waitForInterrupted(int interruptIndex);
     //
     // static native void registerInterruptHandler();
@@ -166,25 +171,25 @@ public class VMSupport {
     // static native boolean startMonitoringInterrupt(int interruptIndex);
     /*------ Debug -------*/
     // TBA
-
+	
     // //////////////////////////////////////////////////////////////////////////////////////////////
     // //////////////////////
     // //////////////////////
-
+	
     /* Rapita Support */
-
+	
     public static native void RPT_Init();
-
+	
     public static native void RPT_Ipoint(int i);
-
+	
     public static native void RPT_Output_Trace();
-
+	
     // //////////////////////////////////////////////////////////////////////////////////////////////
     // //////////////////////
     // //////////////////////
-
+	
     /* RawMemory Access */
-
+	
     /**
      * Get the byte at the given address with an atomic load.
      * 
@@ -193,7 +198,7 @@ public class VMSupport {
      * @return The byte at the given address
      */
     public static native byte getByteAtomic(long address);
-
+	
     /**
      * Set the byte at the given address with an atomic store.
      * 
@@ -203,7 +208,7 @@ public class VMSupport {
      *            Value to write.
      */
     public static native void setByteAtomic(long address, long value);
-
+	
     /**
      * Get the short at the given address with an atomic load.
      * 
@@ -212,7 +217,7 @@ public class VMSupport {
      * @return The short at the given address
      */
     public static native short getShortAtomic(long address);
-
+	
     /**
      * Set the short at the given address with an atomic store.
      * 
@@ -222,7 +227,7 @@ public class VMSupport {
      *            Value to write.
      */
     public static native void setShortAtomic(long address, short value);
-
+	
     /**
      * Get the int at the given address with an atomic load.
      * 
@@ -231,7 +236,7 @@ public class VMSupport {
      * @return The int at the given address
      */
     public static native int getIntAtomic(long address);
-
+	
     /**
      * Set the int at the given address with an atomic store.
      * 
@@ -241,7 +246,7 @@ public class VMSupport {
      *            Value to write.
      */
     public static native void setIntAtomic(long address, int value);
-
+	
     /**
      * Get the long at the given address
      * 
@@ -250,7 +255,7 @@ public class VMSupport {
      * @return The long at the given address
      */
     public static native long getLong(long address);
-
+	
     /**
      * Set the long at the given address
      * 
@@ -260,7 +265,7 @@ public class VMSupport {
      *            Value to write.
      */
     public static native void setLong(long address, long value);
-
+	
     /**
      * Get the Float at the given address with an atomic load.
      * 
@@ -269,7 +274,7 @@ public class VMSupport {
      * @return The Float at the given address
      */
     public static native float getFloatAtomic(long address);
-
+	
     /**
      * Set the Float at the given address with an atomic store.
      * 
@@ -279,7 +284,7 @@ public class VMSupport {
      *            Value to write.
      */
     public static native void setFloatAtomic(long address, float value);
-
+	
     /**
      * Get the Double at the given address
      * 
@@ -288,7 +293,7 @@ public class VMSupport {
      * @return The Double at the given address
      */
     public static native double getDouble(long address);
-
+	
     /**
      * Set the Double at the given address
      * 
@@ -298,7 +303,7 @@ public class VMSupport {
      *            Value to write.
      */
     public static native void setDouble(long address, double value);
-
+	
     // ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+	
 }

@@ -26,7 +26,7 @@ import javax.safetycritical.annotate.SCJAllowed;
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
-//import edu.purdue.scj.utils.Utils;
+import edu.purdue.scj.utils.Utils;
 
 /**
  * OVM version of this class differs from fiji version in that we don't have to
@@ -132,9 +132,7 @@ public class RealtimeThread extends Thread implements Schedulable {
 		_scopeStack = new ScopeStack(this);
 		_initAreaIndex = 0;
 		
-		//////Utils.debugPrint("[SCJ] RealtimeThread.<init> @"
-		//		+ "\n\tcurrent area : " + getCurrentMemoryArea() + "\n\t InitArea: " + initArea
-		//		+ "\n\t ScopeStack:");
+		VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
 	
 	
@@ -146,6 +144,8 @@ public class RealtimeThread extends Thread implements Schedulable {
 		_scopeStack = new ScopeStack(this);
 		_initAreaIndex = 0;
 		//VMSupport.setTotalBackingStore(this, bssize);
+		
+		VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
 
 	@SCJAllowed(INFRASTRUCTURE)
@@ -171,14 +171,15 @@ public class RealtimeThread extends Thread implements Schedulable {
 		_scopeStack = new ScopeStack(this, RealtimeThread
 				.currentRealtimeThread().getScopeStack());
 		if (area == null) {
-			////Utils.panic("null init area not allowed");
+			Utils.panic("null init area not allowed");
 		}
 		
 		initArea = area;
 		_initAreaIndex = _scopeStack.getDepth(true);
 
-		////Utils.debugPrint("[SCJ] RealtimeThread.<init> @" + getCurrentMemoryArea() + "\n\t InitArea: " + area +	 "\n\t ScopeStack:");
 		_scopeStack.dump();
+		
+		VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
 
 	// @SCJAllowed(Level.LEVEL_2)

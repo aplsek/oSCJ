@@ -4,15 +4,19 @@ args <- commandArgs()
 
 
 
-
+print(args[6])
 data1 <- read.table(args[6])   # fiji - scj  - miniCdj
 data2 <- read.table(args[7])   # fiji - rt gc CDj
 
 data3 <- read.table(args[8])   # fiji - scj - emptyBench
 
+#data_hg_level_a <- read.table(args[9])   # fiji - rt gc CDj hg level a
+#data_100k <- read.table(args[10])   # fiji - rt gc CDj hg level a
+
+
 range <- c(0,750)
 
-range_y <- c(380,850)
+range_y <- c(650,900)
 
 # Columns of data: 
 #   V1 - beforeDetect(ns) 
@@ -33,6 +37,11 @@ scopes <- (data1$V5 + 500000) /1000
 empty_bench <- (data3$V2 + data3$V3 + data3$V4 + data3$V6) / 1000
 
 scj_heap <- ( data1$V4 + data1$V6) / 1000
+
+#mem_level_a <- (data_hg_level_a$V4) / 1000
+#mem_100k <- (data_100k$V4) / 1000
+
+#time <- data.frame(mem_scj , mem_gc, scopes, scj_heap, empty_bench, mem_level_a, mem_100k)
 time <- data.frame(mem_scj , mem_gc, scopes, scj_heap, empty_bench)
 
 pdf("mem_bench.pdf",width=25,height=10)
@@ -75,6 +84,9 @@ print(pr)
 
 mean_scj <- mean(mem_scj)
 mean_GC <- mean(mem_gc)
+#mean_100k <- mean(mem_100k)
+#mean_level_a <- mean(mem_level_a)
+
 means <- data.frame(mean_scj,mean_GC)
 print("----------------------------")
 print("MEMORY USAGE: mean values")

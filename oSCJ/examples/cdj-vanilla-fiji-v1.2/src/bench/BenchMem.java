@@ -38,7 +38,8 @@ public class BenchMem {
      * 
      */
     public static void memUsage() {
-        if (traces < maxTraces ) {
+        
+		if (traces < maxTraces ) {
             memoryUsage[traces] =  Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
             freeMem[traces] = Runtime.getRuntime().freeMemory();
             
@@ -49,6 +50,7 @@ public class BenchMem {
               traces++;
               err = true;
           }
+		 
     }
     
     /**
@@ -58,8 +60,10 @@ public class BenchMem {
      * @param mem
      */
     public static void setMemUsage(long mem) {
-        if (traces < maxTraces ) {
-          //long missionMem = RealtimeThread.getOuterMemoryArea(0).memoryConsumed();
+       
+		if (traces < maxTraces ) {
+        
+			//long missionMem = RealtimeThread.getOuterMemoryArea(0).memoryConsumed();
           privateMemoryUsage[traces] = mem ;
           //missionMemUsage[traces] = missionMem;
           traces++;
@@ -69,10 +73,13 @@ public class BenchMem {
             traces++;
             err = true;
         }
+		
     }
     
     public static void setMissionUsage(long mem) {
-        if (missionIdnex < maxDetectorRuns ) {
+        
+		
+		if (missionIdnex < maxDetectorRuns ) {
             missionMemUsage[missionIdnex] = mem;
             missionIdnex++;
           }
@@ -81,6 +88,7 @@ public class BenchMem {
               missionIdnex++;
               err = true;
           } 
+		 
     }
     
     public static void dumpMemoryUsage() {

@@ -4,15 +4,15 @@
 %%+ font Helvetica-Oblique
 %%+ font Helvetica-BoldOblique
 %%+ font Symbol
-%%DocumentMedia: a4 595 841 0 () ()
+%%DocumentMedia: letter 612 792 0 () ()
 %%Title: R Graphics Output
 %%Creator: R Software
 %%Pages: (atend)
 %%Orientation: Landscape
-%%BoundingBox: 18 18 577 824
+%%BoundingBox: 18 18 594 774
 %%EndComments
 %%BeginProlog
-/bp  { gs 595.00 0 translate 90 rotate gs } def
+/bp  { gs 612.00 0 translate 90 rotate gs } def
 % begin .ps.prolog
 /gs  { gsave } def
 /gr  { grestore } def
@@ -28,13 +28,10 @@
 /p1  { stroke } def
 /p2  { gsave bg fill grestore newpath } def
 /p3  { gsave bg fill grestore stroke } def
-/p6  { gsave bg eofill grestore newpath } def
-/p7  { gsave bg eofill grestore stroke } def
-/t   { 5 -2 roll moveto gsave rotate
+/t   { 6 -2 roll moveto gsave rotate
+       ps mul neg 0 2 1 roll rmoveto
        1 index stringwidth pop
        mul neg 0 rmoveto show grestore } def
-/ta  { 4 -2 roll moveto gsave rotate show } def
-/tb  { 2 -1 roll 0 rmoveto show } def
 /cl  { grestore gsave newpath 3 index 3 index moveto 1 index
        4 -1 roll lineto  exch 1 index lineto lineto
        closepath clip newpath } def
