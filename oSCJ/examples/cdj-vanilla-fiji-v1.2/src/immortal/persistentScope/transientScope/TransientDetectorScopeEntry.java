@@ -61,9 +61,6 @@ public class TransientDetectorScopeEntry implements Runnable {
 			int colIndex = 0;
 			System.out.println("");
 		}
-		if (Constants.SYNCHRONOUS_DETECTOR) {
-			FrameSynchronizer.consumeFrame();        
-		}
 		Benchmarker.done(1);
 		BenchMem.memUsage();
 	}

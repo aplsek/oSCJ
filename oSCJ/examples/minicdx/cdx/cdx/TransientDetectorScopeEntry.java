@@ -87,6 +87,7 @@ public class TransientDetectorScopeEntry implements Runnable {
             int colIndex = 0;
             System.out.println("");
         }
+        
         Benchmarker.done(1);
         
         BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());

@@ -63,6 +63,7 @@ public class PersistentDetectorScopeEntry extends NoHeapRealtimeThread {
                 ImmortalEntry.detectorReleaseTimes[ ImmortalEntry.recordedDetectorReleaseTimes ] = now;
                 ImmortalEntry.detectorReportedMiss [ ImmortalEntry.recordedDetectorReleaseTimes ] = missed;
                 ImmortalEntry.recordedDetectorReleaseTimes++;
+                
                 runDetectorInScope(cd, transientDetectorScope, noiseGenerator);
                 
                 BenchMem.memUsage();
@@ -97,7 +98,7 @@ public class PersistentDetectorScopeEntry extends NoHeapRealtimeThread {
             Benchmarker.done(14);
             return;
         }  // should not be needed, anyway
-        final long heapFreeBefore = Runtime.getRuntime().freeMemory();
+        //final long heapFreeBefore = Runtime.getRuntime().freeMemory();
         final long timeBefore = NanoClock.now();
         noiseGenerator.generateNoiseIfEnabled();
         
@@ -111,15 +112,13 @@ public class PersistentDetectorScopeEntry extends NoHeapRealtimeThread {
         transientDetectorScope.enter(cd);
         
         
-        
-        
         final long timeAfter = NanoClock.now();
-        final long heapFreeAfter = Runtime.getRuntime().freeMemory();
+        //final long heapFreeAfter = Runtime.getRuntime().freeMemory();
         if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
             ImmortalEntry.timesBefore[ ImmortalEntry.recordedRuns ] = timeBefore;
             ImmortalEntry.timesAfter[ ImmortalEntry.recordedRuns ] = timeAfter;
-            ImmortalEntry.heapFreeBefore[ ImmortalEntry.recordedRuns ] = heapFreeBefore;
-            ImmortalEntry.heapFreeAfter[ ImmortalEntry.recordedRuns ] = heapFreeAfter;
+            //ImmortalEntry.heapFreeBefore[ ImmortalEntry.recordedRuns ] = heapFreeBefore;
+            //ImmortalEntry.heapFreeAfter[ ImmortalEntry.recordedRuns ] = heapFreeAfter;
             ImmortalEntry.recordedRuns ++;
         }
         immortal.ImmortalEntry.framesProcessed++;
