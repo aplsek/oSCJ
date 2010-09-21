@@ -1,3 +1,5 @@
+import bench.Benchmark;
+
 
 public class Main {
 
@@ -8,6 +10,8 @@ public class Main {
 		for (int i=0 ; i < Constants.RUNS;i ++) {
 			vanilla.handleEvent();
 		}
+		
+		Benchmark.dumpResults();
 	}
 	
 }

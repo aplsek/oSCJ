@@ -1,3 +1,4 @@
+package micro;
 
 public class Constants {
 	 public static int MAX = 10;

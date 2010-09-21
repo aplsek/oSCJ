@@ -1,3 +1,4 @@
+package micro;
 
 /**
  *  This file is part of oSCJ.
@@ -20,20 +21,16 @@
  *   @authors  Lei Zhao, Ales Plsek
  */
 
-import javax.realtime.ImmortalMemory;
-import javax.realtime.MemoryArea;
-import javax.realtime.RealtimeThread;
 import javax.realtime.RelativeTime;
 import javax.safetycritical.CyclicExecutive;
 import javax.safetycritical.CyclicSchedule;
-import javax.safetycritical.MissionManager;
 import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.Safelet;
 import javax.safetycritical.StorageParameters;
-import javax.safetycritical.Terminal;
 
-import edu.purdue.scj.VMSupport;
-import edu.purdue.scj.utils.Utils;
+
+import bench.Benchmark;
+import bench.NanoClock;
 
 public class MicroBench extends CyclicExecutive {
 
@@ -100,11 +97,15 @@ public class MicroBench extends CyclicExecutive {
          * 
          */
         public void handleEvent() {
-          
-        	
-           for (int i=0 ; i < Constants.MAX ; i++)
-        	   generate();
-        	
+           
+           long start = NanoClock.now();
+           for (int i=0 ; i < Constants.MAX ; i++) {
+        	//   generate();
+           }
+           long  end =  NanoClock.now(); 
+           Benchmark.set(start, end);
+           
+           
            if (count_-- == 0)
                getCurrentMission().requestSequenceTermination();
         }
@@ -122,12 +123,12 @@ public class MicroBench extends CyclicExecutive {
             return null;
         }
 
-        protected byte[] callsigns;
+        //protected byte[] callsigns;
         protected float t;
         
         private void generate() {
         	
-            callsigns=new byte[Constants.NUMBER_OF_PLANES*6];
+        	byte[] callsigns = new byte[Constants.NUMBER_OF_PLANES*6];
         	
         	RawFrame result=new RawFrame();
             for (byte k=0;k<Constants.NUMBER_OF_PLANES;k++) {
@@ -150,7 +151,7 @@ public class MicroBench extends CyclicExecutive {
             }
             // increase the time
             t=t+0.25f;
-            result.copy(null,callsigns,positions);
+            //result.copy(null,callsigns,positions);
         }
     }
 }

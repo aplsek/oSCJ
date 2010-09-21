@@ -5,8 +5,8 @@ set -x
 
 
 FIJI_HOME="../../../../"
-SCJFLAGS="--scj --scj-scope-backing 1m --g-def-immortal-mem 1m"   #700 scope, 500 imm
-FIJIFLAGS="--max-threads 5"  # -v 1
+SCJFLAGS="--scj --scj-scope-backing 7m --g-def-immortal-mem 7m"   #700 scope, 500 imm
+FIJIFLAGS="--max-threads 5 --more-opt"  # -v 1
 
 
 # CLEAN-UP
@@ -22,7 +22,7 @@ rm -rf list
 # 
 
 # COMPILE FIJI
-$FIJI_HOME/bin/fivmc -o micro $FIJIFLAGS $SCJFLAGS micro.jar
+$FIJI_HOME/bin/fivmc -o micro $FIJIFLAGS $SCJFLAGS --scj-safelet micro.MicroBench micro.jar
 	
 	
 # RUN:	

@@ -1,3 +1,6 @@
+import bench.Benchmark;
+import bench.NanoClock;
+
 
 public class MicroBenchVanilla {
 	
@@ -9,10 +12,12 @@ public class MicroBenchVanilla {
 	
     public void handleEvent() {
       
-    	
-       for (int i=0 ; i < Constants.MAX ; i++)
-    	   generate();
-    	
+    	long start = NanoClock.now();
+        for (int i=0 ; i < Constants.MAX ; i++)
+     	   generate();
+        long  end =  NanoClock.now(); 
+        Benchmark.set(start, end);
+        
     }
     
     protected byte[] callsigns;
@@ -43,8 +48,6 @@ public class MicroBenchVanilla {
         }
         // increase the time
         t=t+0.25f;
-        result.copy(null,callsigns,positions);
+        //result.copy(null,callsigns,positions);
     }
-    
-
 }
