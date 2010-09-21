@@ -27,6 +27,7 @@ import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 
 //import edu.purdue.scj.utils.Utils;
 
+@SCJAllowed
 public abstract class ScopedMemory extends MemoryArea implements ScopedAllocationContext {
 
 	/**

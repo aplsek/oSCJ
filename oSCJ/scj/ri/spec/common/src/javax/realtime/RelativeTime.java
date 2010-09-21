@@ -56,14 +56,14 @@ public class RelativeTime extends HighResolutionTime {
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public RelativeTime add(long millis, int nanos) {
 		return (RelativeTime) super.add(millis, nanos, new RelativeTime(0, 0,
 				_clock));
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public RelativeTime add(RelativeTime time) {
 		if (time == null || time._clock != _clock)
 			throw new IllegalArgumentException("null arg or different clock");
@@ -80,7 +80,7 @@ public class RelativeTime extends HighResolutionTime {
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public RelativeTime subtract(RelativeTime time) {
 		if (time == null || time._clock != _clock)
 			throw new IllegalArgumentException("null arg or different clock");

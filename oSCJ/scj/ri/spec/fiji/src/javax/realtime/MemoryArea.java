@@ -26,6 +26,8 @@ import java.lang.reflect.Array;
 import javax.realtime.AllocationContext;
 import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
+
 
 import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
@@ -95,7 +97,8 @@ public abstract class MemoryArea implements AllocationContext {
 	// execInAreaImpl(thread, logic);
 	// }
 
-	@SCJAllowed(Level.LEVEL_1)
+	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public void executeInArea(Runnable logic) throws InaccessibleAreaException {
 		if (logic == null)
 			throw new IllegalArgumentException("null logic not permitted");
@@ -229,6 +232,7 @@ public abstract class MemoryArea implements AllocationContext {
 		}
 	}
 
+	@SCJRestricted(maySelfSuspend = false)
 	static MemoryArea getMemoryAreaObject(BackingStoreID scopeID) {
 	    if (scopeID == ImmortalMemory.instance().get_scopeID()) 
 	        return ImmortalMemory.instance();

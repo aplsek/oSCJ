@@ -42,7 +42,7 @@ import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
  * class-hierarchy, AsynchEvents are used at LEVEL 1
  */
 @SCJAllowed
-public class AsyncEventHandler implements Schedulable {
+public class AsyncEventHandler extends AbstractAsyncEventHandler implements Schedulable {
 
 	private final MemoryArea _initMemory;
 

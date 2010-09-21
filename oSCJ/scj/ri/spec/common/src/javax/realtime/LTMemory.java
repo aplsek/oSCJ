@@ -21,8 +21,12 @@
 
 package javax.realtime;
 
+
+import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.SCJAllowed;
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+
+
 @SCJAllowed
 public class LTMemory extends ScopedMemory {
 
@@ -39,7 +43,14 @@ public class LTMemory extends ScopedMemory {
 
 	//@Override
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
 	public void resize(long size) throws IllegalStateException {
 		// TODO: resizing Scoped Memory, should we implement this?		
 	}
+    
+    public void enter(Runnable run)  {
+    	//TODO:
+    }
+    
+    
 }

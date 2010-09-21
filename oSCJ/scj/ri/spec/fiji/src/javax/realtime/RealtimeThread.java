@@ -23,7 +23,14 @@ package javax.realtime;
 
 import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Level.LEVEL_2;
+
+
+
+
 import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 import edu.purdue.scj.utils.Utils;
@@ -32,7 +39,7 @@ import edu.purdue.scj.utils.Utils;
  * OVM version of this class differs from fiji version in that we don't have to
  * enter the initArea manually before "run()", OVM will do it for us instead.
  */
-@SCJAllowed(Level.LEVEL_1)
+@SCJAllowed(LEVEL_1)
 public class RealtimeThread extends Thread implements Schedulable {
 
 	/**
@@ -125,6 +132,22 @@ public class RealtimeThread extends Thread implements Schedulable {
 	// }
 	// }
 
+
+	/** Used in primordial RTThread construction */
+	/*
+	public RealtimeThread(VMThread vmThread, int priority, boolean daemon) {
+		super(vmThread,"primordial",priority, daemon);
+		
+		
+		initArea = ImmortalMemory.instance();
+		_scopeStack = new ScopeStack(this);
+		_initAreaIndex = 0;
+		
+		//VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
+	}
+	*/
+	
+	
 	@SCJAllowed(INFRASTRUCTURE)
 	/** Used in primordial RTThread construction */
 	public RealtimeThread() {
@@ -132,8 +155,10 @@ public class RealtimeThread extends Thread implements Schedulable {
 		_scopeStack = new ScopeStack(this);
 		_initAreaIndex = 0;
 		
-		VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
+		//VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
+	
+	
 	
 	
 	
@@ -145,7 +170,7 @@ public class RealtimeThread extends Thread implements Schedulable {
 		_initAreaIndex = 0;
 		//VMSupport.setTotalBackingStore(this, bssize);
 		
-		VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
+		//VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
 
 	@SCJAllowed(INFRASTRUCTURE)
@@ -179,10 +204,13 @@ public class RealtimeThread extends Thread implements Schedulable {
 
 		_scopeStack.dump();
 		
-		VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
+		//VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
 
-	// @SCJAllowed(Level.LEVEL_2)
+	
+	
+	
+	
 	// public MemoryArea getMemoryArea() {
 	// return initArea;
 	// }
@@ -264,7 +292,7 @@ public class RealtimeThread extends Thread implements Schedulable {
 	@Override
 	public void run() {
 		
-		//////Utils.debugPrint("[SCJ][  " + getCurrentMemoryArea()
+		//Utils.debugPrint("[SCJ][  " + getCurrentMemoryArea()
 		//		+ "] RealtimeThread.run()"
 		//		+ "\n\t - Attempt to enter initArea " + initArea);
 		
@@ -275,12 +303,14 @@ public class RealtimeThread extends Thread implements Schedulable {
 		initArea.postScopeEnter();
 	}
 
-	@SCJAllowed(Level.LEVEL_2)
+	@SCJAllowed(LEVEL_2)
+	@SCJRestricted(maySelfSuspend = false)
 	public static RealtimeThread currentRealtimeThread() {
 		return (RealtimeThread) Thread.currentThread();
 	}
 
-	@SCJAllowed(Level.LEVEL_1)
+	@SCJAllowed(LEVEL_1)
+	@SCJRestricted(maySelfSuspend = false)
 	public static MemoryArea getCurrentMemoryArea() {
 		return MemoryArea.getMemoryAreaObject(VMSupport.getCurrentArea());
 	}

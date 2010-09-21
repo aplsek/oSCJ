@@ -33,25 +33,25 @@ public class ThrowBoundaryError extends javax.realtime.ThrowBoundaryError {
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public String getPropagatedMessage() {
 		return null;
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public StackTraceElement[] getPropagatedStackTrace() {
 		return null;
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public int getPropagatedStackTraceDepth() {
 		return 0;
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public Class getPropagatedExceptionClass() {
 		return null;
 	}

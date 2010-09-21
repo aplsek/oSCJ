@@ -35,7 +35,7 @@ import javax.safetycritical.annotate.SCJRestricted;
  * @author plsek
  * 
  */
-@SCJAllowed
+@SCJAllowed(LEVEL_1)
 public class PriorityScheduler extends Scheduler {
 
 	public static final int MAX_PRIORITY = 27;
@@ -56,19 +56,19 @@ public class PriorityScheduler extends Scheduler {
 	 * ceiling to disable hardware interrupts...
 	 */
 
-	@SCJAllowed
+	@SCJAllowed(LEVEL_1)
 	@SCJRestricted()
 	public int getMaxPriority() {
 		return MAX_PRIORITY;
 	}
 
-	@SCJAllowed
+	@SCJAllowed(LEVEL_1)
 	@SCJRestricted()
 	public int getNormPriority() {
 		return NORM_PRIORITY;
 	}
 
-	@SCJAllowed
+	@SCJAllowed(LEVEL_1)
 	@SCJRestricted()
 	public int getMinPriority() {
 		return MIN_PRIORITY;

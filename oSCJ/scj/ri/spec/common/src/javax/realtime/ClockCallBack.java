@@ -33,7 +33,7 @@ import static javax.safetycritical.annotate.Level.LEVEL_1;
  * TODO: implement it when necessary
  * 
  */
-@SCJAllowed
+@SCJAllowed(LEVEL_1)
 public interface ClockCallBack {
 	//
 	// /**
@@ -44,7 +44,7 @@ public interface ClockCallBack {
 	//    
 	//
 	@SCJAllowed(LEVEL_1)
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	void atTime(Clock clock);
 	//
 	//
@@ -56,6 +56,6 @@ public interface ClockCallBack {
 	// */
 	//    
 	@SCJAllowed(LEVEL_1)
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	void discontinuity(Clock clock, AbsoluteTime updatedTime);
 }

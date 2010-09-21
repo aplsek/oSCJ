@@ -25,6 +25,12 @@ import javax.realtime.PriorityParameters;
 import javax.realtime.ReleaseParameters;
 import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
+
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Phase.CLEANUP;
+import static javax.safetycritical.annotate.Level.SUPPORT;
+
 
 /**
  * 
@@ -78,7 +84,9 @@ public abstract class ManagedEventHandler extends BoundAsyncEventHandler
 		handleEvent();
 	}
 
-	@SCJAllowed
+	@Override
+	@SCJAllowed(SUPPORT)
+	@SCJRestricted(CLEANUP)
 	public void cleanUp() {
 	}
 

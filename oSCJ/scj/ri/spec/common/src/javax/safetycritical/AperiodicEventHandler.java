@@ -44,4 +44,8 @@ public abstract class AperiodicEventHandler extends ManagedEventHandler {
 			StorageParameters storage, long psize, String name) {
 		super(priority, release, storage, psize, name);
 	}
+	
+	public final void register()  {
+		//TODO
+	}
 }

@@ -55,27 +55,27 @@ public final class SizeEstimator {
      */
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public long getEstimate() {
         return size;
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public void reserve(Class clazz, int num) {
         if (clazz != null)
             size += num * VMSupport.sizeOf(clazz);
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public void reserve(SizeEstimator estimator) {
         // behavior on null not specified
         reserve(estimator, 1);
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public void reserve(SizeEstimator estimator, int num) {
         // behavior on null not specified
         if (estimator != null)
@@ -83,7 +83,7 @@ public final class SizeEstimator {
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public void reserveArray(int length) {
         if (length < 0)
             throw new IllegalArgumentException("negative length");
@@ -92,7 +92,7 @@ public final class SizeEstimator {
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public void reserveArray(int length, Class clazz) {
         if (length < 0)
             throw new IllegalArgumentException("negative length");

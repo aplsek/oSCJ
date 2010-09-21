@@ -58,7 +58,7 @@ public abstract class HighResolutionTime implements Comparable {
     }
 
     
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     @SCJAllowed
     public int compareTo(HighResolutionTime time) {
         if (time == null)
@@ -76,18 +76,20 @@ public abstract class HighResolutionTime implements Comparable {
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public int compareTo(java.lang.Object object) {
         return compareTo((HighResolutionTime) object);
     }
 
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
     public boolean equals(HighResolutionTime time) {
         return _nanoseconds == time._nanoseconds
                 && _milliseconds == time._milliseconds && _clock == time._clock;
     }
 
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
     public boolean equals(java.lang.Object object) {
         if (object instanceof HighResolutionTime)
             return equals((HighResolutionTime) object);
@@ -101,19 +103,20 @@ public abstract class HighResolutionTime implements Comparable {
     }
 
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
     public int hashCode() {
         // what would be a good hashcode?
         return (int) (_milliseconds ^ _nanoseconds ^ _clock.hashCode());
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public final long getMilliseconds() {
         return _milliseconds;
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public final int getNanoseconds() {
         return _nanoseconds;
     }

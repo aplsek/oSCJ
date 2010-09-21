@@ -28,9 +28,14 @@ import javax.safetycritical.annotate.SCJAllowed;
 
 //import edu.purdue.scj.utils.Utils;
 
-
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import static javax.safetycritical.annotate.Level.LEVEL_2;
-
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
+import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Phase.CLEANUP;
+import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 
 @SCJAllowed
 public abstract class MissionSequencer extends BoundAsyncEventHandler {
@@ -74,7 +79,8 @@ public abstract class MissionSequencer extends BoundAsyncEventHandler {
 		handleAsyncEvent();
 	}
 
-	@SCJAllowed
+	@Override
+	@SCJAllowed(INFRASTRUCTURE)
 	public final void handleAsyncEvent() {
 	    ////Utils.debugIndentIncrement("###[SCJ] MissionSequencer.handleAsyncEvent");
 	    

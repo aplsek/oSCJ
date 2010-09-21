@@ -24,7 +24,9 @@ package javax.safetycritical;
 
 import javax.safetycritical.annotate.SCJAllowed;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Level.SUPPORT;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
+import static javax.safetycritical.annotate.Phase.CLEANUP;
 import javax.safetycritical.annotate.SCJRestricted;
 
 @SCJAllowed
@@ -33,13 +35,15 @@ public interface Safelet {
 //	@SCJAllowed
 //	public Level getLevel();
 
-	@SCJAllowed
-	@SCJRestricted({ INITIALIZATION })
+	@SCJAllowed(SUPPORT)
+	@SCJRestricted(INITIALIZATION)
 	public MissionSequencer getSequencer();
 
-	@SCJAllowed
+	@SCJAllowed(SUPPORT)
+	@SCJRestricted(INITIALIZATION)
 	public void setUp();
 
-	@SCJAllowed
+	@SCJAllowed(SUPPORT)
+	@SCJRestricted(CLEANUP)
 	public void tearDown();
 }
