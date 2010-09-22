@@ -24,7 +24,10 @@ import javax.realtime.PeriodicParameters;
 import javax.realtime.PriorityParameters;
 import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
+
 import static javax.safetycritical.annotate.Level.LEVEL_0;
+import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 
 
 /**
@@ -59,5 +62,16 @@ public abstract class PeriodicEventHandler extends ManagedEventHandler {
 			String name) {
 		super(priority, period, storage, size, name);
 	}
+	
+	   /**
+	   * @see javax.safetycritical.ManagedSchedulable#register()
+	   * Registers this event handler with the current mission.
+	   */
+	  @SCJAllowed
+	  @Override
+	  @SCJRestricted(INITIALIZATION)
+	  public final void register() {
+		  //TODO:
+	  }
 
 }

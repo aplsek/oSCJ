@@ -60,27 +60,31 @@ public final class ImmortalMemory extends MemoryArea {
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public static ImmortalMemory instance() {
         return _instance;
     }
     
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
     public void enter(Runnable logic) {
     	return;
     }
 
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
     public long memoryConsumed() {
     	return VMSupport.memoryConsumed(_instance.get_scopeID());
     }
     
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
     public long memoryRemaining() {
     	return VMSupport.memoryRemaining(_instance.get_scopeID());
     }
     
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
     public long size() {
     	return VMSupport.getScopeSize(_instance.get_scopeID());
     }

@@ -24,6 +24,7 @@ package javax.realtime;
 import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+import static javax.safetycritical.annotate.Level.LEVEL_1;
 import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 import edu.purdue.scj.utils.Utils;
@@ -32,7 +33,7 @@ import edu.purdue.scj.utils.Utils;
  * OVM version of this class differs from fiji version in that we don't have to
  * enter the initArea manually before "run()", OVM will do it for us instead.
  */
-@SCJAllowed(Level.LEVEL_1)
+@SCJAllowed(LEVEL_1)
 public class RealtimeThread extends Thread implements Schedulable {
 
 	/**
