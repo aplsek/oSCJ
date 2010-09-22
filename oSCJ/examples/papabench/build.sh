@@ -4,7 +4,7 @@ set -e
 set -x
 
 FIJI_HOME="../../../../"
-SCJFLAGS="--scj --scj-scope-backing 12m --g-def-immortal-mem 1m"
+SCJFLAGS="--scj --scj-scope-backing 12m --g-def-immortal-mem 10m"
 FIJIFLAGS=""  # -v 1
 
 # CLEAN-UP
