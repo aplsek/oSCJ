@@ -652,7 +652,6 @@ public class RawMemoryAccess implements RawIntegralAccess {
 	 * @param length of object to be accessed
 	 * @return virtual address to use
 	 */
-	/*@SCJProtected*/
 	long checkOffset (long offset, long length) {
 		long base = mappedBase;
 		/*
