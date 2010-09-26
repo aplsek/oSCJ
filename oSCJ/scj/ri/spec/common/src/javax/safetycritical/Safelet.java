@@ -34,7 +34,7 @@ public interface Safelet {
 //	public Level getLevel();
 
 	@SCJAllowed
-	@SCJRestricted({ INITIALIZATION })
+	@SCJRestricted(INITIALIZATION)
 	public MissionSequencer getSequencer();
 
 	@SCJAllowed

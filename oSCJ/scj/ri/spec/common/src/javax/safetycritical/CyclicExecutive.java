@@ -138,7 +138,7 @@ public abstract class CyclicExecutive extends Mission implements Safelet {
 
 		void runInItsInitArea() {
 			if (_handler != null) // TODO: if we will use the "maxHandlers"
-									// fiels in MissionManager, we dont need
+									// fields in MissionManager, we dont need
 									// this.
 				_handler.getInitArea().enter(this);
 			else {

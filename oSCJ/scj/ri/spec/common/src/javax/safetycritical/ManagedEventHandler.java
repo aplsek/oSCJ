@@ -20,11 +20,17 @@
  */
 package javax.safetycritical;
 
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Phase.CLEANUP;
+import static javax.safetycritical.annotate.Phase.INITIALIZATION;
+
 import javax.realtime.BoundAsyncEventHandler;
 import javax.realtime.PriorityParameters;
 import javax.realtime.ReleaseParameters;
 import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 
 /**
  * 
@@ -48,7 +54,8 @@ public abstract class ManagedEventHandler extends BoundAsyncEventHandler
 
 	private ManagedEventHandler _next = null;
 	
-	@SCJAllowed 
+	@SCJAllowed(INFRASTRUCTURE)
+	@SCJRestricted(INITIALIZATION)
 	public ManagedEventHandler(PriorityParameters priority,
 			ReleaseParameters release, StorageParameters storage, long psize,
 			String name) {
@@ -65,7 +72,7 @@ public abstract class ManagedEventHandler extends BoundAsyncEventHandler
 	 * Application developers override this method with code to be executed
 	 * whenever the event(s) to which this event handler is bound is fired.
 	 */
-	@SCJAllowed
+	@SCJAllowed(SUPPORT)
 	public abstract void handleEvent();
 
 	/**
@@ -73,12 +80,13 @@ public abstract class ManagedEventHandler extends BoundAsyncEventHandler
 	 * 
 	 */
 	@Override
-	@SCJAllowed
+	@SCJAllowed(SUPPORT)
 	public void handleAsyncEvent() {
 		handleEvent();
 	}
 
-	@SCJAllowed
+	@SCJAllowed(SUPPORT)
+	@SCJRestricted(CLEANUP)
 	public void cleanUp() {
 	}
 
@@ -98,6 +106,7 @@ public abstract class ManagedEventHandler extends BoundAsyncEventHandler
 		return _next;
 	}
 
+	@SCJAllowed(INFRASTRUCTURE)
 	public void setNext(ManagedEventHandler next) {
 		_next = next;
 	}

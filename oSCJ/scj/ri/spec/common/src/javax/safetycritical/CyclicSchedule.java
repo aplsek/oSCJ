@@ -23,6 +23,8 @@ package javax.safetycritical;
 
 import javax.realtime.RelativeTime;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
+
 
 /**
  * At Level 0, a cyclic schedule is represented by this class. There is one
@@ -63,9 +65,28 @@ public class CyclicSchedule {
 			return _handlers;
 		}
 
+		/**
+	     * TBD: Kelvin proposes to make this package access and final.
+	     * That way, we don't have to copy the returned value.  Ok?
+	     *
+	     * Performs no allocation. Returns a reference to the internal
+	     * representation of the frame duration, which is 
+	     * intended to be treated as read-only.
+	     * Any modifications to the returned RelativeTime object will have
+	     * potentially disastrous, but undefined results.  
+	     * The returned object resides in the
+	     * same scope as this Frame object.  Under normal
+	     * circumstances, this Frame object resides in the
+	     * MissionMemory area that corresponds to the Level0Mission that
+	     * it is scheduling.
+	     */
 		@SCJAllowed
+		@SCJRestricted(mayAllocate=false)
 		public RelativeTime getDuration() {
 			return _duration;
 		}
 	}
+	
+	
+	
 }

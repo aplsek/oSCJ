@@ -23,15 +23,19 @@ package javax.safetycritical;
 
 import javax.realtime.AperiodicParameters;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Phase.INITIALIZATION;
+
 import javax.realtime.PriorityParameters;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.Level;
+import javax.safetycritical.annotate.SCJRestricted;
 
 @SCJAllowed(LEVEL_1)
 
 public abstract class AperiodicEventHandler extends ManagedEventHandler {
 
 	@SCJAllowed(LEVEL_1)
+	@SCJRestricted(INITIALIZATION)
 	public AperiodicEventHandler(PriorityParameters priority,
 			AperiodicParameters release,
 			StorageParameters storage, long psize) {
@@ -39,9 +43,23 @@ public abstract class AperiodicEventHandler extends ManagedEventHandler {
 	}
 
 	@SCJAllowed(LEVEL_1)
+	@SCJRestricted(INITIALIZATION)
 	public AperiodicEventHandler(PriorityParameters priority,
 			AperiodicParameters release,
 			StorageParameters storage, long psize, String name) {
 		super(priority, release, storage, psize, name);
 	}
+	
+	/**
+	   * @see javax.safetycritical.ManagedSchedulable#register()
+	   * Registers this event handler with the current mission and attaches
+	   * this handler to all the aperiodic events passed during construction.
+	   * Registers all the aperiodic events passed during constructions.
+	   */
+	  @Override
+	  @SCJAllowed
+	  @SCJRestricted(INITIALIZATION)
+	  public final void register() {
+		  //TODO:
+	  }
 }

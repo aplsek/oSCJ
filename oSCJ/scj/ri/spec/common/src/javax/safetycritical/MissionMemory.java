@@ -20,6 +20,7 @@
  */
 package javax.safetycritical;
 
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import static javax.safetycritical.annotate.Level.LEVEL_0;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 
@@ -69,6 +70,7 @@ class MissionMemory extends ManagedMemory {
 		return (MissionManager) getPortal();
 	}
 
+	@SCJAllowed(INFRASTRUCTURE)
 	void setManager(MissionManager manager) {
 		setPortal(manager);
 	}
