@@ -33,15 +33,19 @@ public class AbsoluteTime extends HighResolutionTime {
 	}
 
 	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public AbsoluteTime(AbsoluteTime time) {
 		this(getMillisNonNull(time), time._nanoseconds);
 	}
 
 	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public AbsoluteTime(long millis, int nanos) {
 		super(millis, (long) nanos, null);
 	}
 
+	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public AbsoluteTime(long millis, int nanos, Clock clock) {
 		super(millis, (long) nanos, clock);
 	}
@@ -56,18 +60,19 @@ public class AbsoluteTime extends HighResolutionTime {
 	}
 
 	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public AbsoluteTime(Clock clock) {
 		this(0, 0, clock);
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public AbsoluteTime add(long millis, int nanos) {
 		return add(millis, nanos, null);
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	 @SCJRestricted(maySelfSuspend = false)
 	public AbsoluteTime add(RelativeTime time) {
 		if (time == null || time._clock != _clock)
 			throw new IllegalArgumentException("null arg or different clock");
@@ -76,7 +81,7 @@ public class AbsoluteTime extends HighResolutionTime {
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public AbsoluteTime add(RelativeTime time, AbsoluteTime dest) {
 		if (time == null || time._clock != _clock)
 			throw new IllegalArgumentException("null arg or different clock");
@@ -85,14 +90,14 @@ public class AbsoluteTime extends HighResolutionTime {
 	}
 
 	@SCJAllowed
-    @SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public AbsoluteTime add(long millis, int nanos, AbsoluteTime dest) {
 		return (AbsoluteTime) super.add(millis, nanos,
 				dest == null ? new AbsoluteTime(0, 0, _clock) : dest);
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public RelativeTime subtract(AbsoluteTime time) {
 		if (time == null || time._clock != _clock)
 			throw new IllegalArgumentException("null arg or different clock");
@@ -112,7 +117,7 @@ public class AbsoluteTime extends HighResolutionTime {
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public RelativeTime subtract(AbsoluteTime time, RelativeTime dest) {
 		if (time == null || time._clock != this._clock)
 			throw new IllegalArgumentException("null arg or different clock");
@@ -124,7 +129,7 @@ public class AbsoluteTime extends HighResolutionTime {
 	}
 	
 	@SCJAllowed
-    @SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public AbsoluteTime subtract(RelativeTime time, AbsoluteTime absoluteTime) {
 	    //TODO:
 	    return null;

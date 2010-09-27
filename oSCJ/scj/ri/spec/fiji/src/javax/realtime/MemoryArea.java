@@ -26,6 +26,9 @@ import java.lang.reflect.Array;
 import javax.realtime.AllocationContext;
 import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
+
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 
 import edu.purdue.scj.BackingStoreID;
@@ -42,47 +45,45 @@ public abstract class MemoryArea implements AllocationContext {
 	private BackingStoreID _scopeID;
 	long _size;
 
-	/** For ScopedMemory use only. The backing store will be allocated as enter. */
+	@SCJAllowed(INFRASTRUCTURE)
+	protected MemoryArea() {
+		//TODO:??
+		
+	}
+	
+	/** For ScopedMemory use only. The backing store will be allocated at enter. */
+	@SCJAllowed(INFRASTRUCTURE)
 	protected MemoryArea(long size) {
 		if (size < 0)
 			throw new IllegalArgumentException("size must be non-negative");
 		_size = size;
-		
-		//System.out.println("Scope init, size: " + _size);
 	}
 
 	/**
 	 * For ImmortalMemory use only. The immortal backing store is always there,
 	 * so we know how to set up _scopeID.
 	 */
+	@SCJAllowed(INFRASTRUCTURE)
 	protected MemoryArea(BackingStoreID scopeID) {
 		_scopeID = scopeID;
 		_size = VMSupport.getScopeSize(_scopeID);
 		VMSupport.setNote(_scopeID, this);
-		
-		//System.out.println("[MEmoryArea conscturtor]Scope initialized: size:" + _size +"  \n\t--- MemoryArea - scopeID");
-		//System.out.println("\n[SCJ Debug] mission:" +  VMSupport.memoryConsumed(RealtimeThread.getCurrentMemoryArea().get_scopeID()));
-        //System.out.println("\n[SCJ Debug] mission:" +  this.memoryRemaining());
 	}
 
 	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public static MemoryArea getMemoryArea(Object object) {
 		return getMemoryAreaObject(VMSupport.areaOf(object));
 	}
 	
-	
-	
 
-	@SCJAllowed
+	@SCJAllowed(INFRASTRUCTURE)
+	@SCJRestricted(maySelfSuspend = false)
 	public void enter(Runnable logic) {
-	    ////Utils.debugIndentIncrement("###[SCJ] MemoryArea.enter");
-	    
 	    if (logic == null)
 			throw new IllegalArgumentException("null logic not permitted");
 		RealtimeThread thread = RealtimeThread.currentRealtimeThread();
 		enterImpl(thread, logic);
-		
-		////Utils.decreaseIndent();
 	}
 
 	// 
@@ -96,6 +97,7 @@ public abstract class MemoryArea implements AllocationContext {
 	// }
 
 	@SCJAllowed(LEVEL_1)
+	@SCJRestricted(maySelfSuspend = false)
 	public void executeInArea(Runnable logic) throws InaccessibleAreaException {
 		if (logic == null)
 			throw new IllegalArgumentException("null logic not permitted");
@@ -104,6 +106,7 @@ public abstract class MemoryArea implements AllocationContext {
 	}
 
 	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public Object newInstance(Class clazz) throws InstantiationException,
 			IllegalAccessException {
 		RealtimeThread thread = RealtimeThread.currentRealtimeThread();
@@ -111,6 +114,7 @@ public abstract class MemoryArea implements AllocationContext {
 	}
 
 	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public Object newArray(Class clazz, int number)
 			throws NegativeArraySizeException, IllegalAccessException {
 		RealtimeThread thread = RealtimeThread.currentRealtimeThread();
@@ -124,22 +128,26 @@ public abstract class MemoryArea implements AllocationContext {
 	}
 
 	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public static Object newInstanceInArea(Object object, Class clazz)
 			throws InstantiationException, IllegalAccessException {
 		return getMemoryArea(object).newInstance(clazz);
 	}
 
 	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public long memoryConsumed() {
 		return VMSupport.memoryConsumed(get_scopeID());
 	}
 
 	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public long memoryRemaining() {
 		return VMSupport.memoryRemaining(get_scopeID());
 	}
 
 	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public long size() {
 		return _size;
 	}

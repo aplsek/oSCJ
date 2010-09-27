@@ -102,6 +102,7 @@ public abstract class ManagedEventHandler extends BoundAsyncEventHandler
 	void join() {
 	}
 
+	@SCJAllowed(INFRASTRUCTURE)
 	public ManagedEventHandler getNext() {
 		return _next;
 	}

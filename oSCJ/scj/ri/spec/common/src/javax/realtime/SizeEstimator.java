@@ -34,7 +34,7 @@ import javax.safetycritical.annotate.SCJRestricted;
  * 
  * SIZE OF THE MONITOR issue:
  *  Lei: can we let VM decide the size of monitor for us?
- *  	Ales: VM will decide this for us. XXX-tag
+ *  	Ales: VM will decide this for us. 
  *  
  */
 @SCJAllowed
@@ -44,6 +44,7 @@ public final class SizeEstimator {
     private long size = 0;
 
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
     public SizeEstimator() {
     }
 
@@ -55,27 +56,27 @@ public final class SizeEstimator {
      */
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public long getEstimate() {
         return size;
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public void reserve(Class clazz, int num) {
         if (clazz != null)
             size += num * VMSupport.sizeOf(clazz);
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public void reserve(SizeEstimator estimator) {
         // behavior on null not specified
         reserve(estimator, 1);
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public void reserve(SizeEstimator estimator, int num) {
         // behavior on null not specified
         if (estimator != null)
@@ -83,7 +84,7 @@ public final class SizeEstimator {
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public void reserveArray(int length) {
         if (length < 0)
             throw new IllegalArgumentException("negative length");

@@ -21,7 +21,6 @@
 package javax.realtime;
 
 import javax.safetycritical.annotate.SCJAllowed;
-
 /**
  * The RTSJ potentially allows different schedulers to be supported and defines
  * this class as the root class for all scheduling parameters. In SCJ this class
@@ -33,4 +32,10 @@ import javax.safetycritical.annotate.SCJAllowed;
  */
 @SCJAllowed
 public abstract class SchedulingParameters {
+	
+
+	protected SchedulingParameters()
+	  {
+	  }
+	
 }

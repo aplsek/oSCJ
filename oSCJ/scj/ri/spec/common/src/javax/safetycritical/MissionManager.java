@@ -48,6 +48,7 @@ public class MissionManager extends PortalExtender {
 		_mission = mission;
 	}
 
+	//TODO: should this be @SCJAllowed(INFRASTRUCTURE) ??
 	public Mission getMission() {
 		return _mission;
 	}
@@ -74,7 +75,8 @@ public class MissionManager extends PortalExtender {
 	}
 
 
-	@SCJAllowed()
+	//TODO: should this be @SCJAllowed(INFRASTRUCTURE) ??
+	@SCJAllowed
 	public static MissionManager getCurrentMissionManager() {
 		return ((ManagedMemory) RealtimeThread.getCurrentMemoryArea())
 				.getManager();
