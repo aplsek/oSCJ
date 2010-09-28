@@ -1,3 +1,4 @@
+package micro;
 
 public class Constants {
 	 public static int MAX = 10;
@@ -9,4 +10,5 @@ public class Constants {
 	 
 	 public static int RUNS = 1000;
  	 
+	 public static long          PERIOD                          = 50;
 }

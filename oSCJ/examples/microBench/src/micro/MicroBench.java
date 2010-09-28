@@ -21,37 +21,27 @@ package micro;
  *   @authors  Lei Zhao, Ales Plsek
  */
 
-import javax.realtime.RelativeTime;
 import javax.safetycritical.CyclicExecutive;
 import javax.safetycritical.CyclicSchedule;
 import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.Safelet;
 import javax.safetycritical.StorageParameters;
 
+import javax.realtime.RelativeTime;
 
 import bench.Benchmark;
 import bench.NanoClock;
 
 public class MicroBench extends CyclicExecutive {
 
-	Benchmark bench;
-	
     public MicroBench() {
         super(null);
-        new Benchmark();
-    }
-
-    public static void main(final String[] args) {
-        Safelet safelet = new MicroBench();
-        safelet.setUp();
-        safelet.getSequencer().start();
-        safelet.tearDown();
     }
 
     public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) {
         CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
         CyclicSchedule schedule = new CyclicSchedule(frames);
-        frames[0] = new CyclicSchedule.Frame(new RelativeTime(200, 0), handlers);
+        frames[0] = new CyclicSchedule.Frame(new RelativeTime(Constants.PERIOD, 0), handlers);
         return schedule;
     }
 
@@ -69,7 +59,9 @@ public class MicroBench extends CyclicExecutive {
         return Constants.MISSION_MEMORY;
     }
 
-    public void setUp() {     
+    public void setUp() {  
+    	Benchmark.init();
+    	System.out.println("MicroBenchmark - setup DONE.");
     }
 
     public void tearDown() {
@@ -100,7 +92,7 @@ public class MicroBench extends CyclicExecutive {
            
            long start = NanoClock.now();
            for (int i=0 ; i < Constants.MAX ; i++) {
-        	//   generate();
+        	   generate();
            }
            long  end =  NanoClock.now(); 
            Benchmark.set(start, end);
@@ -108,6 +100,7 @@ public class MicroBench extends CyclicExecutive {
            
            if (count_-- == 0)
                getCurrentMission().requestSequenceTermination();
+               
         }
 
         
@@ -115,14 +108,11 @@ public class MicroBench extends CyclicExecutive {
         }
 
     
-        public void register() {
-        }
-
-        
         public StorageParameters getThreadConfigurationParameters() {
             return null;
         }
 
+        
         //protected byte[] callsigns;
         protected float t;
         
@@ -153,5 +143,6 @@ public class MicroBench extends CyclicExecutive {
             t=t+0.25f;
             //result.copy(null,callsigns,positions);
         }
+        
     }
 }

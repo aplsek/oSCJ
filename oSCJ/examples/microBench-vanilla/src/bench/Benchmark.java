@@ -1,6 +1,6 @@
 package bench;
+import micro.Constants;
 import bench.NanoClock;
-import Constants;
 
 
 
@@ -15,13 +15,16 @@ public class Benchmark {
 
 
 	public Benchmark() {
-		maxDetectorRuns = Constants.RUNS;
+	}
+	
+	public static void init() {
+		maxDetectorRuns = Constants.RUNS+1;
 
 		timesBefore = new long[maxDetectorRuns];
 		timesAfter = new long[maxDetectorRuns];
-		
 		NanoClock.init();
 	}
+
 
 	public static void set(long start, long end) {
 		timesBefore[recordedRuns] = start;
@@ -29,6 +32,16 @@ public class Benchmark {
 		recordedRuns++;
 	}
 
+	public static void stats() {
+		long res = 0;
+		for (int i = 0 ; i < recordedRuns ; i++) 
+			res += timesAfter[i] - timesBefore[i];
+		
+		res = res % recordedRuns;
+		
+		System.out.println("Average execution time:" + res);
+	}
+	
 	public static void dumpResults() {
 		String space = " ";
 		String triZero = " 0 0 0 ";
@@ -45,8 +58,13 @@ public class Benchmark {
 			System.out.print(space);
 			System.out.print(timesAfter[i]);
 			System.out.print(space);
+			System.out.print(timesAfter[i] - timesBefore[i]);
+			System.out.print(space);
 			System.out.print(i);
+			System.out.print("\n");
 		}
 		System.out.println("=====DETECTOR-BENCH-STATS-END-ABOVE====");
+		
+		stats();
 	}
 }

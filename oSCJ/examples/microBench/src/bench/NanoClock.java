@@ -22,9 +22,10 @@
  */
 package bench;
 
+import javax.safetycritical.annotate.SCJAllowed;
+
 import javax.realtime.AbsoluteTime;
 import javax.realtime.Clock;
-import javax.safetycritical.annotate.SCJAllowed;
 
 @SCJAllowed(members=true)
 public class NanoClock {

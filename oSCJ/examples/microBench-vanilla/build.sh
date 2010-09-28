@@ -10,6 +10,13 @@ FIJI_FLAGS="--g-def-max-mem=1M -G cmr --pollcheck-mode portable --g-def-trigger=
  --max-threads 5"
  
  
+rm -rf build/
+mkdir build/
+rm -rf micro.jar
+rm -rf micro*
+ 
+ 
+ 
  
 find . -name *.java > list
 echo "Compiling with javac..."
@@ -28,7 +35,7 @@ cd ..
 # COMPILE FIJI
 echo "Compiling micro"
 
-$FIJI/bin/fivmc -o micro micro.jar --main Main $FIJI_FLAGS
+$FIJI/bin/fivmc -o micro micro.jar --main micro.Main $FIJI_FLAGS
 
 echo "running MICRO VANILLA"
 ./micro  > output.cap
