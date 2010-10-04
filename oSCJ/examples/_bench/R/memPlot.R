@@ -1,98 +1,56 @@
 #! /usr/bin/env Rscript
 
-args <- commandArgs()
+args <- commandArgs(TRUE)
 
 
-
-print(args[6])
-data1 <- read.table(args[6])   # fiji - scj  - miniCdj
-data2 <- read.table(args[7])   # fiji - rt gc CDj
-
-data3 <- read.table(args[8])   # fiji - scj - emptyBench
-
-#data_hg_level_a <- read.table(args[9])   # fiji - rt gc CDj hg level a
-#data_100k <- read.table(args[10])   # fiji - rt gc CDj hg level a
-
-
-range <- c(0,750)
-
-range_y <- c(650,900)
-
-# Columns of data: 
-#   V1 - beforeDetect(ns) 
-#   V2 - afterDetect(ns) 
-#   V3 - detectedCollision 
-#   V4 - suspectedCollision 
-#   V5:7 -  0 0 0 
-#   V8 - index
-# cdc board: 1074228568000 1074228568000 0 0 0 0 0 929400 18446744073708622216 9
-
-# for board
-
-
-
-mem_scj  <- (data1$V2 + data1$V3 + data1$V4 + data1$V6) / 1000
-mem_gc <- ( data2$V4 ) / 1000
-scopes <- (data1$V5 + 500000) /1000
-empty_bench <- (data3$V2 + data3$V3 + data3$V4 + data3$V6) / 1000
-
-scj_heap <- ( data1$V4 + data1$V6) / 1000
-
-#mem_level_a <- (data_hg_level_a$V4) / 1000
-#mem_100k <- (data_100k$V4) / 1000
-
-#time <- data.frame(mem_scj , mem_gc, scopes, scj_heap, empty_bench, mem_level_a, mem_100k)
-time <- data.frame(mem_scj , mem_gc, scopes, scj_heap, empty_bench)
-
-pdf("mem_bench.pdf",width=25,height=10)
 
 type_a=c("l","l")
 lty_a=c(1,1)
+range <- c(0,750)
+range_y <- c(650,900)
+pdf("mem_bench.pdf",width=25,height=10)
+plot(1,type="n",ylim = range_y, xlim=range)
 
-matplot(time,xlim=range, ylim=range_y, type=type_a, lty=lty_a, xlab="Time", ylab="Memory Consumption [kB]",lwd=3)
+
+colors <- c("red","black","blue","green","yellow","brown")
+
+
+i <- 0
+for (arg in args) {
+    data <- read.table(arg);   
+    mem <- (data$V5) / 1000
+	
+	max <- c(max,max(mem))
+	mean <- c(mean,mean(mem))
+
+	time <- data.frame(mem)
+	
+	i <- i + 1
+	matplot(time,xlim=range, ylim=range_y, type=type_a, lty=lty_a, xlab="Time", ylab="Memory Consumption [kB]",lwd=3, add=TRUE, col=colors[i])
+}
+
+
+
+args <- gsub("./tmp/output_","",args)
+args <- gsub("_m.dat","",args)
+
 
 legend("bottomright", inset=.05, title="Legend",
-   c("oSCJ - memory used \n(private + mission + immortal + heap)","Fiji VM - RT GC","oSCJ - total memory", "oSCJ - heap+immortal", "oSCJ - Empty Benchmark"), col=c("black","red","green", "blue", "lightskyblue"), fill=c("black","red","green","blue", "lightskyblue"), horiz=TRUE)
+   	args, col=colors, fill=colors, horiz=TRUE)
+   	
+   	
 
-postscript()
-#X11()	
+dev.off() 
 
-max_mission <- max(data1$V3)
-max_private <- max(data1$V2)
-max_immortal <-  max(data1$V4)
-max_heap <-  max(data1$V6)
+print("----------------------------")
+print(args)
 
-max_empty <- max(empty_bench)
+print("AMX: ")
+print(max)
 
-print("MAX EMPTY")
-print(max_empty)
-
-print("max private and mission:")
-print(max_private)
-print(max_mission)
-print(max_immortal)
-print(max_heap)
-
-
-pr <- max_private
-pr <- max_mission
-pr <- max_immortal
-pr <- max_heap
-print("[  ...   ...    ....    ....]")
-print(pr)
-
-
-mean_scj <- mean(mem_scj)
-mean_GC <- mean(mem_gc)
-#mean_100k <- mean(mem_100k)
-#mean_level_a <- mean(mem_level_a)
-
-means <- data.frame(mean_scj,mean_GC)
 print("----------------------------")
 print("MEMORY USAGE: mean values")
-print(means)
-print(" ")
-print(" ")
+print(mean)
 print("----------------------------")
 
 
