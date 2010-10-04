@@ -55,7 +55,7 @@ public abstract class AperiodicEventHandler extends ManagedEventHandler {
 	   * this handler to all the aperiodic events passed during construction.
 	   * Registers all the aperiodic events passed during constructions.
 	   */
-	  @Override
+	  //@Override
 	  @SCJAllowed
 	  @SCJRestricted(INITIALIZATION)
 	  public final void register() {
