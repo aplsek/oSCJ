@@ -8,11 +8,31 @@
 #
 
 
-set -e
-set -x
+#set -e
+#set -x
 
-input[0]=../minicdx/bench
-input[1]=../cdj-vanilla-fiji-v1.2/bench/
+
+# ./bench.sh cdj_hf_A.1600 /Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/cdj-vanilla-fiji-v1.2/bench/regular_CDj_frame_1000_period_80_plane_60_GC_fifo10_detector_fifoMax
+
+if [ $# -ne 2 ]; then
+        echo "Error: not enough input parameters"
+        echo "rexex - the first parameter should be the regular expression specifying the input files, it can be also \"\""
+        echo "dir - second parameter is an input directory where .cap files are"
+        echo "eg. ./bench.sh cdj_hf_A.1600 ./dir"
+        exit 1
+fi;
+
+regex=$1
+
+#input[0]=../minicdx/bench
+#input[0]=/Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/cdj-vanilla-fiji-v1.2/bench/regular_CDj_frame_1000_period_80_plane_60_GC_fifo10_detector_fifoMax
+input[0]=$2
+
+
+#input[0]=../minicdx/bench
+#input[1]=../cdj-vanilla-fiji-v1.2/bench/
+#input[2]=/Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/cdj-vanilla-fiji-v1.2/bench/regular_CDj_frame_1000_period_80_plane_60_GC_fifo10_detector_fifoMax
+
 #input[2]=../emptyBench/
 
 
@@ -21,14 +41,10 @@ timestamp=`date +"%m%d.%H%M"`
 
 mkdir tmp
 
-for dir in ${input[@]}
+for dir in $input
 do
-	echo $dir
-	# other stuff on $name
-	echo "go through files"
-	for file in `find $dir -name "output*.cap"`
+	for file in `find $dir -name "*.cap"`
 	do
-		echo $file
 		cp $file tmp/
 		#cd tmp/ && perl localbin/splitCapture.py $file
 	
@@ -37,19 +53,12 @@ do
 	done
 done
 
-echo "tmp is:"
-ls tmp
-
-
+echo "INPUT is:"
 # SPLiT
-for file in `find ./tmp -name "output*.cap"`
+for file in `find ./tmp -name $regex"*.cap"`
 do
-	echo $file
 	perl localbin/splitCapture.py $file
 done
-
-echo "tmp is:"
-ls tmp
 
 
 
@@ -57,7 +66,6 @@ ls tmp
 mem_file=""
 for file in `find ./tmp -name "*_m.dat"`
 do
-	echo $file
 	mem_file=$mem_file" "
 	mem_file=$mem_file$file
 done 
@@ -70,7 +78,6 @@ done
 perf_files=""
 for file in `find . -name "*_d.dat"`
 do
-	echo $file
 	perf_files=$perf_files" "
 	perf_files=$perf_files$file
 done 
@@ -79,8 +86,17 @@ done
 
 
 
-#rm -rf tmp
+
+
+
+rm -rf tmp
 exit 1
+
+
+
+
+
+
 
 
 
