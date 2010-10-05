@@ -1,5 +1,7 @@
 package immortal;
 
+import com.fiji.fivm.ThreadPriority;
+
 /**
  * All of our globally relevant constants.
  * @author Filip Pizlo
@@ -19,11 +21,11 @@ public final class Constants {
 	public static final float PROXIMITY_RADIUS = 1.0f;
 	public static final float GOOD_VOXEL_SIZE = PROXIMITY_RADIUS * 10.0f;
 
-	public static int SIMULATOR_PRIORITY = 5;
-    public static int DETECTOR_STARTUP_PRIORITY = 9;
-    public static int DETECTOR_PRIORITY = 9;
+	public static int SIMULATOR_PRIORITY = ThreadPriority.FIFO_MAX;
+    public static int DETECTOR_STARTUP_PRIORITY = ThreadPriority.FIFO_MAX;
+    public static int DETECTOR_PRIORITY = ThreadPriority.FIFO_MAX;
 	public static long PERSISTENT_DETECTOR_SCOPE_SIZE = 5* 10 * 1000 * 1024;
-	public static long DETECTOR_PERIOD = 500;
+	public static long DETECTOR_PERIOD = 120;
 	public static long TRANSIENT_DETECTOR_SCOPE_SIZE = 5 * 10 * 1048576;
 
 	public static int MAX_FRAMES = 1000;
@@ -66,5 +68,7 @@ public final class Constants {
 	public static boolean DEBUG_DETECTOR = false;
     
     public static boolean FRAME_ON_THE_GO = true;
+    
+    public static long NANOS_PER_MILLIS = 1000000L;
 
 }

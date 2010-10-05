@@ -1,6 +1,7 @@
 package bench;
 
-import realtime.RealtimeThread;
+import java.io.PrintStream;
+
 import immortal.Constants;
 import immortal.ImmortalEntry;
 
@@ -9,18 +10,19 @@ public class BenchMem {
 
     static public long             start = 0;
     
-    static public int              tracePoints  = 7;  // number of trace points per iteration
-    static public int              maxDetectorRuns = Constants.MAX_FRAMES;
+    static public final int        tracePoints  = 7;  // number of trace points per iteration
+    static public final int        maxDetectorRuns = Constants.MAX_FRAMES;
     
     static public int              traces = 0;
-    static public int              maxTraces  = maxDetectorRuns * tracePoints + 2;
+    static public final int        maxTraces  = maxDetectorRuns * tracePoints + 2;
     
-    static public long[]           memoryUsage = new long[maxTraces];
-    static public long[]           freeMem = new long[maxTraces];
-    static public long[]           privateMemoryUsage = new long[maxTraces];
+    static public long[]           memoryUsage          = new long[maxTraces];
+    static public long[]           freeMem              = new long[maxTraces];
+    static public long[]           privateMemoryUsage   = new long[maxTraces];
     
-    static public long[]           missionMemUsage = new long[maxTraces];
+    static public long[]           missionMemUsage      = new long[maxTraces];
     static public int              missionIdnex = 0;
+    static private Runtime         runtime = Runtime.getRuntime(); 
     
     /*
     public BenchMem() {
@@ -39,18 +41,15 @@ public class BenchMem {
      */
     public static void memUsage() {
         
-		if (traces < maxTraces ) {
-            memoryUsage[traces] =  Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-            freeMem[traces] = Runtime.getRuntime().freeMemory();
-            
+        if (traces < maxTraces ) {
+            freeMem[traces]     =  runtime.freeMemory();
+            memoryUsage[traces] =  runtime.totalMemory() - freeMem[traces];
             traces++;
-          }
-          else {
-              //System.err.println("Memory Benchmark ERROR: Too many trace points!");
-              traces++;
-              err = true;
-          }
-		 
+		} else {
+            //System.err.println("Memory Benchmark ERROR: Too many trace points!");
+            traces++;
+            err = true;
+        }		 
     }
     
     /**
@@ -62,13 +61,11 @@ public class BenchMem {
     public static void setMemUsage(long mem) {
        
 		if (traces < maxTraces ) {
-        
-			//long missionMem = RealtimeThread.getOuterMemoryArea(0).memoryConsumed();
-          privateMemoryUsage[traces] = mem ;
-          //missionMemUsage[traces] = missionMem;
-          traces++;
-        }
-        else {
+		    //long missionMem = RealtimeThread.getOuterMemoryArea(0).memoryConsumed();
+		    privateMemoryUsage[traces] = mem ;
+		    //missionMemUsage[traces] = missionMem;
+		    traces++;
+        } else {
             //System.err.println("Memory Benchmark ERROR: Too many trace points!");
             traces++;
             err = true;
@@ -77,50 +74,42 @@ public class BenchMem {
     }
     
     public static void setMissionUsage(long mem) {
-        
 		
-		if (missionIdnex < maxDetectorRuns ) {
+        if (missionIdnex < maxDetectorRuns ) {
             missionMemUsage[missionIdnex] = mem;
             missionIdnex++;
-          }
-          else {
-              //System.err.println("Memory Benchmark ERROR: Too many trace points!");
-              missionIdnex++;
-              err = true;
-          } 
-		 
+        } else {
+            //System.err.println("Memory Benchmark ERROR: Too many trace points!");
+            missionIdnex++;
+            err = true;
+        } 
     }
     
-    public static void dumpMemoryUsage() {
+    public static void dumpMemoryUsage(PrintStream out) {
         if (err) {
             System.err.println("Memory Benchmark ERROR: Too many trace points! :" + traces);
             return;
         }
         
-        String space = " ";
-        String triZero = " 0 0 0 ";
+        out.println("Dumping output [ Iteration PrivateMemoryUsage MissionMemoryUsage UsedSpace FreeSpace] for "
+                        + ImmortalEntry.recordedRuns + " recorded detector runs");
         
-            System.out
-                .println("Dumping output [ iterationNumber trace-point-number privateMemoryUsage missionMemoryUsage total-iter-Number] for "
-                        + ImmortalEntry.recordedRuns + " recorded detector runs, in ns");
-        
-        System.out.println("=====MEMORY-BENCH-STATS-START-BELOW====");
+        out.println("=====MEMORY-BENCH-STATS-START-BELOW====");
         
         for (int i = 0 ; i < traces ; i++) {
-            System.out.print(i);  // total iter number
-            //System.out.print(space);
-            //System.out.print(i * Constants.DETECTOR_PERIOD * 1000000L + ImmortalEntry.detectorReleaseTimes[0]);
-            System.out.print(space);
-            System.out.print(privateMemoryUsage[i]);
-            System.out.print(space);
-            System.out.print(missionMemUsage[i]);
-            System.out.print(space);
-            System.out.print(memoryUsage[i]);
-            System.out.print(space);
-            System.out.print(freeMem[i]);
-            System.out.println(space);
+            out.print(i);  // total iter number
+            //out.print(space);
+            //out.print(i * Constants.DETECTOR_PERIOD * 1000000L + ImmortalEntry.detectorReleaseTimes[0]);
+            out.print(" ");
+            out.print(privateMemoryUsage[i]);
+            out.print(" ");
+            out.print(missionMemUsage[i]);
+            out.print(" ");
+            out.print(memoryUsage[i]);
+            out.print(" ");
+            out.print(freeMem[i]);
+            out.println(" ");
         }
-        System.out.println("=====MEMORY-BENCH-STATS-END-ABOVE====");
-        
+        out.println("=====MEMORY-BENCH-STATS-END-ABOVE====");
     }
 }

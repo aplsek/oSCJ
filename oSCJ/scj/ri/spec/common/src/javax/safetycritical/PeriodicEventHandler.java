@@ -68,7 +68,6 @@ public abstract class PeriodicEventHandler extends ManagedEventHandler {
 	   * Registers this event handler with the current mission.
 	   */
 	  @SCJAllowed
-	  @Override
 	  @SCJRestricted(INITIALIZATION)
 	  public final void register() {
 		  //TODO:

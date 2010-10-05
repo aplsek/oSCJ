@@ -2,7 +2,6 @@ package immortal.persistentScope;
 
 import immortal.Constants;
 import immortal.Benchmarker;
-import immortal.FrameSynchronizer;
 import immortal.ImmortalEntry;
 import immortal.NanoClock;
 import immortal.RawFrame;
@@ -15,7 +14,6 @@ import realtime.PriorityParameters;
 import realtime.RealtimeThread;
 
 //import com.fiji.fivm.*;
-import java.util.*;
 
 import bench.BenchMem;
 /** 
@@ -30,11 +28,9 @@ public class PersistentDetectorScopeEntry extends NoHeapRealtimeThread {
     }
 
     public boolean stop = false;
-
-    
-    
     
     public void run() {
+        ImmortalEntry.progStartTime = NanoClock.now();
         NoiseGenerator noiseGenerator = new NoiseGenerator();
         final LTMemory transientDetectorScope = new LTMemory(immortal.Constants.TRANSIENT_DETECTOR_SCOPE_SIZE, immortal.Constants.TRANSIENT_DETECTOR_SCOPE_SIZE);
         try {
@@ -53,14 +49,12 @@ public class PersistentDetectorScopeEntry extends NoHeapRealtimeThread {
                 Benchmarker.set(13);
                 BenchMem.memUsage();
                 
-                
-                if (ImmortalEntry.recordedDetectorReleaseTimes>0) {
-                    ImmortalEntry.detectorWaitTimes[ ImmortalEntry.recordedDetectorReleaseTimes-1 ] = NanoClock.now();
+                if (ImmortalEntry.recordedDetectorReleaseTimes > 0) {
+                    ImmortalEntry.detectorWaitTimes[ ImmortalEntry.recordedDetectorReleaseTimes - 1 ] = NanoClock.now();
                 }
                 boolean missed=!RealtimeThread.waitForNextPeriod();
                 Benchmarker.done(13);
-                long now = NanoClock.now();
-                ImmortalEntry.detectorReleaseTimes[ ImmortalEntry.recordedDetectorReleaseTimes ] = now;
+                ImmortalEntry.detectorReleaseTimes[ ImmortalEntry.recordedDetectorReleaseTimes ] = NanoClock.now();
                 ImmortalEntry.detectorReportedMiss [ ImmortalEntry.recordedDetectorReleaseTimes ] = missed;
                 ImmortalEntry.recordedDetectorReleaseTimes++;
                 
@@ -68,19 +62,12 @@ public class PersistentDetectorScopeEntry extends NoHeapRealtimeThread {
                 
                 BenchMem.memUsage();
             }
-            
-            
-            
-            
             ImmortalEntry.detectorWaitTimes[ ImmortalEntry.recordedDetectorReleaseTimes-1 ] = NanoClock.now();
         } catch (final Throwable t) {
             throw new Error(t);
         }
+        ImmortalEntry.progEndTime = NanoClock.now();
     }
-    
-    
-    
-    
 
     public void runDetectorInScope(final TransientDetectorScopeEntry cd, final LTMemory transientDetectorScope, final NoiseGenerator noiseGenerator) {
         Benchmarker.set(14);
@@ -99,20 +86,17 @@ public class PersistentDetectorScopeEntry extends NoHeapRealtimeThread {
             return;
         }  // should not be needed, anyway
         //final long heapFreeBefore = Runtime.getRuntime().freeMemory();
-        final long timeBefore = NanoClock.now();
         noiseGenerator.generateNoiseIfEnabled();
-        
-        
+                
         Benchmarker.set(Benchmarker.RAPITA_SETFRAME);
         cd.setFrame(f);
         Benchmarker.done(Benchmarker.RAPITA_SETFRAME);
-       
-        
+               
         // actually runs the detection logic in the given scope
-        transientDetectorScope.enter(cd);
+        long timeBefore = NanoClock.now();
+        transientDetectorScope.enter(cd);               
+        long timeAfter = NanoClock.now();
         
-        
-        final long timeAfter = NanoClock.now();
         //final long heapFreeAfter = Runtime.getRuntime().freeMemory();
         if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
             ImmortalEntry.timesBefore[ ImmortalEntry.recordedRuns ] = timeBefore;

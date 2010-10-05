@@ -5,77 +5,33 @@ import immortal.Constants;
 import immortal.ImmortalEntry;
 import immortal.NanoClock;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.FileOutputStream;
-import java.io.FileNotFoundException;
+import java.io.PrintStream;
 
 import bench.BenchMem;
 
-
-
-
-/**
- * Real-time Java runner for the collision detector.
- */
+/** Real-time Java runner for the collision detector. */
 public class Main {
 
 	public static boolean PRINT_RESULTS = true;
-
-	public static Object junk;
-
-    public static String[] v;
+	public static Object junk;	
     
 	public static void main(final String[] w) throws Throwable {
-       BenchMem.start = Runtime.getRuntime().totalMemory();   
+	    Benchmarker.initialize();
+	    Benchmarker.set(Benchmarker.RAPITA_BENCHMARK);
+	    parse(w);
 	    
+	    //System.out.println("start22222 ammount of mem is : " + Runtime.getRuntime().totalMemory() );
+	    //System.out.println("start22222 ammount of mem is : " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
        
-       //System.out.println("start ammount of mem is : " + BenchMem.start );
-       //System.out.println("START: ammount of mem is : " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())); 
+	    BenchMem.start = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
        
-	    v=new String[13];
-       v[0]="input/frames.bin";
-       v[1]="MAX_FRAMES";
-       v[2]="1000";
-       v[3]="PERSISTENT_DETECTOR_SCOPE_SIZE";
-       v[4]="5000000";
-       v[5]="TRANSIENT_DETECTOR_SCOPE_SIZE";
-       v[6]="5000000";
-       v[7]="PERIOD";
-       v[8]="120"; //"250";
-       v[9]="DETECTOR_PRIORITY";
-       v[10]="9";
-       v[11]="TIME_SCALE";
-       v[12]="1";
-       Benchmarker.initialize();
-       Benchmarker.set(Benchmarker.RAPITA_BENCHMARK);
-       parse(v);
-	   
-       //System.out.println("start22222 ammount of mem is : " + Runtime.getRuntime().totalMemory() );
-       //System.out.println("start22222 ammount of mem is : " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
-       
-       BenchMem.start = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-       
-       NanoClock.init();
-       final ImmortalEntry immortalEntry=new ImmortalEntry();
-	   immortalEntry.run();
-       Benchmarker.set(Benchmarker.RAPITA_DONE);
-	   dumpResults();
-		
-	   
+	    NanoClock.init();
+	    ImmortalEntry immortalEntry=new ImmortalEntry();
+	    immortalEntry.run();
+	    Benchmarker.set(Benchmarker.RAPITA_DONE);
+	    dumpResults();
 	   //System.out.println("END: ammount of mem is : " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())); 
-	      
 	}
-	
-	
-	
-	
-	
-	
 	
 	public static void dumpResults() {
 
@@ -85,96 +41,74 @@ public class Main {
 					+ ImmortalEntry.recordedRuns
 					+ " recorded detector runs, in ns");
 		}
-
-		PrintWriter out = null;
-        
-		System.out.println("=====DETECTOR-STATS-START-BELOW====");	
-		for (int i = 0; i < ImmortalEntry.recordedRuns; i++) {
-			String line = NanoClock.asString(ImmortalEntry.timesBefore[i])
-			+ " " + NanoClock.asString(ImmortalEntry.timesAfter[i])
-			+ " " + ImmortalEntry.heapFreeBefore[i] + " "
-			+ ImmortalEntry.heapFreeAfter[i] + " "
-			+ ImmortalEntry.detectedCollisions[i] + " "
-			+ ImmortalEntry.suspectedCollisions[i]+" 0 0 0 "+i;
-			/*String line = ""+NanoClock.asMicros(ImmortalEntry.timesBefore[i])
-			            +" "+NanoClock.asMicros(ImmortalEntry.timesAfter[i])
-			            +" "+ImmortalEntry.heapFreeBefore[i]
-			            +" "+ImmortalEntry.heapFreeAfter[i]
-			            +" "+ImmortalEntry.detectedCollisions[i]
-			            +" "+ImmortalEntry.suspectedCollisions[i]
-			            +" "+(NanoClock.asMicros(ImmortalEntry.timesAfter[i]-ImmortalEntry.timesBefore[i])/1000.0)
-			            +" 0 0 "+i; */
-			if (out != null) {
-				out.println(line);
-                System.out.println(line);
-			}
-			if (PRINT_RESULTS) {
-				//System.err.println(line);
-                System.out.println(line);
-			}
-		}
-
-		if (out != null) {
-			out.close();
-			out = null;
-		}
-		System.out.println("=====DETECTOR-STATS-END-ABOVE====");	
-
-		System.out
-		.println("Generated frames: " + Constants.MAX_FRAMES);
-		System.out.println("Received (and measured) frames: "
-				+ ImmortalEntry.recordedRuns);
-		System.out.println("Frame not ready event count (in detector): "
-				+ ImmortalEntry.frameNotReadyCount);
-		System.out.println("Frames dropped due to full buffer in detector: "
-				+ ImmortalEntry.droppedFrames);
-		System.out.println("Frames processed by detector: "
-				+ ImmortalEntry.framesProcessed);
-		System.out.println("Detector stop indicator set: "
-				+ ImmortalEntry.persistentDetectorScopeEntry.stop);
-		System.out
-		.println("Reported missed detector periods (reported by waitForNextPeriod): "
-				+ ImmortalEntry.reportedMissedPeriods);
-		System.out.println("Detector first release was scheduled for: "
-				+ NanoClock.asString(ImmortalEntry.detectorFirstRelease));
-        System.out.println("WE ARE HERE");
+		
+		PrintStream out = System.out;
+		
+        out.println("Program Starts: " 
+                + ImmortalEntry.progStartTime);
+        out.println("Program Ends: " 
+                + ImmortalEntry.progEndTime);
+        out.println("Number of Planes: " 
+                + Constants.NUMBER_OF_PLANES);
+        out.println("Detector Period: " 
+                + Constants.DETECTOR_PERIOD);
+        out.println("Generated frames: " 
+                + Constants.MAX_FRAMES);
+		out.println("Received (and measured) frames: " 
+		        + ImmortalEntry.recordedRuns);
+		out.println("Frame not ready event count (in detector): " 
+		        + ImmortalEntry.frameNotReadyCount);
+		out.println("Frames dropped due to full buffer in detector: " 
+		        + ImmortalEntry.droppedFrames);
+		out.println("Frames processed by detector: "
+		        + ImmortalEntry.framesProcessed);
+		out.println("Detector stop indicator set: "
+		        + ImmortalEntry.persistentDetectorScopeEntry.stop);
+		out.println("Reported missed detector periods (reported by waitForNextPeriod): "
+		        + ImmortalEntry.reportedMissedPeriods);
+		out.println("Detector first release was scheduled for: "
+		        + NanoClock.asString(ImmortalEntry.detectorFirstRelease));
 		// heap measurements
 		Simulator.dumpStats();
 
-		// detector release times
-		if (immortal.Constants.DETECTOR_RELEASE_STATS != "") {
-			System.out.println("=====DETECTOR-RELEASE-STATS-START-BELOW====");	
-			for (int i = 0; i < ImmortalEntry.recordedDetectorReleaseTimes; i++) {
-				// real expected
-				//String x=ImmortalEntry.detectorReleaseTimes[i])
-				String line = 
-                                    NanoClock.asString(ImmortalEntry.detectorWaitTimes[i])+ " " +
-                                    NanoClock.asString(ImmortalEntry.detectorReleaseTimes[i])+ " ";
 
-				line = line
-				+ NanoClock.asString(i
-						* immortal.Constants.DETECTOR_PERIOD * 1000000L
-						+ ImmortalEntry.detectorReleaseTimes[0]);
-
-				line = line + " "
-				+ (ImmortalEntry.detectorReportedMiss[i] ? "1" : "0");
-				line+=" "+i;
-				if (out != null) {
-					out.println(line);
-				} else System.out.println(line);
-			}
-
-			if (out != null) {
-				out.close();
-				out = null;
-			}
-			System.out.println("=====DETECTOR-RELEASE-STATS-END-ABOVE====");	
-			
+		out.println("=====DETECTOR-STATS-START-BELOW====");	
+		for (int i = 0; i < ImmortalEntry.recordedRuns; i++) {
+		    out.print(NanoClock.asString(ImmortalEntry.timesBefore[i]));
+			out.print(" "); 
+			out.print(NanoClock.asString(ImmortalEntry.timesAfter[i])); 
+			out.print(" ");
+			out.print(ImmortalEntry.heapFreeBefore[i]);
+			out.print(" ");
+			out.print(ImmortalEntry.heapFreeAfter[i]);
+			out.print(" ");
+			out.print(ImmortalEntry.detectedCollisions[i]);
+			out.print(" ");
+			out.print(ImmortalEntry.suspectedCollisions[i]);
+			out.print(" 0 0 0 "); 
+            out.print(i);
+            out.println();
 		}
+		out.println("=====DETECTOR-STATS-END-ABOVE====");
 		
+		// detector release times
+		out.println("=====DETECTOR-RELEASE-STATS-START-BELOW====");	
+		for (int i = 0; i < ImmortalEntry.recordedDetectorReleaseTimes; i++) {
+		    out.print(NanoClock.asString(ImmortalEntry.detectorWaitTimes[i]));
+		    out.print(" ");
+		    out.print(NanoClock.asString(ImmortalEntry.detectorReleaseTimes[i]));
+		    out.print(" ");
+		    out.print(NanoClock.asString(i * immortal.Constants.DETECTOR_PERIOD * Constants.NANOS_PER_MILLIS
+		            + ImmortalEntry.detectorReleaseTimes[0]));
+		    out.print(" ");
+		    out.print(ImmortalEntry.detectorReportedMiss[i] ? "1" : "0");
+		    out.print(" ");
+		    out.print(i);
+		    out.println();
+		}
+		out.println("=====DETECTOR-RELEASE-STATS-END-ABOVE====");	
 		
-		BenchMem.dumpMemoryUsage();
-		
+		BenchMem.dumpMemoryUsage(out);
 	}
 
 	private static void parse(final String[] v) {

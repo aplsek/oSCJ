@@ -11,12 +11,9 @@ import realtime.RelativeTime;
 import realtime.Clock;
 import realtime.AbsoluteTime;
 
-import com.fiji.fivm.ThreadPriority;
 /* Uncomment this if you plan on using Rapita benchmarking.
  */
 //import com.fiji.fivm.util.GCControl;
-import com.fiji.fivm.r1.*;
-
 
 /** This thread runs only during start-up to run other threads. It runs in immortal memory, is allocated in immortal memory,
  * and it's constructor runs in immortal memory. It is a singleton, allocation from the Main class */
@@ -71,6 +68,9 @@ public class ImmortalEntry extends RealtimeThread {
 	static public long[] detectorReleaseTimes;
 	static public long[] detectorWaitTimes;
 	static public boolean[] detectorReportedMiss;
+	
+    static public long progStartTime;
+    static public long progEndTime;
 
 	static public int reportedMissedPeriods = 0;
 	static public int frameNotReadyCount = 0;
@@ -92,22 +92,21 @@ public class ImmortalEntry extends RealtimeThread {
 
 		maxDetectorRuns = Constants.MAX_FRAMES;
 
-		timesBefore = new long[ maxDetectorRuns ]; 
-		timesAfter = new long[ maxDetectorRuns ];
-		heapFreeBefore = new long[ maxDetectorRuns ];
-		heapFreeAfter = new long[ maxDetectorRuns ];
-		detectedCollisions = new int[ maxDetectorRuns ];
-		suspectedCollisions = new int[ maxDetectorRuns ];   
-		fijiStats=new int[maxDetectorRuns][];
+		timesBefore           = new long[ maxDetectorRuns ]; 
+		timesAfter            = new long[ maxDetectorRuns ];
+		heapFreeBefore        = new long[ maxDetectorRuns ];
+		heapFreeAfter         = new long[ maxDetectorRuns ];
+		detectedCollisions    = new int[ maxDetectorRuns ];
+		suspectedCollisions   = new int[ maxDetectorRuns ];   
+		fijiStats             = new int[ maxDetectorRuns][];
 
-		detectorReleaseTimes = new long[ maxDetectorRuns + 10]; // the 10 is for missed deadlines
-                detectorWaitTimes = new long[maxDetectorRuns + 10];
-		detectorReportedMiss = new boolean[ maxDetectorRuns + 10];        
+		detectorReleaseTimes  = new long[ maxDetectorRuns + 10]; // the 10 is for missed deadlines
+		detectorWaitTimes     = new long[ maxDetectorRuns + 10];
+		detectorReportedMiss  = new boolean[ maxDetectorRuns + 10];        
 	}
 
 	/** Called only once during initialization. Runs in immortal memory */
 	public void run() {
-
 		detectorReady = true;
 
 		/* start the detector at rounded-up time, so that the measurements are not subject
@@ -116,23 +115,23 @@ public class ImmortalEntry extends RealtimeThread {
 		AbsoluteTime releaseAt = NanoClock.roundUp(Clock.getRealtimeClock().getTime().add(Constants.DETECTOR_STARTUP_OFFSET_MILLIS, 0));
 		detectorFirstRelease = NanoClock.convert(releaseAt);
 
-
 		persistentDetectorScopeEntry = new PersistentDetectorScopeEntry(
 				new PriorityParameters(Constants.DETECTOR_PRIORITY), 
 				new PeriodicParameters( releaseAt, // start
 				new RelativeTime(Constants.DETECTOR_PERIOD, 0), // period
-				null, //cost
-				null, // deadline
-				null, null), persistentDetectorScope);
+				    null, //cost
+				    null, // deadline
+				    null, 
+				    null), 
+				persistentDetectorScope);
 		Simulator.generate(null);
-        persistentDetectorScopeEntry.setPriority(ThreadPriority.NORMAL_MAX); //FIFO-MAX // RR_MIN
         output(0xf000);
 		persistentDetectorScopeEntry.start();
 		try {
 			persistentDetectorScopeEntry.joinReal();
-                        setMask(0x0000);
-                } catch (InterruptedException e) {
-			e.printStackTrace();
+			setMask(0x0000);
+		} catch (InterruptedException e) {
+		    e.printStackTrace();
 		}	
 		//persistentDetectorScopeEntry.run();
 	}
