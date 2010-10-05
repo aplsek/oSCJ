@@ -20,6 +20,8 @@
  */
 package javax.safetycritical;
 
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -46,6 +48,7 @@ public class MissionManager extends PortalExtender {
 		_mission = mission;
 	}
 
+	//TODO: should this be @SCJAllowed(INFRASTRUCTURE) ??
 	public Mission getMission() {
 		return _mission;
 	}
@@ -57,6 +60,7 @@ public class MissionManager extends PortalExtender {
 	void cleanAll() {
 		
 	}
+	
 	
 	void addEventHandler(ManagedEventHandler handler) {
 		if (handler instanceof PeriodicEventHandler)  {
@@ -71,6 +75,8 @@ public class MissionManager extends PortalExtender {
 	}
 
 
+	//TODO: should this be @SCJAllowed(INFRASTRUCTURE) ??
+	@SCJAllowed
 	public static MissionManager getCurrentMissionManager() {
 		return ((ManagedMemory) RealtimeThread.getCurrentMemoryArea())
 				.getManager();
@@ -80,6 +86,7 @@ public class MissionManager extends PortalExtender {
 		return _handlers;
 	}
 	
+	@SCJAllowed(INFRASTRUCTURE)
 	public ManagedEventHandler getFirstHandler() {
 		return _first;
 	}

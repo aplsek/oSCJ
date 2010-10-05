@@ -41,7 +41,7 @@ public abstract class Scheduler {
 	 * @return the current asynchronous event handler or real-time thread of the
 	 *         caller.
 	 */
-	public static Schedulable getCurrentSo() {
+	public static Schedulable getCurrentSO() {
 		return null;
 	}
 }

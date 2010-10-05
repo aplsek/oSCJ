@@ -24,15 +24,18 @@ package javax.realtime;
 import java.io.Serializable;
 
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 
 @SCJAllowed
 public class IllegalAssignmentError extends Error implements Serializable {
 
     @SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
     public IllegalAssignmentError() {
     }
 
     @SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
     public IllegalAssignmentError(String description) {
         super(description);
     }

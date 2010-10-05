@@ -1,97 +1,141 @@
 #! /usr/bin/env Rscript
 
+# ./R/performancePlot.R ./data/perf.dat ./data/perf.dat
+
 ##############################
 #  INPUT
 #
-args <- commandArgs()
-data1 <- read.table(args[6])   # fiji - scj  
-data2 <- read.table(args[7])   # fiji - rt gc 
+args <- commandArgs(TRUE);
+ 
 
 
-data_hg_level_a <- read.table(args[8])   # fiji - rt gc CDj hg level a
-data_100k <- read.table(args[9])   # fiji - rt gc CDj hg level a
 
 
 ##############################
-#  COMPUTE
+#   PLOT
 #
-scj <- (data1$V2 - data1$V1)/1000000.0
-fiji <- (data2$V2 - data2$V1)/1000000.0
-
-
-time_level_a <- (data_hg_level_a$V2  - data_hg_level_a$V1) / 1000000.0
-time_100k <- (data_100k$V2 - data_100k$V1) /1000000.0
-
-
-
-time <- data.frame(scj, fiji, time_level_a, time_100k)
-
-time <- data.frame(scj, fiji)
-
-
-##############################
-#  PLOT
-#
+range <- c(0,300)
+range_y <- c(0.1,0.7)
 type_a=c("l","l")
 lty_a=c(1,1)
 
-range <- c(0,1000)
-range_y <- c(0.1,0.7)
+max <- c()
+mean <- c()
+
+
+
+colors <- c("red","black","blue","green","yellow","brown", "darkred", "indianred", "indianred1", "indianred2", "indianred3", "indianred4", "mediumvioletred", "orangered", "orangered1", "orangered2", "orangered3", "orangered4", "palevioletred", "palevioletred1", "palevioletred2", "palevioletred3", "palevioletred4", "red1", "red2","red3", "red4", "violetred", "violetred1", "violetred2", "violetred3", "violetred4" )
+
+
+
+
+
 
 pdf("perf_bench.pdf",width=25,height=10)
-matplot(time,xlim=range, ylim=range_y, type=type_a, lty=lty_a, xlab="Iteration Number", ylab="Time [ms]",lwd=3)
+plot(1,type="n",ylim = range_y, xlim=range)
+i <- 0
+
+for (arg in args) {
+    data <- read.table(arg);   
+    scj <- (data$V2 - data$V1)/1000000.0	
+	
+	max <- c(max,max(scj))
+	mean <- c(mean,mean(scj))
+
+	time <- data.frame(scj)
+	
+	i <- (i + 1) 
+	
+	matplot(time,xlim=range, ylim=range_y, type=type_a, lty=lty_a, xlab="Iteration Number", ylab="Time [ms]",lwd=3,add=TRUE,col=colors[i])
+
+}
+
+souboru <- i
+
+# TODO : FIX teh legend, its still statick...
+#legend("bottomright", inset=.05, title="Legend",
+#   	c("oSCJ","Fiji VM - RT GC"), col=c("black","red"), fill=c("black","red"), horiz=TRUE)
+leg <- gsub("./tmp/output_","",args)
+leg <- gsub("_d.dat","",leg)
 
 legend("bottomright", inset=.05, title="Legend",
-   c("oSCJ","Fiji VM - RT GC"), col=c("black","red"), fill=c("black","red"), horiz=TRUE)
-
-postscript()
-#X11()	
+   	leg, col=colors, fill=colors, horiz=TRUE)
 
 
-##############################
-#  PLOT
-#
-type_a=c("l","l")
-lty_a=c(1,1)
+dev.off() 
 
-range <- c(0,300)
-range_y <- c(0.1,0.5)
+print("----------- PERFORMANCE ---------")
 
-pdf("perf_bench_close.pdf",width=25,height=10)
-matplot(time,xlim=range, ylim=range_y, type=type_a, lty=lty_a, xlab="Iteration Number", ylab="Time [ms]",lwd=3)
+print(args)
+print(max)
+print(mean)
 
-legend("bottomright", inset=.05, title="Legend",
-   c("oSCJ","Fiji VM - RT GC"), col=c("black","red"), fill=c("black","red"), horiz=TRUE)
-
-postscript()
+print("----------- end ---------")
 
 
 
-##############################
-#  SOME STATISTICS
-#
-max_scj <- max(scj)
-max_fiji <- max(fiji)
-max_time_level_a <- max(time_level_a)
-max_time_100k <- max(time_100k)
-
-mean_scj <- mean(scj)
-mean_fiji <- mean(fiji)
-mean_level_a <- mean(time_level_a)
-mean_time_100k <- mean(time_100k)
 
 
-maxs <- data.frame(max_scj, max_fiji, max_time_level_a , max_time_100k)
-print("----------------------------")
-print("PERFORMANCE:")
-print("")
-print("MAX values:")
-print(maxs)
-print("")
 
-means <- data.frame(mean_scj, mean_fiji, mean_level_a ,mean_time_100k)
-print("MEAN values:")
-print(means)
-print("")
-print("")
-print("----------------------------")
+
+
+N <- 4
+i <-0
+pdf("box.pdf",width=25,height=10)
+
+
+df <- data.frame(time = numeric(N),
+    temp = numeric(N), pressure = numeric(N))
+
+
+#boxplot(1,data=mean, main="Car Milage Data",
+#   xlab=args, ylab="Miles Per Gallon") 
+ss <- c()
+fr <- c()
+for (arg in args) {
+    fil <- read.table(arg);   
+    scj <- (fil$V2 - fil$V1)/1000000.0	
+	
+	df[i,arg] <- data.frame(scj)
+	
+	#box[i] <- scj
+	#ss <- scj
+	print(scj)
+	i <- (i + 1) 
+	
+	
+#boxplot(time,data=time, main="Car Milage Data",
+#   xlab=leg, names=arg, ylab="Miles Per Gallon", add=TRUE )
+
+}
+
+
+N <- 1000
+m <- matrix(nrow = N, ncol = souboru)
+colnames(m) <- leg
+i <- 0
+for (arg in args) {
+    fil <- read.table(arg);   
+    scj <- (fil$V2 - fil$V1)/1000000.0	
+	
+	m[ ,i]  <- scj
+	
+     i <- i +1
+}
+
+# continue with this approach
+
+
+
+#print("fff=-------------")
+#print(m)
+
+
+boxplot(m,data=m, main="Execution time",
+   xlab=leg, ylab="GC configuration")
+
+
+
+#fr < data.frame(fr,col.names(leg))
+
+dev.off() 

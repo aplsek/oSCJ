@@ -22,16 +22,23 @@
 package javax.realtime;
 
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 
 @SCJAllowed
 public class MemoryInUseException extends RuntimeException {
     
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
     public MemoryInUseException() {
     }
 
     
+    /**
+     * This one is annotated as  "@Allocate({IMMORTAL})" in the Spec.
+     * @param description
+     */
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
     public MemoryInUseException(String description) {
         super(description);
     }

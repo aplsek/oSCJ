@@ -37,16 +37,20 @@ import javax.safetycritical.annotate.SCJRestricted;
 public class RelativeTime extends HighResolutionTime {
 
 	/** Note: immutable */
+	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public RelativeTime() {
 		this(0, 0);
 	}
 
 	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public RelativeTime(long millis, int nanos) {
 		super(millis, (long) nanos, null);
 	}
 
 	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
 	public RelativeTime(RelativeTime time) {
 		this(getMillisNonNull(time), time._nanoseconds);
 	}
@@ -56,14 +60,14 @@ public class RelativeTime extends HighResolutionTime {
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public RelativeTime add(long millis, int nanos) {
 		return (RelativeTime) super.add(millis, nanos, new RelativeTime(0, 0,
 				_clock));
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public RelativeTime add(RelativeTime time) {
 		if (time == null || time._clock != _clock)
 			throw new IllegalArgumentException("null arg or different clock");

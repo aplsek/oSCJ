@@ -1,31 +1,34 @@
+package micro;
+
 import bench.Benchmark;
-import bench.NanoClock;
 
 
-public class MicroBenchVanilla {
+public class MicroBenchVanilla  {
 	
 	
 	public MicroBenchVanilla() {
-		new Benchmark();
 	}
 	
+
+    public boolean stop = false;
+
 	
     public void handleEvent() {
       
-    	long start = NanoClock.now();
+    	long start =System.nanoTime();
         for (int i=0 ; i < Constants.MAX ; i++)
      	   generate();
-        long  end =  NanoClock.now(); 
+        long end =  System.nanoTime(); 
         Benchmark.set(start, end);
         
     }
     
-    protected byte[] callsigns;
+    //protected byte[] callsigns;
     protected float t;
     
     private void generate() {
     	
-        callsigns=new byte[Constants.NUMBER_OF_PLANES*6];
+    	byte[] callsigns = new byte[Constants.NUMBER_OF_PLANES*6];
     	
     	RawFrame result=new RawFrame();
         for (byte k=0;k<Constants.NUMBER_OF_PLANES;k++) {
@@ -50,4 +53,9 @@ public class MicroBenchVanilla {
         t=t+0.25f;
         //result.copy(null,callsigns,positions);
     }
+
+	public void start() {
+		// TODO Auto-generated method stub
+		
+	}
 }

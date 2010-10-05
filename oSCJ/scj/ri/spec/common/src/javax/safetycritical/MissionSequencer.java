@@ -25,11 +25,15 @@ import javax.realtime.MemoryArea;
 import javax.realtime.PriorityParameters;
 import javax.realtime.RealtimeThread;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 
 //import edu.purdue.scj.utils.Utils;
 
 
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import static javax.safetycritical.annotate.Level.LEVEL_2;
+import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 
 
 @SCJAllowed
@@ -60,7 +64,7 @@ public abstract class MissionSequencer extends BoundAsyncEventHandler {
 	}
 
 	// TODO: do something to the storage parameter
-	@SCJAllowed
+	@SCJRestricted(INITIALIZATION)
 	public MissionSequencer(PriorityParameters priority,
 			StorageParameters storage) {
 		super(priority, null, null, null, null, true, null);
@@ -74,7 +78,7 @@ public abstract class MissionSequencer extends BoundAsyncEventHandler {
 		handleAsyncEvent();
 	}
 
-	@SCJAllowed
+	@SCJAllowed(INFRASTRUCTURE)
 	public final void handleAsyncEvent() {
 	    ////Utils.debugIndentIncrement("###[SCJ] MissionSequencer.handleAsyncEvent");
 	    
@@ -97,11 +101,15 @@ public abstract class MissionSequencer extends BoundAsyncEventHandler {
 		_mission.requestSequenceTermination();
 	}
 
+	@SCJAllowed(LEVEL_2)
+	public final boolean sequenceTerminationPending() {
+	    return false;
+	}
 	
 
-	@SCJAllowed
+	@SCJAllowed(SUPPORT)
 	protected abstract Mission getInitialMission();
 
-	@SCJAllowed
+	@SCJAllowed(SUPPORT)
 	protected abstract Mission getNextMission();
 }

@@ -6,7 +6,7 @@ import micro.Constants;
 public class Benchmark {
 
 
-	static public int              maxDetectorRuns;
+	static public int              maxDetectorRuns = 0;
 	static public long[]            timesBefore;
 	static public long[]            timesAfter;
 
@@ -14,7 +14,10 @@ public class Benchmark {
 
 
 	public Benchmark() {
-		maxDetectorRuns = Constants.RUNS;
+	}
+	
+	public static void init() {
+		maxDetectorRuns = Constants.RUNS+1;
 
 		timesBefore = new long[maxDetectorRuns];
 		timesAfter = new long[maxDetectorRuns];
@@ -27,6 +30,16 @@ public class Benchmark {
 		recordedRuns++;
 	}
 
+	public static void stats() {
+		long res = 0;
+		for (int i = 0 ; i < recordedRuns ; i++) 
+			res += timesAfter[i] - timesBefore[i];
+		
+		res = res % recordedRuns;
+		
+		System.out.println("Average execution time:" + res);
+	}
+	
 	public static void dumpResults() {
 		String space = " ";
 		String triZero = " 0 0 0 ";
@@ -37,14 +50,21 @@ public class Benchmark {
 
 		System.out.println("=====DETECTOR-STATS-START-BELOW====");
 
-		for (int i = 0 ; i < recordedRuns ; i++) {
+		for (int i = 0 ; i < recordedRuns-1 ; i++) {
 			System.out.print(space);
 			System.out.print(timesBefore[i]);
 			System.out.print(space);
 			System.out.print(timesAfter[i]);
 			System.out.print(space);
+			System.out.print(timesAfter[i] - timesBefore[i]);
+			System.out.print(space);
 			System.out.print(i);
+			System.out.print("\n");
 		}
-		System.out.println("=====DETECTOR-BENCH-STATS-END-ABOVE====");
+		System.out.println("=====DETECTOR-STATS-END-ABOVE====");
+		
+		stats();
 	}
+
+
 }

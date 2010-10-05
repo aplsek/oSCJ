@@ -25,12 +25,28 @@ import static javax.safetycritical.annotate.Level.LEVEL_1;
 
 import javax.safetycritical.annotate.SCJAllowed;
 
+/**
+ * 
+ * Construct a new object within the current memory area.
+ * 
+ * @author plsek
+ *
+ */
 @SCJAllowed(LEVEL_1)
 public class AperiodicParameters extends ReleaseParameters {
     //
     // // JAN: FIX
+	// @SCJAllowed(LEVEL_1)
     // protected AperiodicParameters(RelativeTime cost, RelativeTime deadline,
     // AsyncEventHandler overrunHandler, AsyncEventHandler missHandler) {
     // super(cost, deadline, overrunHandler, missHandler);
     // }
+	
+	
+	@SCJAllowed(LEVEL_1)
+	public AperiodicParameters(RelativeTime deadline, AsyncEventHandler missHandler)
+	{
+	  // TODO:	
+	  //super(null, null, null, null);
+	}
 }

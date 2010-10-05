@@ -23,8 +23,11 @@ package javax.realtime;
 
 import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
+
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Level.LEVEL_2;
 import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 import edu.purdue.scj.utils.Utils;
@@ -276,12 +279,14 @@ public class RealtimeThread extends Thread implements Schedulable {
 		initArea.postScopeEnter();
 	}
 
-	@SCJAllowed(Level.LEVEL_2)
+	@SCJAllowed(LEVEL_2)
+	@SCJRestricted(maySelfSuspend = false)
 	public static RealtimeThread currentRealtimeThread() {
 		return (RealtimeThread) Thread.currentThread();
 	}
 
-	@SCJAllowed(Level.LEVEL_1)
+	@SCJAllowed(LEVEL_1)
+	@SCJRestricted(maySelfSuspend = false)
 	public static MemoryArea getCurrentMemoryArea() {
 		return MemoryArea.getMemoryAreaObject(VMSupport.getCurrentArea());
 	}
@@ -318,4 +323,12 @@ public class RealtimeThread extends Thread implements Schedulable {
 	// throw new Error(e);
 	// }
 	// }
+	
+	@SCJAllowed(LEVEL_2)
+	@SCJRestricted(maySelfSuspend = true)
+	public static void sleep(javax.realtime.HighResolutionTime time)
+	    throws InterruptedException {
+		//TODO:...
+	};
+	
 }

@@ -152,26 +152,26 @@ public abstract class Clock {
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public static Clock getRealtimeClock() {
 		return rtc;
 	}
 
 	/** Returns previously allocated resolution object, which is immutable. */
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public abstract RelativeTime getResolution();
 
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public abstract RelativeTime getResolution(RelativeTime time);
 	
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public abstract AbsoluteTime getTime();
 	
 	@SCJAllowed
-	@SCJRestricted()
+	@SCJRestricted(maySelfSuspend = false)
 	public abstract AbsoluteTime getTime(AbsoluteTime time);
 
 	/**

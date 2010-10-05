@@ -23,6 +23,8 @@ package javax.realtime;
 
 import javax.realtime.ScopedAllocationContext;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
+
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 
 //import edu.purdue.scj.utils.Utils;
@@ -54,11 +56,13 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	private Object _portal;
 
 	@SCJAllowed(INFRASTRUCTURE)
+	@SCJRestricted(maySelfSuspend = true)
 	public ScopedMemory(long size) {
 		super(size);
 	}
 
 	@SCJAllowed(INFRASTRUCTURE)
+	@SCJRestricted(maySelfSuspend = true)
 	public ScopedMemory(SizeEstimator estimator) {
 		super(estimator.getEstimate());
 	}

@@ -21,16 +21,24 @@
 
 package javax.realtime;
 
+
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 
 @SCJAllowed
 public class MemoryScopeException extends RuntimeException {
 
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
     public MemoryScopeException() {
     }
 
+    /**
+     * This one is annotated as  "@Allocate({IMMORTAL})" in the Spec.
+     * @param description
+     */
     @SCJAllowed
+    @SCJRestricted(maySelfSuspend = false)
     public MemoryScopeException(String description) {
         super(description);
     }

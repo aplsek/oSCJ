@@ -29,7 +29,6 @@ import javax.safetycritical.annotate.SCJRestricted;
 import static javax.safetycritical.annotate.Level.LEVEL_0;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 
-
 /**
  * 
  * This class permits the automatic periodic execution of code. It is
@@ -40,8 +39,6 @@ import static javax.safetycritical.annotate.Phase.INITIALIZATION;
  * Changing these values after construction will have no impact on the created
  * event handler.
  * 
- *TODO : why is Level 0
- * 
  * @author plsek
  * 
  */
@@ -51,26 +48,32 @@ public abstract class PeriodicEventHandler extends ManagedEventHandler {
 	// private Timer _timer;
 
 	@SCJAllowed(LEVEL_0)
+	@SCJRestricted(INITIALIZATION)
 	public PeriodicEventHandler(PriorityParameters priority,
-			PeriodicParameters period, StorageParameters storage, long size) {
+								PeriodicParameters period, 
+								StorageParameters storage, 
+								long size) {
 		this(priority, period, storage, size, null);
 	}
 
 	@SCJAllowed(LEVEL_0)
+	@SCJRestricted(INITIALIZATION)
 	public PeriodicEventHandler(PriorityParameters priority,
-			PeriodicParameters period, StorageParameters storage, long size,
-			String name) {
+								PeriodicParameters period, 
+								StorageParameters storage, 
+								long size,
+								String name) {
 		super(priority, period, storage, size, name);
 	}
-	
-	   /**
-	   * @see javax.safetycritical.ManagedSchedulable#register()
-	   * Registers this event handler with the current mission.
-	   */
-	  @SCJAllowed
-	  @SCJRestricted(INITIALIZATION)
-	  public final void register() {
-		  //TODO:
-	  }
 
+	/**
+	 * @see javax.safetycritical.ManagedSchedulable#register() Registers this
+	 *      event handler with the current mission.
+	 */
+	@SCJAllowed
+	//@Override
+	@SCJRestricted(INITIALIZATION)
+	public final void register() {
+		// TODO:
+	}
 }
