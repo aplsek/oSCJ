@@ -164,7 +164,7 @@ type_a=c("l","l")
 lty_a=c(1,1)
 trig_label<-c()
 
-plot(1,type="n",ylim = range_y,xlim=range_x)
+plot(1,type="n",ylim = range_y,xlim=range_x, ylab="Average Execution Time [ms]",xlab="Heap Size")
 
 for (k in 1:K) { 
     vec1 <- c()  
@@ -185,7 +185,7 @@ for (k in 1:K) {
    #print(vec1)
    #print(vec2)
    
-   matplot(vec1,vec2, xlab="Heap Size", xlim=range_x, ylim=range_y,type=type_a, lty=lty_a, ylab="Average Execution Time [ms]",lwd=3,add=TRUE,col=colors[k])
+   matplot(vec1,vec2, xlim=range_x, ylim=range_y,type=type_a, lty=lty_a,lwd=3,add=TRUE,col=colors[k])
 }
 
 legend("topright",trig_label, inset=.05, title="Legend - Trigger values", col=colors, fill=colors, horiz=TRUE)
@@ -199,7 +199,7 @@ range_x <- c(heaps[1],hp)
 range_y <- c(0.4,0.8)
 type_a=c("l","l")
 lty_a=c(1,1)
-plot(1,type="n",ylim = range_y,xlim=range_x)
+plot(1,type="n",ylim = range_y,xlim=range_x, ylab="Max Execution Time [ms]", xlab="Heap Size")
 trig_label <- c()
 for (k in 1:K) { 
     vec1 <- c()  
@@ -213,7 +213,7 @@ for (k in 1:K) {
 	   vec2 <- c(vec2,c(stats[index,4]))
    	  index <- index + K
    }
-   matplot(vec1,vec2, xlab="Heap Size", xlim=range_x, ylim=range_y,type=type_a, lty=lty_a, ylab="Max Execution Time [ms]",lwd=3,add=TRUE,col=colors[k])
+   matplot(vec1,vec2, xlim=range_x, ylim=range_y,type=type_a, lty=lty_a,lwd=3,add=TRUE,col=colors[k])
 }
 
 legend("topright", inset=.05, title="Legend - Trigger values",
