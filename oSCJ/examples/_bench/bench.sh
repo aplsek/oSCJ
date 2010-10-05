@@ -14,6 +14,10 @@
 
 # ./bench.sh cdj_hf_A.1600 /Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/cdj-vanilla-fiji-v1.2/bench/regular_CDj_frame_1000_period_80_plane_60_GC_fifo10_detector_fifoMax
 
+# ./bench.sh cdj_hf_A /Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/cdj-vanilla-fiji-v1.2/bench/regular_CDj_frame_1000_period_80_plane_60_GC_fifo10_detector_fifoMax
+
+# ./bench.sh cdj_hf_CW /Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/cdj-vanilla-fiji-v1.2/bench/regular_CDj_frame_1000_period_80_plane_60_GC_fifo10_detector_fifoMax
+
 if [ $# -ne 2 ]; then
         echo "Error: not enough input parameters"
         echo "rexex - the first parameter should be the regular expression specifying the input files, it can be also \"\""
@@ -71,7 +75,7 @@ do
 done 
 
 ./R/memPlot.R $mem_file
-
+cp mem_bench.pdf ./plots/$regex"_mem_bench."$timestamp.pdf
 
 # FOR PERFORMANCE:
 
@@ -85,8 +89,10 @@ done
 ./R/performancePlot.R $perf_files
 
 
-
-
+cp box.pdf ./plots/$regex"_box."$timestamp.pdf
+cp heap-avg.pdf ./plots/$regex"_heap-avg."$timestamp.pdf
+cp heap-max.pdf ./plots/$regex"_heap-max."$timestamp.pdf
+cp perf_bench.pdf ./plots/$regex"_perf_bench."$timestamp.pdf
 
 
 rm -rf tmp
