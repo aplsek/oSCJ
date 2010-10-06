@@ -31,6 +31,10 @@ colors <- c("red","black","blue","green","yellow","brown", "darkred", "indianred
 N <- 0
 
 
+print("----------- PERFORMANCE PLOT ----------------------------- ---------")
+
+
+
 pdf("perf_bench.pdf",width=25,height=10)
 plot(1,type="n",ylim = range_y, xlim=range)
 i <- 0
@@ -85,7 +89,7 @@ print("----------- end ---------")
 
 
 
-
+# to parse a file name
 f_parse <- function(arg) {
 	tmp <- gsub("./tmp/","",arg)
 	tmp <- gsub("_d.dat","",tmp)
@@ -101,20 +105,26 @@ f_parse <- function(arg) {
 
 
 
+#
+#
+# STATISTICS
+#
+#
 
 
-
-hp <- 0
+hp_max <- 0
 tg <- 0
 triggers <- c()
 heaps <- c()
 
 
-stats <- matrix(nrow = file_count, ncol = 4)
+stats <- matrix(nrow = file_count, ncol = 3)
 i <- 1
 line <- 1
 k <- 0
-K<-0
+
+
+TRIGGERS<-0
 for (arg in args) {
     fil <- read.table(arg);   
     scj <- (fil$V2 - fil$V1)/1000000.0	
@@ -128,20 +138,19 @@ for (arg in args) {
 	
 	stats[line,1] <- as.integer(heap[2])
 	stats[line,2] <- as.integer(heap[3])
-	stats[line,3] <- avg
-	stats[line,4] <- max
+	stats[line,3] <- max
 	
-	if (hp == as.integer(heap[2])) {
+	if (hp_max == as.integer(heap[2])) {
 	  k <- k +1
 	}
 	
-	if (hp < as.integer(heap[2])) {
-       if (K == 0 && hp > 0) {
-         K <- k +1
+	if (hp_max < as.integer(heap[2])) {
+       if (TRIGGERS == 0 && hp_max > 0) {
+         TRIGGERS <- k +1
        }
        
        heaps <- c(heaps,as.integer(heap[2]))
-       hp <- as.integer(heap[2])
+       hp_max <- as.integer(heap[2])
        
 	}
 	
@@ -157,63 +166,35 @@ for (arg in args) {
 #print(stats)
 #print(K)
 
-pdf("heap-avg.pdf",width=25,height=10)
-range_x <- c(heaps[1],hp)
-range_y <- c(0.4,0.8)
+
+
+print("----------- HEAP MAX PLOT ----------------------------- ---------")
+
+#print("triggers")
+#print(TRIGGERS)
+#print(stats)
+
+pdf("heap-max.pdf",width=25,height=10)
+range_x <- c(heaps[1],hp_max)
+range_y <- c(min(stats[,3]),max(stats[,3]))
 type_a=c("l","l")
 lty_a=c(1,1)
-trig_label<-c()
 
-plot(1,type="n",ylim = range_y,xlim=range_x, ylab="Average Execution Time [ms]",xlab="Heap Size")
-
-for (k in 1:K) { 
+plot(1,type="n",ylim = range_y,xlim=range_x, ylab="Max Execution Time [ms]", xlab="Heap Size")
+trig_label <- c()
+for (k in 1:TRIGGERS) { 
     vec1 <- c()  
     vec2 <- c()  
-   points <- line / K
-   #put <- matrix(nrow = points, ncol = 2)
+   points <- line / TRIGGERS
    index <- 1 + (k-1)
    tt <- c(as.character(stats[index,2]))
    trig_label <- c(trig_label,tt)
    for (i in 1:points) {
   	   vec1 <- c(vec1,c(stats[index,1]))
 	   vec2 <- c(vec2,c(stats[index,3]))
-   	  #print(index)
-   	  index <- index + K 
-   	  
-   	  
+   	  index <- index + TRIGGERS
    }
-   #print(vec1)
-   #print(vec2)
-   
-   matplot(vec1,vec2, xlim=range_x, ylim=range_y,type=type_a, lty=lty_a,lwd=3,add=TRUE,col=colors[k])
-}
-
-legend("topright",trig_label, inset=.05, title="Legend - Trigger values", col=colors, fill=colors, horiz=TRUE)
-   	
-dev.off() 
-
-
-
-pdf("heap-max.pdf",width=25,height=10)
-range_x <- c(heaps[1],hp)
-range_y <- c(0.4,0.8)
-type_a=c("l","l")
-lty_a=c(1,1)
-plot(1,type="n",ylim = range_y,xlim=range_x, ylab="Max Execution Time [ms]", xlab="Heap Size")
-trig_label <- c()
-for (k in 1:K) { 
-    vec1 <- c()  
-    vec2 <- c()  
-   points <- line / K
-   index <- 1 + (k-1)
-   tt <- c(as.character(stats[index,2]))
-   trig_label <- c(trig_label,tt)
-   for (i in 1:points) {
-  	   vec1 <- c(vec1,c(stats[index,1]))
-	   vec2 <- c(vec2,c(stats[index,4]))
-   	  index <- index + K
-   }
-   matplot(vec1,vec2, xlim=range_x, ylim=range_y,type=type_a, lty=lty_a,lwd=3,add=TRUE,col=colors[k])
+   matplot(vec1,vec2,  type=type_a, lty=lty_a,lwd=3,add=TRUE,col=colors[k])
 }
 
 legend("topright", inset=.05, title="Legend - Trigger values",
@@ -228,7 +209,7 @@ dev.off()
 
 
 
-print("----------- BOX PLOT ----------------------------- ---------")
+print("----------- BOX PLOT --------------------------------------")
 
 
 

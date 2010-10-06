@@ -18,6 +18,8 @@
 
 # ./bench.sh cdj_hf_CW /Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/cdj-vanilla-fiji-v1.2/bench/regular_CDj_frame_1000_period_80_plane_60_GC_fifo10_detector_fifoMax
 
+# ./bench.sh cdj_hf_A /Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/_bench/data/frame1000_period40
+
 if [ $# -ne 2 ]; then
         echo "Error: not enough input parameters"
         echo "rexex - the first parameter should be the regular expression specifying the input files, it can be also \"\""
@@ -89,6 +91,9 @@ done
 ./R/performancePlot.R $perf_files
 
 
+
+
+# SAVE PDF
 cp box.pdf ./plots/$regex"_box."$timestamp.pdf
 cp heap-avg.pdf ./plots/$regex"_heap-avg."$timestamp.pdf
 cp heap-max.pdf ./plots/$regex"_heap-max."$timestamp.pdf
