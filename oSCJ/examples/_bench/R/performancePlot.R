@@ -168,40 +168,53 @@ for (arg in args) {
 
 
 
-print("----------- HEAP MAX PLOT ----------------------------- ---------")
+print("----------- HEAP MAX PLOT --------------------------------------")
 
 #print("triggers")
 #print(TRIGGERS)
 #print(stats)
 
-pdf("heap-max.pdf",width=25,height=10)
-range_x <- c(heaps[1],hp_max)
-range_y <- c(min(stats[,3]),max(stats[,3]))
-type_a=c("l","l")
-lty_a=c(1,1)
-
-plot(1,type="n",ylim = range_y,xlim=range_x, ylab="Max Execution Time [ms]", xlab="Heap Size")
-trig_label <- c()
-for (k in 1:TRIGGERS) { 
-    vec1 <- c()  
-    vec2 <- c()  
-   points <- line / TRIGGERS
-   index <- 1 + (k-1)
-   tt <- c(as.character(stats[index,2]))
-   trig_label <- c(trig_label,tt)
-   for (i in 1:points) {
-  	   vec1 <- c(vec1,c(stats[index,1]))
-	   vec2 <- c(vec2,c(stats[index,3]))
-   	  index <- index + TRIGGERS
-   }
-   matplot(vec1,vec2,  type=type_a, lty=lty_a,lwd=3,add=TRUE,col=colors[k])
-}
-
-legend("topright", inset=.05, title="Legend - Trigger values",
-   	trig_label, col=colors, fill=colors, horiz=TRUE)
-   	
-dev.off() 
-
+if (TRIGGERS == 0) {
+      print("PLOT WARNING: not enough data to plot the heap/max-time plot ")
+} else {
+	pdf("heap-max.pdf",width=25,height=10)
+	range_x <- c(heaps[1],hp_max)
+	range_y <- c(min(stats[,3]),max(stats[,3]))
+	type_a=c("l","l")
+	lty_a=c(1,1)
+	
+	plot(1,type="n",ylim = range_y,xlim=range_x, ylab="Max Execution Time [ms]", xlab="Heap Size")
+	trig_label <- c()
+	for (k in 1:TRIGGERS) { 
+	   
+	   vec1 <- c()  
+	   vec2 <- c()  
+	   points <- line / TRIGGERS
+	   index <- 1 + (k-1)
+	   
+	   #print("points")
+	   #print(points)
+	   #print("line")
+	   #print(line)
+	   #print("TRIGGERS")
+	   #print(TRIGGERS)
+	
+	   
+	   tt <- c(as.character(stats[index,2]))
+	   trig_label <- c(trig_label,tt)
+	   for (i in 1:points) {
+	  	   vec1 <- c(vec1,c(stats[index,1]))
+		   vec2 <- c(vec2,c(stats[index,3]))
+	   	  index <- index + TRIGGERS
+	   }
+	   matplot(vec1,vec2,  type=type_a, lty=lty_a,lwd=3,add=TRUE,col=colors[k])
+	}
+	
+	legend("topright", inset=.05, title="Legend - Trigger values",
+	   	trig_label, col=colors, fill=colors, horiz=TRUE)
+	   	
+	#dev.off() 
+} 
 
 
 
@@ -245,4 +258,4 @@ box <- boxplot(m,data=m, main="Execution Times",
 
 #fr < data.frame(fr,col.names(leg))
 
-dev.off() 
+#dev.off() 
