@@ -45,9 +45,9 @@ public class Main {
 		PrintStream out = System.out;
 		
         out.println("Program Starts: " 
-                + ImmortalEntry.progStartTime);
+                + NanoClock.asString(ImmortalEntry.progStartTime));
         out.println("Program Ends: " 
-                + ImmortalEntry.progEndTime);
+                + NanoClock.asString(ImmortalEntry.progEndTime));
         out.println("Number of Planes: " 
                 + Constants.NUMBER_OF_PLANES);
         out.println("Detector Period: " 
