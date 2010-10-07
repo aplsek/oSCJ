@@ -33,9 +33,9 @@ cd ..
 
 
 # COMPILE FIJI 1
-echo "Compiling cdj_x86"
-
-$FIJI/bin/fivmc -o cdj_hf cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS
+#echo "Compiling cdj_x86"
+#
+#$FIJI/bin/fivmc -o cdj_hf cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS
 
 
 
@@ -54,7 +54,7 @@ FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --g-pred-level a --m
 # COMPILE FIJI 1
 echo "Compiling cdj_hg_level_a"
 
-$FIJI/bin/fivmc -o cdj_hf_a cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
+$FIJI/bin/fivmc -o cdj_hf_A cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
 
 
 
@@ -65,7 +65,7 @@ FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --g-pred-level c --m
 # COMPILE FIJI 1
 echo "Compiling cdj_hg_level_a"
 
-$FIJI/bin/fivmc -o cdj_hf_c cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
+$FIJI/bin/fivmc -o cdj_hf_C cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
 
 
 
@@ -77,7 +77,7 @@ FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --g-pred-level cw --
 # COMPILE FIJI 1
 echo "Compiling cdj_hg_level_a"
 
-$FIJI/bin/fivmc -o cdj_hf_cw cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
+$FIJI/bin/fivmc -o cdj_hf_CW cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
 
 
 
