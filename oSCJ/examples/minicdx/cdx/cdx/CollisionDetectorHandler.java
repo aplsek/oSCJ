@@ -132,8 +132,7 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
     public void cleanUp() {
     }
 
-    public void register() {
-    }
+
 
     public StorageParameters getThreadConfigurationParameters() {
         return null;
