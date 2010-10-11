@@ -30,7 +30,6 @@ import javax.safetycritical.StorageParameters;
 import javax.realtime.RelativeTime;
 
 import bench.Benchmark;
-import bench.NanoClock;
 
 public class MicroBench extends CyclicExecutive {
 
@@ -90,11 +89,11 @@ public class MicroBench extends CyclicExecutive {
          */
         public void handleEvent() {
            
-           long start = NanoClock.now();
+           long start = System.nanoTime();
            for (int i=0 ; i < Constants.MAX ; i++) {
         	   generate();
            }
-           long  end =  NanoClock.now(); 
+           long  end =   System.nanoTime();
            Benchmark.set(start, end);
            
            

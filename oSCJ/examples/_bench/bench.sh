@@ -8,8 +8,8 @@
 #
 
 
-#set -e
-#set -x
+set -e
+set -x
 
 
 # ./bench.sh cdj_hf_A.1600 /Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/cdj-vanilla-fiji-v1.2/bench/regular_CDj_frame_1000_period_80_plane_60_GC_fifo10_detector_fifoMax
@@ -18,13 +18,14 @@
 
 # ./bench.sh cdj_hf_CW /Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/cdj-vanilla-fiji-v1.2/bench/regular_CDj_frame_1000_period_80_plane_60_GC_fifo10_detector_fifoMax
 
-# ./bench.sh cdj_hf_A /Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/_bench/data/frame1000_period40
+# ./bench.sh cdj_hf_A /Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/minicdx/bench /Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/_bench/data/frame1000_period40
 
-if [ $# -ne 2 ]; then
+if [ $# -lt 2 ]; then
         echo "Error: not enough input parameters"
         echo "rexex - the first parameter should be the regular expression specifying the input files, it can be also \"\""
         echo "dir - second parameter is an input directory where .cap files are"
-        echo "eg. ./bench.sh cdj_hf_A.1600 ./dir"
+        echo "eg. ./bench.sh cdj_hf_A.1600 ./dir1 ./dir2"
+        echo $@
         exit 1
 fi;
 
@@ -32,8 +33,26 @@ regex=$1
 
 #input[0]=../minicdx/bench
 #input[0]=/Users/plsek/_work/fiji/fivm-scope/scj/oSCJ/examples/cdj-vanilla-fiji-v1.2/bench/regular_CDj_frame_1000_period_80_plane_60_GC_fifo10_detector_fifoMax
-input[0]=$2
+#input[0]=$2
 
+i=$((0))
+for var in "$@" 
+do
+    echo $var
+    if [ $i = 0 ]; then
+    	echo "nula"
+    	i=$(( i + 1 )) # increase number by 1
+    	continue
+    fi
+    j=$(( i - 1 )) # increase number by 1
+    echo $j
+    input[$j]=$var
+    i=$(( i + 1 )) # increase number by 1
+done
+
+
+#echo $input
+#exit 1
 
 #input[0]=../minicdx/bench
 #input[1]=../cdj-vanilla-fiji-v1.2/bench/
@@ -52,20 +71,20 @@ do
 	for file in `find $dir -name "*.cap"`
 	do
 		cp $file tmp/
-		#cd tmp/ && perl localbin/splitCapture.py $file
-	
-		# TODO: rename the file and add timestamps!!!!
-		#cp $file data/$file$timestamp
 	done
 done
 
 echo "INPUT is:"
-# SPLiT
+# SPLIT
 for file in `find ./tmp -name $regex"*.cap"`
 do
 	perl localbin/splitCapture.py $file
 done
 
+
+# add SCJ benchmark into it:
+SCJ_FILE=`find ./tmp -name "*scj*.cap"`
+perl localbin/splitCapture.py $SCJ_FILE
 
 
 # FOR MEMORY:
@@ -89,7 +108,7 @@ do
 done 
 
 ./R/performancePlot.R $perf_files
-
+#./R/heapPerf.R $perf_files
 
 
 

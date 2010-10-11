@@ -1,6 +1,7 @@
-import javax.realtime.*;
 
 import javax.safetycritical.*;
+
+import realtime.*;
 
 public class Main {
   public static void main(final String[] args) {

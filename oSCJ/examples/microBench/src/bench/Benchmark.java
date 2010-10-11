@@ -21,7 +21,6 @@ public class Benchmark {
 
 		timesBefore = new long[maxDetectorRuns];
 		timesAfter = new long[maxDetectorRuns];
-		NanoClock.init();
 	}
 
 	public static void set(long start, long end) {

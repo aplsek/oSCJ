@@ -101,21 +101,21 @@ public class BenchMem {
       
         
         for (int i = 0 ; i < traces - OVERRUN ; i++) {
-            System.out.print(i);
-            //System.out.print(space);
-            //System.out.print(i * Constants.DETECTOR_PERIOD * 1000000L + ImmortalEntry.detectorReleaseTimes[0]);
+           
+        	long total = privateMemUsage[i] + missionMemUsage[i] + immortalMemUsage[i] + runtimeMem[i];
+        	
+        	System.out.print(i);
             System.out.print(space);
             System.out.print(privateMemUsage[i]);
             System.out.print(space);
             System.out.print(missionMemUsage[i]);
-            
             //IMMORTAL :
             System.out.print(space);
             System.out.print(immortalMemUsage[i]);
-            
-            
+         
             System.out.print(space);
-            //System.out.print(limit[i]);
+            System.out.print(total);
+            System.out.print(space);
             
             // printing the size of MemoryArea Scopes - depending on if we have entered the private memory or not
             if (privateMemUsage[i] == 0)
@@ -123,13 +123,9 @@ public class BenchMem {
             else
                 System.out.print((Constants.PERSISTENT_DETECTOR_SCOPE_SIZE + Constants.TRANSIENT_DETECTOR_SCOPE_SIZE));
             
-            
             // HEAP:
             System.out.print(space);
             System.out.print(runtimeMem[i]);
-            
-            
-            
             System.out.println(space);
         }
         System.out.println("=====MEMORY-BENCH-STATS-END-ABOVE====");

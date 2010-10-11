@@ -1,6 +1,7 @@
-import javax.realtime.*;
 
 import javax.safetycritical.*;
+
+import realtime.*;
 
 public class MyHandler extends PeriodicEventHandler {
   public MyHandler(long psize, String name) {

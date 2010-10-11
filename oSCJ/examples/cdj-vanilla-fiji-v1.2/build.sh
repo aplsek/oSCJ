@@ -16,13 +16,10 @@ FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --more-opt --max-thr
 #CLEANUP
 echo "Cleaning class files..."
 find build/ -name "*.class" | xargs rm -f
-<<<<<<< /home/ales/fiji/fiji-filip/scj/oSCJ/examples/cdj-vanilla-fiji-v1.2/build.sh
-=======
 rm -rf cdj.jar
 rm -rf cdj_x86
 rm -rf build/
 mkdir build/
->>>>>>> /tmp/build.sh~other.ipvnRZ
 
 
 find . -name *.java > list

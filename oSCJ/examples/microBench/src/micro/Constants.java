@@ -1,7 +1,6 @@
 package micro;
 
 public class Constants {
-	 public static final long PERSISTENT_DETECTOR_SCOPE_SIZE = 5000000;
 
 	public static int MAX = 10;
 	 
@@ -15,6 +14,4 @@ public class Constants {
 	 public static long          PERIOD                          = 50;
 	
 	 
-	  public static int PRIORITY = 9;
-	  public static int STARTUP_OFFSET_MILLIS = 3000;
 }

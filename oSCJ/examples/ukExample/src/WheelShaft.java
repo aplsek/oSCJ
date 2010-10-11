@@ -1,7 +1,10 @@
-import javax.realtime.*;
+import javax.realtime.AperiodicParameters;
+import javax.realtime.PriorityParameters;
 
 import javax.safetycritical.*;
 import javax.safetycritical.annotate.*;
+
+import realtime.*;
 
 import static javax.safetycritical.annotate.Level.*;
 

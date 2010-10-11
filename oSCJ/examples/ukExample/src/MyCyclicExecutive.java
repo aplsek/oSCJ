@@ -1,6 +1,8 @@
-import javax.realtime.*;
+import javax.realtime.RelativeTime;
 
 import javax.safetycritical.*;
+
+import realtime.*;
 
 public class MyCyclicExecutive extends CyclicExecutive {
 	public MyCyclicExecutive() {
