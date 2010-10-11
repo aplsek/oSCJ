@@ -96,7 +96,6 @@ do
 done 
 
 ./R/memPlot.R $mem_file
-cp mem_bench.pdf ./plots/$regex"_mem_bench."$timestamp.pdf
 
 # FOR PERFORMANCE:
 
@@ -111,16 +110,18 @@ done
 #./R/heapPerf.R $perf_files
 
 
+#### SAVE PDF                                                                                                                                               
+FIGURES="perf_bench mem_bench WCET_vs_heap Time_vs_heap_box WCET_vs_trigger"
+EXT="pdf"
 
-# SAVE PDF
-cp box.pdf ./plots/$regex"_box."$timestamp.pdf
-cp heap-avg.pdf ./plots/$regex"_heap-avg."$timestamp.pdf
-cp heap-max.pdf ./plots/$regex"_heap-max."$timestamp.pdf
-cp perf_bench.pdf ./plots/$regex"_perf_bench."$timestamp.pdf
-
+for fig in $FIGURES; do
+    cp $fig.$EXT ./plots/$regex$fig$timestamp.$EXT
+done
 
 rm -rf tmp
-exit 1
+
+exit 0
+
 
 
 
