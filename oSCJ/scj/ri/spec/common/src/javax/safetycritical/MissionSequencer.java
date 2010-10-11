@@ -80,11 +80,11 @@ public abstract class MissionSequencer extends BoundAsyncEventHandler {
 
 	@SCJAllowed(INFRASTRUCTURE)
 	public final void handleAsyncEvent() {
-	    ////Utils.debugIndentIncrement("###[SCJ] MissionSequencer.handleAsyncEvent");
+	    //Utils.debugIndentIncrement("###[SCJ] MissionSequencer.handleAsyncEvent");
 	    
 	    _mission = getInitialMission();
 		while (_mission != null) {
-		    ////Utils.debugPrintln("Mission enter, size:" + _mission.missionMemorySize());
+		    //Utils.debugPrintln("Mission enter, size:" + _mission.missionMemorySize());
 		    
 		    _wrapper.setMission(_mission);
 			_mem.resize(_mission.missionMemorySize());
@@ -93,7 +93,7 @@ public abstract class MissionSequencer extends BoundAsyncEventHandler {
 				break;
 			_mission = getNextMission();
 		}
-		////Utils.decreaseIndent();
+		//Utils.decreaseIndent();
 	}
 
 	@SCJAllowed(LEVEL_2)

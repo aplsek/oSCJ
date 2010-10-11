@@ -49,6 +49,7 @@ public class MissionManager extends PortalExtender {
 	}
 
 	//TODO: should this be @SCJAllowed(INFRASTRUCTURE) ??
+	//      we take it only from infrastructure (if LEVEL 0, then this is rendundant to Mission.getCurrentMission())
 	public Mission getMission() {
 		return _mission;
 	}
@@ -75,7 +76,6 @@ public class MissionManager extends PortalExtender {
 	}
 
 
-	//TODO: should this be @SCJAllowed(INFRASTRUCTURE) ??
 	@SCJAllowed
 	public static MissionManager getCurrentMissionManager() {
 		return ((ManagedMemory) RealtimeThread.getCurrentMemoryArea())

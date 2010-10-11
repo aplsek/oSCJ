@@ -3,6 +3,8 @@
 	<classpathentry kind="src" output="helloworld/build" path="helloworld/src"/>
 	<classpathentry kind="src" path="ukExample/src"/>
 	<classpathentry kind="src" output="tests/build" path="tests/src"/>
+	<classpathentry excluding="realtime/" kind="src" path="microBench-vanilla/src"/>
+	<classpathentry kind="src" path="microBench/src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/scj"/>
 	<classpathentry kind="output" path="bin"/>
