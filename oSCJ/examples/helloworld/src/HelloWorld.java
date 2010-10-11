@@ -74,7 +74,7 @@ public class HelloWorld extends CyclicExecutive {
     }
 
     public void setUp() {     
-        Terminal.getTerminal().write("set-up.\n"); 
+        Terminal.getTerminal().write("setUp.\n"); 
     }
 
     public void tearDown() {
@@ -106,7 +106,7 @@ public class HelloWorld extends CyclicExecutive {
          * 
          */
         public void handleEvent() {
-           //Terminal.getTerminal().write(getName());
+           Terminal.getTerminal().write(getName());
           
            foobar();
            
