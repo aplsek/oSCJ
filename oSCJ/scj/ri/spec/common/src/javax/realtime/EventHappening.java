@@ -22,7 +22,7 @@ package javax.realtime;
 
 import javax.safetycritical.annotate.SCJAllowed;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
-
+import static javax.safetycritical.annotate.Level.SUPPORT;
 /**
  * TODO: implement it when necessary
  */
@@ -32,14 +32,14 @@ public abstract class EventHappening extends Happening {
 	// /**
 	// *
 	// */
-	@SCJAllowed(LEVEL_1)
+	@SCJAllowed(SUPPORT)
 	public void attach(AsyncEvent ae) {
 	}
 	//
 	// /**
 	// *
 	// */
-	@SCJAllowed(LEVEL_1)
+	@SCJAllowed(SUPPORT)
 	public void detach(AsyncEvent ae) {
 	}
 

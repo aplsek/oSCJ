@@ -129,6 +129,22 @@ public class RealtimeThread extends Thread implements Schedulable {
 	// }
 	// }
 
+
+	/** Used in primordial RTThread construction */
+	/*
+	public RealtimeThread(VMThread vmThread, int priority, boolean daemon) {
+		super(vmThread,"primordial",priority, daemon);
+		
+		
+		initArea = ImmortalMemory.instance();
+		_scopeStack = new ScopeStack(this);
+		_initAreaIndex = 0;
+		
+		//VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
+	}
+	*/
+	
+	
 	@SCJAllowed(INFRASTRUCTURE)
 	/** Used in primordial RTThread construction */
 	public RealtimeThread() {

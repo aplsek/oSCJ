@@ -30,7 +30,7 @@ import static javax.safetycritical.annotate.Level.LEVEL_1;
  * 		----> in SCJ Specificaiton, happenings are still in flux due to dependencies on JSR-282.
  * 
  */
-@SCJAllowed(LEVEL_1)
+@SCJAllowed(value = LEVEL_1, members = true)
 public abstract class Happening {
 
 	// /**

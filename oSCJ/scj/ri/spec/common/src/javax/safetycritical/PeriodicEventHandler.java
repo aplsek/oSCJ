@@ -65,6 +65,11 @@ public abstract class PeriodicEventHandler extends ManagedEventHandler {
 								String name) {
 		super(priority, period, storage, size, name);
 	}
+	
+	// TODO
+	//public final void register()  {
+	//	
+	//}
 
 	/**
 	 * @see javax.safetycritical.ManagedSchedulable#register() Registers this

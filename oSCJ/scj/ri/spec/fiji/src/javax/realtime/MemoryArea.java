@@ -237,6 +237,7 @@ public abstract class MemoryArea implements AllocationContext {
 		}
 	}
 
+	@SCJRestricted(maySelfSuspend = false)
 	static MemoryArea getMemoryAreaObject(BackingStoreID scopeID) {
 	    if (scopeID == ImmortalMemory.instance().get_scopeID()) 
 	        return ImmortalMemory.instance();

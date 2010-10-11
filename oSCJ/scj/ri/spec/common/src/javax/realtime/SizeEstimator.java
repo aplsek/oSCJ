@@ -93,7 +93,7 @@ public final class SizeEstimator {
     }
 
     @SCJAllowed
-    @SCJRestricted()
+    @SCJRestricted(maySelfSuspend = false)
     public void reserveArray(int length, Class clazz) {
         if (length < 0)
             throw new IllegalArgumentException("negative length");

@@ -27,7 +27,11 @@ import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import javax.safetycritical.annotate.Level;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
-
+import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
+import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Phase.CLEANUP;
+import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 //import edu.purdue.scj.utils.Utils;
 
 @SCJAllowed
@@ -103,10 +107,10 @@ public abstract class Mission {
 	protected void exec(MissionManager manager) {
 	}
 
-	@SCJAllowed
+	@SCJAllowed(SUPPORT)
 	protected abstract void initialize();
 
-	@SCJAllowed(LEVEL_1)
+	@SCJAllowed(SUPPORT)
 	protected void cleanUp() {
 	}
 	

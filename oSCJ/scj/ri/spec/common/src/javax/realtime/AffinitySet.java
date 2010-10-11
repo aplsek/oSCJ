@@ -135,7 +135,7 @@ public final class AffinitySet extends java.lang.Object {
 	/**
 	 * Set the set of processors on which aeh can be scheduled to that represented by set.
 	 */
-	@SCJAllowed
+	@SCJAllowed(LEVEL_1)
 	public static final void setProcessorAffinity(AffinitySet set, javax.realtime.BoundAsyncEventHandler handler) {
 	}
 	
@@ -169,7 +169,7 @@ public final class AffinitySet extends java.lang.Object {
 	/**
 	 * Returns the set of processors associated with this Affinity set, either in dest, or if dest is null, the returned object may be dynamically created in the current memory area or preallocated in immortal memory.
 	 */
-	@SCJAllowed(LEVEL_2)
+	@SCJAllowed(LEVEL_1)
 	public final java.util.BitSet getProcessors(java.util.BitSet dest) {
 		return null;
 	}

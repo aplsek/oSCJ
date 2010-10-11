@@ -74,5 +74,14 @@ class MissionMemory extends ManagedMemory {
 	void setManager(MissionManager manager) {
 		setPortal(manager);
 	}
+	
+	public synchronized Object getPortal() {
+		//TODO:
+		return null;
+	}
+
+	public synchronized void setPortal(Object obj) {
+      // TODO:		
+	}
 
 }

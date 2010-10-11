@@ -27,7 +27,7 @@ import static javax.safetycritical.annotate.Level.LEVEL_1;
 import javax.safetycritical.annotate.SCJAllowed;
 
 @SCJAllowed(LEVEL_1)
-public class AsyncEvent {
+public class AsyncEvent extends AbstractAsyncEvent  {
 	/**
 	 * The set of handlers associated with this event. This is package access as
 	 * some async events are used internally by the implementation and access to

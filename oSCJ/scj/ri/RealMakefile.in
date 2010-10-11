@@ -12,6 +12,6 @@ clean:
 scj.jar: $(SRCFILES)
 	rm -rf build
 	mkdir build
-	$(JAVAC) -nowarn -target 1.5 -source 1.5 $(SRCFILES) -d build
+	$(JAVAC) -nowarn -target 1.5 -source 1.5 $(SRCFILES) -cp ../../../../lib/fijicore.jar:../../../../lib/runtimej.jar:../../../../lib/fijirt.jar:../../../../lib/fivmr.jar  -d build
 	$(JAR) cf scj.jar -C build .
 
