@@ -9,7 +9,7 @@ args = commandArgs(TRUE);
 ##############################
 #   Global Var
 #
-baseColors = c("black","red","green","blue","cyan","purple","yellow","grey", "orange", "pink", "brown", "darkblue","gold")
+baseColors = c("black","red","green","blue","yellow","cyan","purple","orange","grey","pink","brown","gold","darkblue")
 extraColors = colors()[c(12, 25, 47, 76, 107, 108, 376, 367, 594, 657, 650, 525, 91)]
 colors = c(baseColors, extraColors) 
 
@@ -24,27 +24,23 @@ plot_height = 6
 #
 
 
-# parse a file name, get heap size
+# parse a file name, get name, heap size, and trigger
+# the file name should be in format of name.heap.trigger
 parse_filename = function(filename) {
-	#print(tmp)
-	sp  = strsplit(filename,"_",fixed = TRUE)
-	sp1 = unlist(sp)
-	ret = sp1[3]
-	ret = unlist(strsplit(ret,".",fixed = TRUE))
-	return(ret)
+	name_heap_trig  = unlist(strsplit(filename,".",fixed = TRUE))
+	return(name_heap_trig)
 }
 
 
 sort_matrix = function(M) {
-    len = length(M)
-    if(len == 0)
-        return(M)
     n_rows = nrow(M)
     n_cols = ncol(M)
-    o      = order(M[,1])
-    M1     = M[o,]
+    if(n_rows <= 1)
+        return(M)
 
-    c = 2
+    o  = order(M[,1])
+    M1 = M[o,]
+    c  = 2
     while(c <= n_cols) {
         pre_c   = c - 1;
         master  = 0
@@ -110,6 +106,12 @@ get_database = function(filenames) {
 	return(database)
 }
 
+isSCJ = function(name) {
+      i   = grep("scj",name)
+      ret = length(i)
+      return(ret)
+}
+
 # stats is a matrix looking like:
 # HEAP TRIGGER WCET
 # 1000 100     x
@@ -122,21 +124,27 @@ get_stats = function(database) {
 	
 	line = 1
 	for (d in database) {
-		name  = d$name
-		data  = d$data
-    	time  = (data$V2 - data$V1)/1000000.0
+	    if(isSCJ(d$name)){
+		print("SCJ data detected; goto next")
+		next
+	    }
+	    name  = d$name
+	    data  = d$data
+	    time  = (data$V2 - data$V1)/1000000.0
 	    avg   = mean(time)
-    	max   = max(time)
+    	    max   = max(time)
 
-    	name_heap_trig = parse_filename(name)	
+	    name_heap_trig = parse_filename(name)
 	    stats[line,1]  = as.integer(name_heap_trig[2]) # heap
-    	stats[line,2]  = as.integer(name_heap_trig[3]) # trig
+    	    stats[line,2]  = as.integer(name_heap_trig[3]) # trig
 	    stats[line,3]  = max
 
 	    line = line + 1                  
 	}
-
-	stats = sort_matrix(stats)
+	line      = line - 1
+	stats1    = matrix(nrow = line, ncol = 3)
+	stats1[,] = stats[1:line,]
+	stats = sort_matrix(stats1)
 	return(stats)
 }
 
@@ -154,13 +162,13 @@ plot_perf = function(database) {
 	frame = list()
 	
 	for (d in database) {
-		name  = d$name
-		data  = d$data
+	    name  = d$name
+	    data  = d$data
 	    time  = (data$V2 - data$V1)/1000000.0
-		max   = c(max,max(time))
-		mean  = c(mean,mean(time))
-		leg   = c(leg, name)
-		frame = c(frame, list(time))
+	    max   = c(max,max(time))
+	    mean  = c(mean,mean(time))
+	    leg   = c(leg, name)
+	    frame = c(frame, list(time))
 	}
 	frame   = data.frame(frame)
 
@@ -214,24 +222,24 @@ plot_time_heap = function(stats) {
 
 	
 
-plot_time_heap_box = function(database) {
+plot_time_distr_box = function(database) {
 
-	print("---------------------- Time vs. Heap box ---------------------------")
+	print("---------------------- Execution Time Distribution (box) ---------------------------")
 
 	leg   = c()
 	frame = list()
 	for (d in database) {
 		name  = d$name
 		data  = d$data
-    	time  = (data$V2 - data$V1)/1000000.0
-    	leg   = c(leg, name)
+		time  = (data$V2 - data$V1)/1000000.0
+		leg   = c(leg, name)
 		frame = c(frame, list(list(time)))
 	}
 	frame = data.frame(frame)
 	colnames(frame) = leg
 
-	pdf("Time_vs_heap_box.pdf", width=plot_width, height=plot_height)
-	title   = "Time vs. Heap"
+	pdf("Time_Distr_box.pdf", width=plot_width, height=plot_height)
+	title   = "Time Distribution"
 	label_y = "Execution time [ms]"
 	par(mar=c(11,4,4,5))
 	boxplot(frame, data=frame, main=title, ylab=label_y, srt=45, adj=1, las = 2)
@@ -279,6 +287,6 @@ print(args)
 data  = get_database(args)
 stats = get_stats(data)
 plot_perf(data)
+plot_time_distr_box(data)
 plot_time_heap(stats)
-plot_time_heap_box(data)
 plot_time_trigger(stats)

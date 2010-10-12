@@ -1,111 +1,102 @@
 #! /usr/bin/env Rscript
 
-args <- commandArgs(TRUE)
+##############################
+#  INPUT
+#
+args = commandArgs(TRUE);
+
+##############################
+#   Global Var
+#
+baseColors = c("black","red","green","blue","yellow","cyan","purple","orange","grey","pink","brown","gold","darkblue")
+extraColors = colors()[c(12, 25, 47, 76, 107, 108, 376, 367, 594, 657, 650, 525, 91)]
+colors = c(baseColors, extraColors) 
+
+plot_type   = c("l","l")
+line_type   = c(1,1)
+plot_width  = 15
+plot_height = 6
 
 
-
-print("----------- MEM USAGE PLOT --------------------------------------")
-
-
-
-type_a=c("l","l")
-lty_a=c(1,1)
-range <- c(0,750)
-range_y <- c(650,900)
-pdf("mem_bench.pdf",width=25,height=10)
-plot(1,type="n",ylim = range_y, xlim=range)
-
-
-
-colors <- c("red","black","blue","green","yellow","brown", "darkred", "indianred", "indianred1", "indianred2", "indianred3", "indianred4", "mediumvioletred", "orangered", "orangered1", "orangered2", "orangered3", "orangered4", "palevioletred", "palevioletred1", "palevioletred2", "palevioletred3", "palevioletred4", "red1", "red2","red3", "red4", "violetred", "violetred1", "violetred2", "violetred3", "violetred4" )
+##############################
+#   Utilities
+#
 
 
 #
-# N - number of records in each file
-# 
-N <- 0
-file_count <- 0 
-
-max_t <- c()
-avg <- c()
-
-i <- 0
-for (arg in args) {
-    data <- read.table(arg);   
-    mem <- (data$V4) / 1000
-	
-	max_t <- c(max_t,max(mem))
-	avg <- c(avg,mean(mem))
-	
-	time <- data.frame(mem)
-	
-	i <- i + 1
-	matplot(time,xlim=range, ylim=range_y, type=type_a, lty=lty_a, xlab="Time", ylab="Memory Consumption [kB]",lwd=3, add=TRUE, col=colors[i])
-	
-	N <- length(mem)
+# Return a [name, data] list
+#
+get_database = function(filenames) {
+	database = list()
+	for(file in filenames) {
+		n = gsub("./tmp/","",file)
+		n = gsub("_d.dat","",n)
+		d = list(name=n, data=read.table(file))
+		database = c(database, list(d))
+	}
+	return(database)
 }
-file_count <- i 
 
 
-leg <- gsub("./tmp/output_","",args)
-leg <- gsub("_m.dat","",leg)
+##############################
+#   Plots
+#
 
+plot_mem = function(database) {
+	 print("------------------------ Memory -----------------------------")
 
-legend("bottomright", inset=.05, title="Legend",
-   	leg, col=colors, fill=colors, horiz=TRUE)
-   	
-   	
+	 max   = c()
+	 mean  = c()
+	 leg   = c()
+	 frame = list()
+	 
+	 for (d in database) {
+	     name  = d$name
+	     data  = d$data
+             mem   = (data$V4) / 1000
+	     max   = c(max,max(mem))
+	     mean  = c(mean,mean(mem))
+	     leg   = c(leg, name)
+	     frame = c(frame, list(mem))
+ 	 }
+ 	 frame   = data.frame(frame)
 
-dev.off() 
+	 pdf("mem_bench.pdf", width=25, height=10)
+	 range_x = c(0,300)
+	 title   = "Memory Usage"
+	 label_x = "Iteration"
+	 label_y = "Memory Usage [KB]"
+	 matplot(frame, main=title, xlim=range_x, type=plot_type, lty=line_type, xlab=label_x, ylab=label_y, col=colors)
+	 legend("topright", inset=.05, leg, col=colors, fill=colors)
+}
 
-print("------------ MEMORY USAGE ----------------")
+plot_mem_box = function(database) {
+	 print("------------------------ Memory Distribution (box) -----------------------------")
+
+	 leg   = c()
+	 frame = list()
+	 for (d in database) {
+	     name  = d$name
+	     data  = d$data
+             mem   = (data$V4) / 1000
+	     leg   = c(leg, name)
+	     frame = c(frame, list(list(mem)))
+	 }
+	 frame = data.frame(frame)
+	 colnames(frame) = leg
+
+	 pdf("Memory_Distr_box.pdf", width=plot_width, height=plot_height)
+	 title   = "Memory Distribution"
+	 label_y = "Execution time [ms]"
+	 par(mar=c(11,4,4,5))
+	 boxplot(frame, data=frame, main=title, ylab=label_y, srt=45, adj=1, las = 2)
+}
+
+##############################
+#   main()
+#
+
 print(args)
-
-print("MAX: ")
-print(max_t)
-
-print("----------------------------")
-print("MEAN")
-print(avg)
-print("----------------------------")
-
-
-
-
-
-
-
-
-
-print("----------- MEM BOX PLOT --------------------------------------")
-
-
-
-pdf("box-mem.pdf",width=25,height=10)
-
-
-
-m <- matrix(nrow = N, ncol = file_count)
-i <- 1
-for (arg in args) {
-    fil <- read.table(arg);   
-    mem <- (fil$V4) / 1000
-	
-	m[ ,i]  <- mem
-	
-    i <- i +1
-}
-colnames(m) <- leg
-# continue with this approach
-
-
-
-#print("fff=-------------")
-#print(m)
-par(mar=c(5, 4, 4,5) +  6)
-
-box <- boxplot(m,data=m, main="Execution Times Summary",
-    ylab="Memory Used", srt=45, adj=1 , las = 2)
-    
-#dev.off() 
-
+data  = get_database(args)
+plot_mem(data)
+plot_mem_box(data)
