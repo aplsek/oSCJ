@@ -202,11 +202,7 @@ public class RealtimeThread extends Thread implements Schedulable {
 		VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
 
-	// @SCJAllowed(Level.LEVEL_2)
-	// public MemoryArea getMemoryArea() {
-	// return initArea;
-	// }
-	//
+	
 	@SCJAllowed(Level.LEVEL_2)
 	public ReleaseParameters getReleaseParameters() {
 		return _rParams;
@@ -294,15 +290,34 @@ public class RealtimeThread extends Thread implements Schedulable {
 		RealtimeThread.currentRealtimeThread().getScopeStack().pop();
 		initArea.postScopeEnter();
 	}
+	
 
+	/**
+	 * Allocates no memory. Does not allow this to escape local variables. The re- turned object may reside in scoped memory, within a scope that encloses this.
+	 * @return
+	 */
+	@SCJAllowed(LEVEL_2) 
+	@SCJRestricted(maySelfSuspend = false, mayAllocate = false) 
+	public MemoryArea getMemoryArea( ) {
+		// TODO : implement this
+		//return initArea;
+		return null;
+	}
+
+	/**
+     * Allocates no memory. Returns an object that resides in the current mission’s MissionMemory.
+     * 
+     * 
+     * @return
+     */
 	@SCJAllowed(LEVEL_2)
-	@SCJRestricted(maySelfSuspend = false)
+	@SCJRestricted(maySelfSuspend = false, mayAllocate = false)
 	public static RealtimeThread currentRealtimeThread() {
 		return (RealtimeThread) Thread.currentThread();
 	}
 
 	@SCJAllowed(LEVEL_1)
-	@SCJRestricted(maySelfSuspend = false)
+	@SCJRestricted(maySelfSuspend = false, mayAllocate = false)
 	public static MemoryArea getCurrentMemoryArea() {
 		return MemoryArea.getMemoryAreaObject(VMSupport.getCurrentArea());
 	}

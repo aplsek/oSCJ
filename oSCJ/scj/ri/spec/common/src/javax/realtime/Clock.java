@@ -24,7 +24,6 @@ import static javax.safetycritical.annotate.Level.LEVEL_1;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
-
 import edu.purdue.scj.VMSupport;
 
 @SCJAllowed
@@ -151,8 +150,14 @@ public abstract class Clock {
 	public Clock() {
 	}
 
+	/**
+	 * The Clock instance returned by getRealtimeClock() may be used in any
+	 * context that requires a clock.
+	 * 
+	 * @return the singleton instance of the default Clock.
+	 */
 	@SCJAllowed
-	@SCJRestricted(maySelfSuspend = false)
+	@SCJRestricted(maySelfSuspend = false, mayAllocate = false)
 	public static Clock getRealtimeClock() {
 		return rtc;
 	}
@@ -165,25 +170,39 @@ public abstract class Clock {
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
 	public abstract RelativeTime getResolution(RelativeTime time);
-	
+
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
 	public abstract AbsoluteTime getTime();
-	
-	@SCJAllowed
-	@SCJRestricted(maySelfSuspend = false)
-	public abstract AbsoluteTime getTime(AbsoluteTime time);
 
 	/**
-	 * Returns true if and only if this Clock is able to trigger the execution
-	 * of time-driven activities.
 	 * 
-	 * @return
+	 * @param time
+	 * @return the instance of AbsoluteTime passed as parameter, representing
+	 *         the current time, associated with this clock, or null if dest was
+	 *         null.
 	 */
 	@SCJAllowed
-	@SCJRestricted()
-	protected abstract boolean drivesEvents();
+	@SCJRestricted(maySelfSuspend = false, mayAllocate = false)
+	public abstract AbsoluteTime getTime(AbsoluteTime time);
 
+	 /**
+	   * Returns true if and only if this Clock is able to trigger the
+	   * execution of time-driven activities. Some user-defined clocks may
+	   * be read-only, meaning the clock can be used to obtain timestamps,
+	   * but the clock cannot be used to trigger the execution of
+	   * events. If a clock that does not return drivesEvents() 
+	   * equal true  is used to configure a Timer or a sleep() request,
+	   * an IllegalArgumentException will be thrown by the infrastructure.
+	   * 
+	   *  The default real-time clock does drive events. 
+	   * 
+	   * @return true if the clock can drive events.
+	   */
+	  @SCJAllowed
+	  @SCJRestricted(mayAllocate = false, maySelfSuspend = false)
+	  protected abstract boolean drivesEvents();
+	
 	/**
 	 * Code in the abstract base Clock class makes this call to the subclass.
 	 * 
@@ -213,8 +232,7 @@ public abstract class Clock {
 	 */
 	@SCJAllowed(LEVEL_1)
 	protected abstract void setResolution(javax.realtime.RelativeTime resolution);
-	
-	
+
 	@SCJAllowed
 	@SCJRestricted()
 	public abstract RelativeTime getEpochOffset();
