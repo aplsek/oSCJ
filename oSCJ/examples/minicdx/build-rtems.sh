@@ -6,7 +6,7 @@ set -x
 
 
 FIJI_HOME="../../../../"
-SCJFLAGS="--scj --scj-scope-backing 310k --g-def-immortal-mem 330k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
+SCJFLAGS="--scj --scj-scope-backing 310k --g-def-immortal-mem 430k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
 FIJIFLAGS="--max-threads 5 --more-opt"  # -v 1
 RTEMSFLAGS="--target sparc-rtems4.9"
 
@@ -31,7 +31,7 @@ $FIJI_HOME/bin/fivmc -o minicdx-rtems $FIJIFLAGS $RTEMSFLAGS $SCJFLAGS minicdx.j
 	
 	
 # RUN:	
-sparc-rtems4.9-run minicdx-rtems > output.cap
+sparc-rtems4.9-run minicdx-rtems | tee output-rtems.cap
 
 
 

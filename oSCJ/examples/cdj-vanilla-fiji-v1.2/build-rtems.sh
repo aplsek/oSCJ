@@ -5,8 +5,6 @@ set -x
 
 # FIJI HOME
 FIJI=../../../../
-
-FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --more-opt --max-threads 5 --uniprocessor"
 RTEMSFLAGS="--target sparc-rtems4.9"
 
 #CLEANUP
@@ -28,34 +26,21 @@ echo "Creating jar package"
 cd build/ && find . -name "*.class" | xargs jar cf ../cdj.jar
 cd ..
 
-
-
-# COMPILE FIJI 1
-#echo "Compiling cdj_x86"
-#
-#$FIJI/bin/fivmc -o cdj-rtems_hf cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS $RTEMSFLAGS
-
-
-
-
 #
 #
 # =====================================================================================
-#
-#
 
-
-
-FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --g-pred-level a --more-opt --max-threads 5 --uniprocessor"
-
-
+FIJI_FLAGS="--g-def-max-mem=500k --g-def-trigger=300k  -G hf --g-pred-level a --more-opt --max-threads 5 --uniprocessor"
 # COMPILE FIJI 1
 echo "Compiling cdj_hg_level_a"
-
 $FIJI/bin/fivmc -o cdj-rtems_hf_A cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS $RTEMSFLAGS
 
 
 
+#echo "TESTING, exit after 1 compilation!!!!!!"
+#exit 1
+
+
 
 #
 # =====================================================================================
@@ -66,7 +51,7 @@ $FIJI/bin/fivmc -o cdj-rtems_hf_A cdj.jar --main heap/Main --reflect cdj.reflect
 
 
 
-FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --g-pred-level c --more-opt --max-threads 5 --uniprocessor"
+FIJI_FLAGS="--g-def-max-mem=700k --g-def-trigger=500k  -G hf --g-pred-level c --more-opt --max-threads 5 --uniprocessor"
 
 
 # COMPILE FIJI 1
@@ -86,7 +71,7 @@ $FIJI/bin/fivmc -o cdj-rtems_hf_C cdj.jar --main heap/Main --reflect cdj.reflect
 
 
 
-FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --g-pred-level cw --more-opt --max-threads 5 --uniprocessor"
+FIJI_FLAGS="--g-def-max-mem=900k --g-def-trigger=700k  -G hf --g-pred-level cw --more-opt --max-threads 5 --uniprocessor"
 
 
 # COMPILE FIJI 1
