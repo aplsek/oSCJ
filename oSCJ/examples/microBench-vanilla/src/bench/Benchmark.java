@@ -61,7 +61,7 @@ public class Benchmark {
 			System.out.print(i);
 			System.out.print("\n");
 		}
-		System.out.println("=====DETECTOR-BENCH-STATS-END-ABOVE====");
+		System.out.println("=====DETECTOR-STATS-END-ABOVE====");
 		
 		stats();
 	}
