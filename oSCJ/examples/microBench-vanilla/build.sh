@@ -38,4 +38,4 @@ echo "Compiling micro"
 $FIJI/bin/fivmc -o micro micro.jar --main micro.Main $FIJI_FLAGS
 
 echo "running MICRO VANILLA"
-./micro  > output.cap
+./micro  > micro-gc.cap

@@ -26,5 +26,5 @@ $FIJI_HOME/bin/fivmc -o micro $FIJIFLAGS $SCJFLAGS myjar.jar
 	
 	
 # RUN:	
-./micro > output.cap
+sudo ./micro > micro-scj.cap
 
