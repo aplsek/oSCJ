@@ -7,7 +7,7 @@ set -x
 FIJI="../../../../"
 
 FIJI_FLAGS="--g-def-max-mem=1M -G cmr --pollcheck-mode portable --g-def-trigger=700k --more-opt
- --max-threads 5"
+ --max-threads 5 -v 1"
  
  
 rm -rf build/
@@ -18,7 +18,7 @@ rm -rf md5*
  
  
  
-find . -name *.java > list
+find src/ -name *.java > list
 echo "Compiling with javac..."
 #javac src/heap/Main.java -classpath "$FIJI/runtimej/build:$FIJI/lib/fijicore.jar:$FIJI/lib/fivmcommon.jar:$FIJI/lib/fijirt.jar:$FIJI/lib/fivmr.jar" -d ./build
 javac -classpath "$FIJI/runtimej/build:$FIJI/lib/fijicore.jar:$FIJI/lib/fivmcommon.jar:$FIJI/lib/fijirt.jar:$FIJI/lib/fivmr.jar" -d ./build @list
@@ -35,7 +35,7 @@ cd ..
 # COMPILE FIJI
 echo "Compiling md5"
 
-$FIJI/bin/fivmc -o micro micro.jar --main micro.Main $FIJI_FLAGS
+$FIJI/bin/fivmc -o md5-gc md5.jar --main com.twmacinta.util.MD5InputStream $FIJI_FLAGS
 
 echo "running MICRO VANILLA"
-./md5-  > output.cap
+./md5-gc | tee md5-gc.1000.700.cap
