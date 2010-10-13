@@ -54,19 +54,16 @@ public class ManagedThread extends NoHeapRealtimeThread implements
 	/**
 	 * @see javax.safetycritical.ManagedSchedulable#register()
 	 */
-	@Override
 	@SCJAllowed(LEVEL_2)
 	@SCJRestricted(INITIALIZATION)
 	public final void register() {
 	}
 
-	@Override
 	@SCJAllowed(SUPPORT)
 	@SCJRestricted(CLEANUP)
 	public void cleanUp() {
 	}
 
-	@Override
 	public StorageParameters getThreadConfigurationParameters() {
 		// TODO Auto-generated method stub
 		return null;
