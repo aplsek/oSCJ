@@ -49,9 +49,5 @@ public class LTMemory extends ScopedMemory {
 		// TODO: resizing Scoped Memory, should we implement this?		
 	}
     
-    public void enter(Runnable run)  {
-    	//TODO:
-    }
-    
     
 }
