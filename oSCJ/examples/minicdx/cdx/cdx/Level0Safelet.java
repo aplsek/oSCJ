@@ -102,6 +102,8 @@ public class Level0Safelet extends CyclicExecutive {
           */
        
         
+        
+        
         Constants.PRESIMULATE = true;
         new ImmortalEntry().run();
         new Simulator().generate();

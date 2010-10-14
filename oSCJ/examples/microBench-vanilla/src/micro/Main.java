@@ -1,6 +1,6 @@
 package micro;
 import bench.Benchmark;
-
+import com.fiji.fivm.ThreadPriority;
 
 public class Main {
 
@@ -8,17 +8,19 @@ public class Main {
 	
 	
 	public static void main(final String[] w) {
+		System.out.println("running");
+		
 		MicroBenchVanilla vanilla = new MicroBenchVanilla();
 		Benchmark.init();
 		
-		try {
-			Thread.sleep(5000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		Thread.setPriority(ThreadPriority.FIFO_MAX);
 		
-		
+		//try {
+		//	Thread.sleep(5000);
+		//} catch (InterruptedException e) {
+		//	// TODO Auto-generated catch block
+		///	e.printStackTrace();
+		//}
 		
 		
 		startTime = System.nanoTime();

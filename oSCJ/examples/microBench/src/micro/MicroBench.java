@@ -89,6 +89,8 @@ public class MicroBench extends CyclicExecutive {
          */
         public void handleEvent() {
            
+        	
+        	
            long start = System.nanoTime();
            for (int i=0 ; i < Constants.MAX ; i++) {
         	   generate();

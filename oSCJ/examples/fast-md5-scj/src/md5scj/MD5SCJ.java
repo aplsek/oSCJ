@@ -49,7 +49,7 @@ public class MD5SCJ extends CyclicExecutive {
 	}
 
 	public void initialize() {
-		new WordHandler(Constants.PRIVATE_MEMORY, null, Constants.RUNS);
+		new WordHandler(Constants.PRIVATE_MEMORY, Constants.RUNS);
 	}
 
 	/**
@@ -77,8 +77,8 @@ public class MD5SCJ extends CyclicExecutive {
 
 		private int count_;
 
-		private WordHandler(long psize, String name, int count) {
-			super(null, null, null, psize, name);
+		private WordHandler(long psize, int count) {
+			super(null, null, null, psize);
 			count_ = count;
 		}
 
@@ -90,7 +90,7 @@ public class MD5SCJ extends CyclicExecutive {
 		public void handleEvent() {
 
 			long start = System.nanoTime();
-			doMD5work();
+			//doMD5work();
 			long end = System.nanoTime();
 			Benchmark.set(start, end);
 

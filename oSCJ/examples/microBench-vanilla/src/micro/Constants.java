@@ -10,5 +10,5 @@ public class Constants {
 	 
 	 public static int RUNS = 1000;
  	 
-	 public static long          PERIOD                          = 50;
+	 public static long     PERIOD      = 50;
 }
