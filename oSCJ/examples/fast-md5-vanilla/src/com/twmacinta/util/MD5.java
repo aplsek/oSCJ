@@ -609,28 +609,6 @@ public class MD5 {
     }
     
     /**
-     * Calculates and returns the hash of the contents of the given file.
-     **/
-    public static byte[] getHash (File f) throws IOException {
-        if (!f.exists()) throw new FileNotFoundException(f.toString());
-        InputStream close_me = null;
-        try {
-            long buf_size = f.length();
-            if (buf_size < 512) buf_size = 512;
-            if (buf_size > 65536) buf_size = 65536;
-            byte[] buf = new byte[(int) buf_size];
-            MD5InputStream in = new MD5InputStream(new FileInputStream(f));
-            close_me = in;
-            while (in.read(buf) != -1);
-            in.close();
-            return in.hash();
-        } catch (IOException e) {
-            if (close_me != null) try { close_me.close(); } catch (Exception e2) {}
-            throw e;
-        }
-    }
-    
-    /**
      * @return true iff the first 16 bytes of both hash1 and hash2 are
      *         equal;  both hash1 and hash2 are null; or either hash
      *         array is less than 16 bytes in length and their lengths and

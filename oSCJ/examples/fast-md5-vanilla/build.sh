@@ -7,7 +7,7 @@ set -x
 FIJI="../../../../"
 
 FIJI_FLAGS="--g-def-max-mem=1M -G cmr --pollcheck-mode portable --g-def-trigger=700k --more-opt
- --max-threads 5 -v 1"
+ --max-threads 5"
  
  
 rm -rf build/
@@ -35,7 +35,7 @@ cd ..
 # COMPILE FIJI
 echo "Compiling md5"
 
-$FIJI/bin/fivmc -o md5-gc md5.jar --main com.twmacinta.util.MD5InputStream $FIJI_FLAGS
+$FIJI/bin/fivmc -o md5-gc md5.jar --main com.twmacinta.util.MyMain $FIJI_FLAGS
 
 echo "running MICRO VANILLA"
 ./md5-gc | tee md5-gc.1000.700.cap
