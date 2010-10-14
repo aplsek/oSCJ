@@ -5,7 +5,8 @@ set -x
 
 
 FIJI_HOME="../../../../"
-SCJFLAGS="--scj --scj-scope-backing 310k --g-def-immortal-mem 330k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
+SCJFLAGS="--scj --scj-scope-backing 600k --g-def-immortal-mem 700k"
+ #--g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
 FIJIFLAGS="--max-threads 5 --more-opt"  # -v 1
 
 # CLEAN-UP
@@ -26,7 +27,7 @@ $FIJI_HOME/bin/fivmc -o md5 $FIJIFLAGS $SCJFLAGS md5.jar
 	
 	
 # RUN:	
-./md5 > md5-scj.cap
+sudo ./md5 | tee md5-scj.cap
 
 
 

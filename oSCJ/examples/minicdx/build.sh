@@ -27,7 +27,7 @@ $FIJI_HOME/bin/fivmc -o minicdx $FIJIFLAGS $SCJFLAGS minicdx.jar
 	
 	
 # RUN:	
-./minicdx > output.cap
+sudo ./minicdx | tee output.cap
 
 
 
