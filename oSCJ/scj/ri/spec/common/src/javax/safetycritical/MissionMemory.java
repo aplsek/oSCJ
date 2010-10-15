@@ -66,22 +66,17 @@ class MissionMemory extends ManagedMemory {
 
 	@SCJAllowed
 	public MissionManager getManager() {
+		//System.out.println("[Mission memory ] get memory manager!!!");
+		
 		// TODO: check type
 		return (MissionManager) getPortal();
 	}
 
 	@SCJAllowed(INFRASTRUCTURE)
 	void setManager(MissionManager manager) {
+		//System.out.println("[Mission memory ] set memory manager!!!");
+		
 		setPortal(manager);
 	}
 	
-	public synchronized Object getPortal() {
-		//TODO:
-		return null;
-	}
-
-	public synchronized void setPortal(Object obj) {
-      // TODO:		
-	}
-
 }
