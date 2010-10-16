@@ -24,12 +24,13 @@ package md5scj;
 import javax.safetycritical.CyclicExecutive;
 import javax.safetycritical.CyclicSchedule;
 import javax.safetycritical.PeriodicEventHandler;
-import javax.safetycritical.Safelet;
 import javax.safetycritical.StorageParameters;
 
 import javax.realtime.RelativeTime;
 
 import com.twmacinta.util.MyMD5Input;
+
+import edu.purdue.scj.VMSupport;
 
 import bench.Benchmark;
 import bench.Constants;
@@ -38,9 +39,13 @@ public class MD5SCJ extends CyclicExecutive {
 
 	public MD5SCJ() {
 		super(null);
+		
+		System.out.println("SCJ MD5 Benchmark - constructor");
 	}
 
 	public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) {
+		System.out.println("MD5 -getSchedule called");
+		
 		CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
 		CyclicSchedule schedule = new CyclicSchedule(frames);
 		frames[0] = new CyclicSchedule.Frame(new RelativeTime(Constants.PERIOD,
@@ -49,7 +54,15 @@ public class MD5SCJ extends CyclicExecutive {
 	}
 
 	public void initialize() {
-		new WordHandler(Constants.PRIVATE_MEMORY, Constants.RUNS);
+		
+		
+		
+		System.out.println("SCJ MD5 Benchmark - initialize");
+		//VMSupport.getCurrentArea();
+        System.out.println("VMSupport- getCurrent- memory size: " + VMSupport.getScopeSize(VMSupport.getCurrentArea())) ;
+		
+	    new WordHandler(Constants.PRIVATE_MEMORY, Constants.RUNS);
+	    System.out.println("SCJ MD5 Benchmark - initialize done");
 	}
 
 	/**
@@ -67,11 +80,16 @@ public class MD5SCJ extends CyclicExecutive {
 	}
 
 	public void tearDown() {
-		Benchmark.dumpResults();
+		System.out.println("SCJ MD5 Benchmark - teardown...");
+		//Benchmark.dumpResults();
+		System.out.println("SCJ MD5 Benchmark - teardown DONE.");
 	}
 
 	public void cleanUp() {
+	    	System.out.println("SCJ MD5 Benchmark - clean up.");
 	}
+
+
 
 	public class WordHandler extends PeriodicEventHandler {
 
@@ -80,6 +98,8 @@ public class MD5SCJ extends CyclicExecutive {
 		private WordHandler(long psize, int count) {
 			super(null, null, null, psize);
 			count_ = count;
+			
+			System.out.println("WordHandler created");
 		}
 
 		/**

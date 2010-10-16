@@ -30,7 +30,7 @@ import javax.safetycritical.annotate.SCJRestricted;
 
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
-
+import edu.purdue.scj.utils.Utils;
 import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 

@@ -32,6 +32,8 @@ import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
+import edu.purdue.scj.VMSupport;
+
 /**
  * 
  * In SCJ, all handlers must be known by the mission manager, hence applications
@@ -63,8 +65,6 @@ public abstract class ManagedEventHandler extends BoundAsyncEventHandler
 				null);
 		_name = name;
 		MissionManager.getCurrentMissionManager().addEventHandler(this);
-		
-		
 		((ManagedMemory)getInitArea()).setOwner(this);
 	}
 
@@ -79,7 +79,7 @@ public abstract class ManagedEventHandler extends BoundAsyncEventHandler
 	 * This is overridden to ensure entry into the local scope for each release.
 	 * 
 	 */
-	@Override
+	//@Override
 	@SCJAllowed(SUPPORT)
 	public void handleAsyncEvent() {
 		handleEvent();

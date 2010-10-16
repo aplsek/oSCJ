@@ -21,7 +21,6 @@
 
 package javax.safetycritical;
 
-import java.util.Iterator;
 
 import javax.realtime.AbsoluteTime;
 import javax.realtime.Clock;
@@ -29,7 +28,7 @@ import javax.realtime.HighResolutionTime;
 import javax.safetycritical.annotate.SCJAllowed;
 
 import edu.purdue.scj.VMSupport;
-//import edu.purdue.scj.utils.Utils;
+import edu.purdue.scj.utils.Utils;
 
 /**
  * 
@@ -63,8 +62,15 @@ public abstract class CyclicExecutive extends Mission implements Safelet {
 	   //Utils.debugIndentIncrement("###[SCJ] CyclicExecutive.exec");
 	    
 	    
-		if (manager.getHandlers() == 0)
+		if (manager.getHandlers() == 0) {
+			// Mission has nothing to do
+			// mission should terminates....sssssss
+			_terminateAll = true;
+			
+			System.out.println("Mission should terminate here....s");
+			System.out.println("Mission should terminate, this mission: " +  this);
 			return;
+		}
 
 		PeriodicEventHandler[] handlers = new PeriodicEventHandler[manager
 				.getHandlers()];
@@ -142,7 +148,7 @@ public abstract class CyclicExecutive extends Mission implements Safelet {
 									// this.
 				_handler.getInitArea().enter(this);
 			else {
-				////Utils.panic("ERROR: handler is null");
+				Utils.panic("ERROR: handler is null");
 			}
 		}
 

@@ -45,7 +45,6 @@ public abstract class ManagedMemory extends LTMemory {
 
 	public ManagedMemory(long size) {
 		super(size);
-		// System.out.println("Creating a ManagedMemory. long:" + size + "\n");
 	}
 
 	public ManagedMemory(SizeEstimator size) {

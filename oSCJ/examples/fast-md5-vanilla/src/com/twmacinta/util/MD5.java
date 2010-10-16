@@ -608,6 +608,7 @@ public class MD5 {
         return asHex(this.Final());
     }
     
+    
     /**
      * @return true iff the first 16 bytes of both hash1 and hash2 are
      *         equal;  both hash1 and hash2 are null; or either hash

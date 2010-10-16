@@ -32,12 +32,12 @@ import javax.safetycritical.annotate.SCJRestricted;
 import static javax.safetycritical.annotate.Level.SUPPORT;
 import static javax.safetycritical.annotate.Phase.CLEANUP;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
-//import edu.purdue.scj.utils.Utils;
+import edu.purdue.scj.utils.Utils;
 
 @SCJAllowed
 public abstract class Mission {
 
-	boolean _terminateAll;
+	boolean _terminateAll = false;
 	volatile int _phase = Phase.INACTIVE;
 
 
@@ -76,32 +76,32 @@ public abstract class Mission {
 
 	@SCJAllowed(INFRASTRUCTURE)
 	final void run() {
-	    ////Utils.debugIndentIncrement("###[SCJ] Mission.run : ");
+	    //Utils.debugIndentIncrement("###[SCJ] Mission.run : ");
 	    
 		_terminateAll = false;
 		MemoryArea mem = RealtimeThread.getCurrentMemoryArea();
 		if (!(mem instanceof MissionMemory)) { 
-		    ////Utils.panic("Mission not run in mission memory"); 
+		    Utils.panic("Mission not run in mission memory"); 
 		}
 
 		MissionManager mngr = new MissionManager(this);
 		((MissionMemory) mem).setManager(mngr);
 
-		////Utils.debugPrintln("###[SCJ] Mission.run : INIT");
+		//Utils.debugPrintln("###[SCJ] Mission.run : INIT");
 		_phase = Phase.INITIAL;
 		initialize();
 		
-		////Utils.debugPrintln("###[SCJ] Mission.run : EXECUTE");
+		//Utils.debugPrintln("###[SCJ] Mission.run : EXECUTE");
 		_phase = Phase.EXECUTE;
 		exec(mngr);
 		
-		////Utils.debugPrintln("###[SCJ] Mission.run : CLEAN-UP");
+		//Utils.debugPrintln("###[SCJ] Mission.run : CLEAN-UP");
 		_phase = Phase.CLEANUP;
 		cleanUp();
 		_phase = Phase.INACTIVE;
 		
-		////Utils.debugPrintln("###[SCJ] Mission.run : Mission INACTIVE");
-		////Utils.decreaseIndent();
+		//Utils.debugPrintln("###[SCJ] Mission.run : Mission INACTIVE");
+		//Utils.decreaseIndent();
 	}
 
 	protected void exec(MissionManager manager) {
