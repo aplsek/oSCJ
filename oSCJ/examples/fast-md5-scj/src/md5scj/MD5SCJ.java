@@ -81,7 +81,7 @@ public class MD5SCJ extends CyclicExecutive {
 
 	public void tearDown() {
 		System.out.println("SCJ MD5 Benchmark - teardown...");
-		//Benchmark.dumpResults();
+		Benchmark.dumpResults();
 		System.out.println("SCJ MD5 Benchmark - teardown DONE.");
 	}
 

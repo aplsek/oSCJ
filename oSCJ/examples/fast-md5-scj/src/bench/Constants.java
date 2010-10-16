@@ -17,10 +17,31 @@ public class Constants {
 	 public static String[] input = {
 		  "The quick brown fox jumps over the lazy dog",
 		  "The quick brown fox jumps over the lazy dog.",
-		  "Form 3",
-		  "Form 4",
-		  "Form 5"
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",
+		  "The quick brown fox jumps over the lazy dog",
+                  "The quick brown fox jumps over the lazy dog.",		  
 		  };
-
-	 
 }
