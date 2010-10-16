@@ -7,7 +7,7 @@ set -x
 FIJI="../../../../"
 
 FIJI_FLAGS="--g-def-max-mem=1M -G cmr --pollcheck-mode portable --g-def-trigger=700k --more-opt
- --max-threads 5"
+ --max-threads 5 -uniprocessor"
  
  
 rm -rf build/
@@ -20,7 +20,6 @@ rm -rf micro*
  
 find . -name *.java > list
 echo "Compiling with javac..."
-#javac src/heap/Main.java -classpath "$FIJI/runtimej/build:$FIJI/lib/fijicore.jar:$FIJI/lib/fivmcommon.jar:$FIJI/lib/fijirt.jar:$FIJI/lib/fivmr.jar" -d ./build
 javac -classpath "$FIJI/runtimej/build:$FIJI/lib/fijicore.jar:$FIJI/lib/fivmcommon.jar:$FIJI/lib/fijirt.jar:$FIJI/lib/fivmr.jar" -d ./build @list
 rm -rf list
 

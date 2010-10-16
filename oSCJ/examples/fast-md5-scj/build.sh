@@ -5,8 +5,8 @@ set -x
 
 
 FIJI_HOME="../../../../"
-SCJFLAGS="--scj --scj-scope-backing 4600k --g-def-immortal-mem 4700k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
-FIJIFLAGS="--max-threads 5 --more-opt"  # -v 1
+SCJFLAGS="--scj --scj-scope-backing 500k --g-def-immortal-mem 500k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
+FIJIFLAGS="--max-threads 5 --more-opt -uniprocessor"  # -v 1
 
 # CLEAN-UP
 rm -rf build
