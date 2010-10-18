@@ -30,15 +30,15 @@ cd ..
 #
 # =====================================================================================
 
-FIJI_FLAGS="--g-def-max-mem=500k --g-def-trigger=300k  -G hf --g-pred-level a --more-opt --max-threads 5 --uniprocessor"
+FIJI_FLAGS="--g-def-max-mem=1000k --g-def-trigger=600k --max-threads 5"
 # COMPILE FIJI 1
 echo "Compiling cdj_hg_level_a"
 $FIJI/bin/fivmc -o cdj-rtems_hf_A cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS $RTEMSFLAGS
 
 
 
-#echo "TESTING, exit after 1 compilation!!!!!!"
-#exit 1
+echo "TESTING, exit after 1 compilation!!!!!!"
+exit 1
 
 
 

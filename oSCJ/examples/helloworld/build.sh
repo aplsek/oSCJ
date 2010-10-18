@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 set -e
@@ -7,6 +8,13 @@ set -x
 FIJI_HOME="../../../../"
 SCJFLAGS="--scj --scj-scope-backing 310k --g-def-immortal-mem 500k --more-opt"   #700 scope, 500 imm
 FIJIFLAGS="--max-threads 5"  # -v 1
+
+# rebuild SCJ.jar
+SCJ="../../scj/ri"
+CWD=`pwd`
+cd $SCJ && make scj.jar && cd $CWD
+
+#`pwd`
 
 # HELLO HOME
 HELLO=.
