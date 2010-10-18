@@ -38,4 +38,4 @@ echo "Compiling md5"
 $FIJI/bin/fivmc -o md5-gc md5.jar --main com.twmacinta.util.MyMain $FIJI_FLAGS
 
 echo "running MICRO VANILLA"
-./md5-gc | tee md5-gc.1000.700.cap
+sudo ./md5-gc | tee md5-gc.1000.700.cap

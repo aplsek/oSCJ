@@ -47,7 +47,7 @@ public class Benchmark {
 
 		System.out.println("=====DETECTOR-STATS-START-BELOW====");
 
-		for (int i = 0 ; i < recordedRuns-1 ; i++) {
+		for (int i = 0 ; i < recordedRuns ; i++) {
 			System.out.print(space);
 			System.out.print(timesBefore[i]);
 			System.out.print(space);
