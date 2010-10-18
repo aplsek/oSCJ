@@ -161,6 +161,9 @@ plot_perf = function(database) {
 	leg   = c()
 	frame = list()
 	
+	output=matrix(nrow = length(database), ncol = 3)
+
+	
 	for (d in database) {
 	    name  = d$name
 	    data  = d$data
@@ -169,6 +172,7 @@ plot_perf = function(database) {
 	    mean  = c(mean,mean(time))
 	    leg   = c(leg, name)
 	    frame = c(frame, list(time))
+	    
 	}
 	frame   = data.frame(frame)
 
@@ -180,10 +184,25 @@ plot_perf = function(database) {
 	matplot(frame, main=title, xlim=range_x, type=plot_type, lty=line_type, xlab=label_x, ylab=label_y, col=colors)
 	legend("topright", inset=.05, leg, col=colors, fill=colors)
 	
-#	print("----------- PERFORMANCE ---------")
-#	print(max)
-#	print(mean)
-#	print("----------- end ---------")
+	
+	print("PERFORMANCE STATISTICS:")
+	line = 2
+	output=matrix(nrow = length(database)+1, ncol = 3)
+	output[1,1] = "NAME"
+	output[1,2] = "WCET"
+	output[1,3] = "MEAN"
+	for (d in database) {
+	    name  = d$name
+	    data  = d$data
+	    time  = (data$V2 - data$V1)/1000000.0
+	    output[line,1] = name
+		output[line,2] = max(time)
+		output[line,3] = mean(time)
+	    
+	    line = line + 1   
+	}
+	print(output)
+	print("----------- end ---------")
 }
 
 

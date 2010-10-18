@@ -10,6 +10,10 @@ SCJFLAGS="--scj --scj-scope-backing 310k --g-def-immortal-mem 500k --more-opt"  
 FIJIFLAGS="--max-threads 5"  # -v 1
 RTEMSFLAGS="--target sparc-rtems4.9"
 
+# rebuild SCJ.jar                                                                                
+SCJ="../../scj/ri"
+CWD=`pwd`
+cd $SCJ && make scj.jar && cd $CWD
 
 # HELLO HOME
 HELLO=.
