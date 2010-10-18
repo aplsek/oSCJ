@@ -67,7 +67,7 @@ public class MissionManager extends PortalExtender {
 		if (handler instanceof PeriodicEventHandler)  {
 			if (_first == null)  {
 				_first = _curr = handler;
-				System.out.println("handler added");
+				//System.out.println("handler added");
 			}
 			else {
 				_curr.setNext(handler);

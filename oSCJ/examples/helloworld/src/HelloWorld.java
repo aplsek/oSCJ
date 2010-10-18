@@ -49,7 +49,7 @@ public class HelloWorld extends CyclicExecutive {
     }
 
     private static void writeln(String msg) {
-        Terminal.getTerminal().writeln(msg);
+	// Terminal.getTerminal().writeln(msg);
     }
 
     public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) {
@@ -82,7 +82,7 @@ public class HelloWorld extends CyclicExecutive {
     }
 
     public void cleanUp() {
-        Terminal.getTerminal().write("cleanUp.\n");
+	    Terminal.getTerminal().write("cleanUp.\n");
     }
 
     
@@ -91,13 +91,9 @@ public class HelloWorld extends CyclicExecutive {
 
         private int count_;
  
-        private Foo myFoo;
-        
         private WordHandler(long psize, String name, int count) {
             super(null, null, null, psize, name);
             count_ = count;
-            
-            myFoo = new Foo();
         }
 
         /**
@@ -106,27 +102,14 @@ public class HelloWorld extends CyclicExecutive {
          * 
          */
         public void handleEvent() {
-           Terminal.getTerminal().write(getName());
+	    Terminal.getTerminal().write(getName());
           
-           foobar();
-           
+                 
            if (count_-- == 0)
                getCurrentMission().requestSequenceTermination();
         }
 
-        private int foobar() {
-        	foo1(new Foo());
-        	
-        	return 0;
-        }
         
-        
-        public Foo foo1(Foo f) {
-   		   f.crp=f;
-   		 
-   		   return null;
-   	     }
-   	
         
         public void cleanUp() {
         }
@@ -141,6 +124,3 @@ public class HelloWorld extends CyclicExecutive {
 
 }
 
-class Foo {
-	Foo crp;
-}
