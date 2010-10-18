@@ -17,7 +17,7 @@ public class MyMain {
 		 for(String in : Constants.input ) {
 			MyMD5Input myMD = new MyMD5Input();
 			myMD.run(in);
-			myMD.finalHash(in);
+			//myMD.finalHash(in);
 		 }
 	 }
 	 

@@ -110,7 +110,7 @@ public class MD5SCJ extends CyclicExecutive {
 		public void handleEvent() {
 
 			long start = System.nanoTime();
-			//doMD5work();
+			doMD5work();
 			long end = System.nanoTime();
 			Benchmark.set(start, end);
 
@@ -123,7 +123,7 @@ public class MD5SCJ extends CyclicExecutive {
 			for (String in : Constants.input) {
 				MyMD5Input myMD = new MyMD5Input();
 				myMD.run(in);
-				myMD.finalHash(in);
+				//myMD.finalHash(in);
 			}
 		}
 

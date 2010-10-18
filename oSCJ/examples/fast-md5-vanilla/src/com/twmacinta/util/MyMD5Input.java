@@ -58,7 +58,7 @@ public class MyMD5Input {
 	  
 	  
 	  public void finalHash(String filename) {
-		  System.out.println(MD5.asHex(hash())+"  "+ filename);
+	      // System.out.println(MD5.asHex(hash())+"  "+ filename);
 	  }
 
 }
