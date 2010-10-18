@@ -7,7 +7,7 @@ set -x
 FIJI="../../../../"
 
 FIJI_FLAGS="--g-def-max-mem=1M -G cmr --pollcheck-mode portable --g-def-trigger=700k --more-opt
- --max-threads 5 -uniprocessor"
+ --max-threads 5 --uniprocessor"
  
  
 rm -rf build/
