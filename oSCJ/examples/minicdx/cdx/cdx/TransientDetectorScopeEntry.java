@@ -63,6 +63,9 @@ public class TransientDetectorScopeEntry implements Runnable {
 
     public void run() {
         Benchmarker.set(1);
+        if (Constants.SYNCHRONOUS_DETECTOR || Constants.DEBUG_DETECTOR) {
+            dumpFrame("CD-PROCESSING-FRAME (indexed as received): ");
+        }
 
         Benchmarker.set(Benchmarker.RAPITA_REDUCER_INIT);
         BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
@@ -95,23 +98,30 @@ public class TransientDetectorScopeEntry implements Runnable {
 
     public int lookForCollisions(final Reducer reducer, final List motions) {
         Benchmarker.set(2);
-       // BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
-        
         final List check = reduceCollisionSet(reducer, motions);
-        // final CollisionCollector c = new CollisionCollector();
-
         int suspectedSize = check.size();
         if (cdx.ImmortalEntry.recordedRuns < cdx.ImmortalEntry.maxDetectorRuns) {
             cdx.ImmortalEntry.suspectedCollisions[cdx.ImmortalEntry.recordedRuns] = suspectedSize;
         }
-
+        if ((Constants.SYNCHRONOUS_DETECTOR || Constants.DEBUG_DETECTOR) && !check.isEmpty()) {
+            System.out.println("CD found "+suspectedSize+" potential collisions");
+            int i=0;
+            for(final Iterator iter = check.iterator(); iter.hasNext();) {
+                final List col = (List)iter.next();
+                for(final Iterator aiter = col.iterator(); aiter.hasNext();) {
+                    final Motion m = (Motion)aiter.next();
+                    System.out.println("CD: potential collision "+i+" (of "+col.size()+" aircraft) includes motion "+m);
+                }
+                i++;            
+            }
+        }
+        
         int c = 0;
         final List ret = new LinkedList();
         for (final Iterator iter = check.iterator(); iter.hasNext();)
             c += determineCollisions((List) iter.next(), ret);
         Benchmarker.done(2);
-        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
-        return c; // .getCollisions();
+        return c; 
     }
 
     /**
@@ -121,8 +131,6 @@ public class TransientDetectorScopeEntry implements Runnable {
      */
     public List reduceCollisionSet(final Reducer it, final List motions) {
         Benchmarker.set(3);
-        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
-        
         final HashMap voxel_map = new HashMap();
         final HashMap graph_colors = new HashMap();
 
@@ -137,8 +145,6 @@ public class TransientDetectorScopeEntry implements Runnable {
             if (cur_set.size() > 1)
                 ret.add(cur_set);
         }
-        
-        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         Benchmarker.done(3);
         return ret;
     }
@@ -160,20 +166,11 @@ public class TransientDetectorScopeEntry implements Runnable {
             }
         }
         return true;
-        /*
-         * old code: Benchmarker.set(4); for (int i=0;i<collisions.size();i++) {
-         * Collision c=(Collision)collisions.get(i); if
-         * ((c.first().equals(one.getAircraft())) &&
-         * (c.second().equals(two.getAircraft()))) { Benchmarker.done(4); return
-         * false; } } Benchmarker.done(4); return true;
-         */
     }
 
-   //@javax.safetycritical.annotate.RunsIn("foobar")
     public int determineCollisions(final List motions, List ret) {
         // (Peta) changed to iterators so that it's not killing the algorithm
         Benchmarker.set(5);
-        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         int _ret = 0;
         Motion[] _motions = (Motion[]) motions.toArray(new Motion[motions
                 .size()]);
@@ -190,11 +187,9 @@ public class TransientDetectorScopeEntry implements Runnable {
                             vec));
                     _ret++;
                 }
-                // }
             }
         }
         Benchmarker.done(5);
-        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         return _ret;
     }
 
@@ -237,8 +232,6 @@ public class TransientDetectorScopeEntry implements Runnable {
      */
     public List createMotions() {
         Benchmarker.set(6);
-        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
-        
         final List ret = new LinkedList();
         final HashSet poked = new HashSet();
 
@@ -256,15 +249,10 @@ public class TransientDetectorScopeEntry implements Runnable {
             new_pos = new Vector3d(x, y, z);
 
             poked.add(craft);
-            // get the last known position of this aircraft
             final statetable.Vector3d old_pos = state
                     .get(new CallSign(craft.getCallsign()));
 
             if (old_pos == null) {
-                // we have detected a new aircraft
-
-                // here, we create a new callsign and store the aircraft into
-                // the state table.
                 state.put(mkCallsignInPersistentScope(craft.getCallsign()),
                         new_pos.x, new_pos.y, new_pos.z);
 
@@ -275,14 +263,10 @@ public class TransientDetectorScopeEntry implements Runnable {
                             .println("createMotions: old position is null, adding motion: "
                                     + m);
                 }
-
                 ret.add(m);
             } else {
-                // this is already detected aircraft, we we need to update its
-                // position
                 final Vector3d save_old_position = new Vector3d(old_pos.x,
                         old_pos.y, old_pos.z);
-                // updating position in the StateTable
                 old_pos.set(new_pos.x, new_pos.y, new_pos.z);
 
                 final Motion m = new Motion(craft, save_old_position, new_pos);
@@ -290,15 +274,10 @@ public class TransientDetectorScopeEntry implements Runnable {
                         || cdx.Constants.SYNCHRONOUS_DETECTOR) {
                     System.out.println("createMotions: adding motion: " + m);
                 }
-
                 ret.add(m);
             }
         }
         Benchmarker.done(6);
-        
-        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
-        
-        
         return ret;
     }
     
