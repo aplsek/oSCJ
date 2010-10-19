@@ -66,8 +66,32 @@ plot_mem = function(database) {
 	 title   = "Memory Usage"
 	 label_x = "Iteration"
 	 label_y = "Memory Usage [KB]"
-	 matplot(frame, main=title, xlim=range_x, type=plot_type, lty=line_type, xlab=label_x, ylab=label_y, col=colors)
+	 matplot(frame, main=title, xlim=range_x, type=plot_type, lty=line_type, xlab=label_x, ylab=label_y, col=colors, lwd=2)
 	 legend("topright", inset=.05, leg, col=colors, fill=colors)
+	 
+	 
+	print("MEMORY USAGE STATISTICS:")
+	line = 2
+	output=matrix(nrow = length(database)+1, ncol = 3)
+	output[1,1] = "NAME"
+	output[1,2] = "MAX MEM [kB]"
+	output[1,2] = "MEAN MEM [kB]"
+	for (d in database) {
+	    name  = d$name
+	     data  = d$data
+         mem   = (data$V4) / 1000
+	     max   = c(max,max(mem))
+	     mean  = c(mean,mean(mem))
+	     output[line,1] = name
+		 output[line,2] = max
+		 output[line,3] = mean
+	   
+	    line = line + 1   
+	}
+	print(output)
+	print("----------- end ---------")
+
+	 
 }
 
 plot_mem_box = function(database) {
