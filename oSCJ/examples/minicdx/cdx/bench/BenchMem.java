@@ -129,6 +129,11 @@ public class BenchMem {
             System.out.println(space);
         }
         System.out.println("=====MEMORY-BENCH-STATS-END-ABOVE====");
+        System.out
+        .println("Dumping output [ iterationNumber privateMemoryUsage missionMemoryUsage immortalMem totalMemory scopeSizes runtimeMem] for "
+                + ImmortalEntry.recordedRuns + " recorded detector runs, in bytes");
+        
+        
         System.out.println("Heap :" + heapConsumed);
         System.out.println("Imm :" + immortalConsumed);
         

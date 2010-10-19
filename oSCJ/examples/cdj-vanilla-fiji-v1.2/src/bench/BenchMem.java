@@ -91,7 +91,7 @@ public class BenchMem {
             return;
         }
         
-        out.println("Dumping output [ Iteration PrivateMemoryUsage MissionMemoryUsage UsedSpace FreeSpace] for "
+        out.println("Dumping output [Iteration PrivateMemoryUsage MissionMemoryUsage 0 TOTALmemory FreeSpace] for "
                         + ImmortalEntry.recordedRuns + " recorded detector runs");
         
         out.println("=====MEMORY-BENCH-STATS-START-BELOW====");
@@ -105,11 +105,15 @@ public class BenchMem {
             out.print(" ");
             out.print(missionMemUsage[i]);
             out.print(" ");
+            out.print(0);
+            out.print(" ");
             out.print(memoryUsage[i]);
             out.print(" ");
             out.print(freeMem[i]);
             out.println(" ");
         }
         out.println("=====MEMORY-BENCH-STATS-END-ABOVE====");
+        out.println("Dumping output [ Iteration PrivateMemoryUsage MissionMemoryUsage 0 TOTALmemory FreeSpace] for "
+                + ImmortalEntry.recordedRuns + " recorded detector runs");
     }
 }
