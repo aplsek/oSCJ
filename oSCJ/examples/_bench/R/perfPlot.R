@@ -181,7 +181,7 @@ plot_perf = function(database) {
 	title   = "Time"
 	label_x = "Iteration"
 	label_y = "Worse Case Time [ms]"
-	matplot(frame, main=title, xlim=range_x, type=plot_type, lty=line_type, xlab=label_x, ylab=label_y, col=colors)
+	matplot(frame, main=title, xlim=range_x, type=plot_type, lty=line_type, xlab=label_x, ylab=label_y, col=colors, lwd=2)
 	legend("topright", inset=.05, leg, col=colors, fill=colors)
 	
 	
@@ -235,7 +235,7 @@ plot_time_heap = function(stats) {
 	title   = "WCET vs. Heap"
 	label_x = "Heap [KB]"
 	label_y = "Worse Case Time [ms]"
-	matplot(frame_x, frame_y, main=title, type=plot_type, lty=line_type, ylab=label_y, xlab=label_x, col=colors)
+	matplot(frame_x, frame_y, main=title, type=plot_type, lty=line_type, ylab=label_y, xlab=label_x, col=colors, lwd=2)
 	legend("topright", inset=.05, title="Trigger [%Heap]", leg, col=colors, fill=colors)
 }
 

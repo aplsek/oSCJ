@@ -1,0 +1,9 @@
+
+
+
+
+Usage example :
+
+./bench.sh "rtems" ../minicdx/ ../cdj-vanilla-fiji-v1.2/
+
+"rtems" - specifies the regex which will filter the .cap files that we want
