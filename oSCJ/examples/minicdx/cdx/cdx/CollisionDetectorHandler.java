@@ -70,13 +70,11 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
             return;
         } // should not be needed, anyway
 
-        //final long heapFreeBefore = Runtime.getRuntime().freeMemory();
-        final long timeBefore = NanoClock.now();
-
         noiseGenerator.generateNoiseIfEnabled();
         Benchmarker.set(Benchmarker.RAPITA_SETFRAME);
         cd.setFrame(f);
         Benchmarker.done(Benchmarker.RAPITA_SETFRAME);
+	final long timeBefore = NanoClock.now();
         cd.run();
         final long timeAfter = NanoClock.now();
         //final long heapFreeAfter = Runtime.getRuntime().freeMemory();
