@@ -16,7 +16,7 @@ public class MicroBenchVanilla  {
     public void handleEvent() {
       
     	long start =System.nanoTime();
-        for (int i=0 ; i < Constants.MAX ; i++)
+        //for (int i=0 ; i < Constants.MAX ; i++)
      	   generate();
         long end =  System.nanoTime(); 
         Benchmark.set(start, end);
