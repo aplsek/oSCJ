@@ -53,7 +53,7 @@ plot_mem = function(database) {
 	 for (d in database) {
 	     name  = d$name
 	     data  = d$data
-             mem   = (data$V4) / 1000
+             mem   = (data$V5) / 1000
 	     max   = c(max,max(mem))
 	     mean  = c(mean,mean(mem))
 	     leg   = c(leg, name)
@@ -75,21 +75,21 @@ plot_mem = function(database) {
 	output=matrix(nrow = length(database)+1, ncol = 3)
 	output[1,1] = "NAME"
 	output[1,2] = "MAX MEM [kB]"
-	output[1,2] = "MEAN MEM [kB]"
+	output[1,3] = "MEAN MEM [kB]"
+	maax   = c()
+	mean  = c()
 	for (d in database) {
 	    name  = d$name
 	     data  = d$data
-         mem   = (data$V4) / 1000
-	     max   = c(max,max(mem))
-	     mean  = c(mean,mean(mem))
+         mem   = (data$V5) / 1000
 	     output[line,1] = name
-		 output[line,2] = max
-		 output[line,3] = mean
+		 output[line,2] = max(mem)
+		 output[line,3] = mean(mem)
 	   
 	    line = line + 1   
 	}
 	print(output)
-	print("----------- end ---------")
+	print("----------- end -----------------------------------------------------------------")
 
 	 
 }
@@ -102,7 +102,7 @@ plot_mem_box = function(database) {
 	 for (d in database) {
 	     name  = d$name
 	     data  = d$data
-             mem   = (data$V4) / 1000
+             mem   = (data$V5) / 1000
 	     leg   = c(leg, name)
 	     frame = c(frame, list(list(mem)))
 	 }
