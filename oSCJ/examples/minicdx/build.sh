@@ -32,7 +32,7 @@ $FIJI_HOME/bin/fivmc -o minicdx $FIJIFLAGS $SCJFLAGS minicdx.jar
 	
 	
 # RUN:	
-sudo ./minicdx | tee output.cap
+sudo ./minicdx | tee miniCDx-scj.cap
 
 
 

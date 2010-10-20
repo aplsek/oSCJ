@@ -30,7 +30,7 @@ get_database = function(filenames) {
 	database = list()
 	for(file in filenames) {
 		n = gsub("./tmp/","",file)
-		n = gsub("_d.dat","",n)
+		n = gsub("_m.dat","",n)
 		d = list(name=n, data=read.table(file))
 		database = c(database, list(d))
 	}
@@ -58,6 +58,8 @@ plot_mem = function(database) {
 	     mean  = c(mean,mean(mem))
 	     leg   = c(leg, name)
 	     frame = c(frame, list(mem))
+	     
+	     print(leg)
  	 }
  	 frame   = data.frame(frame)
 
