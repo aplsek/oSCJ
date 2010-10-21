@@ -44,6 +44,8 @@ import edu.purdue.scj.VMSupport;
 @SCJAllowed(members=true)
 @javax.safetycritical.annotate.Scope("immortal")
 public class Level0Safelet extends CyclicExecutive {
+    
+    
     public Level0Safelet() {
         super(null);
     }

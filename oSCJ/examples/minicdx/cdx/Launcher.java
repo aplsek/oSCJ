@@ -33,6 +33,9 @@ public class Launcher {
             Constants.DETECTOR_PERIOD = Integer.parseInt(args[1]);
         if (args.length > 2)
             Constants.MAX_FRAMES = Integer.parseInt(args[2]);
+       
+        
+        
         Safelet safelet = new Level0Safelet();
         safelet.setUp();
         safelet.getSequencer().start();
