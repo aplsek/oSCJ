@@ -206,6 +206,9 @@ public class Main {
 				Constants.DETECTOR_NOISE = true;
 			} else if (v[i].equals("DETECTOR_NOISE_VARIABLE_ALLOCATION_SIZE")) {
 				Constants.DETECTOR_NOISE_VARIABLE_ALLOCATION_SIZE = true;
+			} else if (v[i].equals("NUMBER_OF_PLANES")) {
+				Constants.NUMBER_OF_PLANES = Integer.parseInt(v[i + 1]);
+				i++;
 			}
 
 			else
