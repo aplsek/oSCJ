@@ -8,7 +8,7 @@ public class WorkloadStar extends FrameBuffer {
 
     
     final double tic = 0.25f;
-    final double lenght = 25;
+    final double lenght = 2 ;
     static double t = 0;
     
     final double[] angels = new double[Constants.NUMBER_OF_PLANES];
@@ -43,22 +43,24 @@ public class WorkloadStar extends FrameBuffer {
         }
         float positions[] = new float[Constants.NUMBER_OF_PLANES * 3];
         
+        //System.out.println("frame " + frameno);
         for (byte k = 0; k < Constants.NUMBER_OF_PLANES; k++) {
-            if (outbound) 
-                line(k);
-            else 
-                line_bck(k);
+            if (frameno != 0)   // we dont move in the first frame
+                if (outbound) 
+                    line(k);
+                else 
+                    line_bck(k);
             
             positions[3 * k] = (float) last_px[k];
             positions[3 * k + 1] = (float) last_py[k];
             positions[3 * k + 2] = (float) offset_z;
             
-            if ((frameno +1) % CYCLES == 0)
-                if (outbound)
-                    outbound = false;
-                else 
-                    outbound = true;
-                
+            //System.out.println("plane :" + k + " x:" + last_px[k] + "-- y:" + last_py[k] );
+            
+        }
+
+        if (frameno != 0 && ((frameno) % CYCLES) == 0) {
+            outbound = !outbound;
         }
         
         // increase the time
