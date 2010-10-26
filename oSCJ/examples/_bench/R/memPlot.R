@@ -53,7 +53,7 @@ plot_mem = function(database) {
 	 for (d in database) {
 	     name  = d$name
 	     data  = d$data
-             mem   = (data$V4) / 1000
+             mem   = (data$V5) / 1000
 	     max   = c(max,max(mem))
 	     mean  = c(mean,mean(mem))
 	     leg   = c(leg, name)
@@ -63,7 +63,7 @@ plot_mem = function(database) {
  	 frame   = data.frame(frame)
 
 	 pdf("mem_bench.pdf", width=25, height=10)
-	 range_x = c(0,300)
+	 range_x = c(0,1000)
 	 title   = "Memory Usage"
 	 label_x = "Iteration"
 	 label_y = "Memory Usage [KB]"
@@ -103,7 +103,7 @@ plot_mem_box = function(database) {
 	 for (d in database) {
 	     name  = d$name
 	     data  = d$data
-             mem   = (data$V4) / 1000
+             mem   = (data$V5) / 1000
 	     leg   = c(leg, name)
 	     frame = c(frame, list(list(mem)))
 	 }
