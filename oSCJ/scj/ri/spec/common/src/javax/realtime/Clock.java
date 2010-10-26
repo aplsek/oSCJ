@@ -158,7 +158,7 @@ public abstract class Clock {
 	 * 
 	 * @return the singleton instance of the default Clock.
 	 * 
-	 * TODO: this should be @Allocate(static/immortal)
+	 * TODO: this should be @Allocate(static/immortal)????
 	 */
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false, mayAllocate = false)
