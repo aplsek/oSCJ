@@ -8,7 +8,7 @@ import com.fiji.fivm.ThreadPriority;
  */
 public final class Constants {
     // I have added this so that we can specify the number of planes at runtime
-    public static int NUMBER_OF_PLANES = 60;
+    public static int NUMBER_OF_PLANES = 6;
 
 
 	public static int NOISE_RATE = 0;
