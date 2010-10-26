@@ -12,22 +12,24 @@ import javax.safetycritical.Mission;
 import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.Allocate;
+import static javax.safetycritical.annotate.Allocate.Area.*;
+
+
 import javax.safetycritical.annotate.CrossScope;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
-import static javax.safetycritical.annotate.Allocate.Area.*;
 
 
-@Scope("crossScope_A.TestInference") 
-public class TestInference extends Mission {
+@Scope("crossScope_A.CrossScope") 
+public class TestCrossScope extends Mission {
 
 	public Foo foo;
 	
     protected
     void initialize() { 
-        new MyHandler2(null, null, null, 0, this);
+        new MyHandler(null, null, null, 0, this);
     }
 
     @Override
@@ -40,26 +42,32 @@ public class TestInference extends Mission {
     	return this.foo;
     }
 
-    @Scope("crossScope_A.TestInference")  
-    @RunsIn("crossScope_A.MyHandler2") 
-    class MyHandler2 extends PeriodicEventHandler {
 
-    	private TestInference mission;
+    @Scope("crossScope_A.MyMission")  
+    @RunsIn("crossScope_A.MyHandler") 
+    class MyHandler extends PeriodicEventHandler {
+
+    	private TestCrossScope mission;
     	
-        public MyHandler2(PriorityParameters priority,
-                PeriodicParameters parameters, StorageParameters scp, long memSize, TestInference mission) {
+        public MyHandler(PriorityParameters priority,
+                PeriodicParameters parameters, StorageParameters scp, long memSize, TestCrossScope mission) {
             super(priority, parameters, scp, memSize);
             
             this.mission = mission;
         }
 
-        public
-        void handleEvent() {
+        public void handleEvent() {
             Foo foo = mission.getFoo();
-            Bar bar = new Bar();
+            List bar = new List();
             
-            foo.field = bar;                   // ERROR
+            foo.method(bar);                //  ---> OK
+            foo.methodErr(bar);				// ERROR: is not @crossScope
+           
+            
+            foo.methodCross();			//  ERROR: foo's methodCross runs in "Mission" so it
+             							//   should be annocated with "@crossScope"
         }
+
 
         @Override
         public StorageParameters getThreadConfigurationParameters() {
@@ -67,26 +75,38 @@ public class TestInference extends Mission {
         }
     }
 
+
+
     class Foo {
 
-    	public Bar field;
+    	List x;
 
+    	public List methodCross() {				// this should be annotated with @crossScope to prevent the error abour
+    		this.x = new List();
+    		return x;
+    	}
+    	
+    	
     	@Allocate({CURRENT})
         @CrossScope
-    	public Bar method(Bar bar) {
+    	public List method(List bar) {
     		return bar;
     	}
     	
-    	public Bar methodErr(Bar bar) {
+    	public List methodErr(List bar) {
     		return null;
     	}
     	
     	
     	@Allocate({THIS})
-        public Bar method2() {
-    		return this.field;
+        public List method2() {
+    		return this.x;
     	}	 
     }
-    class Bar {
+
+
+    class List {
+    	String field;
     }
+    
 }

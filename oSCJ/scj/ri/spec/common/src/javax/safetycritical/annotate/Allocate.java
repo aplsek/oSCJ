@@ -26,7 +26,7 @@ public @interface Allocate
    * SCOPED indicates that this routine allocates ScopedMemory
    * backing store from the current thread's stack.
    */
-  public static enum Area { IMMORTAL, MISSION, CURRENT, THIS, SCOPED, PARAMETER }
+  public static enum Area { IMMORTAL, MISSION, CURRENT, THIS, SCOPED }
   
   //TODO: add special field for @Allocate(same-as-parameter)
 
@@ -34,6 +34,31 @@ public @interface Allocate
   
   public Area[] value() default {};
 
+  /**
+   * if @Allocate({}) then there should be a second field
+   *  specifying the name of that parameter of which scope the returned type will be:
+   *  
+   *  @Allocate(parameter="f")
+   *  public Bar method(Foo f) {
+   *     ...
+   *  }	
+   * 
+   *  
+   */
+  public String parameter() default "";
+  
+  /**
+   * @Allocate(scope="Mission")
+   *  public Bar method(Foo f) {
+   *     ...
+   *  }	
+   *  --> the specified scope name must be a name of an existing scope
+   *  
+   */
+  public String scope() default "";
+  
+  
+  
   /**
    * This array of strings contains arguments names of the method.  The
    * string <code>"this"</code> refers to the implicit
