@@ -18,7 +18,7 @@ cd $SCJ && make scj.jar && cd $CWD
 # CLEAN-UP
 rm -rf build
 mkdir build
-rm -rf md5*
+rm -rf list*
 
 # COMPILE & JAR
 find ./src -name *.java > jlist
@@ -29,7 +29,7 @@ rm -rf jlist
 # 
 
 # COMPILE FIJI
-$FIJI_HOME/bin/fivmc -o list-rtems $FIJIFLAGS $SCJFLAGS $RTEMSFLAGS md5.jar 
+$FIJI_HOME/bin/fivmc -o list-rtems $FIJIFLAGS $SCJFLAGS $RTEMSFLAGS list.jar 
 
 
 echo "compilation completed"

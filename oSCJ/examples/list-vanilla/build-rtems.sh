@@ -25,17 +25,14 @@ javac -classpath "$FIJI/runtimej/build:$FIJI/lib/fijicore.jar:$FIJI/lib/fivmcomm
 rm -rf jlist
 
 # JAR
-echo "Creating jar package"
-cd build/ && find . -name "*.class" | xargs jar cf ../md5.jar
+
+cd build/ && find . -name "*.class" | xargs jar cf ../list.jar
 cd ..
 
 
 
 
 # COMPILE FIJI
-echo "Compiling md5"
-
 $FIJI/bin/fivmc -o list-rtems-gc list.jar --main list.MyMain $FIJI_FLAGS $RTEMSFLAGS
 
-echo "running MICRO VANILLA"
 sudo ./list-rtems-gc | tee rtems-list-CMR.1000.700.cap
