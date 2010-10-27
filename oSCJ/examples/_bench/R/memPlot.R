@@ -76,13 +76,13 @@ plot_mem = function(database) {
 	output=matrix(nrow = length(database)+1, ncol = 3)
 	output[1,1] = "NAME"
 	output[1,2] = "MAX MEM [kB]"
-	output[1,2] = "MEAN MEM [kB]"
+	output[1,3] = "MEAN MEM [kB]"
 	for (d in database) {
-	    name  = d$name
+	     name  = d$name
 	     data  = d$data
-         mem   = (data$V4) / 1000
-	     max   = c(max,max(mem))
-	     mean  = c(mean,mean(mem))
+         mem   = (data$V5) / 1000
+	     max   = max(mem)
+	     mean  = mean(mem)
 	     output[line,1] = name
 		 output[line,2] = max
 		 output[line,3] = mean
