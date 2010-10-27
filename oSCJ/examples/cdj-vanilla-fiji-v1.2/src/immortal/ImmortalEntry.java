@@ -11,6 +11,7 @@ import realtime.RelativeTime;
 import realtime.Clock;
 import realtime.AbsoluteTime;
 import workload.FrameBuffer;
+import workload.WorkloadStar;
 
 /* Uncomment this if you plan on using Rapita benchmarking.
  */
@@ -82,8 +83,8 @@ public class ImmortalEntry extends RealtimeThread {
 	static public int recordedDetectorReleaseTimes = 0;
 	static private LTMemory persistentDetectorScope = new LTMemory(Constants.PERSISTENT_DETECTOR_SCOPE_SIZE, Constants.PERSISTENT_DETECTOR_SCOPE_SIZE);
 
-	static public FrameBuffer frameBuffer = new FrameBufferPLDI();//null;
-	//static public FrameBuffer frameBuffer = new WorkloadStar();//null;
+	//static public FrameBuffer frameBuffer = new FrameBufferPLDI();//null;
+	static public FrameBuffer frameBuffer = new WorkloadStar();//null;
 	
 	static public PersistentDetectorScopeEntry persistentDetectorScopeEntry = null;
 

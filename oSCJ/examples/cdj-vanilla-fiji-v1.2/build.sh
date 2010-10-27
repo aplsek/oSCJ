@@ -46,6 +46,7 @@ cd ..
 FIJI_FLAGS="--g-def-max-mem=1000k --g-def-trigger=700k  -G hf --g-pred-level cw --more-opt --max-threads 5 --uniprocessor"
 $FIJI/bin/fivmc -o cdj_hf_CW.1000.700 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
 
+sudo ./cdj_hf_CW.1000.700 | tee output_cdj_STAR_CW.1000.700.cap
 
 echo "All done."
 

@@ -1,8 +1,7 @@
 package workload;
 
-import immortal.Constants;
-import immortal.RawFrame;
-
+import cdx.Constants;
+import cdx.RawFrame;
 
 public class WorkloadStar extends FrameBuffer {
 

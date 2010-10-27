@@ -30,20 +30,25 @@ cd ..
 #
 # =====================================================================================
 
+FIJI_FLAGS="--g-def-max-mem=1200k --g-def-trigger=850k -G cmr --max-threads 5"
+#$FIJI/bin/fivmc -o cdj-STAR-rtems_CMR.1200.850 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS $RTEMSFLAGS                                                                                 
+
+
+
 FIJI_FLAGS="--g-def-max-mem=1000k --g-def-trigger=700k -G cmr --max-threads 5"
 #$FIJI/bin/fivmc -o cdj-rtems_cmr.1000.700 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS $RTEMSFLAGS                                
 
 
 FIJI_FLAGS="--g-def-max-mem=1200k --g-def-trigger=850k -G hf --g-pred-level a  --max-threads 5"
-$FIJI/bin/fivmc -o cdj-rtems_hf_A.1200.850 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS $RTEMSFLAGS
+#$FIJI/bin/fivmc -o cdj-rtems_hf_A.1200.850 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS $RTEMSFLAGS
 
 
 FIJI_FLAGS="--g-def-max-mem=1200k --g-def-trigger=850k  -G hf --g-pred-level c --more-opt --max-threads 5 --uniprocessor"
 #$FIJI/bin/fivmc -o cdj-rtems_hf_C.1200.850 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS $RTEMSFLAGS
 
 
-FIJI_FLAGS="--g-def-max-mem=1400k --g-def-trigger=950k  -G hf --g-pred-level cw --more-opt --max-threads 5 --uniprocessor"
-#$FIJI/bin/fivmc -o cdj-rtems_hf_CW.1400.950 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS $RTEMSFLAGS
+FIJI_FLAGS="--g-def-max-mem=1200k --g-def-trigger=850k  -G hf --g-pred-level cw --more-opt --max-threads 5 --uniprocessor"
+$FIJI/bin/fivmc -o cdj-STAR-rtems_hf_CW.1200.850 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS $RTEMSFLAGS
 
 
 
