@@ -7,7 +7,7 @@ public class WorkloadStar extends FrameBuffer {
 
     
     final double tic = 0.25f;
-    final double lenght = 2 ;
+    final double lenght = 20 ;
     static double t = 0;
     
     final double[] angels = new double[Constants.NUMBER_OF_PLANES];

@@ -177,7 +177,7 @@ plot_perf = function(database) {
 	frame   = data.frame(frame)
 
 	pdf("perf_bench.pdf", width=25, height=10)
-	range_x = c(0,300)
+	range_x = c(0,1000)
 	title   = "Time"
 	label_x = "Iteration"
 	label_y = "Worst Case Time [ms]"
