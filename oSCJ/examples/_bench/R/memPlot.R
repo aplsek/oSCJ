@@ -65,7 +65,7 @@ plot_mem = function(database) {
 	 pdf("mem_bench.pdf", width=25, height=10)
 	 range_x = c(0,1000)
 	 title   = "Memory Usage"
-	 label_x = "Iteration"
+	 label_x = "Sample Point Number"
 	 label_y = "Memory Usage [KB]"
 	 matplot(frame, main=title, xlim=range_x, type=plot_type, lty=line_type, xlab=label_x, ylab=label_y, col=colors, lwd=2)
 	 legend("topright", inset=.05, leg, col=colors, fill=colors)
