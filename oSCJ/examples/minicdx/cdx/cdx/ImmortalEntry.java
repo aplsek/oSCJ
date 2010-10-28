@@ -24,6 +24,8 @@ package cdx;
 
 import java.io.DataOutputStream;
 import javax.safetycritical.annotate.SCJAllowed;
+import workload.FrameBuffer;
+import workload.WorkloadStar;
 
 /**
  * This thread runs only during start-up to run other threads. It runs in immortal memory, is allocated in immortal
@@ -88,7 +90,10 @@ public class ImmortalEntry implements Runnable {
         System.out.println("Detector: detector priority is " + Constants.DETECTOR_PRIORITY);
         System.out.println("Detector: detector period is " + Constants.DETECTOR_PERIOD);
 
-        frameBuffer = new FrameBuffer();
+        //frameBuffer = new FrameBufferPLDI();
+        
+        frameBuffer = new WorkloadStar();
+        
         
         /* start the detector at rounded-up time, so that the measurements are not subject
          * to phase shift

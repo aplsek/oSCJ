@@ -32,7 +32,7 @@ import javax.safetycritical.annotate.SCJAllowed;
 @SCJAllowed(members=true)
 public final class Constants {
     // I have added this so that we can specify the number of planes at runtime
-    public static int           NUMBER_OF_PLANES                         = 60;
+    public static int           NUMBER_OF_PLANES                         = 6;
 
     public static final float   MIN_X                                    = 0.0f;
     public static final float   MIN_Y                                    = 0.0f;
@@ -50,9 +50,9 @@ public final class Constants {
     public static int           DETECTOR_PRIORITY                        = 9;                                       // DETECTOR_STARTUP_PRIORITY
                                                                                                                      // +
                                                                                                                      // 1;
-    public static long          PERSISTENT_DETECTOR_SCOPE_SIZE           = 245*1000; // 250     //5*1000*1000;
+    public static long          PERSISTENT_DETECTOR_SCOPE_SIZE           = 260*1000; // v 245*1000   250     //5*1000*1000;
     public static long          DETECTOR_PERIOD                          = 50;
-    public static long          TRANSIENT_DETECTOR_SCOPE_SIZE            = 63*1000; //50     //5*1000*1000;
+    public static long          TRANSIENT_DETECTOR_SCOPE_SIZE            = 63*1000; //63  50     //5*1000*1000;
 
     public static int           MAX_FRAMES                               = 1000;
 

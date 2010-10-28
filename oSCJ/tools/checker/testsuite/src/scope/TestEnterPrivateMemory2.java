@@ -64,9 +64,6 @@ public class TestEnterPrivateMemory2 extends CyclicExecutive {
         public void cleanUp() {}
         
         @SCJAllowed()
-        public void register() {}
-        
-        @SCJAllowed()
         @Override
         public void handleAsyncEvent() {}
 

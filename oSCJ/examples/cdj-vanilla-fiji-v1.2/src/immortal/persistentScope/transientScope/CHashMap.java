@@ -1,5 +1,8 @@
 package immortal.persistentScope.transientScope;
 
+/**
+ * This is not used... TODO: why is it here?:
+ */
 public class CHashMap {
 	protected class Item {
 		Object data;

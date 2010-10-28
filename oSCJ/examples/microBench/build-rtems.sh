@@ -6,7 +6,7 @@ set -x
 
 
 FIJI_HOME="../../../../"
-SCJFLAGS="--scj --scj-scope-backing 300k --g-def-immortal-mem 530k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
+SCJFLAGS="--scj --scj-scope-backing 600k --g-def-immortal-mem 530k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
 FIJIFLAGS="--max-threads 5 --more-opt"  # -v 1
 RTEMSFLAGS="--target sparc-rtems4.9"
 
