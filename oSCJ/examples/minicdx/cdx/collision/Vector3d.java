@@ -128,7 +128,8 @@ public final class Vector3d {
     }
 
     public String toString() {
-        return "(" + ASCIIConverter.floatToString(x) + ", " + ASCIIConverter.floatToString(y) + ", "
-                + ASCIIConverter.floatToString(z) + ")";
+        //return "(" + ASCIIConverter.floatToString(x) + ", " + ASCIIConverter.floatToString(y) + ", "
+        //        + ASCIIConverter.floatToString(z) + ")";
+        return "(" + x + ", " + y + ", " + z + ")";
     }
 }
