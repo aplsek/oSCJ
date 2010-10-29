@@ -20,7 +20,6 @@ mkdir build
 # COMPILE & JAR
 find ./cdx -name *.java > list
 find ./simulator -name *.java >> list
-find ./utils -name *.java >> list
 javac -cp $FIJI_HOME/lib/scj.jar -d build/ @list	
 cd build/ && find . -name "*.class" | xargs jar cf ../minicdx.jar && cd ..
 rm -rf list

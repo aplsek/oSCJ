@@ -43,10 +43,10 @@ cd ..
 #$FIJI/bin/fivmc -o cdj_hf_C.1300.1000 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
 
 
-FIJI_FLAGS="--g-def-max-mem=1000k --g-def-trigger=700k  -G hf --g-pred-level cw --more-opt --max-threads 5 --uniprocessor"
-$FIJI/bin/fivmc -o cdj_hf_CW.1000.700 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
+FIJI_FLAGS="--g-def-max-mem=1200k --g-def-trigger=850k --more-opt --max-threads 5 --uniprocessor"
+$FIJI/bin/fivmc -o cdj_STAR_CMR.1200.850 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
 
-sudo ./cdj_hf_CW.1000.700 | tee output_cdj_STAR_CW.1000.700.cap
+sudo ./cdj_STAR_CMR.1200.850 | tee cdj_STAR_CMR.1200.850.cap
 
 echo "All done."
 

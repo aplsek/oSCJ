@@ -22,7 +22,7 @@
  */
 package cdx;
 
-import javacp.util.HashMap;
+import java.util.HashMap;
 import javax.realtime.MemoryArea;
 import javax.safetycritical.annotate.SCJAllowed;
 import statetable.Vector3d;

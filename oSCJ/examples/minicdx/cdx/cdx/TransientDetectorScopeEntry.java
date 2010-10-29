@@ -23,11 +23,11 @@
  
  package cdx;
 
-import javacp.util.HashMap;
-import javacp.util.HashSet;
-import javacp.util.Iterator;
-import javacp.util.LinkedList;
-import javacp.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import javax.realtime.MemoryArea;
 import javax.realtime.RealtimeThread;
 import javax.safetycritical.annotate.RunsIn;
