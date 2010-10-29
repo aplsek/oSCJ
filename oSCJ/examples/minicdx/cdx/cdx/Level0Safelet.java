@@ -56,10 +56,6 @@ public class Level0Safelet extends CyclicExecutive {
     public void setUp() {
        
         
-        System.out.println("INPUT FRAMES:::::::------=====================");
-        //FrameBuffer.generateFrames();
-        System.out.println("INPUT FRAMES:::::::------=====================");
-        
         ////////////////////////////////
         //  MEMORY BENCHMARK INIT
         BenchMem.init();

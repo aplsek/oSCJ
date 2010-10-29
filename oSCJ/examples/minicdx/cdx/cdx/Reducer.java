@@ -23,10 +23,10 @@
 package cdx;
 
 import javax.safetycritical.annotate.SCJAllowed;
-import javacp.util.ArrayList;
-import javacp.util.HashMap;
-import javacp.util.Iterator;
-import javacp.util.LinkedList;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
 import collision.Vector3d;
 
 /**
