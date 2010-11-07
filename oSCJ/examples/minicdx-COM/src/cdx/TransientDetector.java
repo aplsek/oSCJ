@@ -25,7 +25,6 @@ public class TransientDetector implements ITransientDetector {
 		this.iState = iS;
 	}
 
-	@Override
 	public void runDetectorInScope() {
 
 		final RawFrame f = cdx.ImmortalEntry.frameBuffer.getFrame();
