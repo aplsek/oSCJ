@@ -26,6 +26,10 @@ import cdx.Constants;
 import cdx.ImmortalEntry;
 import cdx.StateTable;
 import cdx.TransientDetector;
+import cdx.NanoClock;
+
+import javax.realtime.*;
+
 
 public class Launcher {
 	public static void main(final String[] args) {
@@ -37,7 +41,19 @@ public class Launcher {
 			Constants.MAX_FRAMES = Integer.parseInt(args[2]);
 
 		// FRACTAL BINDING
-		CollisionDetector cd = new CollisionDetector();
+		//CollisionDetector cd = new CollisionDetector();
+
+		AbsoluteTime releaseAt = NanoClock.roundUp(Clock.getRealtimeClock().getTime().add(Constants.DETECTOR_STARTUP_OFFSET_MILLIS, 0));
+		
+                CollisionDetector cd = new CollisionDetector(
+     		   new PriorityParameters(Constants.DETECTOR_PRIORITY), 
+		   new PeriodicParameters(releaseAt, // start
+		   new RelativeTime(Constants.DETECTOR_PERIOD, 0), // period
+		     		 null, //cost
+				 null, // deadline
+				 null, null), 
+		   null);  //persistentDetectorScope);
+
 		StateTable st = new StateTable();
 		TransientDetector td = new TransientDetector(Constants.GOOD_VOXEL_SIZE);
 		td.bindStateTable(st);

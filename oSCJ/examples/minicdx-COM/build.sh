@@ -3,35 +3,27 @@
 set -e
 set -x
 
+JAVA="/opt/jrts-2.2"
 
 FIJI_HOME="../../../../"
-SCJFLAGS="--scj --scj-scope-backing 1500k --g-def-immortal-mem 2330k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
-FIJIFLAGS="--max-threads 5 --more-opt"  # -v 1
+#SCJFLAGS="--scj --scj-scope-backing 1500k --g-def-immortal-mem 2330k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
+#FIJIFLAGS="--max-threads 5 --more-opt"  # -v 1
 
-# rebuild SCJ.jar                 
-SCJ="../../scj/ri"
-CWD=`pwd`
-cd $SCJ && make scj.jar && cd $CWD
 
 # CLEAN-UP
 rm -rf build
 mkdir build
 
 # COMPILE & JAR
-find ./cdx -name *.java > list
-find ./simulator -name *.java >> list
-javac -cp $FIJI_HOME/lib/scj.jar -d build/ @list	
+find ./src -name *.java > list
+javac -cp $JAVA/jre/lib/rt2.jar -d build/ @list	
 cd build/ && find . -name "*.class" | xargs jar cf ../minicdx.jar && cd ..
 rm -rf list
 
-# 
-
-# COMPILE FIJI
-$FIJI_HOME/bin/fivmc -o minicdx-com $FIJIFLAGS $SCJFLAGS minicdx.jar
 	
 	
 # RUN:	
-sudo ./minicdx-com | tee miniCDx-com-scj.cap
+$JAVA/bin/java -jar minicdx.jar -m Launcher | tee miniCDx-com.cap
 
 
 
