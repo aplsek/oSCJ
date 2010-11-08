@@ -18,7 +18,7 @@ public class CollisionDetector extends RealtimeThread {
 
            public CollisionDetector(final PriorityParameters p, final PeriodicParameters q, final LTMemory l) {
 	       //super(p, q, null, l, null, null);
-               super(p,q,null,null,null,null);
+               super(p,q);
 	   }
 
 	   

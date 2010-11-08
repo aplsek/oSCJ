@@ -45,11 +45,11 @@ public final class Constants {
     public static int           SIMULATOR_TIME_SCALE                     = 1;
     public static int           SIMULATOR_FPS                            = 50;
     public static int           DETECTOR_STARTUP_PRIORITY                = 9;
-    public static int           DETECTOR_PRIORITY                        = 9;                                       // DETECTOR_STARTUP_PRIORITY
+    public static int           DETECTOR_PRIORITY                        = 11;                                       // DETECTOR_STARTUP_PRIORITY
                                                                                                                      // +
                                                                                                                      // 1;
     public static long          PERSISTENT_DETECTOR_SCOPE_SIZE           = 260*1000; // v 245*1000   250     //5*1000*1000;
-    public static long          DETECTOR_PERIOD                          = 50;
+    public static long          DETECTOR_PERIOD                          = 50; //50;
     public static long          TRANSIENT_DETECTOR_SCOPE_SIZE            = 63*1000; //63  50     //5*1000*1000;
 
     public static int           MAX_FRAMES                               = 300;
