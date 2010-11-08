@@ -1,6 +1,6 @@
 package cdx;
 
-class TDInterceptor implements ITransientDetector {
+public class TDInterceptor implements ITransientDetector {
 
     ITransientDetector itd;
 

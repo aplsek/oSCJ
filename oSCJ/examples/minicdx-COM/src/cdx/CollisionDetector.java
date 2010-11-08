@@ -58,5 +58,11 @@ public class CollisionDetector extends RealtimeThread {
 
 			return true;
 		}
+
+    public void bindTransientDetector(ITransientDetector itd) {
+
+	iTransientDetector = itd;
+    }
+
 	
 }

@@ -2,7 +2,7 @@ package cdx;
 
 import statetable.Vector3d;
 
-class STInterceptor implements IStateTable {
+public class STInterceptor implements IStateTable {
 
     IStateTable ist;
 

@@ -27,6 +27,9 @@ import cdx.ImmortalEntry;
 import cdx.StateTable;
 import cdx.TransientDetector;
 import cdx.NanoClock;
+import cdx.*;
+
+
 
 import javax.realtime.*;
 
@@ -56,11 +59,16 @@ public class Launcher {
 				 null, null), 
 		   null);  //persistentDetectorScope);
 
-		StateTable st = new StateTable();
-		TransientDetector td = new TransientDetector(Constants.GOOD_VOXEL_SIZE);
-		td.bindStateTable(st);
 		
-		cd.iTransientDetector = td;
+		StateTable st = new StateTable();
+		STInterceptor sti = new STInterceptor(st);
+
+		TransientDetector td = new TransientDetector(Constants.GOOD_VOXEL_SIZE);
+		TDInterceptor tdi = new TDInterceptor(td);
+
+		td.bindStateTable(sti);
+		
+		cd.bindTransientDetector(td);
 
 		ImmortalEntry ie = new ImmortalEntry();
 		ie.run();
