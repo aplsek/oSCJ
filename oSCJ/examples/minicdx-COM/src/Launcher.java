@@ -45,7 +45,7 @@ public class Launcher {
 
 		AbsoluteTime releaseAt = NanoClock.roundUp(Clock.getRealtimeClock().getTime().add(Constants.DETECTOR_STARTUP_OFFSET_MILLIS, 0));
 
-		System.out.println("" + releaseAt + " -- period:" + Constants.DETECTOR_PERIOD + " priority " + Constants.DETECTOR_PRIORITY);
+		//		System.out.println("" + releaseAt + " -- period:" + Constants.DETECTOR_PERIOD + " priority " + Constants.DETECTOR_PRIORITY);
 		
                 CollisionDetector cd = new CollisionDetector(
      		   new PriorityParameters(Constants.DETECTOR_PRIORITY), 
