@@ -68,7 +68,7 @@ public class Launcher {
 
 		td.bindStateTable(sti);
 		
-		cd.bindTransientDetector(td);
+		cd.bindTransientDetector(tdi);
 
 		ImmortalEntry ie = new ImmortalEntry();
 		ie.run();
