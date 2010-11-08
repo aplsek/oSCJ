@@ -17,7 +17,7 @@ mkdir build
 # COMPILE & JAR
 find ./src -name *.java > list
 
-$JAVA/bin/javac -classpath /opt/SUNWrtjv/jre/lib/rt2.jar -d build/ @list
+$JAVA/bin/javac -classpath $JAVA/jre/lib/rt2.jar -d build/ @list
 cd build/ && find . -name "*.class" | xargs jar cf ../minicdx.jar && cd ..
 rm -rf list
 	
