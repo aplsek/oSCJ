@@ -7,11 +7,11 @@ import immortal.NanoClock;
 import immortal.RawFrame;
 import immortal.persistentScope.transientScope.TransientDetectorScopeEntry;
 
-import realtime.LTMemory;
-import realtime.NoHeapRealtimeThread;
-import realtime.PeriodicParameters;
-import realtime.PriorityParameters;
-import realtime.RealtimeThread;
+import javax.realtime.LTMemory;
+import javax.realtime.NoHeapRealtimeThread;
+import javax.realtime.PeriodicParameters;
+import javax.realtime.PriorityParameters;
+import javax.realtime.RealtimeThread;
 
 //import com.fiji.fivm.*;
 

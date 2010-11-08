@@ -1,7 +1,8 @@
 package immortal;
 
-import realtime.AbsoluteTime;
-import realtime.Clock;
+import javax.realtime.AbsoluteTime;
+import javax.realtime.Clock;
+
 
 public class NanoClock {
 

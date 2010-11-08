@@ -3,13 +3,15 @@ package immortal;
 import heap.Simulator;
 import immortal.persistentScope.PersistentDetectorScopeEntry;
 import java.io.DataOutputStream;
-import realtime.LTMemory;
-import realtime.PeriodicParameters;
-import realtime.PriorityParameters;
-import realtime.RealtimeThread;
-import realtime.RelativeTime;
-import realtime.Clock;
-import realtime.AbsoluteTime;
+
+import javax.realtime.AbsoluteTime;
+import javax.realtime.Clock;
+import javax.realtime.LTMemory;
+import javax.realtime.PeriodicParameters;
+import javax.realtime.PriorityParameters;
+import javax.realtime.RealtimeThread;
+import javax.realtime.RelativeTime;
+
 import workload.FrameBuffer;
 import workload.WorkloadStar;
 
@@ -131,7 +133,7 @@ public class ImmortalEntry extends RealtimeThread {
         output(0xf000);
 		persistentDetectorScopeEntry.start();
 		try {
-			persistentDetectorScopeEntry.joinReal();
+			persistentDetectorScopeEntry.join();
 			setMask(0x0000);
 		} catch (InterruptedException e) {
 		    e.printStackTrace();

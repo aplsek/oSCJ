@@ -1,6 +1,6 @@
 package immortal.persistentScope;
 
-import realtime.MemoryArea;
+import javax.realtime.MemoryArea;
 
 import java.util.HashMap;
 

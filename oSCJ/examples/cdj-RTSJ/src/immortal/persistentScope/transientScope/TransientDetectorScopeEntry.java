@@ -1,6 +1,6 @@
 package immortal.persistentScope.transientScope;
 
-import realtime.MemoryArea;
+import javax.realtime.MemoryArea;
 import immortal.Constants;
 import immortal.FrameSynchronizer;
 import immortal.RawFrame;

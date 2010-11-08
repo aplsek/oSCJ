@@ -1,6 +1,6 @@
 package immortal;
 
-import com.fiji.fivm.ThreadPriority;
+import javax.realtime.RealtimeThread;
 
 /**
  * All of our globally relevant constants.
@@ -21,9 +21,9 @@ public final class Constants {
 	public static final float PROXIMITY_RADIUS = 1.0f;
 	public static final float GOOD_VOXEL_SIZE = PROXIMITY_RADIUS * 10.0f;
 
-	public static int SIMULATOR_PRIORITY = ThreadPriority.FIFO_MAX;
-    public static int DETECTOR_STARTUP_PRIORITY = ThreadPriority.FIFO_MAX;
-    public static int DETECTOR_PRIORITY = ThreadPriority.FIFO_MAX;
+	public static int SIMULATOR_PRIORITY = 1;
+    public static int DETECTOR_STARTUP_PRIORITY = 11;
+    public static int DETECTOR_PRIORITY = RealtimeThread.MAX_PRIORITY;
 	public static long PERSISTENT_DETECTOR_SCOPE_SIZE = 5* 10 * 1000 * 1024;
 	public static long DETECTOR_PERIOD = 120;
 	public static long TRANSIENT_DETECTOR_SCOPE_SIZE = 5 * 10 * 1048576;
