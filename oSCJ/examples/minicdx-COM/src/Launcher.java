@@ -29,10 +29,7 @@ import cdx.TransientDetector;
 import cdx.NanoClock;
 import cdx.*;
 
-
-
 import javax.realtime.*;
-
 
 public class Launcher {
 	public static void main(final String[] args) {
@@ -44,22 +41,22 @@ public class Launcher {
 			Constants.MAX_FRAMES = Integer.parseInt(args[2]);
 
 		// FRACTAL BINDING
-		//CollisionDetector cd = new CollisionDetector();
+		// CollisionDetector cd = new CollisionDetector();
 
-		AbsoluteTime releaseAt = NanoClock.roundUp(Clock.getRealtimeClock().getTime().add(Constants.DETECTOR_STARTUP_OFFSET_MILLIS, 0));
+		AbsoluteTime releaseAt = NanoClock.roundUp(Clock.getRealtimeClock()
+				.getTime().add(Constants.DETECTOR_STARTUP_OFFSET_MILLIS, 0));
 
-		//		System.out.println("" + releaseAt + " -- period:" + Constants.DETECTOR_PERIOD + " priority " + Constants.DETECTOR_PRIORITY);
-		
-                CollisionDetector cd = new CollisionDetector(
-     		   new PriorityParameters(Constants.DETECTOR_PRIORITY), 
-		   new PeriodicParameters(releaseAt, // start
-		   new RelativeTime(Constants.DETECTOR_PERIOD, 0), // period
-		     		 null, //cost
-				 null, // deadline
-				 null, null), 
-		   null);  //persistentDetectorScope);
+		// System.out.println("" + releaseAt + " -- period:" +
+		// Constants.DETECTOR_PERIOD + " priority " +
+		// Constants.DETECTOR_PRIORITY);
+		/*
+		CollisionDetector cd = new CollisionDetector(new PriorityParameters(
+				Constants.DETECTOR_PRIORITY), new PeriodicParameters(releaseAt, // start
+				new RelativeTime(Constants.DETECTOR_PERIOD, 0), // period
+				null, // cost
+				null, // deadline
+				null, null), null); // persistentDetectorScope);
 
-		
 		StateTable st = new StateTable();
 		STInterceptor sti = new STInterceptor(st);
 
@@ -67,12 +64,11 @@ public class Launcher {
 		TDInterceptor tdi = new TDInterceptor(td);
 
 		td.bindStateTable(sti);
-		
+
 		cd.bindTransientDetector(tdi);
 
 		ImmortalEntry ie = new ImmortalEntry();
 		ie.run();
-		
 		
 		// START THE THREAD
 		cd.start();
@@ -84,6 +80,29 @@ public class Launcher {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		 *
+		 *
+		 */
+		ImmortalEntry ie = new ImmortalEntry();
+		RealtimeThread rt = new RealtimeThread(new PriorityParameters(
+				Constants.DETECTOR_PRIORITY), new PeriodicParameters(releaseAt, // start
+						new RelativeTime(Constants.DETECTOR_PERIOD, 0), // period
+						null, // cost
+						null, // deadline
+						null, null), null, ImmortalMemory.instance(),null,ie);
+		
+		// START THE THREAD
+		rt.start();
+
+		// END
+		try {
+			rt.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 
 		// BENCH RESULTS DUMP
 		dumpResults();

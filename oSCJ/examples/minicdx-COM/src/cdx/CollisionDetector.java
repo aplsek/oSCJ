@@ -4,7 +4,7 @@ package cdx;
 
 import javax.realtime.*;
 
-public class CollisionDetector extends RealtimeThread {
+public class CollisionDetector implements Runnable {
 
 	
 	   public boolean stop = false;
@@ -16,14 +16,14 @@ public class CollisionDetector extends RealtimeThread {
 		   super();
 	   }
 
-           public CollisionDetector(final PriorityParameters p, final PeriodicParameters q, final LTMemory l) {
-	       //super(p, q, null, l, null, null);
-               super(p,q);
-	   }
+       //public CollisionDetector(final PriorityParameters p, final PeriodicParameters q, final LTMemory l) {
+	   //    //super(p, q, null, l, null, null);
+       //        super(p,q);
+	   //}
 
 	   
 	   public void run() {
-		   
+		   //System.out.println("CollisionDetector starts...");
 		   while (!stop) {
 			   long now = System.nanoTime();
 			   ImmortalEntry.detectorReleaseTimes[ImmortalEntry.recordedDetectorReleaseTimes] = now;

@@ -66,4 +66,8 @@ public class CallSign {
             else if (cs[i] > val[i]) return +1;
         return 0;
     }
+    
+    public byte[] getVal() {
+    	return val;
+    }
 }

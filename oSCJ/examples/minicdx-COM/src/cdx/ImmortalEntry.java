@@ -23,6 +23,9 @@
 package cdx;
 
 import java.io.DataOutputStream;
+
+import javax.realtime.LTMemory;
+
 import workload.FrameBuffer;
 import workload.WorkloadStar;
 
@@ -89,11 +92,29 @@ public class ImmortalEntry implements Runnable {
 
         //frameBuffer = new FrameBufferPLDI();
         
+        CollisionDetector cd = new CollisionDetector();
+
+		StateTable st = new StateTable();
+		STInterceptor sti = new STInterceptor(st);
+
+		TransientDetector td = new TransientDetector(Constants.GOOD_VOXEL_SIZE);
+		TDInterceptor tdi = new TDInterceptor(td);
+
+		td.bindStateTable(sti);
+
+		cd.bindTransientDetector(tdi);
+
+        
         frameBuffer = new WorkloadStar();
         
+        // TODO: this should be in an interceptor
+        //.. create memory and enter...
         
-        /* start the detector at rounded-up time, so that the measurements are not subject
-         * to phase shift
-         */
+        LTMemory persistentMemory = new LTMemory(Constants.PERSISTENT_DETECTOR_SCOPE_SIZE);
+        sti.setMem(persistentMemory);
+        
+        System.out.println("persistentScope: " + persistentMemory);
+        persistentMemory.enter(cd);
+        
     }
 }
