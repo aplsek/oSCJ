@@ -1,6 +1,10 @@
+
 package cdx;
 
-public class CollisionDetector extends Thread {
+
+import javax.realtime.*;
+
+public class CollisionDetector extends RealtimeThread {
 
 	
 	   public boolean stop = false;
