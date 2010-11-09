@@ -23,12 +23,12 @@ public final class Constants {
 
 	public static int SIMULATOR_PRIORITY = 1;
     public static int DETECTOR_STARTUP_PRIORITY = 11;
-    public static int DETECTOR_PRIORITY = RealtimeThread.MAX_PRIORITY;
-	public static long PERSISTENT_DETECTOR_SCOPE_SIZE = 5* 10 * 1000 * 1024;
-	public static long DETECTOR_PERIOD = 120;
-	public static long TRANSIENT_DETECTOR_SCOPE_SIZE = 5 * 10 * 1048576;
+    public static int DETECTOR_PRIORITY = 11; //RealtimeThread.MAX_PRIORITY;
+	public static long PERSISTENT_DETECTOR_SCOPE_SIZE = 5 * 1000 * 1024;
+	public static long DETECTOR_PERIOD = 50;
+	public static long TRANSIENT_DETECTOR_SCOPE_SIZE = 5 * 1048576;
 
-	public static int MAX_FRAMES = 1000;
+	public static int MAX_FRAMES = 100;
 
 	public static int TIME_SCALE = 1;
 	public static int FPS = 50;

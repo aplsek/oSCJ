@@ -21,16 +21,20 @@ import bench.BenchMem;
  * Its constructor runs in immortal memory. The instance lives in immortal memory. 
  * The thread itself runs in the persistent detector scope.
  */
-public class PersistentDetectorScopeEntry extends NoHeapRealtimeThread {
+public class PersistentDetectorScopeEntry implements Runnable /*extends RealtimeThread*/ {
 
-    public PersistentDetectorScopeEntry(final PriorityParameters p, final PeriodicParameters q, final LTMemory l) {
-        super(p, q, null, l, null, null);
-    }
+    
+	//public PersistentDetectorScopeEntry(final PriorityParameters p, final PeriodicParameters q, final LTMemory l) {
+    //    super(p, q, null, l, null, null);
+    //}
 
     public boolean stop = false;
     
     public void run() {
-        ImmortalEntry.progStartTime = NanoClock.now();
+        System.out.println("Persistent, area:" + RealtimeThread.getCurrentMemoryArea());
+    	
+    	
+    	ImmortalEntry.progStartTime = NanoClock.now();
         NoiseGenerator noiseGenerator = new NoiseGenerator();
         final LTMemory transientDetectorScope = new LTMemory(immortal.Constants.TRANSIENT_DETECTOR_SCOPE_SIZE, immortal.Constants.TRANSIENT_DETECTOR_SCOPE_SIZE);
         try {
@@ -43,7 +47,6 @@ public class PersistentDetectorScopeEntry extends NoHeapRealtimeThread {
                                    ", MIN_PRIORITY is "+Thread.MIN_PRIORITY+
                                    ", MAX_PRIORITY is "+Thread.MAX_PRIORITY+")");  
             }
-           
             
             while (!stop) {
                 Benchmarker.set(13);
@@ -114,6 +117,6 @@ public class PersistentDetectorScopeEntry extends NoHeapRealtimeThread {
 
     public void start() {
         ImmortalEntry.detectorThreadStart = NanoClock.now();
-        super.start();
+       // super.start();
     }
 }

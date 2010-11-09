@@ -1,6 +1,8 @@
 package immortal.persistentScope.transientScope;
 
 import javax.realtime.MemoryArea;
+import javax.realtime.RealtimeThread;
+
 import immortal.Constants;
 import immortal.FrameSynchronizer;
 import immortal.RawFrame;
@@ -40,16 +42,12 @@ public class TransientDetectorScopeEntry implements Runnable {
 			dumpFrame("CD-PROCESSING-FRAME (indexed as received): ");
 		}
 		Benchmarker.set(Benchmarker.RAPITA_REDUCER_INIT);
-		BenchMem.memUsage();
 		final Reducer reducer = new Reducer(voxelSize);
-		BenchMem.memUsage();
 		Benchmarker.done(Benchmarker.RAPITA_REDUCER_INIT);
 		
 		
 		Benchmarker.set(Benchmarker.LOOK_FOR_COLLISIONS);
-		BenchMem.memUsage();
 		int numberOfCollisions = lookForCollisions(reducer, createMotions());
-		BenchMem.memUsage();
 		Benchmarker.done(Benchmarker.LOOK_FOR_COLLISIONS);
 		
 		if (immortal.ImmortalEntry.recordedRuns < immortal.ImmortalEntry.maxDetectorRuns) {
@@ -62,7 +60,8 @@ public class TransientDetectorScopeEntry implements Runnable {
 			System.out.println("");
 		}
 		Benchmarker.done(1);
-		BenchMem.memUsage();
+		
+		System.out.println("Transient DONE:");
 	}
 
 	public int lookForCollisions(final Reducer reducer, final List motions) { // List
@@ -221,10 +220,12 @@ public class TransientDetectorScopeEntry implements Runnable {
 			c = new CallSign(b);
 		}
 	}
-	private final R r = new R();
+	//private final R r = new R();
 
 	CallSign mkCallsignInPersistentScope(final byte[] cs) {
+		R r = new R();
 		r.cs = cs;
+		
 		MemoryArea.getMemoryArea(state).executeInArea(r);
 		return r.c;
 	}

@@ -3,7 +3,7 @@
 set -e
 set -x
 
-JAVA="/opt/jrts2.2/"
+JAVA="/opt/jrts-2.2/"
 
 #CLEANUP
 echo "Cleaning class files..."
@@ -14,7 +14,7 @@ rm -rf build/
 mkdir build/
 
 find . -name *.java > list
-$JAVA/bin/javac -classpath "lib/rt2.jar" -d ./build @list
+$JAVA/bin/javac -classpath $JAVA/jre/lib/rt2.jar -d ./build @list
 rm -rf list
 
 # JAR
@@ -23,5 +23,5 @@ cd build/ && find . -name "*.class" | xargs jar cf ../cdj.jar
 cd ..
 
 
-$JAVA/bin/java -cp cdj.jar:lib/rt2.jar Main
+$JAVA/bin/java -cp cdj.jar:$JAVA/jre/lib/rt2.jar heap.Main
 

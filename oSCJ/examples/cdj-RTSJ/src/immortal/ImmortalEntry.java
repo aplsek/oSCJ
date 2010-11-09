@@ -6,6 +6,7 @@ import java.io.DataOutputStream;
 
 import javax.realtime.AbsoluteTime;
 import javax.realtime.Clock;
+import javax.realtime.ImmortalMemory;
 import javax.realtime.LTMemory;
 import javax.realtime.PeriodicParameters;
 import javax.realtime.PriorityParameters;
@@ -21,7 +22,7 @@ import workload.WorkloadStar;
 
 /** This thread runs only during start-up to run other threads. It runs in immortal memory, is allocated in immortal memory,
  * and it's constructor runs in immortal memory. It is a singleton, allocation from the Main class */
-public class ImmortalEntry extends RealtimeThread {
+public class ImmortalEntry implements Runnable /*extends RealtimeThread*/ {
     // RAPITA stuff
     /* Uncomment this code only if you plan to use RAPITA for benchmarking. 
     
@@ -93,7 +94,7 @@ public class ImmortalEntry extends RealtimeThread {
 	static public DataOutputStream binaryDumpStream = null;
 	
 	public ImmortalEntry() {
-		super(new PriorityParameters(Constants.DETECTOR_STARTUP_PRIORITY));
+		//super(new PriorityParameters(Constants.DETECTOR_STARTUP_PRIORITY));
 
 		maxDetectorRuns = Constants.MAX_FRAMES;
 
@@ -114,12 +115,18 @@ public class ImmortalEntry extends RealtimeThread {
 	public void run() {
 		detectorReady = true;
 
+		
 		/* start the detector at rounded-up time, so that the measurements are not subject
 		 * to phase shift
 		 */
 		AbsoluteTime releaseAt = NanoClock.roundUp(Clock.getRealtimeClock().getTime().add(Constants.DETECTOR_STARTUP_OFFSET_MILLIS, 0));
 		detectorFirstRelease = NanoClock.convert(releaseAt);
 
+		
+		persistentDetectorScopeEntry = new PersistentDetectorScopeEntry();
+		persistentDetectorScope.enter(persistentDetectorScopeEntry);
+		
+		/*
 		persistentDetectorScopeEntry = new PersistentDetectorScopeEntry(
 				new PriorityParameters(Constants.DETECTOR_PRIORITY), 
 				new PeriodicParameters( releaseAt, // start
@@ -139,5 +146,7 @@ public class ImmortalEntry extends RealtimeThread {
 		    e.printStackTrace();
 		}	
 		//persistentDetectorScopeEntry.run();
+		 * 
+		 */
 	}
 }

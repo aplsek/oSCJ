@@ -7,6 +7,14 @@ import immortal.NanoClock;
 
 import java.io.PrintStream;
 
+import javax.realtime.AbsoluteTime;
+import javax.realtime.Clock;
+import javax.realtime.ImmortalMemory;
+import javax.realtime.PeriodicParameters;
+import javax.realtime.PriorityParameters;
+import javax.realtime.RealtimeThread;
+import javax.realtime.RelativeTime;
+
 import bench.BenchMem;
 
 /** Real-time Java runner for the collision detector. */
@@ -20,18 +28,39 @@ public class Main {
 	    Benchmarker.set(Benchmarker.RAPITA_BENCHMARK);
 	    parse(w);
 	    
-	    //System.out.println("start22222 ammount of mem is : " + Runtime.getRuntime().totalMemory() );
-	    //System.out.println("start22222 ammount of mem is : " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
-       
-	    BenchMem.start = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-       
 	    NanoClock.init();
 	    ImmortalEntry immortalEntry=new ImmortalEntry();
-	    immortalEntry.run();
+	    //immortalEntry.run();
+	    //ImmortalMemory.instance().enter(immortalEntry);
+	    
+	    AbsoluteTime releaseAt = NanoClock.roundUp(Clock.getRealtimeClock()
+				.getTime().add(Constants.DETECTOR_STARTUP_OFFSET_MILLIS, 0));
+
+	    RealtimeThread rt = new RealtimeThread(new PriorityParameters(
+				Constants.DETECTOR_PRIORITY), new PeriodicParameters(releaseAt, // start
+						new RelativeTime(Constants.DETECTOR_PERIOD, 0), // period
+						null, // cost
+						null, // deadline
+						null, null), null, ImmortalMemory.instance(),null,immortalEntry);
+	    
+	    // START THE THREAD
+		rt.start();
+
+		// END
+		try {
+			rt.join();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    
 	    Benchmarker.set(Benchmarker.RAPITA_DONE);
 	    dumpResults();
-	   //System.out.println("END: ammount of mem is : " + (Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())); 
 	}
+	
+	
+	
+	
 	
 	public static void dumpResults() {
 
@@ -108,7 +137,7 @@ public class Main {
 		}
 		out.println("=====DETECTOR-RELEASE-STATS-END-ABOVE====");	
 		
-		BenchMem.dumpMemoryUsage(out);
+		//BenchMem.dumpMemoryUsage(out);
 	}
 
 	private static void parse(final String[] v) {
