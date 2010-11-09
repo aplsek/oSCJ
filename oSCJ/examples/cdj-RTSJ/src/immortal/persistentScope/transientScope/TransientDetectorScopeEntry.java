@@ -61,7 +61,6 @@ public class TransientDetectorScopeEntry implements Runnable {
 		}
 		Benchmarker.done(1);
 		
-		System.out.println("Transient DONE:");
 	}
 
 	public int lookForCollisions(final Reducer reducer, final List motions) { // List
