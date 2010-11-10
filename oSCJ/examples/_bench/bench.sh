@@ -27,6 +27,7 @@ fi;
 
 regex=$1
 
+mkdir -p plots
 mkdir tmp
 
 #input[0]=../minicdx/bench

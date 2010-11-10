@@ -6,9 +6,6 @@ set -x
 # FIJI HOME
 FIJI=../../../../
 
-FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --more-opt --max-threads 5 --uniprocessor"
-
-
 #CLEANUP
 echo "Cleaning class files..."
 find build/ -name "*.class" | xargs rm -f
@@ -16,8 +13,6 @@ rm -rf cdj.jar
 rm -rf cdj_x86
 rm -rf build/
 mkdir build/
-
-
 
 find . -name *.java > list
 echo "Compiling with javac..."
@@ -30,60 +25,28 @@ cd build/ && find . -name "*.class" | xargs jar cf ../cdj.jar
 cd ..
 
 
-
-
 # COMPILE FIJI 1
 #echo "Compiling cdj_x86"
-#
-#$FIJI/bin/fivmc -o cdj_hf cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS
+#FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --more-opt --max-threads 5 --uniprocessor"
+#$FIJI/bin/fivmc -o cdj_x86 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS
 
-$FIJI/bin/fivmc -o cdj_x86 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS
-
-
-
-
-#
 #
 # =====================================================================================
 #
-#
+#FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1000k  -G hf --g-pred-level a --more-opt --max-threads 5 --uniprocessor"
+#echo "Compiling cdj_hg_level_a"
+#$FIJI/bin/fivmc -o cdj_hf_A.1300.1000 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
 
 
-
-FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --g-pred-level a --more-opt --max-threads 5 --uniprocessor"
-
-
-# COMPILE FIJI 1
-echo "Compiling cdj_hg_level_a"
-
-$FIJI/bin/fivmc -o cdj_hf_A cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
+#FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --g-pred-level c --more-opt --max-threads 5 --uniprocessor"
+#echo "Compiling cdj_hg_level_a"
+#$FIJI/bin/fivmc -o cdj_hf_C.1300.1000 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
 
 
+FIJI_FLAGS="--g-def-max-mem=1200k --g-def-trigger=850k --more-opt --max-threads 5 --uniprocessor"
+$FIJI/bin/fivmc -o cdj_STAR_CMR.1200.850 cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
 
-
-FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --g-pred-level c --more-opt --max-threads 5 --uniprocessor"
-
-
-# COMPILE FIJI 1
-echo "Compiling cdj_hg_level_a"
-
-$FIJI/bin/fivmc -o cdj_hf_C cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
-
-
-
-
-
-FIJI_FLAGS="--g-def-max-mem=1300k --g-def-trigger=1m  -G hf --g-pred-level cw --more-opt --max-threads 5 --uniprocessor"
-
-
-# COMPILE FIJI 1
-echo "Compiling cdj_hg_level_a"
-
-$FIJI/bin/fivmc -o cdj_hf_CW cdj.jar --main heap/Main --reflect cdj.reflectlog $FIJI_FLAGS 
-
-
-
-
+sudo ./cdj_STAR_CMR.1200.850 | tee cdj_STAR_CMR.1200.850.cap
 
 echo "All done."
 

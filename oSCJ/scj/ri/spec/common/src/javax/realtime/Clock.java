@@ -21,6 +21,10 @@
 package javax.realtime;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
+
+import static javax.safetycritical.annotate.Allocate.Area.IMMORTAL;
+import javax.safetycritical.annotate.Allocate;
+import javax.safetycritical.annotate.CrossScope;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
@@ -155,7 +159,10 @@ public abstract class Clock {
 	 * context that requires a clock.
 	 * 
 	 * @return the singleton instance of the default Clock.
+	 * 
+	 * TODO: this should be @Allocate(static/immortal)????
 	 */
+	@Allocate({IMMORTAL})
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false, mayAllocate = false)
 	public static Clock getRealtimeClock() {
@@ -182,6 +189,8 @@ public abstract class Clock {
 	 *         the current time, associated with this clock, or null if dest was
 	 *         null.
 	 */
+	@Allocate(parameter="time")
+	@CrossScope
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false, mayAllocate = false)
 	public abstract AbsoluteTime getTime(AbsoluteTime time);

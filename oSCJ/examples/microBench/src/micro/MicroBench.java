@@ -27,8 +27,10 @@ import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.Safelet;
 import javax.safetycritical.StorageParameters;
 
+import javax.realtime.RealtimeThread;
 import javax.realtime.RelativeTime;
 
+import bench.BenchMem;
 import bench.Benchmark;
 
 public class MicroBench extends CyclicExecutive {
@@ -60,11 +62,13 @@ public class MicroBench extends CyclicExecutive {
 
     public void setUp() {  
     	Benchmark.init();
+    	BenchMem.init();
     	System.out.println("MicroBenchmark - setup DONE.");
     }
 
     public void tearDown() {
     	Benchmark.dumpResults();
+    	BenchMem.dumpMemoryUsage();
     }
 
     public void cleanUp() {
@@ -92,9 +96,11 @@ public class MicroBench extends CyclicExecutive {
         	
         	
            long start = System.nanoTime();
-           for (int i=0 ; i < Constants.MAX ; i++) {
+           BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+           //for (int i=0 ; i < Constants.MAX ; i++) {
         	   generate();
-           }
+           //}
+           BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
            long  end =   System.nanoTime();
            Benchmark.set(start, end);
            

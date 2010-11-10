@@ -6,14 +6,10 @@ set -x
 # FIJI HOME
 FIJI="../../../../"
 
-FIJI_FLAGS="--g-def-max-mem=1M -G cmr --pollcheck-mode portable --g-def-trigger=700k --more-opt
- --max-threads 5 -uniprocessor"
- 
- 
 rm -rf build/
 mkdir build/
 rm -rf micro.jar
-rm -rf micro*
+
  
  
  
@@ -34,7 +30,8 @@ cd ..
 # COMPILE FIJI
 echo "Compiling micro"
 
-$FIJI/bin/fivmc -o micro micro.jar --main micro.Main $FIJI_FLAGS
+FIJI_FLAGS="--g-def-max-mem=1600k -G cmr --pollcheck-mode portable --g-def-trigger=1200k --more-opt --max-threads 5 --uniprocessor"
+$FIJI/bin/fivmc -o micro.1600.1200 micro.jar --main micro.Main $FIJI_FLAGS
 
 echo "running MICRO VANILLA"
-./micro  > micro-gc.cap
+sudo ./micro.1600.1200  | tee micro-gc.1600.1200.cap

@@ -13,7 +13,7 @@ public class Main {
 		MicroBenchVanilla vanilla = new MicroBenchVanilla();
 		Benchmark.init();
 		
-		Thread.setPriority(ThreadPriority.FIFO_MAX);
+		//Thread.setPriority(ThreadPriority.FIFO_MAX);
 		
 		//try {
 		//	Thread.sleep(5000);

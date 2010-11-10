@@ -132,12 +132,18 @@ public class VMSupport {
 	
     /*------ Time -------*/
 	
-    /** In nanosecond. */
+    /** In nanosecond. XXX: this does not hold for RTEMS board! 
+     *   Time in milliseconds is provided instead!*/
     public static native long getCurrentTime();
 	
     /** In nanosecond. */
     public static native long getClockResolution();
 	
+    /** In nanosecond. XXX: This method call should work when you need a precision in nanoseconds. */
+    public static native long getCurrentTimePrecise();
+    
+    
+    
     /*------ PCE -------*/
 	
     /** Not used now */

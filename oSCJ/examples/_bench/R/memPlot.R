@@ -53,21 +53,46 @@ plot_mem = function(database) {
 	 for (d in database) {
 	     name  = d$name
 	     data  = d$data
-             mem   = (data$V4) / 1000
+             mem   = (data$V5) / 1000
 	     max   = c(max,max(mem))
 	     mean  = c(mean,mean(mem))
 	     leg   = c(leg, name)
 	     frame = c(frame, list(mem))
+	     print(name)
  	 }
  	 frame   = data.frame(frame)
 
 	 pdf("mem_bench.pdf", width=25, height=10)
-	 range_x = c(0,300)
+	 range_x = c(0,1000)
 	 title   = "Memory Usage"
-	 label_x = "Iteration"
+	 label_x = "Sample Point Number"
 	 label_y = "Memory Usage [KB]"
-	 matplot(frame, main=title, xlim=range_x, type=plot_type, lty=line_type, xlab=label_x, ylab=label_y, col=colors)
+	 matplot(frame, main=title, xlim=range_x, type=plot_type, lty=line_type, xlab=label_x, ylab=label_y, col=colors, lwd=2)
 	 legend("topright", inset=.05, leg, col=colors, fill=colors)
+	 
+	 
+	print("MEMORY USAGE STATISTICS:")
+	line = 2
+	output=matrix(nrow = length(database)+1, ncol = 3)
+	output[1,1] = "NAME"
+	output[1,2] = "MAX MEM [kB]"
+	output[1,3] = "MEAN MEM [kB]"
+	for (d in database) {
+	     name  = d$name
+	     data  = d$data
+         mem   = (data$V5) / 1000
+	     max   = max(mem)
+	     mean  = mean(mem)
+	     output[line,1] = name
+		 output[line,2] = max
+		 output[line,3] = mean
+	   
+	    line = line + 1   
+	}
+	print(output)
+	print("----------- end ---------")
+
+	 
 }
 
 plot_mem_box = function(database) {
@@ -78,7 +103,7 @@ plot_mem_box = function(database) {
 	 for (d in database) {
 	     name  = d$name
 	     data  = d$data
-             mem   = (data$V4) / 1000
+             mem   = (data$V5) / 1000
 	     leg   = c(leg, name)
 	     frame = c(frame, list(list(mem)))
 	 }

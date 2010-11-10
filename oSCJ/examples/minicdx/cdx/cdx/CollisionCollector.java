@@ -23,9 +23,9 @@
 package cdx;
 
 import javax.safetycritical.annotate.SCJAllowed;
-import javacp.util.ArrayList;
-import javacp.util.HashSet;
-import javacp.util.List;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * Collects collisions in lists and then returns a list of collisions where no two are equal.

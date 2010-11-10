@@ -44,6 +44,8 @@ import edu.purdue.scj.VMSupport;
 @SCJAllowed(members=true)
 @javax.safetycritical.annotate.Scope("immortal")
 public class Level0Safelet extends CyclicExecutive {
+    
+    
     public Level0Safelet() {
         super(null);
     }
@@ -52,19 +54,19 @@ public class Level0Safelet extends CyclicExecutive {
     private static long memSetupEnd ;
 
     public void setUp() {
-        System.out.println("set up ales..!!!!");
        
+        
         ////////////////////////////////
         //  MEMORY BENCHMARK INIT
         BenchMem.init();
         //
         // memory statistics
         //
-        System.out.println("MEMORY STATISTICS:");
-        ImmortalMemory imm  = ImmortalMemory.instance();
-        System.out.println("IMMORTAL size [oSCJ]: " + imm.size());
-        System.out.println("IMMORTAL consumed [oSCJ]: " + imm.memoryConsumed());
-        System.out.println("TOTAL VM SIZE [FijiVM]: " + ( Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
+        //System.out.println("MEMORY STATISTICS:");
+        //ImmortalMemory imm  = ImmortalMemory.instance();
+        //System.out.println("IMMORTAL size [oSCJ]: " + imm.size());
+        //System.out.println("IMMORTAL consumed [oSCJ]: " + imm.memoryConsumed());
+        //System.out.println("TOTAL VM SIZE [FijiVM]: " + ( Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
       
         
          
