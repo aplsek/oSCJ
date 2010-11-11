@@ -37,18 +37,13 @@ public class TransientDetectorScopeEntry implements Runnable {
 	}
 
 	public void run() {
-		Benchmarker.set(1);
 		if (Constants.SYNCHRONOUS_DETECTOR || Constants.DEBUG_DETECTOR) {
 			dumpFrame("CD-PROCESSING-FRAME (indexed as received): ");
 		}
-		Benchmarker.set(Benchmarker.RAPITA_REDUCER_INIT);
 		final Reducer reducer = new Reducer(voxelSize);
-		Benchmarker.done(Benchmarker.RAPITA_REDUCER_INIT);
 		
 		
-		Benchmarker.set(Benchmarker.LOOK_FOR_COLLISIONS);
 		int numberOfCollisions = lookForCollisions(reducer, createMotions());
-		Benchmarker.done(Benchmarker.LOOK_FOR_COLLISIONS);
 		
 		if (immortal.ImmortalEntry.recordedRuns < immortal.ImmortalEntry.maxDetectorRuns) {
 			immortal.ImmortalEntry.detectedCollisions[ immortal.ImmortalEntry.recordedRuns  ] = numberOfCollisions;
@@ -59,7 +54,6 @@ public class TransientDetectorScopeEntry implements Runnable {
 			int colIndex = 0;
 			System.out.println("");
 		}
-		Benchmarker.done(1);
 		
 	}
 

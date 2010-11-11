@@ -86,8 +86,8 @@ public class ImmortalEntry implements Runnable /*extends RealtimeThread*/ {
 	static public int recordedDetectorReleaseTimes = 0;
 	static private LTMemory persistentDetectorScope = new LTMemory(Constants.PERSISTENT_DETECTOR_SCOPE_SIZE, Constants.PERSISTENT_DETECTOR_SCOPE_SIZE);
 
-	//static public FrameBuffer frameBuffer = new FrameBufferPLDI();//null;
-	static public FrameBuffer frameBuffer = new WorkloadStar();//null;
+	static public FrameBuffer frameBuffer = new FrameBufferPLDI();//null;
+	//static public FrameBuffer frameBuffer = new WorkloadStar();//null;
 	
 	static public PersistentDetectorScopeEntry persistentDetectorScopeEntry = null;
 

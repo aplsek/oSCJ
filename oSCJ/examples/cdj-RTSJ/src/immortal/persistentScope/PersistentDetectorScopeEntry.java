@@ -49,9 +49,6 @@ public class PersistentDetectorScopeEntry implements Runnable /*extends Realtime
             }
             
             while (!stop) {
-                Benchmarker.set(13);
-                BenchMem.memUsage();
-                
                 if (ImmortalEntry.recordedDetectorReleaseTimes > 0) {
                     ImmortalEntry.detectorWaitTimes[ ImmortalEntry.recordedDetectorReleaseTimes - 1 ] = NanoClock.now();
                 }
@@ -63,7 +60,6 @@ public class PersistentDetectorScopeEntry implements Runnable /*extends Realtime
                 
                 runDetectorInScope(cd, transientDetectorScope, noiseGenerator);
                 
-                BenchMem.memUsage();
             }
             ImmortalEntry.detectorWaitTimes[ ImmortalEntry.recordedDetectorReleaseTimes-1 ] = NanoClock.now();
         } catch (final Throwable t) {
@@ -73,27 +69,19 @@ public class PersistentDetectorScopeEntry implements Runnable /*extends Realtime
     }
 
     public void runDetectorInScope(final TransientDetectorScopeEntry cd, final LTMemory transientDetectorScope, final NoiseGenerator noiseGenerator) {
-        Benchmarker.set(14);
-        
         final RawFrame f = immortal.ImmortalEntry.frameBuffer.getFrame();
         if (f == null) {
             ImmortalEntry.frameNotReadyCount++;
             System.out.println("Frame not ready");
-            Benchmarker.done(14);
             return;
         }
        
         if ( (immortal.ImmortalEntry.framesProcessed + immortal.ImmortalEntry.droppedFrames) == immortal.Constants.MAX_FRAMES) {
             stop = true;
-            Benchmarker.done(14);
             return;
-        }  // should not be needed, anyway
-        //final long heapFreeBefore = Runtime.getRuntime().freeMemory();
-        noiseGenerator.generateNoiseIfEnabled();
+        }  
                 
-        Benchmarker.set(Benchmarker.RAPITA_SETFRAME);
         cd.setFrame(f);
-        Benchmarker.done(Benchmarker.RAPITA_SETFRAME);
                
         // actually runs the detection logic in the given scope
         long timeBefore = NanoClock.now();
@@ -112,7 +100,6 @@ public class PersistentDetectorScopeEntry implements Runnable /*extends Realtime
         if ( (immortal.ImmortalEntry.framesProcessed + immortal.ImmortalEntry.droppedFrames) == immortal.Constants.MAX_FRAMES) {
             stop = true;
         }
-        Benchmarker.done(14);
     }
 
     public void start() {
