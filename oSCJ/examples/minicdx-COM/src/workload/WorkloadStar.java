@@ -27,6 +27,8 @@ public class WorkloadStar extends FrameBuffer {
     public WorkloadStar() {
         super();
         init_angels();
+        
+        t=0.0f;
     }
     
     

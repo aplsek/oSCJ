@@ -13,7 +13,7 @@ import workload.FrameBuffer;
  * Note that the buffer is (intentionally) not synchronized. In a weird combination of priorities that is not
  * intended to be used, buffer frames could be overwritten.
  */
-public class FrameBufferPLDI extends FrameBuffer{
+public class FrameBufferPLDI extends FrameBuffer {
 	
 	// empty buffer ... first == last
 	// full buffer .... last + 1 == first

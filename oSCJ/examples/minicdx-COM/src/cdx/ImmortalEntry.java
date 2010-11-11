@@ -27,6 +27,7 @@ import java.io.DataOutputStream;
 import javax.realtime.LTMemory;
 
 import workload.FrameBuffer;
+import workload.FrameBufferPLDI;
 import workload.WorkloadStar;
 
 /**
@@ -63,8 +64,9 @@ public class ImmortalEntry implements Runnable {
 
     static public int              recordedDetectorReleaseTimes = 0;
 
-    static public FrameBuffer      frameBuffer                  = null;
-
+    static public FrameBuffer frameBuffer = new FrameBufferPLDI();
+	//static public FrameBuffer frameBuffer = new WorkloadStar();
+	
     static public DataOutputStream binaryDumpStream             = null;
 
     public ImmortalEntry() {
@@ -104,8 +106,6 @@ public class ImmortalEntry implements Runnable {
 
 		cd.bindTransientDetector(tdi);
 
-        
-        frameBuffer = new WorkloadStar();
         
         // TODO: this should be in an interceptor
         //.. create memory and enter...

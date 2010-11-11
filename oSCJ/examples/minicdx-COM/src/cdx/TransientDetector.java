@@ -31,14 +31,14 @@ public class TransientDetector implements ITransientDetector {
 		if (f == null) {
 			ImmortalEntry.frameNotReadyCount++;
 			System.out.println("Frame not ready");
-			Benchmarker.done(14);
 			return;
 		}
-
+		if ( (cdx.ImmortalEntry.framesProcessed + cdx.ImmortalEntry.droppedFrames) == cdx.Constants.MAX_FRAMES) {
+            //stop = true;
+            return;
+        }  
 		setFrame(f);   
 
-		System.out.println("START : Compute FRAME.");
-		
 		final long timeBefore = System.nanoTime();
 		run();
 		final long timeAfter = System.nanoTime();
@@ -57,21 +57,13 @@ public class TransientDetector implements ITransientDetector {
 	}
 
 	public void run() {
-		Benchmarker.set(1);
 		if (Constants.SYNCHRONOUS_DETECTOR || Constants.DEBUG_DETECTOR) {
 			dumpFrame("CD-PROCESSING-FRAME (indexed as received): ");
 		}
 
-		Benchmarker.set(Benchmarker.RAPITA_REDUCER_INIT);
 		final Reducer reducer = new Reducer(voxelSize);
-		Benchmarker.done(Benchmarker.RAPITA_REDUCER_INIT);
 
-
-		Benchmarker.set(Benchmarker.LOOK_FOR_COLLISIONS);
-		//BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
 		int numberOfCollisions = lookForCollisions(reducer, createMotions());
-		//BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
-		Benchmarker.done(Benchmarker.LOOK_FOR_COLLISIONS);
 
 		if (cdx.ImmortalEntry.recordedRuns < cdx.ImmortalEntry.maxDetectorRuns) {
 			cdx.ImmortalEntry.detectedCollisions[cdx.ImmortalEntry.recordedRuns] = numberOfCollisions;
@@ -83,10 +75,6 @@ public class TransientDetector implements ITransientDetector {
 			int colIndex = 0;
 			System.out.println("");
 		}
-
-		Benchmarker.done(1);
-
-		//BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
 	}
 
 	public int lookForCollisions(final Reducer reducer, final List motions) {

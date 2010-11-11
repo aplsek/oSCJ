@@ -52,7 +52,7 @@ public final class Constants {
     public static long          DETECTOR_PERIOD                          = 50; //50;
     public static long          TRANSIENT_DETECTOR_SCOPE_SIZE            = 63*1000; //63  50     //5*1000*1000;
 
-    public static int           MAX_FRAMES                               = 300;
+    public static int           MAX_FRAMES                               = 100;
 
     public static int           TIME_SCALE                               = 1;
     public static int           FPS                                      = 50;
