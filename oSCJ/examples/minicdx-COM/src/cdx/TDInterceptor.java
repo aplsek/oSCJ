@@ -13,7 +13,7 @@ public class TDInterceptor implements ITransientDetector, Runnable {
 				Constants.TRANSIENT_DETECTOR_SCOPE_SIZE,
 				Constants.TRANSIENT_DETECTOR_SCOPE_SIZE);
 
-		 System.out.println("transient-Scope: " + transientDetectorScope);
+		// System.out.println("transient-Scope: " + transientDetectorScope);
 	}
 
 	public void runDetectorInScope() {
@@ -23,7 +23,7 @@ public class TDInterceptor implements ITransientDetector, Runnable {
 	}
 	
 	public void run() {
-		System.out.println("scoped memory entered.");
+	    //System.out.println("scoped memory entered.");
 		itd.runDetectorInScope();
 	}
 
