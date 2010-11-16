@@ -23,5 +23,5 @@ cd build/ && find . -name "*.class" | xargs jar cf ../cdj.jar
 cd ..
 
 
-$JAVA/bin/java -cp cdj.jar:$JAVA/jre/lib/rt2.jar heap.Main
+sudo $JAVA/bin/java -cp cdj.jar:$JAVA/jre/lib/rt2.jar heap.Main | tee cdj-RTSJ-scj.cap
 

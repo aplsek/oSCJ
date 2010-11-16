@@ -3,7 +3,7 @@
 set -e
 set -x
 
-JAVA="/opt/jrts2.2"
+JAVA="/opt/jrts-2.2"
 
 # CLEAN-UP
 rm -rf build
