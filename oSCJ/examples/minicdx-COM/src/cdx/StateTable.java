@@ -66,11 +66,24 @@ public class StateTable implements IStateTable {
     private final R r = new R();
 
     public void put(final CallSign callsign, final float x, final float y, final float z) {
-        r.callsign = callsign;
-        r.x = x;
-        r.y = y;
-        r.z = z;
+        //r.callsign = callsign;
+        //r.x = x;
+        //r.y = y;
+        //r.z = z;
        // MemoryArea.getMemoryArea(this).executeInArea(r);
+        
+    	System.out.println("[StateTable-put]");
+    	
+    	/*
+        Vector3d v = (Vector3d) motionVectors.get(callsign);
+        if (v == null) {
+            v = allocatedVectors[usedVectors++]; // FIXME: What if we exceed MAX?
+            motionVectors.put(callsign, v);
+        }
+        v.x = x;
+        v.y = y;
+        v.z = z;
+        */
     }
 
     public Vector3d get(final CallSign callsign) {
