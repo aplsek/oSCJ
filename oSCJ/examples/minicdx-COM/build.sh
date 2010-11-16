@@ -3,7 +3,7 @@
 set -e
 set -x
 
-JAVA="/opt/jrts-2.2"
+JAVA="/opt/jrts2.2"
 
 # CLEAN-UP
 rm -rf build
@@ -19,7 +19,8 @@ rm -rf list
 	
 	
 # RUN:	
-$JAVA/bin/java -cp minicdx.jar Launcher | tee miniCDx-com.cap
+sudo $JAVA/bin/java -cp minicdx.jar:$JAVA/jre/lib/rt2.jar Launcher | tee miniCDx-com.cap
+
 
 
 
