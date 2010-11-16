@@ -38,6 +38,7 @@ public class TransientDetector implements ITransientDetector {
             return;
         }  
 		setFrame(f);   
+		//System.out.println("START : Compute FRAME.");
 
 		final long timeBefore = System.nanoTime();
 		run();
