@@ -43,7 +43,18 @@ public class CollisionDetector implements Runnable, ICollisionDetector {
 	   
 	   
 	   public void runCollisionDetector() {
+		   long timeBefore = NanoClock.now();
 		   iTransientDetector.runDetectorInScope();
+		   long timeAfter = NanoClock.now();
+		  
+		   if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
+	            ImmortalEntry.timesBefore[ ImmortalEntry.recordedRuns ] = timeBefore;
+	            ImmortalEntry.timesAfter[ ImmortalEntry.recordedRuns ] = timeAfter;
+	            //ImmortalEntry.heapFreeBefore[ ImmortalEntry.recordedRuns ] = heapFreeBefore;
+	            //ImmortalEntry.heapFreeAfter[ ImmortalEntry.recordedRuns ] = heapFreeAfter;
+	            ImmortalEntry.recordedRuns ++;
+	        }
+		   
 		   if ( (ImmortalEntry.framesProcessed + ImmortalEntry.droppedFrames) == Constants.MAX_FRAMES) {
 	            ImmortalEntry.stop = true;
 	            return;

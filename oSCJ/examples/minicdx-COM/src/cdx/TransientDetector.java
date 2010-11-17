@@ -35,17 +35,15 @@ public class TransientDetector implements ITransientDetector {
 		}
 		setFrame(f);   
 
-		final long timeBefore = System.nanoTime();
+		//final long timeBefore = System.nanoTime();
 		run();
-		final long timeAfter = System.nanoTime();
+		//final long timeAfter = System.nanoTime();
 
-
-		
-		if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
-			ImmortalEntry.timesBefore[ImmortalEntry.recordedRuns] = timeBefore;
-			ImmortalEntry.timesAfter[ImmortalEntry.recordedRuns] = timeAfter;
-			ImmortalEntry.recordedRuns++;
-		}
+		//if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
+		//	ImmortalEntry.timesBefore[ImmortalEntry.recordedRuns] = timeBefore;
+		//	ImmortalEntry.timesAfter[ImmortalEntry.recordedRuns] = timeAfter;
+		//	ImmortalEntry.recordedRuns++;
+		//}
 
 		cdx.ImmortalEntry.framesProcessed++;
 	}
