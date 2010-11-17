@@ -39,27 +39,36 @@ public class PersistentDetectorScopeEntry implements Runnable /*extends Realtime
         final LTMemory transientDetectorScope = new LTMemory(immortal.Constants.TRANSIENT_DETECTOR_SCOPE_SIZE, immortal.Constants.TRANSIENT_DETECTOR_SCOPE_SIZE);
         try {
             final TransientDetectorScopeEntry cd = new TransientDetectorScopeEntry(new StateTable(), Constants.GOOD_VOXEL_SIZE);
-            if (immortal.Constants.DEBUG_DETECTOR) {
-                System.out.println("Detector thread is "+Thread.currentThread());
-                System.out.println("Entering detector loop, detector thread priority is "+
-                                   +Thread.currentThread().getPriority()+
-                                   " (NORM_PRIORITY is "+Thread.NORM_PRIORITY+
-                                   ", MIN_PRIORITY is "+Thread.MIN_PRIORITY+
-                                   ", MAX_PRIORITY is "+Thread.MAX_PRIORITY+")");  
-            }
+            //if (immortal.Constants.DEBUG_DETECTOR) {
+            //    System.out.println("Detector thread is "+Thread.currentThread());
+            //    System.out.println("Entering detector loop, detector thread priority is "+
+            //                       +Thread.currentThread().getPriority()+
+            //                       " (NORM_PRIORITY is "+Thread.NORM_PRIORITY+
+            //                       ", MIN_PRIORITY is "+Thread.MIN_PRIORITY+
+            //                       ", MAX_PRIORITY is "+Thread.MAX_PRIORITY+")");  
+            //}
             
             while (!stop) {
-                if (ImmortalEntry.recordedDetectorReleaseTimes > 0) {
-                    ImmortalEntry.detectorWaitTimes[ ImmortalEntry.recordedDetectorReleaseTimes - 1 ] = NanoClock.now();
-                }
+                //if (ImmortalEntry.recordedDetectorReleaseTimes > 0) {
+                //    ImmortalEntry.detectorWaitTimes[ ImmortalEntry.recordedDetectorReleaseTimes - 1 ] = NanoClock.now();
+                //}
                 boolean missed=!RealtimeThread.waitForNextPeriod();
-                Benchmarker.done(13);
                 ImmortalEntry.detectorReleaseTimes[ ImmortalEntry.recordedDetectorReleaseTimes ] = NanoClock.now();
                 ImmortalEntry.detectorReportedMiss [ ImmortalEntry.recordedDetectorReleaseTimes ] = missed;
                 ImmortalEntry.recordedDetectorReleaseTimes++;
                 
+                long timeBefore = NanoClock.now();
                 runDetectorInScope(cd, transientDetectorScope, noiseGenerator);
+                long timeAfter = NanoClock.now();
                 
+                if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
+                    ImmortalEntry.timesBefore[ ImmortalEntry.recordedRuns ] = timeBefore;
+                    ImmortalEntry.timesAfter[ ImmortalEntry.recordedRuns ] = timeAfter;
+                    ImmortalEntry.recordedRuns ++;
+                }
+                if ( (immortal.ImmortalEntry.framesProcessed + immortal.ImmortalEntry.droppedFrames) == immortal.Constants.MAX_FRAMES) {
+                    stop = true;
+                }
             }
             ImmortalEntry.detectorWaitTimes[ ImmortalEntry.recordedDetectorReleaseTimes-1 ] = NanoClock.now();
         } catch (final Throwable t) {
@@ -69,37 +78,19 @@ public class PersistentDetectorScopeEntry implements Runnable /*extends Realtime
     }
 
     public void runDetectorInScope(final TransientDetectorScopeEntry cd, final LTMemory transientDetectorScope, final NoiseGenerator noiseGenerator) {
-        final RawFrame f = immortal.ImmortalEntry.frameBuffer.getFrame();
+    	
+    	final RawFrame f = immortal.ImmortalEntry.frameBuffer.getFrame();
         if (f == null) {
             ImmortalEntry.frameNotReadyCount++;
             System.out.println("Frame not ready");
             return;
         }
-       
-        if ( (immortal.ImmortalEntry.framesProcessed + immortal.ImmortalEntry.droppedFrames) == immortal.Constants.MAX_FRAMES) {
-            stop = true;
-            return;
-        }  
                 
         cd.setFrame(f);
                
-        // actually runs the detection logic in the given scope
-        long timeBefore = NanoClock.now();
         transientDetectorScope.enter(cd);               
-        long timeAfter = NanoClock.now();
-        
-        //final long heapFreeAfter = Runtime.getRuntime().freeMemory();
-        if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
-            ImmortalEntry.timesBefore[ ImmortalEntry.recordedRuns ] = timeBefore;
-            ImmortalEntry.timesAfter[ ImmortalEntry.recordedRuns ] = timeAfter;
-            //ImmortalEntry.heapFreeBefore[ ImmortalEntry.recordedRuns ] = heapFreeBefore;
-            //ImmortalEntry.heapFreeAfter[ ImmortalEntry.recordedRuns ] = heapFreeAfter;
-            ImmortalEntry.recordedRuns ++;
-        }
+       
         immortal.ImmortalEntry.framesProcessed++;
-        if ( (immortal.ImmortalEntry.framesProcessed + immortal.ImmortalEntry.droppedFrames) == immortal.Constants.MAX_FRAMES) {
-            stop = true;
-        }
     }
 
     public void start() {
