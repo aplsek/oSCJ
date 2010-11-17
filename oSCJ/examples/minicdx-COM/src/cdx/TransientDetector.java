@@ -33,12 +33,7 @@ public class TransientDetector implements ITransientDetector {
 			System.out.println("Frame not ready");
 			return;
 		}
-		if ( (cdx.ImmortalEntry.framesProcessed + cdx.ImmortalEntry.droppedFrames) == cdx.Constants.MAX_FRAMES) {
-            //stop = true;
-            return;
-        }  
 		setFrame(f);   
-		//System.out.println("START : Compute FRAME.");
 
 		final long timeBefore = System.nanoTime();
 		run();
@@ -49,8 +44,6 @@ public class TransientDetector implements ITransientDetector {
 		if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
 			ImmortalEntry.timesBefore[ImmortalEntry.recordedRuns] = timeBefore;
 			ImmortalEntry.timesAfter[ImmortalEntry.recordedRuns] = timeAfter;
-			//ImmortalEntry.heapFreeBefore[ImmortalEntry.recordedRuns] = heapFreeBefore;
-			//ImmortalEntry.heapFreeAfter[ImmortalEntry.recordedRuns] = heapFreeAfter;
 			ImmortalEntry.recordedRuns++;
 		}
 

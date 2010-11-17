@@ -70,34 +70,32 @@ public class StateTable implements IStateTable {
     private final R r = new R();
 
     public void put(final CallSign callsign, final float x, final float y, final float z) {
-        r.callsign = callsign;
+         /*
+    	r.callsign = callsign;
         r.x = x;
         r.y = y;
         r.z = z;
         MemoryArea.getMemoryArea(this).executeInArea(r);
+        */
         /*
     	System.out.println("[StateTable-put]");
     	MemoryArea mem = MemoryArea.getMemoryArea(callsign);
     	System.out.println("[StateTable-put] , mem area cs:" + mem.toString());
     	System.out.println("[StateTable-put] ,current area:" + RealtimeThread.getCurrentMemoryArea());
     	System.out.println("[StateTable-put] , mem area this:" + MemoryArea.getMemoryArea(this));
-    	
+        */
+        
         Vector3d v = (Vector3d) motionVectors.get(callsign);
-        System.out.println("[StateTable-put] Ok...., v is :" + v);
         if (v == null) {
             v = allocatedVectors[usedVectors++]; // FIXME: What if we exceed MAX?
-            System.out.println("[StateTable-put] v - allocated vectors");
-            System.out.println("[StateTable-put] , mem area of:" + MemoryArea.getMemoryArea(v));
             motionVectors.put(callsign, v);
-            System.out.println("[StateTable-put] crash?");
         }
-        System.out.println("[StateTable-put] Ok....");
         v.x = x;
         v.y = y;
         v.z = z;
-        */
         
-        System.out.println("[StateTable-put] ... DONE.");
+        
+        //System.out.println("[StateTable-put] ... DONE.");
     }
 
     public Vector3d get(final CallSign callsign) {

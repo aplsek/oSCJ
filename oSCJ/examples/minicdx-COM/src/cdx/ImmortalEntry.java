@@ -40,6 +40,9 @@ public class ImmortalEntry implements Runnable {
     static public boolean          detectorReady                = false;
     static public boolean          simulatorReady               = false;
 
+    static public boolean          stop               = false;
+
+    
     static public int              maxDetectorRuns;
 
     static public long             detectorFirstRelease         = -1;
@@ -105,15 +108,17 @@ public class ImmortalEntry implements Runnable {
 
 		cd.bindTransientDetector(tdi);
 
-        
+		CDInterceptor cdi = new CDInterceptor(cd);
+        cdi.runCollisionDetector();
+		
         // TODO: this should be in an interceptor
         //.. create memory and enter...
         
-        LTMemory persistentMemory = new LTMemory(Constants.PERSISTENT_DETECTOR_SCOPE_SIZE);
-        sti.setMem(persistentMemory);
+        // LTMemory persistentMemory = new LTMemory(Constants.PERSISTENT_DETECTOR_SCOPE_SIZE);
+        //sti.setMem(persistentMemory);
         
-        System.out.println("persistentScope: " + persistentMemory);
-        persistentMemory.enter(cd);
+        //System.out.println("persistentScope: " + persistentMemory);
+        //persistentMemory.enter(cd);
         
     }
 }

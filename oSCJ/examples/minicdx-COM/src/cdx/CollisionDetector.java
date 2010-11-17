@@ -4,7 +4,7 @@ package cdx;
 
 import javax.realtime.*;
 
-public class CollisionDetector implements Runnable {
+public class CollisionDetector implements Runnable, ICollisionDetector {
 
 	
 	   public boolean stop = false;
@@ -25,6 +25,7 @@ public class CollisionDetector implements Runnable {
 	   public void run() {
 		   //System.out.println("CollisionDetector starts...");
 		   while (!stop) {
+			   boolean missed=!RealtimeThread.waitForNextPeriod();
 			   long now = System.nanoTime();
 			   ImmortalEntry.detectorReleaseTimes[ImmortalEntry.recordedDetectorReleaseTimes] = now;
 			   ImmortalEntry.detectorReportedMiss[ImmortalEntry.recordedDetectorReleaseTimes] = false;
@@ -35,18 +36,22 @@ public class CollisionDetector implements Runnable {
 			   if ( (ImmortalEntry.framesProcessed + ImmortalEntry.droppedFrames) == Constants.MAX_FRAMES) {
 		            stop = true;
 		            return;
-		        } 
-			   boolean missed=!RealtimeThread.waitForNextPeriod();
-
+			   }
 			   // waitForNextPeriod();
 		   }
 	   }
 	   
 	   
+	   public void runCollisionDetector() {
+		   iTransientDetector.runDetectorInScope();
+		   if ( (ImmortalEntry.framesProcessed + ImmortalEntry.droppedFrames) == Constants.MAX_FRAMES) {
+	            ImmortalEntry.stop = true;
+	            return;
+		   }
+	   }
+	   
 	   
 	   public static boolean waitForNextPeriod() {
-
-		   
 		   long tosleep  = 100;
 		   
 			try {

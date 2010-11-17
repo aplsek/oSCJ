@@ -30,6 +30,8 @@ public class STInterceptor implements IStateTable {
 
 	public void put(final CallSign callsign, final float x, final float y,
 			final float z) {
+		/*
+		
 		//System.out.println("Insert into stateTable...");
 		
 		R r = new R();
@@ -39,15 +41,37 @@ public class STInterceptor implements IStateTable {
 		
 		//System.out.println("copy call sign ok...");
 		
-		
 		MemoryArea.getMemoryArea(enterMemory).executeInArea(r);
 		//System.out.println("execInArea.... OK");
 		//ist.put(callsign, x, y, z);
 		ist.put(r.out, x, y, z);
 		
 		//System.out.println("Insert into stateTable... OK");
+		*/
+		
+		Run r = new Run();
+		r.x = x;
+		r.y = y;
+		r.z = z;
+		r.in = callsign;
+		MemoryArea.getMemoryArea(ist).executeInArea(r);
+		
 	}
 	
+	class Run implements Runnable {
+		CallSign in;
+		float x;
+		float y;
+		float z;
+		
+		public void run() {
+			final byte[] b = new byte[in.getVal().length];
+			for (int i = 0; i < b.length; i++)
+				b[i] = in.getVal()[i];
+			
+			ist.put(new CallSign(b), x, y, z);
+		}
+	}
 	
 	
 	static class R implements Runnable {
@@ -67,8 +91,8 @@ public class STInterceptor implements IStateTable {
 	private final R r = new R();
 
 	
-	LTMemory enterMemory ;
-	public void setMem(LTMemory persistentMemory) {
-		this.enterMemory = persistentMemory;
-	}
+	//LTMemory enterMemory ;
+	//public void setMem(LTMemory persistentMemory) {
+	//	this.enterMemory = persistentMemory;
+	//}
 }
