@@ -122,8 +122,9 @@ public class FrameBufferPLDI extends FrameBuffer {
 
 	public RawFrame getFrame() {
         if (Constants.FRAME_ON_THE_GO) {
-            RawFrame result=new RawFrame();
-            for (byte k=0;k<Constants.NUMBER_OF_PLANES;k++) {
+            //RawFrame result=new RawFrame();
+            
+        	for (byte k=0;k<Constants.NUMBER_OF_PLANES;k++) {
                 callsigns[6*k]=112;
                 callsigns[6*k+1]=108;
                 callsigns[6*k+2]=97;
@@ -143,8 +144,8 @@ public class FrameBufferPLDI extends FrameBuffer {
             }
             // increase the time
             t=t+0.25f;
-            result.copy(lengths,callsigns,positions);
-            return result;
+            buf.copy(lengths,callsigns,positions);
+            return buf;
         } else {
             if (last == first) {
                 return null;
