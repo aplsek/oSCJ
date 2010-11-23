@@ -26,7 +26,7 @@ package cdx;
 /**
  * @author Filip Pizlo
  */
-class Aircraft implements Comparable {
+public class Aircraft implements Comparable {
     /** The callsign. Currently, the only data we hold. */
     private final byte[] callsign;
 

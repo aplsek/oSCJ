@@ -74,21 +74,21 @@ public class STInterceptor implements IStateTable {
 	}
 	
 	
-	static class R implements Runnable {
-		CallSign in;
-		CallSign out;
-		
-		byte[] cs;
-		public void run() {
-			final byte[] b = new byte[cs.length];
-			for (int i = 0; i < b.length; i++)
-				b[i] = cs[i];
-			//System.out.println("Copying the callsign...");
-			
-			out = new CallSign(b);
-		}
-	}
-	private final R r = new R();
+//	static class R implements Runnable {
+//		CallSign in;
+//		CallSign out;
+//		
+//		byte[] cs;
+//		public void run() {
+//			final byte[] b = new byte[cs.length];
+//			for (int i = 0; i < b.length; i++)
+//				b[i] = cs[i];
+//			//System.out.println("Copying the callsign...");
+//			
+//			out = new CallSign(b);
+//		}
+//	}
+//	private final R r = new R();
 
 	
 	//LTMemory enterMemory ;

@@ -20,21 +20,27 @@
  *
  *   See: http://sss.cs.purdue.edu/projects/oscj/
  */
-package cdx;
+package comp.cdx;
 
 import java.io.DataOutputStream;
 
-import javax.realtime.LTMemory;
-import workload.FrameBuffer;
+import org.objectweb.fractal.fraclet.annotations.Component;
+import org.objectweb.fractal.fraclet.annotations.Interface;
+
+import cdx.Constants;
+import cdx.RawFrame;
 import workload.*;
-import workload.WorkloadStar;
 
 /**
  * This thread runs only during start-up to run other threads. It runs in immortal memory, is allocated in immortal
  * memory, and it's constructor runs in immortal memory. It is a singleton, allocation from the Main class Ales: this
  * thread allocates - the scopes - the PersistentDetectorScope and TransientDetectorScope -
  */
-public class ImmortalEntry implements Runnable {
+@Component(name = "ImmortalEntry",
+		provides = {
+		@Interface(name = "iCdToIe", signature = comp.cdx.ICollDetectToImmEntry.class),
+		@Interface(name = "iTdToIe", signature = comp.cdx.ITransDetectToImmEntry.class)})
+public class ImmortalEntry implements Runnable, ICollDetectToImmEntry, ITransDetectToImmEntry {
 
     static public Object           initMonitor                  = new Object();
     static public boolean          detectorReady                = false;
@@ -74,7 +80,7 @@ public class ImmortalEntry implements Runnable {
     public ImmortalEntry() {
         // super(new PriorityParameters(Constants.DETECTOR_STARTUP_PRIORITY));
     	
-    	
+    	// TODO: should be implemented as a component property
         maxDetectorRuns = Constants.MAX_FRAMES;
 
         timesBefore = new long[maxDetectorRuns];
@@ -88,38 +94,48 @@ public class ImmortalEntry implements Runnable {
         detectorReportedMiss = new boolean[maxDetectorRuns + 10];
     }
 
-    /** Called only once during initialization. Runs in immortal memory */
-    public void run() {
-
-        System.out.println("immortal entry....?.");
-        System.out.println("Detector: detector priority is " + Constants.DETECTOR_PRIORITY);
-        System.out.println("Detector: detector period is " + Constants.DETECTOR_PERIOD);
-
-        //frameBuffer = new FrameBufferPLDI();
-        
-        CollisionDetector cd = new CollisionDetector();
-
-		StateTable st = new StateTable();
-		STInterceptor sti = new STInterceptor(st);
-
-		TransientDetector td = new TransientDetector(Constants.GOOD_VOXEL_SIZE);
-		TDInterceptor tdi = new TDInterceptor(td);
-
-		td.bindStateTable(sti);
-
-		cd.bindTransientDetector(tdi);
-
-		CDInterceptor cdi = new CDInterceptor(cd);
-        cdi.runCollisionDetector();
+	public void run() {
 		
-        // TODO: this should be in an interceptor
-        //.. create memory and enter...
-        
-        // LTMemory persistentMemory = new LTMemory(Constants.PERSISTENT_DETECTOR_SCOPE_SIZE);
-        //sti.setMem(persistentMemory);
-        
-        //System.out.println("persistentScope: " + persistentMemory);
-        //persistentMemory.enter(cd);
-        
-    }
+	}
+	
+	/* 
+	 * Implementations of the interface ICollDetectToImmEntry
+	 */
+	public void beforeRun(long time, boolean reportedMiss) {
+		detectorReleaseTimes[ImmortalEntry.recordedDetectorReleaseTimes] = time;
+		detectorReportedMiss[ImmortalEntry.recordedDetectorReleaseTimes] = reportedMiss;
+		recordedDetectorReleaseTimes++;
+	}
+	public void afterRun(long timeBefore, long timeAfter) {
+		if (recordedRuns < maxDetectorRuns) {
+			timesBefore[ ImmortalEntry.recordedRuns ] = timeBefore;
+			timesAfter[ ImmortalEntry.recordedRuns ] = timeAfter;
+			//ImmortalEntry.heapFreeBefore[ ImmortalEntry.recordedRuns ] = heapFreeBefore;
+			//ImmortalEntry.heapFreeAfter[ ImmortalEntry.recordedRuns ] = heapFreeAfter;
+			recordedRuns++;
+		}
+	}
+	
+	/* 
+	 * Implementations of the interface ITransDetectToImmEntry
+	 */
+	public RawFrame getFrame() {
+		return frameBuffer.getFrame();
+	}
+	public void incrementFrameNotReadyCount() {
+		frameNotReadyCount++;
+	}
+	public void incrementFramesProcessed() {
+		framesProcessed++;
+	}
+	public void setNumberOfCollisions(int numberOfCollisions) {
+		if (recordedRuns < maxDetectorRuns) {
+			detectedCollisions[recordedRuns] = numberOfCollisions;
+		}
+	}
+	public void setSuspectedSize(int suspectedSize) {
+		if (recordedRuns < maxDetectorRuns) {
+			suspectedCollisions[recordedRuns] = suspectedSize;
+		}	
+	}
 }
