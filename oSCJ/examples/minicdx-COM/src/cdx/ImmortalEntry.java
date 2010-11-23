@@ -73,7 +73,8 @@ public class ImmortalEntry implements Runnable {
 
     public ImmortalEntry() {
         // super(new PriorityParameters(Constants.DETECTOR_STARTUP_PRIORITY));
-
+    	
+    	
         maxDetectorRuns = Constants.MAX_FRAMES;
 
         timesBefore = new long[maxDetectorRuns];

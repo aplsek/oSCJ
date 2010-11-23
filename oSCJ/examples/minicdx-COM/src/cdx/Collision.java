@@ -29,7 +29,7 @@ import collision.Vector3d;
  * 
  * @author Filip Pizlo
  */
-class Collision {
+public class Collision {
     /** The aircraft that were involved. */
     // private ArrayList aircraft;
 

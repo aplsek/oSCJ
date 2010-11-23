@@ -306,7 +306,6 @@ public class TransientDetectorScopeEntry implements Runnable {
         try {
             r.cs = (byte[]) MemoryArea.newArrayInArea(r, byte.class, cs.length);
         } catch (IllegalAccessException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         for (int i = 0; i < cs.length; i++)

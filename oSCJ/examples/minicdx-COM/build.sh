@@ -11,7 +11,7 @@ rm -rf minicdx.jar
 mkdir build
 
 # COMPILE & JAR
-find ./src -name *.java > list
+find ./src -name *.java -not -path "*comp*" -not -name "*Hulotte*" > list
 $JAVA/bin/javac -cp $JAVA/jre/lib/rt2.jar -d build/ @list	
 cd build/ && find . -name "*.class" | xargs jar cf ../minicdx.jar && cd ..
 rm -rf list
@@ -19,7 +19,7 @@ rm -rf list
 	
 	
 # RUN:	
-sudo $JAVA/bin/java -cp minicdx.jar:$JAVA/jre/lib/rt2.jar Launcher | tee miniCDx-com.cap
+sudo $JAVA/bin/java -cp minicdx.jar:$JAVA/jre/lib/rt2.jar Launcher | tee miniCDx-com-scj.cap
 
 
 

@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<!DOCTYPE definition PUBLIC "-//objectweb.org//DTD Fractal ADL 2.0//EN"
+  "classpath://org/objectweb/fractal/adl/xml/standard.dtd">
+
+<definition name="minicdx__Hulotte_platform" >
+
+    <component name="minicdx" >
+      <interface name="r" role="server" signature="java.lang.Runnable" >
+      </interface> 
+        <component name="TransientDetector" >
+          <interface name="iTdToIe" role="client" signature="comp.cdx.ITransDetectToImmEntry" >
+          </interface> 
+          <interface name="iStateTable" role="client" signature="cdx.IStateTable" >
+          </interface> 
+          <interface name="iTransientDetector" role="server" signature="cdx.ITransientDetector" >
+          </interface> 
+          <interface name="attribute-controller" role="server" signature="comp.cdx.TDAttributes" >
+          </interface> 
+          <content class="comp.cdx.TransientDetector" />
+          <attributes signature="comp.cdx.TDAttributes" >
+            <attribute name="voxelSize" value="10.0f" />
+
+          </attributes> 
+        </component> 
+        <component name="StateTable" >
+          <interface name="iStateTable" role="server" signature="cdx.IStateTable" >
+          </interface> 
+          <content class="comp.cdx.StateTable" />
+        </component> 
+        <component name="ImmortalEntry" >
+          <interface name="iCdToIe" role="server" signature="comp.cdx.ICollDetectToImmEntry" >
+          </interface> 
+          <interface name="r" role="server" signature="java.lang.Runnable" >
+          </interface> 
+          <interface name="iTdToIe" role="server" signature="comp.cdx.ITransDetectToImmEntry" >
+          </interface> 
+          <content class="comp.cdx.ImmortalEntry" />
+        </component> 
+        <component name="Main" >
+          <interface name="r" role="server" signature="java.lang.Runnable" >
+          </interface> 
+          <content class="comp.cdx.Main" />
+        </component> 
+        <component name="hulotte.connector.Connector__CollisionDetector_iTransientDetector__TransientDetector_iTransientDetector" >
+          <interface name="IN" role="server" signature="cdx.ITransientDetector" >
+          </interface> 
+          <interface name="OUT" role="client" signature="cdx.ITransientDetector" >
+          </interface> 
+          <interface name="MemoryAreaSetter" role="server" signature="rtsj.memory.api.SetMemoryAreaReferenceItf" >
+          </interface> 
+            <component name="CrossScopeBindingInterceptor__CollisionDetector_iTransientDetector__TransientDetector_iTransientDetector" >
+              <interface name="IN" role="server" signature="cdx.ITransientDetector" >
+              </interface> 
+              <interface name="OUT" role="client" signature="cdx.ITransientDetector" >
+              </interface> 
+              <interface name="MemoryAreaSetter" role="server" signature="rtsj.memory.api.SetMemoryAreaReferenceItf" >
+              </interface> 
+              <content class="hulotte.generated.GenJavaContent_CrossScopeBindingInterceptor__CollisionDetector_iTransientDetector__TransientDetector_iTransientDetector_1529a16d" >
+              </content> 
+            </component> 
+          <binding client="this.IN" server="CrossScopeBindingInterceptor__CollisionDetector_iTransientDetector__TransientDetector_iTransientDetector.IN" />
+          <binding client="CrossScopeBindingInterceptor__CollisionDetector_iTransientDetector__TransientDetector_iTransientDetector.OUT" server="this.OUT" />
+          <binding client="this.MemoryAreaSetter" server="CrossScopeBindingInterceptor__CollisionDetector_iTransientDetector__TransientDetector_iTransientDetector.MemoryAreaSetter" />
+        </component> 
+        <component name="hulotte.connector.Connector__CollisionDetector_iCdToIe__ImmortalEntry_iCdToIe" >
+          <interface name="IN" role="server" signature="comp.cdx.ICollDetectToImmEntry" >
+          </interface> 
+          <interface name="OUT" role="client" signature="comp.cdx.ICollDetectToImmEntry" >
+          </interface> 
+          <interface name="MemoryAreaSetter" role="server" signature="rtsj.memory.api.SetMemoryAreaReferenceItf" >
+          </interface> 
+            <component name="CrossScopeBindingInterceptor__CollisionDetector_iCdToIe__ImmortalEntry_iCdToIe" >
+              <interface name="IN" role="server" signature="comp.cdx.ICollDetectToImmEntry" >
+              </interface> 
+              <interface name="OUT" role="client" signature="comp.cdx.ICollDetectToImmEntry" >
+              </interface> 
+              <interface name="MemoryAreaSetter" role="server" signature="rtsj.memory.api.SetMemoryAreaReferenceItf" >
+              </interface> 
+              <content class="hulotte.generated.GenJavaContent_CrossScopeBindingInterceptor__CollisionDetector_iCdToIe__ImmortalEntry_iCdToIe_b80a7670" >
+              </content> 
+            </component> 
+          <binding client="this.IN" server="CrossScopeBindingInterceptor__CollisionDetector_iCdToIe__ImmortalEntry_iCdToIe.IN" />
+          <binding client="CrossScopeBindingInterceptor__CollisionDetector_iCdToIe__ImmortalEntry_iCdToIe.OUT" server="this.OUT" />
+          <binding client="this.MemoryAreaSetter" server="CrossScopeBindingInterceptor__CollisionDetector_iCdToIe__ImmortalEntry_iCdToIe.MemoryAreaSetter" />
+        </component> 
+        <component name="hulotte.connector.Connector__TransientDetector_iStateTable__StateTable_iStateTable" >
+          <interface name="IN" role="server" signature="cdx.IStateTable" >
+          </interface> 
+          <interface name="OUT" role="client" signature="cdx.IStateTable" >
+          </interface> 
+          <interface name="MemoryAreaSetter" role="server" signature="rtsj.memory.api.SetMemoryAreaReferenceItf" >
+          </interface> 
+            <component name="CrossScopeBindingInterceptor__TransientDetector_iStateTable__StateTable_iStateTable" >
+              <interface name="IN" role="server" signature="cdx.IStateTable" >
+              </interface> 
+              <interface name="OUT" role="client" signature="cdx.IStateTable" >
+              </interface> 
+              <interface name="MemoryAreaSetter" role="server" signature="rtsj.memory.api.SetMemoryAreaReferenceItf" >
+              </interface> 
+              <content class="hulotte.generated.GenJavaContent_CrossScopeBindingInterceptor__TransientDetector_iStateTable__StateTable_iStateTable_60b2947c" >
+              </content> 
+            </component> 
+          <binding client="this.IN" server="CrossScopeBindingInterceptor__TransientDetector_iStateTable__StateTable_iStateTable.IN" />
+          <binding client="CrossScopeBindingInterceptor__TransientDetector_iStateTable__StateTable_iStateTable.OUT" server="this.OUT" />
+          <binding client="this.MemoryAreaSetter" server="CrossScopeBindingInterceptor__TransientDetector_iStateTable__StateTable_iStateTable.MemoryAreaSetter" />
+        </component> 
+        <component name="hulotte.connector.Connector__TransientDetector_iTdToIe__ImmortalEntry_iTdToIe" >
+          <interface name="IN" role="server" signature="comp.cdx.ITransDetectToImmEntry" >
+          </interface> 
+          <interface name="OUT" role="client" signature="comp.cdx.ITransDetectToImmEntry" >
+          </interface> 
+          <interface name="MemoryAreaSetter" role="server" signature="rtsj.memory.api.SetMemoryAreaReferenceItf" >
+          </interface> 
+            <component name="CrossScopeBindingInterceptor__TransientDetector_iTdToIe__ImmortalEntry_iTdToIe" >
+              <interface name="IN" role="server" signature="comp.cdx.ITransDetectToImmEntry" >
+              </interface> 
+              <interface name="OUT" role="client" signature="comp.cdx.ITransDetectToImmEntry" >
+              </interface> 
+              <interface name="MemoryAreaSetter" role="server" signature="rtsj.memory.api.SetMemoryAreaReferenceItf" >
+              </interface> 
+              <content class="hulotte.generated.GenJavaContent_CrossScopeBindingInterceptor__TransientDetector_iTdToIe__ImmortalEntry_iTdToIe_11fab1b8" >
+              </content> 
+            </component> 
+          <binding client="this.IN" server="CrossScopeBindingInterceptor__TransientDetector_iTdToIe__ImmortalEntry_iTdToIe.IN" />
+          <binding client="CrossScopeBindingInterceptor__TransientDetector_iTdToIe__ImmortalEntry_iTdToIe.OUT" server="this.OUT" />
+          <binding client="this.MemoryAreaSetter" server="CrossScopeBindingInterceptor__TransientDetector_iTdToIe__ImmortalEntry_iTdToIe.MemoryAreaSetter" />
+        </component> 
+        <component name="CollisionDetector_CBMembraneMergedWithContent" >
+          <interface name="iCdToIe" role="client" signature="comp.cdx.ICollDetectToImmEntry" >
+          </interface> 
+          <interface name="entryPoint" role="server" signature="java.lang.Runnable" >
+          </interface> 
+          <interface name="iTransientDetector" role="client" signature="cdx.ITransientDetector" >
+          </interface> 
+          <interface name="MemoryAreaSetter" role="server" signature="rtsj.memory.api.SetMemoryAreaReferenceItf" >
+          </interface> 
+          <interface name="PeriodicExecution" role="server" signature="activity.api.PeriodicExecutionItf" >
+          </interface> 
+            <component name="FunctionalPrimitive_CollisionDetector_contentComp" >
+              <interface name="iCdToIe" role="client" signature="comp.cdx.ICollDetectToImmEntry" >
+              </interface> 
+              <interface name="iTransientDetector" role="client" signature="cdx.ITransientDetector" >
+              </interface> 
+              <interface name="entryPoint" role="server" signature="java.lang.Runnable" >
+              </interface> 
+              <content class="comp.cdx.CollisionDetector" />
+            </component> 
+            <component name="rtsj.activity.lib.NHRTPeriodicController" >
+              <interface name="MemoryAreaSetter" role="server" signature="rtsj.memory.api.SetMemoryAreaReferenceItf" >
+              </interface> 
+              <interface name="entryPoint" role="client" signature="java.lang.Runnable" >
+              </interface> 
+              <interface name="PeriodicExecution" role="server" signature="activity.api.PeriodicExecutionItf" >
+              </interface> 
+              <interface name="attribute-controller" role="server" signature="activity.api.PeriodicControllerAttributes" >
+              </interface> 
+              <content class="rtsj.activity.lib.NHRTPeriodicControllerImpl" />
+              <attributes signature="activity.api.PeriodicControllerAttributes" >
+                <attribute name="period" value="50" />
+                <attribute name="priority" value="11" />
+                <attribute name="maxiteration" value="100" />
+
+              </attributes> 
+            </component> 
+          <binding client="FunctionalPrimitive_CollisionDetector_contentComp.iCdToIe" server="this.iCdToIe" />
+          <binding client="this.entryPoint" server="FunctionalPrimitive_CollisionDetector_contentComp.entryPoint" />
+          <binding client="FunctionalPrimitive_CollisionDetector_contentComp.iTransientDetector" server="this.iTransientDetector" />
+          <binding client="this.MemoryAreaSetter" server="rtsj.activity.lib.NHRTPeriodicController.MemoryAreaSetter" />
+          <binding client="this.PeriodicExecution" server="rtsj.activity.lib.NHRTPeriodicController.PeriodicExecution" />
+          <binding client="rtsj.activity.lib.NHRTPeriodicController.entryPoint" server="FunctionalPrimitive_CollisionDetector_contentComp.entryPoint" />
+        </component> 
+      <binding client="this.r" server="Main.r" />
+      <binding client="hulotte.connector.Connector__CollisionDetector_iTransientDetector__TransientDetector_iTransientDetector.OUT" server="TransientDetector.iTransientDetector" />
+      <binding client="hulotte.connector.Connector__CollisionDetector_iCdToIe__ImmortalEntry_iCdToIe.OUT" server="ImmortalEntry.iCdToIe" />
+      <binding client="hulotte.connector.Connector__TransientDetector_iStateTable__StateTable_iStateTable.OUT" server="StateTable.iStateTable" />
+      <binding client="TransientDetector.iStateTable" server="hulotte.connector.Connector__TransientDetector_iStateTable__StateTable_iStateTable.IN" />
+      <binding client="hulotte.connector.Connector__TransientDetector_iTdToIe__ImmortalEntry_iTdToIe.OUT" server="ImmortalEntry.iTdToIe" />
+      <binding client="TransientDetector.iTdToIe" server="hulotte.connector.Connector__TransientDetector_iTdToIe__ImmortalEntry_iTdToIe.IN" />
+      <binding client="CollisionDetector_CBMembraneMergedWithContent.iTransientDetector" server="hulotte.connector.Connector__CollisionDetector_iTransientDetector__TransientDetector_iTransientDetector.IN" />
+      <binding client="CollisionDetector_CBMembraneMergedWithContent.iCdToIe" server="hulotte.connector.Connector__CollisionDetector_iCdToIe__ImmortalEntry_iCdToIe.IN" />
+    </component> 
+</definition> 

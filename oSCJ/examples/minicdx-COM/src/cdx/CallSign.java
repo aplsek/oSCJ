@@ -70,4 +70,11 @@ public class CallSign {
     public byte[] getVal() {
     	return val;
     }
+    
+    public CallSign clone() {
+    	final byte[] b = new byte[val.length];
+		for (int i = 0; i < b.length; i++)
+			b[i] = val[i];
+    	return new CallSign(b);
+    }
 }

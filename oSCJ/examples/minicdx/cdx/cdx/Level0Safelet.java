@@ -59,59 +59,13 @@ public class Level0Safelet extends CyclicExecutive {
         ////////////////////////////////
         //  MEMORY BENCHMARK INIT
         BenchMem.init();
-        //
-        // memory statistics
-        //
-        //System.out.println("MEMORY STATISTICS:");
-        //ImmortalMemory imm  = ImmortalMemory.instance();
-        //System.out.println("IMMORTAL size [oSCJ]: " + imm.size());
-        //System.out.println("IMMORTAL consumed [oSCJ]: " + imm.memoryConsumed());
-        //System.out.println("TOTAL VM SIZE [FijiVM]: " + ( Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()));
-      
-        
-         
-        
-        /*  MEM TESTS : 
-        System.out.println("calling get current memory.. DONE!!!!\n\n");
-        
-        ImmortalMemory imm  = ImmortalMemory.instance();
-        
-        memSetup = imm.memoryConsumed();
-        
-        //System.out.println("current mem : " + mem.memoryConsumed());
-        System.out.println("imm mem consumed: " + imm.memoryConsumed());
-        System.out.println("imm mem remaining: " + imm.memoryRemaining());
-        System.out.println("imm mem size: " + imm.size());
-        
-        
-        // direct VMSupport access:
-        VMSupport.memoryConsumed(VMSupport.getCurrentArea());
-        System.out.println("VMSupport- getCurrent- memory consumed: " + VMSupport.memoryConsumed(VMSupport.getCurrentArea())) ;
-        System.out.println("VMSupport- getCurrent- memory size: " + VMSupport.getScopeSize(VMSupport.getCurrentArea())) ;
-        
-        System.out.println("VMSupport get Immortal Size: " + VMSupport.getScopeSize(VMSupport.getImmortalArea())) ;
-        System.out.println("VMSupport get Immortal consumed: " + VMSupport.memoryConsumed(VMSupport.getImmortalArea())) ;
-        
-        
-        //System.out.println("current mem : " + mem.hashCode());
-        //System.out.println("current mem hash : " + imm.hashCode());
-        //if (mem.equals(imm)) {
-        // /   System.out.println("SET_UP = is in immortal");
-        //} else
-        //    System.out.println("SET_UP is NOT in immortal");
-        
-         System.out.println("SET_UP----------------------------------------\n\n");
-          */
-       
+     
         
         
         
         Constants.PRESIMULATE = true;
         new ImmortalEntry().run();
         new Simulator().generate();
-        
-        //memSetupEnd = imm.memoryConsumed();
-      
     }
 
     public void tearDown() {
@@ -125,7 +79,7 @@ public class Level0Safelet extends CyclicExecutive {
         return schedule;
     }
 
-    /*@javax.safetycritical.annotate.RunsIn("cdx.Level0Safelet")*/
+    @javax.safetycritical.annotate.RunsIn("cdx.Level0Safelet")
     protected void initialize() {
         try {
             ImmortalEntry.detectorThreadStart = NanoClock.now();
@@ -133,11 +87,7 @@ public class Level0Safelet extends CyclicExecutive {
                 Constants.DETECTOR_STARTUP_OFFSET_MILLIS, 0));
             ImmortalEntry.detectorFirstRelease = NanoClock.convert(releaseAt);
             
-            //System.out.println("Level0Safelet init..");
-            //System.out.println("size of current: " + RealtimeThread.getCurrentMemoryArea().memoryRemaining()); 
-            
             new CollisionDetectorHandler();
-            // System.out.println("handler created..");
             
             if (Constants.DEBUG_DETECTOR) {
                 System.out.println("Detector thread is " + Thread.currentThread());
@@ -169,10 +119,6 @@ public class Level0Safelet extends CyclicExecutive {
         String space = " ";
         String triZero = " 0 0 0 ";
 
-        
-       // System.out.println("Mem setup at startup was:" + memSetup);
-        //System.out.println("Mem setup END Was:" + memSetupEnd);
-        
         if (Constants.PRINT_RESULTS) {
             System.out
                 .println("Dumping output [ timeBefore timeAfter heapFreeBefore heapFreeAfter detectedCollisions ] for "

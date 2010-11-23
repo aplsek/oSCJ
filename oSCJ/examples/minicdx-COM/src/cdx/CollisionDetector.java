@@ -24,12 +24,15 @@ public class CollisionDetector implements Runnable, ICollisionDetector {
 	   
 	   public void run() {
 		   //System.out.println("CollisionDetector starts...");
+		   int n = 0;
 		   while (!stop) {
 			   boolean missed=!RealtimeThread.waitForNextPeriod();
 			   long now = System.nanoTime();
 			   ImmortalEntry.detectorReleaseTimes[ImmortalEntry.recordedDetectorReleaseTimes] = now;
 			   ImmortalEntry.detectorReportedMiss[ImmortalEntry.recordedDetectorReleaseTimes] = false;
 			   ImmortalEntry.recordedDetectorReleaseTimes++;
+			   
+			   System.out.println("iteration: "+n++);
 
 			   iTransientDetector.runDetectorInScope();
 		   
@@ -62,18 +65,18 @@ public class CollisionDetector implements Runnable, ICollisionDetector {
 	   }
 	   
 	   
-	   public static boolean waitForNextPeriod() {
-		   long tosleep  = 100;
-		   
-			try {
-				long tmilis = tosleep / 1000000;
-				int tnanos = (int) (tosleep - tmilis * 1000000);
-				Thread.sleep(tmilis, tnanos);
-			} catch (InterruptedException iex) {
-			}
-
-			return true;
-		}
+//	   public static boolean waitForNextPeriod() {
+//		   long tosleep  = 100;
+//		   
+//			try {
+//				long tmilis = tosleep / 1000000;
+//				int tnanos = (int) (tosleep - tmilis * 1000000);
+//				Thread.sleep(tmilis, tnanos);
+//			} catch (InterruptedException iex) {
+//			}
+//
+//			return true;
+//		}
 
     public void bindTransientDetector(ITransientDetector itd) {
 
