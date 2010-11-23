@@ -15,14 +15,15 @@ rm -rf build
 mkdir build
 
 # COMPILE & JAR
-find ./src -name *.java > list
+find ./src -name *.java > list1
+find ./target/generated-sources -name *.java > list2
 
-$JAVA/bin/javac -classpath $CLASSPATH -d build/ @list
+$JAVA/bin/javac -classpath $CLASSPATH -d build/ @list1
+CLASSPATH+=:build
+$JAVA/bin/javac -classpath $CLASSPATH -d build/ @list2
 cd build/ && find . -name "*.class" | xargs jar cf ../minicdx.jar && cd ..
-rm -rf list
+rm -rf list1 list2
 	
 # RUN:	 
-$JAVA/bin/java -cp minicdx.jar Launcher | tee miniCDx-com-scj.cap
-
-
+$JAVA/bin/java -cp minicdx.jar:$CLASSPATH -Dfractal.provider=org.objectweb.fractal.juliac.runtime.comp.Juliac HulotteRTLauncher minicdx r #| tee miniCDx-com-scj.cap
 
