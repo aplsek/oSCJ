@@ -20,6 +20,8 @@
  *   @authors  Lei Zhao, Ales Plsek
  */
 
+import javax.realtime.AbsoluteTime;
+import javax.realtime.Clock;
 import javax.realtime.ImmortalMemory;
 import javax.realtime.MemoryArea;
 import javax.realtime.RealtimeThread;
@@ -60,7 +62,7 @@ public class HelloWorld extends CyclicExecutive {
     }
 
     public void initialize() {
-        new WordHandler(20000, "HelloWorld.\n", 1);
+        new WordHandler(100000, "HelloWorld.\n", 1);
     }
 
     /**
@@ -70,7 +72,7 @@ public class HelloWorld extends CyclicExecutive {
      */
     // @Override
     public long missionMemorySize() {
-        return 100000;
+        return 400000;
     }
 
     public void setUp() {     
@@ -102,9 +104,15 @@ public class HelloWorld extends CyclicExecutive {
          * 
          */
         public void handleEvent() {
-	    Terminal.getTerminal().write(getName());
-          
-                 
+        	Terminal.getTerminal().write(getName());
+	    
+	    //System.out.println("HelloWorld test");
+
+        	//AbsoluteTime t = Clock.getRealtimeClock().getTime();
+	        AbsoluteTime t = Clock.getRealtimeClock().getTimePrecise();
+
+		System.out.println("Time is:" + t.getMilliseconds() + "ms ," + t.getNanoseconds());
+
            if (count_-- == 0)
                getCurrentMission().requestSequenceTermination();
         }
