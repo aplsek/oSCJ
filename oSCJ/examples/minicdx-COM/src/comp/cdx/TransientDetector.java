@@ -75,9 +75,9 @@ public class TransientDetector implements ITransientDetector, TDAttributes {
 
 		int numberOfCollisions = lookForCollisions(reducer, createMotions());
 
-//		if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
-//			ImmortalEntry.detectedCollisions[ImmortalEntry.recordedRuns] = numberOfCollisions;
-//		}
+		//		if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
+		//			ImmortalEntry.detectedCollisions[ImmortalEntry.recordedRuns] = numberOfCollisions;
+		//		}
 		iTdToIe.setNumberOfCollisions(numberOfCollisions);
 
 		if (Constants.SYNCHRONOUS_DETECTOR || Constants.DEBUG_DETECTOR) {
@@ -94,9 +94,9 @@ public class TransientDetector implements ITransientDetector, TDAttributes {
 		final List check = reduceCollisionSet(reducer, motions);
 		int suspectedSize = check.size();
 		
-//		if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
-//			ImmortalEntry.suspectedCollisions[ImmortalEntry.recordedRuns] = suspectedSize;
-//		}
+		//		if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
+		//			ImmortalEntry.suspectedCollisions[ImmortalEntry.recordedRuns] = suspectedSize;
+		//		}
 		iTdToIe.setSuspectedSize(suspectedSize);
 		
 		if ((Constants.SYNCHRONOUS_DETECTOR || Constants.DEBUG_DETECTOR) && !check.isEmpty()) {
@@ -253,8 +253,10 @@ public class TransientDetector implements ITransientDetector, TDAttributes {
 			.get(new CallSign(craft.getCallsign()));
 
 			if (old_pos == null) {
-				iState.put(mkCallsignInPersistentScope(craft.getCallsign()),
-						new_pos.x, new_pos.y, new_pos.z);
+				//iState.put(mkCallsignInPersistentScope(craft.getCallsign()),
+				//		new_pos.x, new_pos.y, new_pos.z);
+			    iState.put(new CallSign(craft.getCallsign()),          
+                    new_pos.x, new_pos.y, new_pos.z);
 
 				final Motion m = new Motion(craft, new_pos);
 				if (cdx.Constants.DEBUG_DETECTOR
@@ -298,7 +300,7 @@ public class TransientDetector implements ITransientDetector, TDAttributes {
 //	}
 //
 //	private final R r = new R();
-
+/*
 	CallSign mkCallsignInPersistentScope(final byte[] cs) {
 		/*
 	    	try {
@@ -314,9 +316,9 @@ public class TransientDetector implements ITransientDetector, TDAttributes {
 
 	        //MemoryArea.getMemoryArea(iState).executeInArea(r);
 	        return r.c;
-		 */
+		 *//*
 		return new CallSign(cs);
 	}
-
+*/
 
 }

@@ -50,6 +50,11 @@ public abstract class Clock {
 		static long getCurrentTimeNanos() {
 			return VMSupport.getCurrentTime();
 		}
+		
+		static long getCurrentTimePreciseNanos() {
+			//return VMSupport.getCurrentTime();
+			return VMSupport.getCurrentTimePrecise();
+		}
 
 		static long getResolutionNanos() {
 			return resolution.toNanos();
@@ -75,6 +80,11 @@ public abstract class Clock {
 			return getTime(new AbsoluteTime(0, 0, this));
 		}
 
+
+		public AbsoluteTime getTimePrecise() {
+			return getTimePrecise(new AbsoluteTime(0, 0, this));
+		}
+		
 		@Override
 		public void setResolution(RelativeTime resolution) {
 			throw new UnsupportedOperationException();
@@ -83,6 +93,17 @@ public abstract class Clock {
 		public AbsoluteTime getTime(AbsoluteTime time) {
 			if (time != null) {
 				long nanos = getCurrentTimeNanos();
+				long millis = nanos / HighResolutionTime.NANOS_PER_MILLI;
+				nanos = (nanos % HighResolutionTime.NANOS_PER_MILLI);
+				time.setDirect(millis, (int) nanos);
+				time.setClock(this);
+			}
+			return time;
+		}
+		
+		public AbsoluteTime getTimePrecise(AbsoluteTime time) {
+			if (time != null) {
+				long nanos = getCurrentTimePreciseNanos();
 				long millis = nanos / HighResolutionTime.NANOS_PER_MILLI;
 				nanos = (nanos % HighResolutionTime.NANOS_PER_MILLI);
 				time.setDirect(millis, (int) nanos);
@@ -182,6 +203,11 @@ public abstract class Clock {
 	@SCJRestricted(maySelfSuspend = false)
 	public abstract AbsoluteTime getTime();
 
+	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
+	public abstract AbsoluteTime getTimePrecise();
+
+	
 	/**
 	 * 
 	 * @param time
