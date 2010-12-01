@@ -184,12 +184,19 @@ plot_perf = function(database) {
 	matplot(frame, main=title, xlim=range_x, type=plot_type, lty=line_type, xlab=label_x, ylab=label_y, col=colors, lwd=2)
 	legend("topright", inset=.05, leg, col=colors, fill=colors)
 
+
+
+		###########
+		#
+		#    ZOOM PLOT
+		#
         pdf("perf_bench_zoom.pdf", width=25, height=10)
-        range_x = c(50,350)
+        range_x = c(250,450)
+        #range_y = c(0.75,1.75)
         title   = "Time"
         label_x = "Iteration"
         label_y = "Worst Case Time [ms]"
-        matplot(frame, main=title, xlim=range_x, type=plot_type, lty=line_type, xlab=label_x, ylab=label_y, col=colors, lwd=2)
+        matplot(frame, main=title, xlim=range_x, type=plot_type, lty=line_type, xlab=label_x, ylab=label_y, col=colors, lwd=3)
         legend("topright", inset=.05, leg, col=colors, fill=colors)
 	
 	
