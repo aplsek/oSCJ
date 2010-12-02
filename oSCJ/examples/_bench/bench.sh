@@ -128,6 +128,32 @@ fi;
 #./R/heapPerf.R $perf_files
 
 
+
+# FOR HISTOGRAMS:
+perf_files=""
+for file in `find . -name "*_d.dat"`
+do
+    if [[ -s $file ]] ; then
+       perf_files=$perf_files" "
+       perf_files=$perf_files$file 
+    else
+        echo "$file is empty."
+    fi ;
+done 
+
+if [ "$perf_files" == ""  ] ; then
+    echo "Histrogram input is empty."
+else
+   echo "files are:"
+   echo $perf_files
+   for file in $(echo $perf_files)
+   do
+     ./R/hist_x86.R $file
+   done
+fi;
+
+
+
 #### SAVE PDF                                                                                                                                               
 FIGURES="perf_bench mem_bench Time_Distr_box WCET_vs_heap WCET_vs_trigger Memory_Distr_box"
 EXT="pdf"
@@ -138,7 +164,7 @@ for fig in $FIGURES; do
     fi
 done
 
-rm -rf tmp
+#rm -rf tmp
 
 exit 0
 
