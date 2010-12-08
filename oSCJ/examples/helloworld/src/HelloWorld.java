@@ -109,9 +109,9 @@ public class HelloWorld extends CyclicExecutive {
 	    //System.out.println("HelloWorld test");
 
         	//AbsoluteTime t = Clock.getRealtimeClock().getTime();
-	        AbsoluteTime t = Clock.getRealtimeClock().getTimePrecise();
+		// AbsoluteTime t = Clock.getRealtimeClock().getTimePrecise();
 
-		System.out.println("Time is:" + t.getMilliseconds() + "ms ," + t.getNanoseconds());
+		//System.out.println("Time is:" + t.getMilliseconds() + "ms ," + t.getNanoseconds());
 
            if (count_-- == 0)
                getCurrentMission().requestSequenceTermination();

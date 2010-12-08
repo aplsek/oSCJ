@@ -305,7 +305,7 @@ public class RealtimeThread extends Thread implements Schedulable {
 	}
 
 	/**
-     * Allocates no memory. Returns an object that resides in the current missionÕs MissionMemory.
+     * Allocates no memory. Returns an object that resides in the current missionï¿½s MissionMemory.
      * 
      * 
      * @return
