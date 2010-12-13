@@ -32,6 +32,11 @@ import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 import edu.purdue.scj.utils.Utils;
 
+// Provided by FijiVM:
+import java.lang.VMThread;
+import static com.fiji.fivm.r1.fivmRuntime.*;
+
+
 /**
  * OVM version of this class differs from fiji version in that we don't have to
  * enter the initArea manually before "run()", OVM will do it for us instead.
@@ -131,18 +136,23 @@ public class RealtimeThread extends Thread implements Schedulable {
 
 
 	/** Used in primordial RTThread construction */
-	/*
-	public RealtimeThread(VMThread vmThread, int priority, boolean daemon) {
-		super(vmThread,"primordial",priority, daemon);
+	public RealtimeThread(VMThread vmThread,String name, int priority, boolean daemon) {
+		super(vmThread,name,priority, daemon);
 		
 		
 		initArea = ImmortalMemory.instance();
 		_scopeStack = new ScopeStack(this);
 		_initAreaIndex = 0;
 		
+		log(RealtimeThread.class,2,"[SCJ] VM RealtimeThread created");
+		//System.out.println("[SCJ-DBG] RealtimeThread: RealtimeThreadCreated.");
+		
+		//System.out.println("Min rt priority : " + VMSupport.getMinRTPriority());
+		//System.out.println("Max rt priority : " + VMSupport.getMaxRTPriority());
+		
 		//VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
-	*/
+	
 	
 	
 	@SCJAllowed(INFRASTRUCTURE)
@@ -155,7 +165,7 @@ public class RealtimeThread extends Thread implements Schedulable {
 		VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
 	
-	
+	//sfds
 	
 	@SCJAllowed(INFRASTRUCTURE)
 	/** Used in primordial RTThread construction */
@@ -361,5 +371,17 @@ public class RealtimeThread extends Thread implements Schedulable {
 	    throws InterruptedException {
 		//TODO:...
 	};
+	
+	// DEBUG
+	public void dumpInfo() {
+		System.out.println("[RealtimeThread] name:" + this.getName());
+		System.out.println("\t priority:" + this.getPriority());
+		System.out.println("\t id:" + this.getId());
+		System.out.println("\t memoryArea:" + this.getMemoryArea());
+		System.out.println("\t initArea:" + this.initArea);
+		System.out.println("\t stack:" + this.getScopeStack());
+		System.out.println("\t memory stack depth:" + this.getMemoryAreaStackDepth());
+		
+	}
 	
 }

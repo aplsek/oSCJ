@@ -107,6 +107,8 @@ class ScopeStack {
 		MemoryArea immortalMem = ImmortalMemory.instance();
 		push(immortalMem);
 		//System.out.println("Immortal Pushed!");
+		
+		//System.out.println("[SCJ-DBG] ScopeStack: Scope stack created, immortal memory pushed!");
 	}
 
 	/**

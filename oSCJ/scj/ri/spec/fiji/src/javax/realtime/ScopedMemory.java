@@ -162,7 +162,13 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	@Override
 	protected void preScopeEnter(RealtimeThread t) {
 		//synchronized (_joiner) {
-			_parent = RealtimeThread.currentRealtimeThread().getScopeStack()
+		
+		// DEBUG:
+		// System.out.println("scope stack: " + RealtimeThread.currentRealtimeThread().getScopeStack());
+    	// ScopeStack sstack = RealtimeThread.currentRealtimeThread().getScopeStack();
+    	// System.out.println("current stack area : " + sstack.getCurrentArea());
+    	
+    	_parent = RealtimeThread.currentRealtimeThread().getScopeStack()
 					.getTopScopedMemory(true);
 		//}
 	}
