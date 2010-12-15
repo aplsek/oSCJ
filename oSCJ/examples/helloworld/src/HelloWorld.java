@@ -76,18 +76,6 @@ public class HelloWorld extends CyclicExecutive {
     }
 
     public void setUp() {    
-    	//System.out.println("SET-UP, DEBUG");
-    	
-    	//System.out.println("current memory:" + RealtimeThread.getCurrentMemoryArea());
-    	//VMSupport.setCurrentArea(VMSupport.getImmortalArea());
-    	//
-    	//
-    	//System.out.println("current memory:" + RealtimeThread.getCurrentMemoryArea());
-    	//System.out.println("current thread:" + RealtimeThread.currentThread().getClass());
-    	//RealtimeThread.currentRealtimeThread().dumpInfo();
-       
-    	
-    	
     	Terminal.getTerminal().write("setUp.\n"); 
     }
 
