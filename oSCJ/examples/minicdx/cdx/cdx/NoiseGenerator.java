@@ -23,6 +23,8 @@
 package cdx;
 
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.RunsIn;
 
 /**
  * Noise generator for the detector. The generator lives in the persistent detector scope. Its constructor runs in the
@@ -30,8 +32,8 @@ import javax.safetycritical.annotate.SCJAllowed;
  * scope).
  */
 @SCJAllowed(members=true)
-@javax.safetycritical.annotate.Scope("cdx.Level0Safelet")
-@javax.safetycritical.annotate.RunsIn("cdx.CollisionDetectorHandler")
+@Scope("cdx.Level0Safelet")
+@RunsIn("cdx.CollisionDetectorHandler")
 public class NoiseGenerator {
 
     private Object[] noiseRoot;

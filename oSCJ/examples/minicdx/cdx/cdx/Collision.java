@@ -24,6 +24,8 @@ package cdx;
 
 import javax.safetycritical.annotate.SCJAllowed;
 import collision.Vector3d;
+import javax.safetycritical.annotate.Scope;
+
 
 /**
  * Represents a definite collision that has occured.
@@ -31,7 +33,7 @@ import collision.Vector3d;
  * @author Filip Pizlo
  */
 @SCJAllowed(members=true)
-@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")
+@Scope("cdx.CollisionDetectorHandler")
 class Collision {
     /** The aircraft that were involved. */
     // private ArrayList aircraft;

@@ -23,13 +23,14 @@
 package cdx;
 
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.Scope;
 
 /**
  * CallSign (name) of the plane. Constructor runs and instance lives in the persistent detector scope, so that call
  * signs can be linked in the (persistent) state - StateTable.
  */
 @SCJAllowed(members=true)
-@javax.safetycritical.annotate.Scope("cdx.Level0Safelet")
+@Scope("cdx.Level0Safelet")
 public class CallSign {
 
     final private byte[] val;

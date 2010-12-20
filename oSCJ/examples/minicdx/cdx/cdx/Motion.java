@@ -24,6 +24,7 @@ package cdx;
 
 import javax.safetycritical.annotate.SCJAllowed;
 import collision.Vector3d;
+import javax.safetycritical.annotate.Scope;
 
 /**
  * Objects of the <code>Motion</code> class provide all a-priori known information about what the Aircraft was doing
@@ -32,7 +33,7 @@ import collision.Vector3d;
  * @author Filip Pizlo
  */
 @SCJAllowed(members=true)
-@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")
+@Scope("cdx.CollisionDetectorHandler")
 class Motion {
     /** The aircraft that we are referring to. */
     private final Aircraft aircraft;

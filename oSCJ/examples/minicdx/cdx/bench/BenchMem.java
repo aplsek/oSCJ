@@ -24,7 +24,6 @@ public class BenchMem {
     
     
     static public int              missionIdnex = 0;
-    
     /*
     public BenchMem() {
         maxDetectorRuns = Constants.MAX_FRAMES;

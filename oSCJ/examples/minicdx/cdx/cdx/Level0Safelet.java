@@ -25,6 +25,7 @@ package cdx;
 import immortal.Simulator;
 
 import java.io.PrintWriter;
+import java.math.BigInteger;
 
 import javax.realtime.AbsoluteTime;
 import javax.realtime.Clock;
@@ -40,9 +41,12 @@ import bench.BenchMem;
 
 import cdx.unannotated.NanoClock;
 import edu.purdue.scj.VMSupport;
+import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.RunsIn;
+
 
 @SCJAllowed(members=true)
-@javax.safetycritical.annotate.Scope("immortal")
+@Scope("immortal")
 public class Level0Safelet extends CyclicExecutive {
     
     
@@ -55,7 +59,6 @@ public class Level0Safelet extends CyclicExecutive {
 
     public void setUp() {
        
-        
         ////////////////////////////////
         //  MEMORY BENCHMARK INIT
         BenchMem.init();
@@ -105,6 +108,9 @@ public class Level0Safelet extends CyclicExecutive {
     }
 
     
+    public void method() {
+        
+    }
     
     
     

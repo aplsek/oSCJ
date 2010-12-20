@@ -25,6 +25,8 @@ package cdx;
 import java.util.HashMap;
 import javax.realtime.MemoryArea;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.RunsIn;
 import statetable.Vector3d;
 
 /**
@@ -33,8 +35,8 @@ import statetable.Vector3d;
  * are in persistent detector scope - the vectors are in persistent detector scope (allocated here)
  */
 @SCJAllowed(members=true)
-@javax.safetycritical.annotate.Scope("cdx.Level0Safelet")
-@javax.safetycritical.annotate.RunsIn("cdx.CollisionDetectorHandler")
+@Scope("cdx.Level0Safelet")
+@RunsIn("cdx.CollisionDetectorHandler")
 public class StateTable {
 
     final private static int MAX_AIRPLANES = 10000;
@@ -54,8 +56,8 @@ public class StateTable {
     }
 
     @SCJAllowed(members=true)
-    @javax.safetycritical.annotate.Scope("cdx.Level0Safelet")
-    @javax.safetycritical.annotate.RunsIn("cdx.Level0Safelet")
+    @Scope("cdx.Level0Safelet")
+    @RunsIn("cdx.Level0Safelet")
     private class R implements Runnable {
         CallSign callsign;
         float    x, y, z;

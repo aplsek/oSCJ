@@ -35,9 +35,12 @@ import bench.BenchMem;
 import cdx.unannotated.NanoClock;
 import edu.purdue.scj.VMSupport;
 
+import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.RunsIn;
+
 @SCJAllowed(members=true)
-@javax.safetycritical.annotate.Scope("cdx.Level0Safelet")
-@javax.safetycritical.annotate.RunsIn("cdx.CollisionDetectorHandler")
+@Scope("cdx.Level0Safelet")
+@RunsIn("cdx.CollisionDetectorHandler")
 public class CollisionDetectorHandler extends PeriodicEventHandler {
     private final TransientDetectorScopeEntry cd = new TransientDetectorScopeEntry(
             new StateTable(), Constants.GOOD_VOXEL_SIZE);

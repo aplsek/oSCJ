@@ -22,9 +22,6 @@
  */
 package statetable;
 
-import javax.safetycritical.PrivateMemory;
-import javax.safetycritical.annotate.DefineScope;
-import javax.safetycritical.annotate.Phase;
 import javax.safetycritical.annotate.SCJAllowed;
 
 /**

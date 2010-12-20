@@ -26,6 +26,8 @@ import java.io.DataOutputStream;
 import javax.safetycritical.annotate.SCJAllowed;
 import workload.FrameBuffer;
 import workload.WorkloadStar;
+import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.RunsIn;
 
 /**
  * This thread runs only during start-up to run other threads. It runs in immortal memory, is allocated in immortal
@@ -33,7 +35,7 @@ import workload.WorkloadStar;
  * thread allocates - the scopes - the PersistentDetectorScope and TransientDetectorScope -
  */
 @SCJAllowed(members=true)
-@javax.safetycritical.annotate.Scope("immortal")
+@Scope("immortal")
 public class ImmortalEntry implements Runnable {
 
     static public Object           initMonitor                  = new Object();

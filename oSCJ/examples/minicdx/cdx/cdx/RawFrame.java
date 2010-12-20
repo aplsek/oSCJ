@@ -24,9 +24,10 @@ package cdx;
 
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
-import javax.safetycritical.annotate.Phase;
+import javax.safetycritical.annotate.Scope;
 
-@javax.safetycritical.annotate.Scope("immortal")
+
+@Scope("immortal")
 @SCJAllowed(members=true)
 public class RawFrame {
     static private int   MAX_PLANES = 1000;

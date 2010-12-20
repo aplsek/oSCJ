@@ -29,13 +29,15 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import collision.Vector3d;
 
+import javax.safetycritical.annotate.Scope;
+
 /**
  * Reduces the set of possible collisions by using a voxel drawing algorithm.
  * 
  * @author Filip Pizlo, Jeff Hagelberg
  */
 @SCJAllowed(members=true)
-/*@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")*/
+/*@Scope("cdx.CollisionDetectorHandler")*/
 class Reducer {
 
     /** Creates a Vector2d that represents a voxel. */

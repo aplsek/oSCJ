@@ -34,6 +34,8 @@ import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import bench.BenchMem;
 import collision.Vector3d;
+import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.RunsIn;
 
 /**
  * The constructor runs and the instance lives in the persistent detector scope.
@@ -43,8 +45,8 @@ import collision.Vector3d;
  */
 
 @SCJAllowed(members=true)
-@javax.safetycritical.annotate.Scope("cdx.Level0Safelet")
-@javax.safetycritical.annotate.RunsIn("cdx.CollisionDetectorHandler")
+@Scope("cdx.Level0Safelet")
+@RunsIn("cdx.CollisionDetectorHandler")
 public class TransientDetectorScopeEntry implements Runnable {
 
     private StateTable state;

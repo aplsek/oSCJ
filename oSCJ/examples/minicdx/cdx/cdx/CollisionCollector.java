@@ -26,6 +26,8 @@ import javax.safetycritical.annotate.SCJAllowed;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.RunsIn;
 
 /**
  * Collects collisions in lists and then returns a list of collisions where no two are equal.
@@ -33,7 +35,7 @@ import java.util.List;
  * @author Filip Pizlo
  */
 @SCJAllowed(members=true)
-@javax.safetycritical.annotate.Scope("cdx.CollisionDetectorHandler")
+@Scope("cdx.CollisionDetectorHandler")
 public class CollisionCollector {
     /** A hash set of collisions. */
     private HashSet collisions = new HashSet();
