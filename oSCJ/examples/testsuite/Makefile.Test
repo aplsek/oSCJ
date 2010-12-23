@@ -6,7 +6,7 @@ FIJIFLAGS="--max-threads 3"
 # FULL SCJ CHECK
 #
 
-check-scj: check-scj-hello check-immortal check-primordial check-immortal2 check-enter-private check-precise-time
+check-scj: check-scj-hello check-immortal check-primordial check-immortal2 check-enter-private check-precise-time check-lock
  
 #
 #
@@ -31,9 +31,13 @@ check-immortal2:
 	./immortal2
 
 check-enter-private:
-	 $(RUBY) $(FIJI_HOME)/bin/fivmc  -o enter-private2  $(SCJFLAGS)  $(FIJIFLAGS) build/EnterPrivateTest*.class
+	 $(RUBY) $(FIJI_HOME)/bin/fivmc  -o enter-private  $(SCJFLAGS)  $(FIJIFLAGS) build/EnterPrivateTest*.class
 	 ./enter-private
 
 check-precise-time:
-	 $(RUBY) $(FIJI_HOME)/bin/fivmc  -o precise-time2  $(SCJFLAGS)  $(FIJIFLAGS) build/TestPreciseTime*.class
+	 $(RUBY) $(FIJI_HOME)/bin/fivmc  -o precise-time  $(SCJFLAGS)  $(FIJIFLAGS) build/TestPreciseTime*.class
 	 ./precise-time
+
+check-lock:
+	 $(RUBY) $(FIJI_HOME)/bin/fivmc  -o lock  $(SCJFLAGS)  $(FIJIFLAGS) build/SCJLock*.class
+	 ./lock

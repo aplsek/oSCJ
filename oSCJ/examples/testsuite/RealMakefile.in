@@ -20,7 +20,7 @@ build-java: clean
 
 
 check-scj: build-java
-	$(RUBY) $(FIJI_HOME)/testmake/bin/testmake --verbose check-scj 
+	$(RUBY) $(FIJI_HOME)/testmake/bin/testmake check-scj #--verbose 
 
 recall:
 	 $(FIJI_HOME)/testmake/bin/recall
