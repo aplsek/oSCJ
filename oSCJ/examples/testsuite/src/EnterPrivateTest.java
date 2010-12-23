@@ -67,7 +67,7 @@ public class EnterPrivateTest extends CyclicExecutive {
      */
     // @Override
     public long missionMemorySize() {
-        return 5000000;
+        return 500000;
     }
 
     public void setUp() {     
