@@ -118,11 +118,11 @@ public class Test_Exceptions  extends CyclicExecutive {
         public void handleEvent() {
             Terminal.getTerminal().write(getName());
          
-            MyRunnable runnable = new MyRunnable();
-            ManagedMemory.getCurrentManagedMemory().enterPrivateMemory(300, runnable);
-            
-            Utils.debugPrint("[SCJ] Private Mem consumed:"
-                    + RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+            //MyRunnable runnable = new MyRunnable();
+            //ManagedMemory.getCurrentManagedMemory().enterPrivateMemory(300, runnable);
+            //
+            //Utils.debugPrint("[SCJ] Private Mem consumed:"
+            //        + RealtimeThread.getCurrentMemoryArea().memoryConsumed());
             
             if (count_-- == 0)
                 getCurrentMission().requestSequenceTermination();
@@ -130,11 +130,6 @@ public class Test_Exceptions  extends CyclicExecutive {
 
 		//@Override
 		public void cleanUp() {
-		}
-
-		//@Override
-		public void register() {
-			
 		}
 
 		//@Override

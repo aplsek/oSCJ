@@ -1,0 +1,39 @@
+FIJI_HOME=../../../../
+SCJFLAGS="--scj --scj-scope-backing 3100k --g-def-immortal-mem 5000k --more-opt"
+FIJIFLAGS="--max-threads 3" 
+
+#
+# FULL SCJ CHECK
+#
+
+check-scj: check-scj-hello check-immortal check-primordial check-immortal2 check-enter-private check-precise-time
+ 
+#
+#
+#
+
+
+
+check-scj-hello:
+	$(RUBY) $(FIJI_HOME)/bin/fivmc  -o hello  $(SCJFLAGS)  $(FIJIFLAGS) build/HelloWorld*.class
+	./hello
+
+check-immortal:
+	 $(RUBY) $(FIJI_HOME)/bin/fivmc  -o immortal  $(SCJFLAGS)  $(FIJIFLAGS) build/TestImmortal*.class
+	./immortal
+	
+check-primordial:
+	$(RUBY) $(FIJI_HOME)/bin/fivmc  -o primordial  $(SCJFLAGS)  $(FIJIFLAGS) build/TestPrimordial*.class
+	./primordial
+
+check-immortal2:
+	 $(RUBY) $(FIJI_HOME)/bin/fivmc  -o immortal2  $(SCJFLAGS)  $(FIJIFLAGS) build/ImmortalTest2*.class
+	./immortal2
+
+check-enter-private:
+	 $(RUBY) $(FIJI_HOME)/bin/fivmc  -o enter-private2  $(SCJFLAGS)  $(FIJIFLAGS) build/EnterPrivateTest*.class
+	 ./enter-private
+
+check-precise-time:
+	 $(RUBY) $(FIJI_HOME)/bin/fivmc  -o precise-time2  $(SCJFLAGS)  $(FIJIFLAGS) build/TestPreciseTime*.class
+	 ./precise-time

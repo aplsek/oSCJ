@@ -39,7 +39,7 @@ import edu.purdue.scj.utils.Utils;
 
 public class TestPreciseTime extends CyclicExecutive {
 
-    public HelloWorld() {
+    public TestPreciseTime() {
         super(null);
     }
 
@@ -109,9 +109,9 @@ public class TestPreciseTime extends CyclicExecutive {
         	
         	
 	        System.out.println("HelloWorld test");
-        	AbsoluteTime t = Clock.getRealtimeClock().getTime();
-     	 	AbsoluteTime t = Clock.getRealtimeClock().getTimePrecise();
-        	System.out.println("Time is:" + t.getMilliseconds() + "ms ," + t.getNanoseconds());
+        	//AbsoluteTime t = Clock.getRealtimeClock().getTime();
+     	 	//AbsoluteTime t = Clock.getRealtimeClock().getTimePrecise();
+        	//System.out.println("Time is:" + t.getMilliseconds() + "ms ," + t.getNanoseconds());
 
            if (count_-- == 0)
                getCurrentMission().requestSequenceTermination();

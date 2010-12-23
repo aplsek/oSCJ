@@ -128,9 +128,6 @@ public class TestImmortal extends CyclicExecutive {
         public void cleanUp() {
         }
 
-        public void register() {
-        }
-
         public StorageParameters getThreadConfigurationParameters() {
             return null;
         }

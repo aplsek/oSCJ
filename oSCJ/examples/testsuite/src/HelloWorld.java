@@ -71,7 +71,7 @@ public class HelloWorld extends CyclicExecutive {
      */
     // @Override
     public long missionMemorySize() {
-        return 5000000;
+        return 500000;
     }
 
     public void setUp() {     
@@ -114,10 +114,6 @@ public class HelloWorld extends CyclicExecutive {
         }
 
     
-        public void register() {
-        }
-
-        
         public StorageParameters getThreadConfigurationParameters() {
             return null;
         }
