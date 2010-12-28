@@ -114,8 +114,7 @@ public class SCJLock extends CyclicExecutive {
 		System.out.println("INSIDE a synchronized section");
 	    }
 
-	    if (count_-- == 0)
-		getCurrentMission().requestSequenceTermination();
+	    getCurrentMission().requestSequenceTermination();
         }
 
         

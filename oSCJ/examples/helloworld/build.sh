@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 set -e
@@ -14,8 +13,6 @@ SCJ="../../scj/ri"
 CWD=`pwd`
 cd $SCJ && make scj.jar && cd $CWD
 
-#`pwd`
-
 # HELLO HOME
 HELLO=.
 HELLO_BUILD=$HELLO/build
@@ -26,8 +23,20 @@ rm -rf $HELLO_BUILD
 rm -rf hello
 rm -rf hello.build
 
+if [ $# -eq 0 ]
+then
+    SAFELET="HelloWorld"
+else
+    SAFELET=$1
+fi
+
 # COMPILE AND RUN
 mkdir $HELLO_BUILD
-javac -cp $FIJI_HOME/lib/scj.jar:$FIJI_HOME/lib/fijicore.jar:$FIJI_HOME/lib/fivmr.jar:$FIJI_HOME/lib/fijirt.jar:$FIJI_HOME/lib/fivm.jar -d $HELLO_BUILD $HELLO/src/*.java
-$FIJI_HOME/bin/fivmc -o hello  $SCJFLAGS  $FIJIFLAGS $HELLO_BUILD/*.class
+javac -cp $FIJI_HOME/lib/scj.jar:$FIJI_HOME/lib/fijicore.jar:$FIJI_HOME/lib/fivmr.jar:$FIJI_HOME/lib/fijirt.jar:$FIJI_HOME/lib/fivm.jar -d $HELLO_BUILD `find ./src/ -name "*.java"`
+
+CLASS=`find $HELLO_BUILD -name "*.class" `
+echo $CLASS
+
+
+$FIJI_HOME/bin/fivmc -o hello --scj-safelet $SAFELET  $SCJFLAGS  $FIJIFLAGS $CLASS
 ./hello

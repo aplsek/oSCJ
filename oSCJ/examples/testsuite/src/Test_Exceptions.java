@@ -81,7 +81,6 @@ public class Test_Exceptions  extends CyclicExecutive {
      * 
      * @return the amount of memory needed
      */
-    // @Override
     public long missionMemorySize() {
         return 5000000;
     }
@@ -138,13 +137,11 @@ public class Test_Exceptions  extends CyclicExecutive {
 		}
     }
 
-    @Override
     public void setUp() {
         // TODO Auto-generated method stub
         
     }
 
-    @Override
     public void tearDown() {
         // TODO Auto-generated method stub
         
