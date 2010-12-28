@@ -1,10 +1,7 @@
 oSCJ installation Manual
 --------------------------------------
-Date: 29/01/2010
+Date: 12/30/2010
 Author: Ales Plsek
-
-! Please, update the manual whenever something is changed !
-
 
 
 1)    SCJ versions:
@@ -14,9 +11,8 @@ We have three different versions of SCJ:
 2) SCJ running on top of FijiVM
 3) SCJ running on top of OVM
 
-Because Fiji is not publically available yet, I provide you the instructions how to install SCJ-OVM. 
-
-
+PREFER THE FijiVM VERSION!!
+see 
 
 
 2)   PROJECT STATUS:
