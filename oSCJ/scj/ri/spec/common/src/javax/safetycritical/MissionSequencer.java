@@ -63,7 +63,7 @@ public abstract class MissionSequencer extends BoundAsyncEventHandler {
 		}
 	}
 
-	// TODO: do something to the storage parameter
+	// TODO FIXME: StorageParameters are not used!!!?
 	@SCJRestricted(INITIALIZATION)
 	public MissionSequencer(PriorityParameters priority,
 			StorageParameters storage) {

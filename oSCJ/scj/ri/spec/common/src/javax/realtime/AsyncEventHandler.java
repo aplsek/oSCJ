@@ -24,8 +24,6 @@ import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 
-//import edu.purdue.scj.utils.Utils;
-
 /**
  * In SCJ, all asynchronous events must have their handlers bound when they are
  * cre- ated (during the initialization phase). The binding is permanent. Thus,

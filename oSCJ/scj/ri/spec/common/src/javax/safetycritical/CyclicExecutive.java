@@ -25,6 +25,7 @@ package javax.safetycritical;
 import javax.realtime.AbsoluteTime;
 import javax.realtime.Clock;
 import javax.realtime.HighResolutionTime;
+import javax.realtime.PriorityParameters;
 import javax.safetycritical.annotate.SCJAllowed;
 
 import edu.purdue.scj.VMSupport;
@@ -44,6 +45,11 @@ public abstract class CyclicExecutive extends Mission implements Safelet {
 	private MissionSequencer _sequencer;
 	private static final int NANOS_PER_MILLI = 1000 * 1000;
 
+	@SCJAllowed
+	public CyclicExecutive(PriorityParameters priority, StorageParameters storage) {
+		_sequencer = new SingleMissionSequencer(priority, storage, this);
+	}
+	
 	@SCJAllowed
 	public CyclicExecutive(StorageParameters storage) {
 		_sequencer = new SingleMissionSequencer(null, storage, this);

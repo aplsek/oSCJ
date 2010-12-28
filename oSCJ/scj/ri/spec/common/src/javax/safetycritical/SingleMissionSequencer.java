@@ -36,7 +36,7 @@ public class SingleMissionSequencer extends MissionSequencer {
     @SCJAllowed
     public SingleMissionSequencer(PriorityParameters priority,
             StorageParameters storage, Mission mission) {
-        super(null, storage);
+        super(priority, storage);
         _mission = mission;
     }
 
