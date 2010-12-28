@@ -139,7 +139,12 @@ public abstract class ManagedMemory extends LTMemory {
 			_child.setOwner(_owner);
 		} else
 			_child.setSize(size);
-
+		// TODO FIXME : test that when we re-enter the private memory 
+		//              with the same owner!! with the same thread!!
+		// FIXME: how to figure out who is the current SCHEdulable object??? its not the same as the currentThread()
+		
+		// FIXME: check that the scope is not already entered!!!
+		
 		_child.enter(logic);
 	}
 
