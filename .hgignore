@@ -7,3 +7,6 @@ syntax: glob
 *gencode*
 *.jar
 tests/*.err
+*build/**
+*.mk
+tester-output.conf

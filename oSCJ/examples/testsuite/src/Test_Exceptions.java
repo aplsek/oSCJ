@@ -19,8 +19,6 @@
  *   @authors  Lei Zhao, Ales Plsek
  */
 
-package test;
-
 import javax.realtime.RealtimeThread;
 import javax.realtime.RelativeTime;
 import javax.safetycritical.CyclicExecutive;
@@ -138,13 +136,9 @@ public class Test_Exceptions  extends CyclicExecutive {
     }
 
     public void setUp() {
-        // TODO Auto-generated method stub
-        
     }
 
     public void tearDown() {
-        // TODO Auto-generated method stub
-        
     }
 }
 
