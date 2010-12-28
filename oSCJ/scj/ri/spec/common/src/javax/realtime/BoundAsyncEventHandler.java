@@ -39,6 +39,6 @@ public class BoundAsyncEventHandler extends AsyncEventHandler {
 			ReleaseParameters release, MemoryParameters memory,
 			MemoryArea area, ProcessingGroupParameters group, boolean nonheap,
 			Runnable logic) {
-		super(scheduling, release, memory, area, group, nonheap, logic);
+		super(scheduling, release, memory, area, group, logic);
 	}
 }

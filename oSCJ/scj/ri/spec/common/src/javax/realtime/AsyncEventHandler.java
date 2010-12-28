@@ -52,9 +52,6 @@ public class AsyncEventHandler extends AbstractAsyncEventHandler implements Sche
 
 	private boolean _threadStarted = false;
 
-	/** Internal lock object for synchronization */
-	protected final Object _lock = new Object();
-
 	/** The fire count for this event */
 	protected int _fireCount; // access while holding 'lock'
 
@@ -84,17 +81,17 @@ public class AsyncEventHandler extends AbstractAsyncEventHandler implements Sche
 	};
 
 	public AsyncEventHandler() {
-		this(null, null, null, null, null, true, null);
+		this(null, null, null, null, null, null);
 	}
 
 	public AsyncEventHandler(SchedulingParameters scheduling,
 			ReleaseParameters release, MemoryParameters memory,
-			MemoryArea area, ProcessingGroupParameters group, boolean nonHeap,
+			MemoryArea area, ProcessingGroupParameters group,
 			Runnable logic) {
 		_initMemory = area;
 		_logic = logic;
-		_group = group;
-		_memory = memory;
+		//_group = group;
+		//_memory = memory;
 		_release = release;
 		_scheduling = scheduling;
 	}

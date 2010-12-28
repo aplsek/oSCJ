@@ -65,15 +65,15 @@ public abstract class CyclicExecutive extends Mission implements Safelet {
 
 	/** Do the Cyclic Execution. */
 	protected final void exec(MissionManager manager) {
-	   //Utils.debugIndentIncrement("###[SCJ] CyclicExecutive.exec");
+	        //Utils.debugIndentIncrement("###[SCJ] CyclicExecutive.exec");
 	    
 	    
 		if (manager.getHandlers() == 0) {
 			// Mission has nothing to do
-			// mission should terminates....sssssss
+			// mission should terminate!
 			_terminateAll = true;
 			
-			System.out.println("Mission should terminate here....s");
+			System.out.println("Mission should terminate here....!");
 			System.out.println("Mission should terminate, this mission: " +  this);
 			return;
 		}
@@ -104,7 +104,7 @@ public abstract class CyclicExecutive extends Mission implements Safelet {
 													// not null,
 						wrapper._handler = frameHandlers[j];
 						
-						////Utils.debugPrintln("###[SCJ] CyclicExecutive: run handler");
+						//Utils.debugPrintln("###[SCJ] CyclicExecutive: run handler");
 						wrapper.runInItsInitArea();
 					}
 				}
@@ -115,13 +115,21 @@ public abstract class CyclicExecutive extends Mission implements Safelet {
 			}
 		}
 		
+		//FIXME: cleanup the handlers, TODO: they should run in their memory areas??
+		//System.out.println("[SCJ] - Handlers finished");
+		//TerminationWrapper tWrapper = new TerminationWrapper();
+		for(PeriodicEventHandler hnd : handlers) {
+			//tWrapper._handler = hnd;
+			//tWrapper.runInItsInitArea();
+			hnd.cleanUp();
+		}
 		
-        ////Utils.decreaseIndent();
+                //Utils.decreaseIndent();
 	}
 
 	private static void waitForNextFrame(AbsoluteTime targetTime) {
 		int result;
-		////Utils.debugPrintln("###[SCJ] CyclicExecutive: wait for the next frame");
+		//Utils.debugPrintln("###[SCJ] CyclicExecutive: wait for the next frame");
 		
 		while (true) {
 			result = VMSupport.delayCurrentThreadAbsolute(toNanos(targetTime));
@@ -161,11 +169,33 @@ public abstract class CyclicExecutive extends Mission implements Safelet {
 		public void run() {
 			try {
 				//System.out.println("[SCJ] running hadnerl...");
-				
-				
 				_handler.handleEvent();
 			} catch (Throwable t) {
 				////Utils.debugPrintln(t.toString());
+				t.printStackTrace();
+			}
+		}
+	}
+	
+	/** For making every handler run in its own PrivateMemory */
+	class TerminationWrapper implements Runnable {
+
+		PeriodicEventHandler _handler = null;
+
+		void runInItsInitArea() {
+			if (_handler != null) // TODO: if we will use the "maxHandlers"
+									// fields in MissionManager, we dont need
+									// this.
+				_handler.getInitArea().enter(this);
+			else {
+				Utils.panic("ERROR: handler is null");
+			}
+		}
+
+		public void run() {
+			try {
+				_handler.cleanUp();
+			} catch (Throwable t) {
 				t.printStackTrace();
 			}
 		}

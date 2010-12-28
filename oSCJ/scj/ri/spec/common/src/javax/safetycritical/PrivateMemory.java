@@ -59,11 +59,13 @@ public class PrivateMemory extends ManagedMemory {
 	public PrivateMemory(long size) {
 		super(size);
 
+		
 		MemoryArea mem = RealtimeThread.getCurrentMemoryArea();
 		if (mem instanceof ManagedMemory)
 			_resideInScope = (ManagedMemory) mem;
 		else {
 			Utils.panic("Private memory cannot be created in " + mem);
+			// FIXME : throw ScopeMemoryException
 		}
 			
 		_manager = _resideInScope.getManager();

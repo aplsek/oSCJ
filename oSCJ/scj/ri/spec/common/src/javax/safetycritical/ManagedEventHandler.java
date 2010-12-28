@@ -88,6 +88,7 @@ public abstract class ManagedEventHandler extends BoundAsyncEventHandler
 	@SCJAllowed(SUPPORT)
 	@SCJRestricted(CLEANUP)
 	public void cleanUp() {
+		// FIXME: is this ever called?????
 	}
 
 	@SCJAllowed
