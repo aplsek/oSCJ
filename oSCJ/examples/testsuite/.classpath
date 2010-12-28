@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="enter-private.build/jbuild.jar"/>
+	<classpathentry kind="lib" path="enter-private2.build/jbuild.jar"/>
+	<classpathentry kind="lib" path="hello.build/jbuild.jar"/>
+	<classpathentry kind="lib" path="immortal.build/jbuild.jar"/>
+	<classpathentry kind="lib" path="immortal2.build/jbuild.jar"/>
+	<classpathentry kind="lib" path="lock.build/jbuild.jar"/>
+	<classpathentry kind="lib" path="precise-time.build/jbuild.jar"/>
+	<classpathentry kind="lib" path="precise-time2.build/jbuild.jar"/>
+	<classpathentry kind="lib" path="primordial.build/jbuild.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/scj"/>
+	<classpathentry kind="output" path="build"/>
+</classpath>
