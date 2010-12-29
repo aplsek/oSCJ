@@ -99,7 +99,7 @@ public class SCJLock extends CyclicExecutive {
         private int count_;
  
         private WordHandler(long psize, String name, int count) {
-            super(null, null, null, psize, name);
+        	super(null, null, new StorageParameters(psize,0,0), name);
             count_ = count;
         }
 
@@ -107,7 +107,7 @@ public class SCJLock extends CyclicExecutive {
          *  
          * 
          */
-        public void handleEvent() {
+        public void handleAsyncEvent() {
 	    Terminal.getTerminal().write(getName());
 	        
 	    synchronized(this) {

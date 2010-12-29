@@ -53,7 +53,7 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
         // these very large limits are reported to work with stack traces... of
         // errors encountered...
         // most likely they are unnecessarily large
-        super(null, null, null, Constants.TRANSIENT_DETECTOR_SCOPE_SIZE);
+        super(null, null, new StorageParameters(Constants.TRANSIENT_DETECTOR_SCOPE_SIZE,0,0));
     }
 
     public void runDetectorInScope(final TransientDetectorScopeEntry cd) {
@@ -101,7 +101,7 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
         Benchmarker.done(14);
     }
 
-    public void handleEvent() {
+    public void handleAsyncEvent() {
         
         BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
             

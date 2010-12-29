@@ -71,7 +71,7 @@ public abstract class ManagedEventHandler extends BoundAsyncEventHandler
 	 * Application developers override this method with code to be executed
 	 * whenever the event(s) to which this event handler is bound is fired.
 	 */
-	//@Override
+	@Override
 	@SCJAllowed(SUPPORT)
 	public abstract void handleAsyncEvent();
 
