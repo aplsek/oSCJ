@@ -1,4 +1,3 @@
-
 /**
  *  This file is part of oSCJ.
  *
@@ -39,96 +38,78 @@ import edu.purdue.scj.utils.Utils;
 
 public class HelloWorld extends CyclicExecutive {
 
-    public HelloWorld() {
-        super(null);
-    }
+	public HelloWorld() {
+		super(null);
+	}
 
-    public static void main(final String[] args) {
-        Safelet safelet = new HelloWorld();
-        safelet.setUp();
-        safelet.getSequencer().start();
-        safelet.tearDown();
-    }
+	public static void main(final String[] args) {
+		Safelet safelet = new HelloWorld();
+		safelet.setUp();
+		safelet.getSequencer().start();
+		safelet.tearDown();
+	}
 
-    private static void writeln(String msg) {
-	// Terminal.getTerminal().writeln(msg);
-    }
+	private static void writeln(String msg) {
+		// Terminal.getTerminal().writeln(msg);
+	}
 
-    public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) {
-        CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
-        CyclicSchedule schedule = new CyclicSchedule(frames);
-        frames[0] = new CyclicSchedule.Frame(new RelativeTime(200, 0), handlers);
-        return schedule;
-    }
+	public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) {
+		CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
+		CyclicSchedule schedule = new CyclicSchedule(frames);
+		frames[0] = new CyclicSchedule.Frame(new RelativeTime(200, 0),
+				handlers);
+		return schedule;
+	}
 
-    public void initialize() {
-        new WordHandler(100000, "HelloWorld.\n", 1);
-    }
+	public void initialize() {
+		new WordHandler(100000, "HelloWorld.\n", 1);
+	}
 
-    /**
-     * A method to query the maximum amount of memory needed by this mission.
-     * 
-     * @return the amount of memory needed
-     */
-    // @Override
-    public long missionMemorySize() {
-        return 400000;
-    }
+	/**
+	 * A method to query the maximum amount of memory needed by this
+	 * mission.
+	 * 
+	 * @return the amount of memory needed
+	 */
+	// @Override
+	public long missionMemorySize() {
+		return 400000;
+	}
 
-    public void setUp() {    
-    	Terminal.getTerminal().write("setUp.\n"); 
-    }
+	public void setUp() {
+		Terminal.getTerminal().write("setUp.\n");
+	}
 
-    public void tearDown() {
-        Terminal.getTerminal().write("teardown.\n");
-    }
+	public void tearDown() {
+		Terminal.getTerminal().write("teardown.\n");
+	}
 
-    public void cleanUp() {
-	    Terminal.getTerminal().write("cleanUp.\n");
-    }
+	public void cleanUp() {
+		Terminal.getTerminal().write("cleanUp.\n");
+	}
 
-    
-    
-    public class WordHandler extends PeriodicEventHandler {
+	public class WordHandler extends PeriodicEventHandler {
 
-        private int count_;
- 
-        private WordHandler(long psize, String name, int count) {
-            super(null, null, null, psize, name);
-            count_ = count;
-        }
+		private int count_;
 
-        /**
-         * 
-         * Testing Enter Private Memory
-         * 
-         */
-        public void handleEvent() {
-        	Terminal.getTerminal().write(getName());
-	    
-        	
-        	
-	        //System.out.println("HelloWorld test");
-        	//AbsoluteTime t = Clock.getRealtimeClock().getTime();
-     		// AbsoluteTime t = Clock.getRealtimeClock().getTimePrecise();
-        	//System.out.println("Time is:" + t.getMilliseconds() + "ms ," + t.getNanoseconds());
+		private WordHandler(long psize, String name, int count) {
+			super(null, null, new StorageParameters(psize, 0 , 0), name);
+			count_ = count;
+		}
 
-           if (count_-- == 0)
-               getCurrentMission().requestSequenceTermination();
-        }
+		public void handleAsyncEvent() {
+			Terminal.getTerminal().write(getName());
 
-        
-        
-        public void cleanUp() {
-        }
+			if (count_-- == 0)
+				getCurrentMission().requestSequenceTermination();
+		}
 
-    
-        public StorageParameters getThreadConfigurationParameters() {
-            return null;
-        }
-    }
+		public void cleanUp() {
+		}
 
-
+		public StorageParameters getThreadConfigurationParameters() {
+			return null;
+		}
+	}
 
 }
-

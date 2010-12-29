@@ -47,10 +47,9 @@ public class MyApp extends CyclicExecutive {
 
 	static PriorityParameters p = new PriorityParameters(18); 
  	static StorageParameters s = new StorageParameters(1000, 1000, 1000); 
- 	static CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
  	
 	public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) { 
-		//CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
+		CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
 		CyclicSchedule schedule = new CyclicSchedule(frames);
 		frames[0] = new CyclicSchedule.Frame(new RelativeTime(500, 0), handlers); 
 		return schedule;

@@ -20,35 +20,23 @@ public class MyPEH extends PeriodicEventHandler {
         static long[] times = new long[MAX];
         static PriorityParameters pri;
         static PeriodicParameters per;
+        static StorageParameters stor;
         
         static {
         	pri = new PriorityParameters(13);
         	per = new PeriodicParameters(new RelativeTime(0,0),new RelativeTime(500,0));
+        	stor = new StorageParameters(50L,0,0);
         }
         
         public MyPEH() {
-        	super(pri, per, null, 50);
+        	super(pri, per, stor);
         }
 
-        long mem1 = 0;
-        long mem2 = 0;
-        
-        /**
-         * 
-         * Testing Enter Private Memory
-         * 
-         */
-        public void handleEvent() {
-        	
-        	times[pos] = Clock.getRealtimeClock().getTime().getMilliseconds();  
-        	
-        	pos++;
+        public void handleAsyncEvent() {
+        	times[pos++] = Clock.getRealtimeClock().getTime().getMilliseconds();  
         	if (pos == MAX)
         		Mission.getCurrentMission().requestSequenceTermination();
-        	
         }
-
-        
         
         public void cleanUp() {
         	//System.out.println("Mem consumed: " + mem1);

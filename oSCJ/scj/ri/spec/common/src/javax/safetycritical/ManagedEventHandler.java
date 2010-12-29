@@ -59,31 +59,21 @@ public abstract class ManagedEventHandler extends BoundAsyncEventHandler
 	@SCJAllowed(INFRASTRUCTURE)
 	@SCJRestricted(INITIALIZATION)
 	public ManagedEventHandler(PriorityParameters priority,
-			ReleaseParameters release, StorageParameters storage, long psize,
-			String name) {
-		super(priority, release, null, new PrivateMemory(psize), null, true,
+			ReleaseParameters release, StorageParameters storage, String name) {
+		super(priority, release, null, new PrivateMemory(storage._totalBackingStore), null, true,
 				null);
 		_name = name;
 		MissionManager.getCurrentMissionManager().addEventHandler(this);
 		((ManagedMemory)getInitArea()).setOwner(this);
 	}
-
+	
 	/**
 	 * Application developers override this method with code to be executed
 	 * whenever the event(s) to which this event handler is bound is fired.
 	 */
-	@SCJAllowed(SUPPORT)
-	public abstract void handleEvent();
-
-	/**
-	 * This is overridden to ensure entry into the local scope for each release.
-	 * 
-	 */
 	//@Override
 	@SCJAllowed(SUPPORT)
-	public void handleAsyncEvent() {
-		handleEvent();
-	}
+	public abstract void handleAsyncEvent();
 
 	@SCJAllowed(SUPPORT)
 	@SCJRestricted(CLEANUP)

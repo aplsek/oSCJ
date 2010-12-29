@@ -166,7 +166,7 @@ public abstract class CyclicExecutive extends Mission implements Safelet {
 		public void run() {
 			try {
 				//System.out.println("[SCJ] running hadnerl...");
-				_handler.handleEvent();
+				_handler.handleAsyncEvent();
 			} catch (Throwable t) {
 				////Utils.debugPrintln(t.toString());
 				t.printStackTrace();
