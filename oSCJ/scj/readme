@@ -1,7 +1,14 @@
-oSCJ installation Manual
---------------------------------------
+oSCJ README
+----------------------------------------------------------------------------
 Date: 12/30/2010
 Author: Ales Plsek
+HomePage: http://sss.cs.purdue.edu/projects/oscj/
+Source-Code: http://code.google.com/p/scj-jsr302/
+----------------------------------------------------------------------------
+
+
+
+
 
 
 1)    SCJ versions:
@@ -11,13 +18,10 @@ We have three different versions of SCJ:
 2) SCJ running on top of FijiVM
 3) SCJ running on top of OVM
 
-PREFER THE FijiVM VERSION!!
-see 
+PREFER THE FijiVM VERSION! All the below applies for FijiVM.
 
-
-2)   PROJECT STATUS:
-------------------------------------------------
-All three version are now runnable, you can test them using either the SCJ HelloWorld example or the miniCDx benchmark.
+All three version are now runnable, you can test them using either the SCJ HelloWorld example or 
+the miniCDx benchmark.
 
 
 
@@ -145,7 +149,7 @@ The installation procedure for FijiVM is similar, you will just use Makefile fro
 
 
 4.) SOURCE_CODE STRUCTURE:
-------------------------------------------------
+====================================================================================
 The SCJ source codes are placed in scj/ri.
 For your better orientation, the source code is divided into several categories:
 4.1)
@@ -160,4 +164,28 @@ common - the majority of classes is independent from VM, so they are placed here
 
 
 4.3) The RTSJ based version is in scj/ri_rtsj/
+
+
+
+
+
+
+
+TODO-list
+====================================================================================
+
+Handler Start Time
+
+
+Storage Parameters
+------------------
+- add checks 
+
+Priority Parametesr
+-----------
+- change the priority when running?
+
+
+List of exceptions?
+
 
