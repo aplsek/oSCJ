@@ -27,7 +27,7 @@ import javax.realtime.Clock;
 import javax.realtime.HighResolutionTime;
 import javax.realtime.PriorityParameters;
 import javax.safetycritical.annotate.SCJAllowed;
-
+import static javax.safetycritical.annotate.Level.SUPPORT;
 import edu.purdue.scj.VMSupport;
 import edu.purdue.scj.utils.Utils;
 
@@ -60,7 +60,7 @@ public abstract class CyclicExecutive extends Mission implements Safelet {
 		return _sequencer;
 	}
 
-	@SCJAllowed
+	@SCJAllowed(SUPPORT)
 	public abstract CyclicSchedule getSchedule(PeriodicEventHandler[] peh);
 
 	/** Do the Cyclic Execution. */
@@ -69,12 +69,12 @@ public abstract class CyclicExecutive extends Mission implements Safelet {
 	    
 	    
 		if (manager.getHandlers() == 0) {
-			// Mission has nothing to do
-			// mission should terminate!
+			// Mission has nothing to do, it should terminate!
 			_terminateAll = true;
 			
-			System.out.println("Mission should terminate here....!");
-			System.out.println("Mission should terminate, this mission: " +  this);
+			//<FIXME> add error messages
+			System.out.println("[SCJ] No Handlers Specified!");
+			System.out.println("[SCJ] Mission terminates, this mission: " +  this);
 			return;
 		}
 
@@ -100,11 +100,8 @@ public abstract class CyclicExecutive extends Mission implements Safelet {
 				targetTime.add(frames[i].getDuration(), targetTime);
 				PeriodicEventHandler[] frameHandlers = frames[i].getHandlers();
 				for (int j = 0; j < frameHandlers.length; j++) {
-					if (frameHandlers[j] != null) { // we check that handler is
-													// not null,
+					if (frameHandlers[j] != null) { 
 						wrapper._handler = frameHandlers[j];
-						
-						//Utils.debugPrintln("###[SCJ] CyclicExecutive: run handler");
 						wrapper.runInItsInitArea();
 					}
 				}
