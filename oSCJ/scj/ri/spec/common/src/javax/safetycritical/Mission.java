@@ -29,6 +29,8 @@ import javax.safetycritical.annotate.Level;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.RunsIn;
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
 import static javax.safetycritical.annotate.Level.SUPPORT;
 import static javax.safetycritical.annotate.Phase.CLEANUP;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
@@ -51,6 +53,7 @@ public abstract class Mission {
 
 
 	@SCJAllowed
+	@RunsIn(UNKNOWN)
 	public static Mission getCurrentMission() {
 		MemoryArea mem = RealtimeThread.getCurrentMemoryArea();
 		if (!(mem instanceof ManagedMemory))

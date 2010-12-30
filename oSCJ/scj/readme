@@ -189,3 +189,21 @@ Priority Parametesr
 List of exceptions?
 
 
+LEVEL 0:
+----------
+Implement:
+Level0Mission, Level0MissionSequencer
+- remove CyclicExecutive!!!! 
+
+Remove Methods
+-------------------
+- missionMemorySize()
+- getInitialMission()
+
+
+Annotations
+-----------
+- all the methods of the SCJ package thar are static should be annotated with @RunsIn(UNKNOWN)
+- e.g. Mission.getCurrentMission();
+
+
