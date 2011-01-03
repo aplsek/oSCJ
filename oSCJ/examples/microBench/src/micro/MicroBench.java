@@ -1,5 +1,7 @@
 package micro;
 
+// hello
+
 /**
  *  This file is part of oSCJ.
  *
