@@ -1,0 +1,206 @@
+%PDF-1.4
+%Å‚Å„ÅœÅ”\r
+1 0 obj
+<<
+/CreationDate (D:20101018160610)
+/ModDate (D:20101018160610)
+/Title (R Graphics Output)
+/Producer (R 2.11.1)
+/Creator (R)
+>>
+endobj
+2 0 obj
+<<
+/Type /Catalog
+/Pages 3 0 R
+>>
+endobj
+5 0 obj
+<<
+/Type /Page
+/Parent 3 0 R
+/Contents 6 0 R
+/Resources 4 0 R
+>>
+endobj
+6 0 obj
+<<
+/Length 7 0 R
+>>
+stream
+1 J 1 j q
+Q q
+0.000 0.000 0.000 RG
+0.75 w
+[] 0 d
+1 J
+1 j
+10.00 M
+172.18 73.44 m 936.62 73.44 l S
+172.18 73.44 m 172.18 66.24 l S
+363.29 73.44 m 363.29 66.24 l S
+554.40 73.44 m 554.40 66.24 l S
+745.51 73.44 m 745.51 66.24 l S
+936.62 73.44 m 936.62 66.24 l S
+BT
+0.000 0.000 0.000 rg
+/F2 1 Tf 12.00 0.00 -0.00 12.00 162.17 47.52 Tm (800) Tj
+ET
+BT
+/F2 1 Tf 12.00 0.00 -0.00 12.00 349.94 47.52 Tm (1000) Tj
+ET
+BT
+/F2 1 Tf 12.00 0.00 -0.00 12.00 541.06 47.52 Tm (1200) Tj
+ET
+BT
+/F2 1 Tf 12.00 0.00 -0.00 12.00 732.17 47.52 Tm (1400) Tj
+ET
+BT
+/F2 1 Tf 12.00 0.00 -0.00 12.00 923.28 47.52 Tm (1600) Tj
+ET
+59.04 106.57 m 59.04 345.65 l S
+59.04 106.57 m 51.84 106.57 l S
+59.04 186.26 m 51.84 186.26 l S
+59.04 265.96 m 51.84 265.96 l S
+59.04 345.65 m 51.84 345.65 l S
+BT
+/F2 1 Tf 0.00 12.00 -12.00 0.00 41.76 98.23 Tm (0.5) Tj
+ET
+BT
+/F2 1 Tf 0.00 12.00 -12.00 0.00 41.76 177.92 Tm (1.0) Tj
+ET
+BT
+/F2 1 Tf 0.00 12.00 -12.00 0.00 41.76 257.62 Tm (1.5) Tj
+ET
+BT
+/F2 1 Tf 0.00 12.00 -12.00 0.00 41.76 337.31 Tm (2.0) Tj
+ET
+59.04 73.44 m
+1049.76 73.44 l
+1049.76 372.96 l
+59.04 372.96 l
+59.04 73.44 l
+S
+Q q
+BT
+0.000 0.000 0.000 rg
+/F3 1 Tf 14.00 0.00 -0.00 14.00 503.05 397.45 Tm (WCET vs. Heap) Tj
+ET
+BT
+/F2 1 Tf 12.00 0.00 -0.00 12.00 527.05 18.72 Tm (Heap [KB]) Tj
+ET
+BT
+/F2 1 Tf 0.00 12.00 -12.00 0.00 12.96 162.37 Tm [(W) 30 (orse Case Time [ms])] TJ
+ET
+Q q 59.04 73.44 990.72 299.52 re W n
+0.000 0.000 0.000 RG
+0.75 w
+[] 0 d
+1 J
+1 j
+10.00 M
+908.72 357.98 91.50 -100.80 re S
+0.000 0.000 0.000 rg
+940.78 332.78 8.64 -7.20 re B
+1.000 0.000 0.000 rg
+940.78 318.38 8.64 -7.20 re B
+0.000 1.000 0.000 rg
+940.78 303.98 8.64 -7.20 re B
+0.000 0.000 1.000 rg
+940.78 289.58 8.64 -7.20 re B
+1.000 1.000 0.000 rg
+940.78 275.18 8.64 -7.20 re B
+BT
+0.000 0.000 0.000 rg
+/F2 1 Tf 12.00 0.00 -0.00 12.00 911.42 343.58 Tm [(T) 120 (r) -15 (igger [%Heap])] TJ
+ET
+BT
+/F2 1 Tf 12.00 0.00 -0.00 12.00 960.22 324.88 Tm (10) Tj
+ET
+BT
+/F2 1 Tf 12.00 0.00 -0.00 12.00 960.22 310.48 Tm (30) Tj
+ET
+BT
+/F2 1 Tf 12.00 0.00 -0.00 12.00 960.22 296.08 Tm (50) Tj
+ET
+BT
+/F2 1 Tf 12.00 0.00 -0.00 12.00 960.22 281.68 Tm (70) Tj
+ET
+BT
+/F2 1 Tf 12.00 0.00 -0.00 12.00 960.22 267.28 Tm (90) Tj
+ET
+Q
+endstream
+endobj
+7 0 obj
+2148
+endobj
+3 0 obj
+<<
+/Type /Pages
+/Kids [
+5 0 R
+]
+/Count 1
+/MediaBox [0 0 1080 432]
+>>
+endobj
+4 0 obj
+<<
+/ProcSet [/PDF /Text]
+/Font <</F2 9 0 R /F3 10 0 R >>
+/ExtGState << /GSais 11 0 R >>
+>>
+endobj
+8 0 obj
+<<
+/Type /Encoding
+/BaseEncoding /WinAnsiEncoding
+/Differences [ 45/minus 96/quoteleft
+144/dotlessi /grave /acute /circumflex /tilde /macron /breve /dotaccent
+/dieresis /.notdef /ring /cedilla /.notdef /hungarumlaut /ogonek /caron /space]
+>>
+endobj
+9 0 obj <<
+/Type /Font
+/Subtype /Type1
+/Name /F2
+/BaseFont /Helvetica
+/Encoding 8 0 R
+>> endobj
+10 0 obj <<
+/Type /Font
+/Subtype /Type1
+/Name /F3
+/BaseFont /Helvetica-Bold
+/Encoding 8 0 R
+>> endobj
+11 0 obj
+<<
+/Type /ExtGState
+/AIS false
+>>
+endobj
+xref
+0 12
+0000000000 65535 f 
+0000000021 00000 n 
+0000000164 00000 n 
+0000002514 00000 n 
+0000002598 00000 n 
+0000000213 00000 n 
+0000000293 00000 n 
+0000002494 00000 n 
+0000002704 00000 n 
+0000002961 00000 n 
+0000003057 00000 n 
+0000003159 00000 n 
+trailer
+<<
+/Size 12
+/Info 1 0 R
+/Root 2 0 R
+>>
+startxref
+3209
+%%EOF
