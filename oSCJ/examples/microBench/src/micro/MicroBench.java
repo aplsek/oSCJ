@@ -84,7 +84,7 @@ public class MicroBench extends CyclicExecutive {
 
         
         private WordHandler(long psize, String name, int count) {
-            super(null, null, null, psize, name);
+            super(null, null, new StorageParameters(psize, 0 , 0), name);
             count_ = count;
         }
 
@@ -93,7 +93,7 @@ public class MicroBench extends CyclicExecutive {
          * Testing Enter Private Memory
          * 
          */
-        public void handleEvent() {
+        public void handleAsyncEvent() {
            
         	
         	
