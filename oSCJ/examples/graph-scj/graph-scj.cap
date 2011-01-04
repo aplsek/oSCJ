@@ -1,7 +1,0 @@
-setUp.
-node1<--node2
-node1<--node3
-node2<--node1
-node2<--node3
-node3<--node2
-Running Time:114310us.
