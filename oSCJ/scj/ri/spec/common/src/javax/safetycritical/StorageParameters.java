@@ -48,8 +48,8 @@ public class StorageParameters {
     static int DEFAULT_STACKTRACE_LENGTH = 0;
 
     long _totalBackingStore;
-    int _nativeStackSize;
-    int _javaStackSize;
+    long _nativeStackSize;
+    long _javaStackSize;
     int _messageLength;
     int _stackTraceLength;
 
@@ -66,8 +66,8 @@ public class StorageParameters {
      *            size of Java execution stack in bytes (vendor specific)
      */
     @SCJAllowed
-    public StorageParameters(long totalBackingStore, int nativeStackSize,
-            int javaStackSize) {
+    public StorageParameters(long totalBackingStore, long nativeStackSize,
+            long javaStackSize) {
         this(totalBackingStore, nativeStackSize, javaStackSize,
                 DEFAULT_MESSAGE_LENGTH, DEFAULT_STACKTRACE_LENGTH);
     }
@@ -97,8 +97,8 @@ public class StorageParameters {
      *            ThrowBoundaryError exception.
      */
     @SCJAllowed
-    public StorageParameters(long totalBackingStore, int nativeStackSize,
-            int javaStackSize, int messageLength, int stackTraceLength) {
+    public StorageParameters(long totalBackingStore, long nativeStackSize,
+            long javaStackSize, int messageLength, int stackTraceLength) {
         _totalBackingStore = checkLegality(totalBackingStore);
         _nativeStackSize = checkLegality(nativeStackSize);
         _javaStackSize = checkLegality(javaStackSize);

@@ -1,23 +1,20 @@
-package example;
+package examples.advancedMM;
 
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.Scope;
-import javax.realtime.Clock;
+import javax.realtime.MemoryArea;
 import javax.realtime.PeriodicParameters;
 import javax.realtime.PriorityParameters;
-import javax.realtime.RealtimeThread;
 import javax.realtime.RelativeTime;
-import javax.safetycritical.Mission;
+import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.StorageParameters;
 
 
-@Scope("example.MyApp")
-@RunsIn("example.MyPEH") 
-public class MyPEH extends PeriodicEventHandler {
+@Scope("examples.missionAlloc.MyApp4")
+@RunsIn("examples.missionAlloc.MyPEH4") 
+public class MyPEH4 extends PeriodicEventHandler {
 
-        static int pos, MAX = 20;
-        static long[] times = new long[MAX];
         static PriorityParameters pri;
         static PeriodicParameters per;
         static StorageParameters stor;
@@ -25,30 +22,41 @@ public class MyPEH extends PeriodicEventHandler {
         static {
         	pri = new PriorityParameters(13);
         	per = new PeriodicParameters(new RelativeTime(0,0),new RelativeTime(500,0));
-        	stor = new StorageParameters(50L,0,0);
+        	stor = new StorageParameters(1000L,1000L,1000L);
         }
         
-        public MyPEH() {
+        public MyPEH4() {
         	super(pri, per, stor);
         }
 
+        Tick tock;
+        
         public void handleAsyncEvent() {
-        	times[pos++] = Clock.getRealtimeClock().getTime().getMilliseconds();  
-        	if (pos == MAX)
-        		Mission.getCurrentMission().requestSequenceTermination();
+        	try {
+        		ManagedMemory m = (ManagedMemory) MemoryArea.getMemoryArea(this);
+			Tick time = (Tick) m.newInstance(Tick.class);
+			m.executeInArea(new Runnable() {
+	        		 public void run() { 
+	        			 MyPEH4.this.tock = new Tick();
+	        		 }
+	        	});
+        	
+        	} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
         }
         
         public void cleanUp() {
-        	//System.out.println("Mem consumed: " + mem1);
-        	//System.out.println("Mem consumed: " + mem2);
-        	
-        	//for(int i=0;i < 10;i++) {
-        	//	System.out.println("Time: i:" + i + ", time: " + times[i]);
-        	//}
         }
 
     
         public StorageParameters getThreadConfigurationParameters() {
         	return null;
         }
+}
+
+class Tick {
+	
 }
