@@ -12,7 +12,6 @@ import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.StorageParameters;
 
 @Scope("examples.perReleaseAlloc.MyApp")
-@RunsIn("examples.perReleaseAlloc.MyPEH")
 public class MyPEH extends PeriodicEventHandler {
 
 	static PriorityParameters pri;
@@ -31,6 +30,8 @@ public class MyPEH extends PeriodicEventHandler {
 	}
 
 	long median;
+	
+	@RunsIn("examples.perReleaseAlloc.MyPEH")
 	public void handleAsyncEvent() {
 		final long times[] = new long[1000];
 		Runnable r = new Runnable(){

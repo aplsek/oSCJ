@@ -24,6 +24,7 @@ import javax.realtime.LTMemory;
 import javax.realtime.RealtimeThread;
 import javax.realtime.SizeEstimator;
 import javax.safetycritical.annotate.SCJAllowed;
+
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import edu.purdue.scj.VMSupport;
 //import edu.purdue.scj.utils.Utils;
@@ -161,5 +162,30 @@ public abstract class ManagedMemory extends LTMemory {
 	public void setOwner(ManagedSchedulable owner) {
 		_owner = owner;
 
+	}
+
+	/**
+	 * TODO: This is a dynamic guard method needed by the SCJ Checker.
+	 * 
+	 * @param r
+	 * @param cs
+	 * @return
+	 */
+	public static boolean allocInSame(Object obj1, Object obj2) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+
+	/**
+	 * TODO: This is a dynamic guard method needed by the SCJ Checker.
+	 * 
+	 * @param r
+	 * @param cs
+	 * @return
+	 */
+	public static boolean allocInParent(Object obj1, Object obj2) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
