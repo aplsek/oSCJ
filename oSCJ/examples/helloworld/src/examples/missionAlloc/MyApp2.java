@@ -1,4 +1,4 @@
-package example;
+package examples.missionAlloc;
 
 /**
  *  This file is part of oSCJ.
@@ -42,25 +42,23 @@ import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import static javax.safetycritical.annotate.Phase.CLEANUP;
 import javax.safetycritical.annotate.Scope;
 
-@Scope("example.MyApp") 
-public class MyApp extends CyclicExecutive {
+@Scope("exampleMissionAlloc.MyApp2") 
+public class MyApp2 extends CyclicExecutive {
 
 	static PriorityParameters p = new PriorityParameters(18); 
- 	static StorageParameters s = new StorageParameters(1000, 1000, 1000); 
+ 	static StorageParameters s = new StorageParameters(1000L, 1000L, 1000L); 
+ 	static RelativeTime t = new RelativeTime(5,0);
  	
-	public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) { 
-		CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
-		CyclicSchedule schedule = new CyclicSchedule(frames);
-		frames[0] = new CyclicSchedule.Frame(new RelativeTime(500, 0), handlers); 
-		return schedule;
-	} 
+ 	public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) { 
+		return new CyclicSchedule(new CyclicSchedule.Frame[]{new CyclicSchedule.Frame(t,handlers)});
+	}
 
-	public MyApp() {
+	public MyApp2() {
 		super(p, s);
 	}
 
 	public void initialize() {
-		new MyPEH();
+		new MyPEH2(new long[1000]);
 	}
 
 	/**
@@ -70,7 +68,7 @@ public class MyApp extends CyclicExecutive {
 	 * @return the amount of memory needed
 	 */
 	public long missionMemorySize() {
-		return 420;   // MIN without printing is 430  bytes.
+		return 1420;   // MIN without printing is 430  bytes.
 	}
 
 	@SCJRestricted(INITIALIZATION) 
