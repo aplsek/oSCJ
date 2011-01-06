@@ -82,10 +82,10 @@ public class EmptyBench extends CyclicExecutive {
     public class WordHandler extends PeriodicEventHandler {
 
         private WordHandler(long psize, String name, int count) {
-            super(null, null, null, psize, name);
+	    super(null, null, new StorageParameters(psize, 0 , 0), name);
         }
 
-        public void handleEvent() {
+        public void handleAsyncEvent() {
             for (int i=0; i < BenchMem.maxTraces;i++)
                 BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
             
@@ -95,8 +95,8 @@ public class EmptyBench extends CyclicExecutive {
         public void cleanUp() {
         }
 
-        public void register() {
-        }
+	//	        public void register() {
+	// }
         
         public StorageParameters getThreadConfigurationParameters() {
             return null;
