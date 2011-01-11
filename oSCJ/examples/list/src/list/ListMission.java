@@ -92,8 +92,8 @@ public class ListMission extends CyclicExecutive {
 		private List list;
 		
 		
-		private WordHandler(long psize, int count) {
-			super(null, null, null, psize);
+	    private WordHandler(long psize,  int count) {
+		super(null, null, new StorageParameters(psize, 0 , 0));
 			count_ = count;
 			
 			System.out.println("ListHandler created");
@@ -106,7 +106,7 @@ public class ListMission extends CyclicExecutive {
 		 * Testing Enter Private Memory
 		 * 
 		 */
-		public void handleEvent() {
+		public void handleAsyncEvent() {
 
 			long start = System.nanoTime();
 			list.invert();
