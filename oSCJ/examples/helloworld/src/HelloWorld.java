@@ -62,7 +62,7 @@ public class HelloWorld extends CyclicExecutive {
 	}
 
 	public void initialize() {
-		new WordHandler(100000, "HelloWorld.\n", 1);
+		new WordHandler(800000, "HelloWorld.\n", 1);
 	}
 
 	/**

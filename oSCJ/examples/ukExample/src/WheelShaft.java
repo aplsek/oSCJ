@@ -4,7 +4,7 @@ import javax.realtime.PriorityParameters;
 import javax.safetycritical.*;
 import javax.safetycritical.annotate.*;
 
-import realtime.*;
+//import realtime.*;
 
 import static javax.safetycritical.annotate.Level.*;
 
@@ -17,7 +17,7 @@ abstract public class WheelShaft extends AperiodicEventHandler {
       PriorityParameters priority,
       AperiodicParameters release,
       StorageParameters storage) {
-    super(priority, release, storage, 10000, "WheelShaft");
+    super(priority, release, storage, "WheelShaft");
     count = 0;
   }
 
