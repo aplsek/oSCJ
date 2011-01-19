@@ -1,4 +1,3 @@
-//
 package miniCDx;
 
 import java.util.List;

@@ -1,4 +1,3 @@
-//
 package examples.error;
 
 import java.util.Arrays;

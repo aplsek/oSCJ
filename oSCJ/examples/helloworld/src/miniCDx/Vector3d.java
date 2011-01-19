@@ -1,4 +1,3 @@
-//
 package miniCDx;
 
 import javax.safetycritical.annotate.Scope;

@@ -1,4 +1,3 @@
-//
 package examples.missionAlloc;
 
 import java.util.Arrays;

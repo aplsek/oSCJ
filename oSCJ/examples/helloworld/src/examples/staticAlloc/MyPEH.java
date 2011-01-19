@@ -1,4 +1,3 @@
-//
 package examples.staticAlloc;
 
 import javax.safetycritical.annotate.RunsIn;

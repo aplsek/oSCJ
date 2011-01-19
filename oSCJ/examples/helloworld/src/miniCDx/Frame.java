@@ -1,4 +1,3 @@
-//
 package miniCDx;
 
 public class Frame {
