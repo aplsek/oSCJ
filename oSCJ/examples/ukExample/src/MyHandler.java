@@ -14,12 +14,8 @@ public class MyHandler extends PeriodicEventHandler {
       Mission.getCurrentMission().requestSequenceTermination();
   }
 
-    //@Override
-    //public void register() {
-	  // TODO: Auto-generated method stub
-    //	}
 
-  @Override
+  // @Override
   public StorageParameters getThreadConfigurationParameters() {
 	  // TODO Auto-generated method stub
 	  return null;
