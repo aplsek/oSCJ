@@ -6,9 +6,9 @@
 	<classpathentry kind="src" path="ri/s3/fiji/src"/>
 	<classpathentry kind="src" path="ri/spec/common/src"/>
 	<classpathentry kind="src" path="ri/s3/common/src"/>
-	<classpathentry kind="lib" path="/home/plsek/fiji/fivm-scj/lib/fijirt.jar"/>
-	<classpathentry kind="lib" path="/home/plsek/fiji/fivm-scj/lib/fivmr.jar"/>
-	<classpathentry kind="lib" path="/home/plsek/fiji/fivm-scj/lib/fijicore.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="FIJI_LIB/fijicore.jar"/>
+	<classpathentry kind="var" path="FIJI_LIB/fijirt.jar"/>
+	<classpathentry kind="var" path="FIJI_LIB/fivmr.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
