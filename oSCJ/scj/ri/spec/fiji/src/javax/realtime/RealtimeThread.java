@@ -144,7 +144,7 @@ public class RealtimeThread extends Thread implements Schedulable {
 		_scopeStack = new ScopeStack(this);
 		_initAreaIndex = 0;
 		
-		log(RealtimeThread.class,2,"[SCJ] VM RealtimeThread created");
+		//log(RealtimeThread.class,2,"[SCJ] VM RealtimeThread created");
 		//System.out.println("[SCJ-DBG] RealtimeThread: RealtimeThreadCreated.");
 		
 		//System.out.println("Min rt priority : " + VMSupport.getMinRTPriority());
