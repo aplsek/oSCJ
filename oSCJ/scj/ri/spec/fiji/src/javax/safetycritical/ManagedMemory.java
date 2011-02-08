@@ -23,9 +23,12 @@ package javax.safetycritical;
 import javax.realtime.LTMemory;
 import javax.realtime.RealtimeThread;
 import javax.realtime.SizeEstimator;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
+
 import edu.purdue.scj.VMSupport;
 //import edu.purdue.scj.utils.Utils;
 
@@ -69,6 +72,7 @@ public abstract class ManagedMemory extends LTMemory {
 	 * @Throws IllegaleStateException when called from immortal.
 	 */
 	@SCJAllowed
+	@RunsIn(UNKNOWN)
 	public static ManagedMemory getCurrentManagedMemory()
 			throws IllegalStateException {
 		// TODO: can we do this??

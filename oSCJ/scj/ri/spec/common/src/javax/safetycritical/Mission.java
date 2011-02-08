@@ -69,6 +69,7 @@ public abstract class Mission {
 	}
 
 	@SCJAllowed
+	@RunsIn(UNKNOWN)
 	public void requestSequenceTermination() {
 		_terminateAll = true;
 		requestTermination();

@@ -21,12 +21,14 @@
 package javax.safetycritical;
 
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.realtime.RealtimeThread;
 import javax.safetycritical.annotate.Level;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 
 //import edu.purdue.scj.utils.Utils;
@@ -49,7 +51,7 @@ public class MissionManager extends PortalExtender {
 	}
 
 	//TODO: should this be @SCJAllowed(INFRASTRUCTURE) ??
-	//      we take it only from infrastructure (if LEVEL 0, then this is rendundant to Mission.getCurrentMission())
+	//      we take it only from infrastructure (if LEVEL 0, then this is redundant to Mission.getCurrentMission())
 	public Mission getMission() {
 		return _mission;
 	}
@@ -61,7 +63,6 @@ public class MissionManager extends PortalExtender {
 	void cleanAll() {
 		
 	}
-	
 	
 	void addEventHandler(ManagedEventHandler handler) {
 		if (handler instanceof PeriodicEventHandler)  {
@@ -79,6 +80,7 @@ public class MissionManager extends PortalExtender {
 
 
 	@SCJAllowed
+	@RunsIn(UNKNOWN)
 	public static MissionManager getCurrentMissionManager() {
 		return ((ManagedMemory) RealtimeThread.getCurrentMemoryArea())
 				.getManager();
