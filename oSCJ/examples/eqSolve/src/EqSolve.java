@@ -136,7 +136,7 @@ public class EqSolve extends CyclicExecutive {
 
             
             try {
-                eqSolve_step();
+                eqSolve_initialize();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -162,6 +162,17 @@ public class EqSolve extends CyclicExecutive {
          * 
          * 
          */
+        
+        boolean eqSolve_initialize(){
+            stable = true;
+            S_n = 0.0e0f;
+            next_R_n = 1.0f;
+            XZX_1581 = 0.0e0f;
+            XZX_1585 = 0.0e0f;
+            eqSolve_step_initialize();
+            return true;
+        }
+
         
 
         public void eqSolve_step_initialize()
