@@ -10,3 +10,4 @@ tests/*.err
 *build/**
 *.mk
 tester-output.conf
+reports
