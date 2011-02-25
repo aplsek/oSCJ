@@ -7,39 +7,24 @@ TODO: (move the completed tasks into DONE section)
 
 Jan's REQUESTS:
 1) clean the code
-2) Replac all error-names given as Strings with a constant-final variables, eg:
-report(Result.failure("scope.on.method.primitive.return"), node); --> 
-with
-report(Result.failure(SCOPE_ON_METHOD_PRIMITIVE_RETURN), node);
-3) 
+2) 
 Replace all "method name" comparison with the real comparison - there should not be any string-matching:
 for example this : "getMemoryArea".equals(methodName);
 
-
-Method Declaration Checking
-- we are still checking that a method runs in the same scope or in the child scope of the class (this needs to be removed)
-- for execute in area, we check that the runnable has @Scope annotation that refers to the area that
-is being entered, this is also wrong.
-
 Method Invocation
--  we check only scope on declaration, not the scope of the type!!
+- we check only scope on declaration, not the scope of the type!!
 - see the getVarScope method, this method is used for "foo.method()" to retrieve the scope of "foo". Its implementation
 is not finished yet. 
 
-new Object()
-- check that this works in @RunsIn(UNKNOWN) methods
-
-
 Class/Method Overriding
 - all the test cases for this fail
-
 
 @Scope on method arguments 
 - check that the scope does not override the @scope on its type
 - check that variables with a correct @Scope is passed into the method invocation
 - infer the scope of the argument in the body of the method 
 
--getMemoryArea();
+- getMemoryArea();
   - newInstance();
 
 @RunsIn(UNKNOWN)
@@ -47,8 +32,6 @@ Class/Method Overriding
 
 getNextMission() 
 - all the missions in the same sequencer must have the same name.
-
-
 
 - GUARDS
 @Scope(UNKNOWN)/@RunsIn(UNKNOWN)
@@ -62,17 +45,23 @@ Static method invocation
 - test that it works
 - add some test cases
 
-
-
-
 TestUpcast2
 - fails for no reason,
 - when running the checking of this class separately, all the expected errors are detected
 eg. check.sh /testsuite/src/scope/TestUpcast2.java gives all the errors
 - CAUSE : the use of -Awarns
 - the test case need to be split into two, so that all 5 errors are observed
+- Seems the error that was removed may be skipped now. It's not related to
+  upcasts, so I don't think it matters, as long as it's being skipped because
+  of other errors in the child ASTs (the assignment error is skipped because
+  the RHS has an error, perhaps)
 
+AllocFree
+- Still safe to invoke methods in parent scopes that are alloc free? (I think no)
 
+checkAssignment
+- It's no longer sufficient to use visitNewClass to check assignment validity,
+  since we have variable annotations
 
 DONE:
 -----------------
@@ -98,3 +87,16 @@ getCurrent*() methods
 @Scope on fields and variables
 - this was much easier than we expected. For a variable, the framework allows to retrieve all annotations present on its type definition but also we can easily retrieve variable's declaration and look for @Scope annotations there. I have several basic test-cases for this, I will ass more to excercise this a little bit more. 
 
+Method Declaration Checking
+- we are still checking that a method runs in the same scope or in the child scope of the class (this needs to be removed)
+- for execute in area, we check that the runnable has @Scope annotation that refers to the area that
+is being entered, this is also wrong.
+
+new Object()
+- check that this works in @RunsIn(UNKNOWN) methods (added a check so CURRENT classes work anywhere)
+
+Jan's requests
+- Replace all error-names given as Strings with a constant-final variables, eg:
+    report(Result.failure("scope.on.method.primitive.return"), node); --> 
+with
+    report(Result.failure(SCOPE_ON_METHOD_PRIMITIVE_RETURN), node);
