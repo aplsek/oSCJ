@@ -154,6 +154,16 @@ public abstract class ManagedMemory extends LTMemory {
 	}
 
 	/**
+	 * TODO: this is just a placeholder, the SCJ class hierarchy must be updated to support SCJRunnable
+	 * @param size
+	 * @param logic
+	 */
+	@SCJAllowed
+	public void enterPrivateMemory(long size, SCJRunnable logic) {
+	    
+	}
+	
+	/**
 	 * 
 	 * @return Returns the ManagedSchedulable that owns this managed memory.
 	 */
