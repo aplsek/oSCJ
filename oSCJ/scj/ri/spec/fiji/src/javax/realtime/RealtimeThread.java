@@ -137,7 +137,7 @@ public class RealtimeThread extends Thread implements Schedulable {
 
 	/** Used in primordial RTThread construction */
 	public RealtimeThread(VMThread vmThread,String name, int priority, boolean daemon) {
-		super(vmThread,name,priority, daemon);
+		//super(vmThread,name,priority, daemon);
 
 
 		initArea = ImmortalMemory.instance();
