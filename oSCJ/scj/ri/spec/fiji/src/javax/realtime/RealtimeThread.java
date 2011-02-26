@@ -15,7 +15,7 @@
  *   along with oSCJ.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
- *   Copyright 2009, 2010 
+ *   Copyright 2009, 2010
  *   @authors  Lei Zhao, Ales Plsek
  */
 
@@ -51,8 +51,8 @@ public class RealtimeThread extends Thread implements Schedulable {
 	 * that extends this one. No Schedulable methods, or public RTT methods
 	 * should be called on these threads, but it is okay to call thread methods
 	 * like start(), interrupt(), join(), if needed
-	 * 
-	 * 
+	 *
+	 *
 	 * TODO: This class is used by Timer as special system threads. What special
 	 * things should we do to it?
 	 */
@@ -137,36 +137,36 @@ public class RealtimeThread extends Thread implements Schedulable {
 
 	/** Used in primordial RTThread construction */
 	public RealtimeThread(VMThread vmThread,String name, int priority, boolean daemon) {
-		super(vmThread,name,priority, daemon);
-		
-		
+		//super(vmThread,name,priority, daemon);
+
+
 		initArea = ImmortalMemory.instance();
 		_scopeStack = new ScopeStack(this);
 		_initAreaIndex = 0;
-		
+
 		//log(RealtimeThread.class,2,"[SCJ] VM RealtimeThread created");
 		//System.out.println("[SCJ-DBG] RealtimeThread: RealtimeThreadCreated.");
-		
+
 		//System.out.println("Min rt priority : " + VMSupport.getMinRTPriority());
 		//System.out.println("Max rt priority : " + VMSupport.getMaxRTPriority());
-		
+
 		//VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
-	
-	
-	
+
+
+
 	@SCJAllowed(INFRASTRUCTURE)
 	/** Used in primordial RTThread construction */
 	public RealtimeThread() {
 		initArea = ImmortalMemory.instance();
 		_scopeStack = new ScopeStack(this);
 		_initAreaIndex = 0;
-		
+
 		VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
-	
+
 	//sfds
-	
+
 	@SCJAllowed(INFRASTRUCTURE)
 	/** Used in primordial RTThread construction */
 	public RealtimeThread(long bssize) {
@@ -174,7 +174,7 @@ public class RealtimeThread extends Thread implements Schedulable {
 		_scopeStack = new ScopeStack(this);
 		_initAreaIndex = 0;
 		//VMSupport.setTotalBackingStore(this, bssize);
-		
+
 		VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
 
@@ -203,16 +203,16 @@ public class RealtimeThread extends Thread implements Schedulable {
 		if (area == null) {
 			Utils.panic("null init area not allowed");
 		}
-		
+
 		initArea = area;
 		_initAreaIndex = _scopeStack.getDepth(true);
 
 		_scopeStack.dump();
-		
+
 		VMSupport.setThreadPriority(this,VMSupport.getMinRTPriority());
 	}
 
-	
+
 	@SCJAllowed(Level.LEVEL_2)
 	public ReleaseParameters getReleaseParameters() {
 		return _rParams;
@@ -227,12 +227,13 @@ public class RealtimeThread extends Thread implements Schedulable {
 	 * Allocates no memory. Treats the implicit this argument as a variable
 	 * residing in scoped memory.
 	 */
-	public void start() {
+	@Override
+    public void start() {
 		//////Utils.debugPrint("[SCJ] RealtimeThread.start() - enter");
 
-		
-		
-		
+
+
+
 		// need to make the MA of 'this' the current MA while we allocate
 		// all the associated helper objects.
 		// Note: we have a problem with exceptions. If they are created in
@@ -289,25 +290,25 @@ public class RealtimeThread extends Thread implements Schedulable {
 	// restriction.
 	@Override
 	public void run() {
-		
+
 		//////Utils.debugPrint("[SCJ][  " + getCurrentMemoryArea()
 		//		+ "] RealtimeThread.run()"
 		//		+ "\n\t - Attempt to enter initArea " + initArea);
-		
+
 		initArea.preScopeEnter(this);
 		RealtimeThread.currentRealtimeThread().getScopeStack().push(initArea);
 		initArea.enter(_wrapper);
 		RealtimeThread.currentRealtimeThread().getScopeStack().pop();
 		initArea.postScopeEnter();
 	}
-	
+
 
 	/**
 	 * Allocates no memory. Does not allow this to escape local variables. The re- turned object may reside in scoped memory, within a scope that encloses this.
 	 * @return
 	 */
-	@SCJAllowed(LEVEL_2) 
-	@SCJRestricted(maySelfSuspend = false, mayAllocate = false) 
+	@SCJAllowed(LEVEL_2)
+	@SCJRestricted(maySelfSuspend = false, mayAllocate = false)
 	public MemoryArea getMemoryArea( ) {
 		// TODO : implement this
 		//return initArea;
@@ -316,8 +317,8 @@ public class RealtimeThread extends Thread implements Schedulable {
 
 	/**
      * Allocates no memory. Returns an object that resides in the current mission�s MissionMemory.
-     * 
-     * 
+     *
+     *
      * @return
      */
 	@SCJAllowed(LEVEL_2)
@@ -364,14 +365,14 @@ public class RealtimeThread extends Thread implements Schedulable {
 	// throw new Error(e);
 	// }
 	// }
-	
+
 	@SCJAllowed(LEVEL_2)
 	@SCJRestricted(maySelfSuspend = true)
 	public static void sleep(javax.realtime.HighResolutionTime time)
 	    throws InterruptedException {
 		//TODO:...
 	};
-	
+
 	// DEBUG
 	public void dumpInfo() {
 		System.out.println("[RealtimeThread] name:" + this.getName());
@@ -381,7 +382,7 @@ public class RealtimeThread extends Thread implements Schedulable {
 		System.out.println("\t initArea:" + this.initArea);
 		System.out.println("\t stack:" + this.getScopeStack());
 		System.out.println("\t memory stack depth:" + this.getMemoryAreaStackDepth());
-		
+
 	}
-	
+
 }
