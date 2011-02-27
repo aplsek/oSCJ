@@ -28,6 +28,8 @@ import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
+import javax.safetycritical.annotate.RunsIn;
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 import edu.purdue.scj.utils.Utils;
@@ -107,6 +109,7 @@ public abstract class MemoryArea implements AllocationContext {
 
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
+	@RunsIn(UNKNOWN)
 	public Object newInstance(Class clazz) throws InstantiationException,
 			IllegalAccessException {
 		RealtimeThread thread = RealtimeThread.currentRealtimeThread();
@@ -115,6 +118,7 @@ public abstract class MemoryArea implements AllocationContext {
 
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
+	@RunsIn(UNKNOWN)
 	public Object newArray(Class clazz, int number)
 			throws NegativeArraySizeException, IllegalAccessException {
 		RealtimeThread thread = RealtimeThread.currentRealtimeThread();
@@ -122,6 +126,7 @@ public abstract class MemoryArea implements AllocationContext {
 	}
 
 	@SCJAllowed
+	@RunsIn(UNKNOWN)
 	public static Object newArrayInArea(Object object, Class clazz, int size)
 			throws IllegalAccessException {
 		return getMemoryArea(object).newArray(clazz, size);
@@ -129,6 +134,7 @@ public abstract class MemoryArea implements AllocationContext {
 
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
+	@RunsIn(UNKNOWN)
 	public static Object newInstanceInArea(Object object, Class clazz)
 			throws InstantiationException, IllegalAccessException {
 		return getMemoryArea(object).newInstance(clazz);

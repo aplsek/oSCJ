@@ -25,6 +25,9 @@ import java.lang.reflect.InvocationTargetException;
 import javax.safetycritical.annotate.SCJAllowed;
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
+import javax.safetycritical.annotate.RunsIn;
+
 //import java.lang.reflect.Constructor;
 //import java.lang.reflect.InvocationTargetException;
 
@@ -224,6 +227,7 @@ public interface AllocationContext
   /**
    * Execute logic with this memory area as the current allocation context.
    */
+  @RunsIn(UNKNOWN)
   @SCJAllowed
   public void executeInArea(Runnable logic) ;
   

@@ -24,7 +24,8 @@ package javax.realtime;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
-
+import javax.safetycritical.annotate.Scope;
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
 import edu.purdue.scj.VMSupport;
 
@@ -61,6 +62,7 @@ public final class ImmortalMemory extends MemoryArea {
 
     @SCJAllowed
     @SCJRestricted(maySelfSuspend = false)
+    @Scope(IMMORTAL)
     public static ImmortalMemory instance() {
         return _instance;
     }

@@ -72,7 +72,6 @@ public abstract class ManagedMemory extends LTMemory {
 	 * @Throws IllegaleStateException when called from immortal.
 	 */
 	@SCJAllowed
-	@RunsIn(UNKNOWN)
 	public static ManagedMemory getCurrentManagedMemory()
 			throws IllegalStateException {
 		// TODO: can we do this??
