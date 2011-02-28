@@ -15,19 +15,18 @@
  *   along with oSCJ.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
- *   Copyright 2009, 2010 
+ *   Copyright 2009, 2010
  *   @authors  Lei Zhao, Ales Plsek
  */
 
 package javax.realtime;
 
-import javax.realtime.ScopedAllocationContext;
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
+
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
-
-import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
-
-import edu.purdue.scj.utils.Utils;
 
 @SCJAllowed
 public abstract class ScopedMemory extends MemoryArea implements ScopedAllocationContext {
@@ -37,10 +36,11 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	 * memory appears above it in the current scope stack.
 	 */
 	static final ScopedMemory _primordialScope = new ScopedMemory(0) {
-		public String toString() {
+		@Override
+        public String toString() {
 			return "PrimordialScope";
 		}
-		
+
 		//@Override
 		public void resize(long size) throws IllegalStateException {
 			// TODO: resizing Scoped Memory, should we implement this?
@@ -81,6 +81,7 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	}
 
 	@Override
+	@RunsIn(UNKNOWN)
 	public void executeInArea(Runnable logic) {
 		if (logic == null)
 			throw new IllegalArgumentException("null logic not permitted");
@@ -90,6 +91,7 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	}
 
 	@Override
+	@RunsIn(UNKNOWN)
 	public Object newArray(Class type, int number)
 			throws NegativeArraySizeException, IllegalAccessException {
 		RealtimeThread current = RealtimeThread.currentRealtimeThread();
@@ -98,6 +100,7 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	}
 
 	@Override
+	@RunsIn(UNKNOWN)
 	public Object newInstance(Class klass) throws InstantiationException,
 			IllegalAccessException {
 		RealtimeThread current = RealtimeThread.currentRealtimeThread();
@@ -162,12 +165,12 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	@Override
 	protected void preScopeEnter(RealtimeThread t) {
 		//synchronized (_joiner) {
-		
+
 		// DEBUG:
 		// System.out.println("scope stack: " + RealtimeThread.currentRealtimeThread().getScopeStack());
     	// ScopeStack sstack = RealtimeThread.currentRealtimeThread().getScopeStack();
     	// System.out.println("current stack area : " + sstack.getCurrentArea());
-    	
+
     	_parent = RealtimeThread.currentRealtimeThread().getScopeStack()
 					.getTopScopedMemory(true);
 		//}

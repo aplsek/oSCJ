@@ -15,7 +15,7 @@
  *   along with oSCJ.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
- *   Copyright 2009, 2010 
+ *   Copyright 2009, 2010
  *   @authors  Lei Zhao, Ales Plsek
  */
 package javax.safetycritical;
@@ -56,9 +56,9 @@ public abstract class ManagedMemory extends LTMemory {
 	}
 
 	/**
-	 * 
+	 *
 	 * TODO: this is not defined by SCJ
-	 * 
+	 *
 	 * @return
 	 */
 	@SCJAllowed
@@ -68,7 +68,7 @@ public abstract class ManagedMemory extends LTMemory {
 
 	/**
 	 * @Returns the current managed memory.
-	 * 
+	 *
 	 * @Throws IllegaleStateException when called from immortal.
 	 */
 	@SCJAllowed
@@ -81,7 +81,8 @@ public abstract class ManagedMemory extends LTMemory {
 	/**
 	 * Restrictions: this method can be called only by the infrastructure
 	 */
-	@SCJAllowed(INFRASTRUCTURE)
+	@Override
+    @SCJAllowed(INFRASTRUCTURE)
 	public void enter(Runnable logic) {
 		super.enter(logic);
 		destroyChild();
@@ -101,7 +102,7 @@ public abstract class ManagedMemory extends LTMemory {
 	}
 
 	/**
-	 * 
+	 *
 	 * [IN GENERAL] : If private memory does not exist, create one; otherwise
 	 * set its size; then, enter the private memory. The actual memory area will
 	 * be physically allocated upon "enter()." and will be freed when "enter" is
@@ -109,7 +110,7 @@ public abstract class ManagedMemory extends LTMemory {
 	 * allocated first-time the enterPrivateMemory is called and will be
 	 * destroyed when the parent ManagedMemory is being left.
 	 * @see destroyChild
-	 * 
+	 *
 	 *  On enterPrivateMemory in MissionMemory class:
 	 *  	During the initialization phase of a mission, it is legal to invoke
 	 *      enterPrivateMemory on the current MissionMemory object (which we
@@ -117,17 +118,17 @@ public abstract class ManagedMemory extends LTMemory {
 	 *      memory area for doing some computation that can be thrown away after
 	 *      initialization. Once the initialization phase is completed the
 	 *      method will throw an exception. [jan]
-	 * 
-	 * _child object is holding reference the _child ManagedMemory which is however allocated in the parent memory, while 
+	 *
+	 * _child object is holding reference the _child ManagedMemory which is however allocated in the parent memory, while
 	 * the _child field of "this" is residing in the MissionMemory - this is scope-check violation and we need to use @NoScopeCheck
 	 * annotation.
-	 * 
+	 *
 	 * @throws IllegaleStateException
 	 *             when called from another memory area or from a thread that
 	 *             does not own the current managed memory.
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * @param size
 	 * @param logic
 	 */
@@ -139,16 +140,16 @@ public abstract class ManagedMemory extends LTMemory {
 					"Mission memory size must be non-negative");
 
 		if (_child == null) {
-			_child = (ManagedMemory) new PrivateMemory(size);
+			_child = new PrivateMemory(size);
 			_child.setOwner(_owner);
 		} else
 			_child.setSize(size);
-		// TODO FIXME : test that when we re-enter the private memory 
+		// TODO FIXME : test that when we re-enter the private memory
 		//              with the same owner!! with the same thread!!
 		// FIXME: how to figure out who is the current SCHEdulable object??? its not the same as the currentThread()
-		
+
 		// FIXME: check that the scope is not already entered!!!
-		
+
 		_child.enter(logic);
 	}
 
@@ -159,11 +160,11 @@ public abstract class ManagedMemory extends LTMemory {
 	 */
 	@SCJAllowed
 	public void enterPrivateMemory(long size, SCJRunnable logic) {
-	    
+
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return Returns the ManagedSchedulable that owns this managed memory.
 	 */
 	@SCJAllowed
@@ -179,24 +180,26 @@ public abstract class ManagedMemory extends LTMemory {
 
 	/**
 	 * TODO: This is a dynamic guard method needed by the SCJ Checker.
-	 * 
+	 *
 	 * @param r
 	 * @param cs
 	 * @return
 	 */
+	@RunsIn(UNKNOWN)
 	public static boolean allocInSame(Object obj1, Object obj2) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 
 	/**
 	 * TODO: This is a dynamic guard method needed by the SCJ Checker.
-	 * 
+	 *
 	 * @param r
 	 * @param cs
 	 * @return
 	 */
+	@RunsIn(UNKNOWN)
 	public static boolean allocInParent(Object obj1, Object obj2) {
 		// TODO Auto-generated method stub
 		return false;

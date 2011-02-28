@@ -15,7 +15,7 @@
  *   along with oSCJ.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
- *   Copyright 2009, 2010 
+ *   Copyright 2009, 2010
  *   @authors  Lei Zhao, Ales Plsek
  */
 
@@ -50,9 +50,9 @@ public abstract class MemoryArea implements AllocationContext {
 	@SCJAllowed(INFRASTRUCTURE)
 	protected MemoryArea() {
 		//TODO:??
-		
+
 	}
-	
+
 	/** For ScopedMemory use only. The backing store will be allocated at enter. */
 	@SCJAllowed(INFRASTRUCTURE)
 	protected MemoryArea(long size) {
@@ -77,7 +77,7 @@ public abstract class MemoryArea implements AllocationContext {
 	public static MemoryArea getMemoryArea(Object object) {
 		return getMemoryAreaObject(VMSupport.areaOf(object));
 	}
-	
+
 
 	@SCJAllowed(INFRASTRUCTURE)
 	@SCJRestricted(maySelfSuspend = false)
@@ -88,7 +88,7 @@ public abstract class MemoryArea implements AllocationContext {
 		enterImpl(thread, logic);
 	}
 
-	// 
+	//
 	// @SCJAllowed(Level.LEVEL_1)
 	// public void executeInArea(Runnable logic) throws
 	// InaccessibleAreaException {
@@ -100,6 +100,7 @@ public abstract class MemoryArea implements AllocationContext {
 
 	@SCJAllowed(LEVEL_1)
 	@SCJRestricted(maySelfSuspend = false)
+	@RunsIn(UNKNOWN)
 	public void executeInArea(Runnable logic) throws InaccessibleAreaException {
 		if (logic == null)
 			throw new IllegalArgumentException("null logic not permitted");
@@ -163,28 +164,28 @@ public abstract class MemoryArea implements AllocationContext {
 	 * ScopedMemory at a time. This is particularly true according to SCJ
 	 * requirements, and guaranteed by the runtime check in PrivateMemory and
 	 * MissionMemory.
-	 * 
+	 *
 	 * The right size of backing store is allocated during enter, and
 	 * deallocated on exit.
 	 */
 	final void enterImpl(RealtimeThread thread, Runnable logic) {
 	    ////Utils.debugIndentIncrement("###[SCJ] MemoryArea.enterIml");
-	    
+
 	    preScopeEnter(thread);
 		allocBackingStore();
 		thread.getScopeStack().push(this);
-		
+
 		// TODO: what to do with exception?
 		try {
 		    ////Utils.debugPrintln("###[SCJ] VMsupport.enter");
-		    
+
 			VMSupport.enter(get_scopeID(), logic);
 		} finally {
 			thread.getScopeStack().pop();
 			freeBackingStore();
 			postScopeEnter();
 		}
-		
+
 		////Utils.decreaseIndent();
 	}
 
@@ -245,9 +246,9 @@ public abstract class MemoryArea implements AllocationContext {
 
 	@SCJRestricted(maySelfSuspend = false)
 	static MemoryArea getMemoryAreaObject(BackingStoreID scopeID) {
-	    if (scopeID == ImmortalMemory.instance().get_scopeID()) 
+	    if (scopeID == ImmortalMemory.instance().get_scopeID())
 	        return ImmortalMemory.instance();
-		else 
+		else
 			return (MemoryArea) VMSupport.getNote(scopeID);
 	}
 
@@ -319,7 +320,7 @@ public abstract class MemoryArea implements AllocationContext {
 	// private static void reThrowTBE(BackingStoreID outerScope, Throwable t) {
 	// MemoryArea eArea = getMemoryArea(t);
 	// if (eArea instanceof ScopedMemory) {
-	//    
+	//
 	// // TODO: Here would be a lot of work to do for SCJ exception
 	// // mechanism
 	// }
