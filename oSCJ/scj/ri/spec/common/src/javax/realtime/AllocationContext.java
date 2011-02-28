@@ -15,7 +15,7 @@
  *   along with oSCJ.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
- *   Copyright 2009, 2010 
+ *   Copyright 2009, 2010
  *   @authors  Lei Zhao, Ales Plsek
  */
 package javax.realtime;
@@ -36,7 +36,7 @@ import javax.safetycritical.annotate.RunsIn;
  * of the Java Heap to allow for alternate forms of memory management.  All
  * memory areas implement this interface.
  *
- * 
+ *
  */
 @SCJAllowed
 public interface AllocationContext
@@ -49,7 +49,7 @@ public interface AllocationContext
    * context is selected using {@link #enter}, or
    * {@link #executeInArea(Runnable)}
    * or the runnable's run method exits.
-   * 
+   *
    * @param logic is the {@link Runnable} which defines what actions to be
    *        carried out in the memory area.
    *
@@ -104,10 +104,11 @@ public interface AllocationContext
    *
    * @throws IllegalArgumentException when <code>number</code> is less than
    *                                  zero.
- * @throws IllegalAccessException 
-   *                                  
-   *                                  
+ * @throws IllegalAccessException
+   *
+   *
    */
+  @RunsIn(UNKNOWN)
   @SCJAllowed
   public Object newArray(Class type, int number)
     throws IllegalArgumentException, IllegalAccessException;
@@ -223,25 +224,26 @@ public interface AllocationContext
   public Object visitScopedChildren(ChildScopeVisitor visitor)
     throws IllegalArgumentException, RuntimeException;
     */
-  
+
   /**
    * Execute logic with this memory area as the current allocation context.
    */
   @RunsIn(UNKNOWN)
   @SCJAllowed
   public void executeInArea(Runnable logic) ;
-  
+
   /**
    * Create an object of class type in this memory area.
    * @param type
    * @return
- * @throws InstantiationException 
- * @throws IllegalAccessException 
+ * @throws InstantiationException
+ * @throws IllegalAccessException
    */
+  @RunsIn(UNKNOWN)
   @SCJAllowed
-  public Object newInstance(Class type) throws IllegalAccessException, InstantiationException, 
+  public Object newInstance(Class type) throws IllegalAccessException, InstantiationException,
   	ExceptionInInitializerError, InvocationTargetException;
-  
-  
+
+
 }
 
