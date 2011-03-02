@@ -228,8 +228,7 @@ public interface AllocationContext
   /**
    * Execute logic with this memory area as the current allocation context.
    */
-  @RunsIn(UNKNOWN)
-  @SCJAllowed
+  @SCJAllowed(INFRASTRUCTURE)
   public void executeInArea(Runnable logic) ;
 
   /**
