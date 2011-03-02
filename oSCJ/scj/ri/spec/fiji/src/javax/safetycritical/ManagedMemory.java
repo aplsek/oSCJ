@@ -20,17 +20,16 @@
  */
 package javax.safetycritical;
 
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
+
 import javax.realtime.LTMemory;
 import javax.realtime.RealtimeThread;
 import javax.realtime.SizeEstimator;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
-
-import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
-import static javax.safetycritical.annotate.Scope.UNKNOWN;
-
-import edu.purdue.scj.VMSupport;
-//import edu.purdue.scj.utils.Utils;
+import javax.safetycritical.annotate.SCJRestricted;
 
 @SCJAllowed
 public abstract class ManagedMemory extends LTMemory {
@@ -162,6 +161,10 @@ public abstract class ManagedMemory extends LTMemory {
 	public void enterPrivateMemory(long size, SCJRunnable logic) {
 
 	}
+
+	@SCJAllowed(LEVEL_1)
+	@SCJRestricted(maySelfSuspend = false)
+	public static void executeInArea(SCJRunnable logic) { }
 
 	/**
 	 *

@@ -15,7 +15,7 @@
  *   along with oSCJ.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
- *   Copyright 2009, 2010 
+ *   Copyright 2009, 2010
  *   @authors  Lei Zhao, Ales Plsek
  */
 package javax.realtime;
@@ -23,18 +23,19 @@ package javax.realtime;
 import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+import static javax.safetycritical.annotate.Level.SUPPORT;
 
 /**
  * In SCJ, all asynchronous events must have their handlers bound when they are
  * cre- ated (during the initialization phase). The binding is permanent. Thus,
  * the AsyncEvent- Handler constructors are hidden from public view in the SCJ
  * specification.
- * 
- * 
+ *
+ *
  * TODO: AEH here has a dedicated real-time thread, which does not follow the
  * spec. We do this for simplicity, but it is expected that bounding should be
  * done dynamically.
- * 
+ *
  * LEVEL: is defined at LEVEL 0 just because of the class structure
  * (PeriodicEventHandler and MissionSequencer extend this ) - other than this
  * class-hierarchy, AsynchEvents are used at LEVEL 1
@@ -96,12 +97,14 @@ public class AsyncEventHandler extends AbstractAsyncEventHandler implements Sche
 		_scheduling = scheduling;
 	}
 
-	@SCJAllowed
+	@Override
+    @SCJAllowed
 	public ReleaseParameters getReleaseParameters() {
 		return _handler.getReleaseParameters();
 	}
 
-	@SCJAllowed
+	@Override
+    @SCJAllowed
 	public SchedulingParameters getSchedulingParameters() {
 		return _handler.getSchedulingParameters();
 	}
@@ -109,6 +112,7 @@ public class AsyncEventHandler extends AbstractAsyncEventHandler implements Sche
 	/**
 	 * Spec says: This is overridden by the application to provide the handling code.
 	 */
+	@SCJAllowed(SUPPORT)
 	public void handleAsyncEvent() {
 		if (_logic != null)
 			_logic.run();

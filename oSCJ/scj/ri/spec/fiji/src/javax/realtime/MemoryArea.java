@@ -98,9 +98,8 @@ public abstract class MemoryArea implements AllocationContext {
 	// execInAreaImpl(thread, logic);
 	// }
 
-	@SCJAllowed(LEVEL_1)
+	@SCJAllowed(INFRASTRUCTURE)
 	@SCJRestricted(maySelfSuspend = false)
-	@RunsIn(UNKNOWN)
 	public void executeInArea(Runnable logic) throws InaccessibleAreaException {
 		if (logic == null)
 			throw new IllegalArgumentException("null logic not permitted");
