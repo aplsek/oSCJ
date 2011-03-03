@@ -72,6 +72,7 @@ public abstract class MemoryArea implements AllocationContext {
 		VMSupport.setNote(_scopeID, this);
 	}
 
+	@RunsIn(UNKNOWN)
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
 	public static MemoryArea getMemoryArea(Object object) {
