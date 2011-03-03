@@ -24,15 +24,12 @@ package javax.realtime;
 import java.lang.reflect.Array;
 
 import javax.realtime.AllocationContext;
-import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
 import javax.safetycritical.annotate.RunsIn;
 import static javax.safetycritical.annotate.Scope.UNKNOWN;
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
-import static javax.safetycritical.annotate.Level.LEVEL_1;
-import edu.purdue.scj.utils.Utils;
 import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 
