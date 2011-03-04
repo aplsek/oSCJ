@@ -158,6 +158,7 @@ public abstract class ManagedMemory extends LTMemory {
 	 * @param logic
 	 */
 	@SCJAllowed
+	@RunsIn(UNKNOWN)
 	public void enterPrivateMemory(long size, SCJRunnable logic) {
 
 	}
