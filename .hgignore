@@ -11,3 +11,4 @@ tests/*.err
 *.mk
 tester-output.conf
 reports
+.DS_Store
