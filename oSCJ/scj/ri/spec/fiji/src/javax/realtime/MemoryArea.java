@@ -27,6 +27,7 @@ import static javax.safetycritical.annotate.Scope.UNKNOWN;
 
 import java.lang.reflect.Array;
 
+import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
@@ -97,6 +98,14 @@ public abstract class MemoryArea implements AllocationContext {
 	// RealtimeThread thread = RealtimeThread.currentRealtimeThread();
 	// execInAreaImpl(thread, logic);
 	// }
+	
+
+    @SCJAllowed()
+    @SCJRestricted(maySelfSuspend = false)
+    @RunsIn(UNKNOWN)
+    public void executeInArea(SCJRunnable logic) throws InaccessibleAreaException {
+        //...
+    }
 
 	@SCJAllowed(INFRASTRUCTURE)
 	@SCJRestricted(maySelfSuspend = false)

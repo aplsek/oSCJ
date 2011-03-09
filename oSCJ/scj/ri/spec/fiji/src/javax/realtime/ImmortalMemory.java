@@ -24,7 +24,7 @@ package javax.realtime;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
-
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import javax.safetycritical.annotate.Scope;
 import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
@@ -69,7 +69,7 @@ public final class ImmortalMemory extends MemoryArea {
         return _instance;
     }
     
-    @SCJAllowed
+    @SCJAllowed(INFRASTRUCTURE)
     @SCJRestricted(maySelfSuspend = false)
     public void enter(Runnable logic) {
     	return;
