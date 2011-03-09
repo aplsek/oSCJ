@@ -33,6 +33,7 @@ import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.Scope;
 
 import static javax.safetycritical.annotate.Scope.UNKNOWN;
+import static javax.safetycritical.annotate.Scope.CALLER;
 import static javax.safetycritical.annotate.Level.SUPPORT;
 import static javax.safetycritical.annotate.Phase.CLEANUP;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
@@ -55,7 +56,7 @@ public abstract class Mission {
 
 
 	@SCJAllowed
-	@Scope(UNKNOWN) @RunsIn(UNKNOWN) 
+	@Scope(UNKNOWN) @RunsIn(CALLER) 
 	public static Mission getCurrentMission() {
 		MemoryArea mem = RealtimeThread.getCurrentMemoryArea();
 		if (!(mem instanceof ManagedMemory))
@@ -71,7 +72,7 @@ public abstract class Mission {
 	}
 
 	@SCJAllowed
-	@RunsIn(UNKNOWN)
+	@RunsIn(CALLER)
 	public void requestSequenceTermination() {
 		_terminateAll = true;
 		requestTermination();

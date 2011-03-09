@@ -21,7 +21,7 @@
 package javax.safetycritical;
 
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
-import static javax.safetycritical.annotate.Scope.UNKNOWN;
+import static javax.safetycritical.annotate.Scope.CALLER;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -80,7 +80,7 @@ public class MissionManager extends PortalExtender {
 
 
 	@SCJAllowed
-	@RunsIn(UNKNOWN)
+	@RunsIn(CALLER)
 	public static MissionManager getCurrentMissionManager() {
 		return ((ManagedMemory) RealtimeThread.getCurrentMemoryArea())
 				.getManager();

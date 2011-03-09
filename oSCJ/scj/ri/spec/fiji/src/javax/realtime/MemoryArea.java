@@ -21,15 +21,17 @@
 
 package javax.realtime;
 
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+import static javax.safetycritical.annotate.Scope.CALLER;
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
+
 import java.lang.reflect.Array;
 
-import javax.realtime.AllocationContext;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.Scope;
 
-import javax.safetycritical.annotate.RunsIn;
-import static javax.safetycritical.annotate.Scope.UNKNOWN;
-import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 
@@ -69,10 +71,10 @@ public abstract class MemoryArea implements AllocationContext {
 		VMSupport.setNote(_scopeID, this);
 	}
 
-	@RunsIn(UNKNOWN)
+	@RunsIn(CALLER)
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
-	public static MemoryArea getMemoryArea(Object object) {
+	public static MemoryArea getMemoryArea(@Scope(UNKNOWN) Object object) {
 		return getMemoryAreaObject(VMSupport.areaOf(object));
 	}
 
@@ -107,8 +109,8 @@ public abstract class MemoryArea implements AllocationContext {
 
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
-	@RunsIn(UNKNOWN)
-	public Object newInstance(Class clazz) throws InstantiationException,
+	@RunsIn(CALLER)
+	public Object newInstance(@Scope(UNKNOWN) Class clazz) throws InstantiationException,
 			IllegalAccessException {
 		RealtimeThread thread = RealtimeThread.currentRealtimeThread();
 		return newInstanceImpl(thread, clazz);
@@ -116,24 +118,24 @@ public abstract class MemoryArea implements AllocationContext {
 
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
-	@RunsIn(UNKNOWN)
-	public Object newArray(Class clazz, int number)
+	@RunsIn(CALLER)
+	public Object newArray(@Scope(UNKNOWN) Class clazz, int number)
 			throws NegativeArraySizeException, IllegalAccessException {
 		RealtimeThread thread = RealtimeThread.currentRealtimeThread();
 		return newArrayImpl(thread, clazz, number);
 	}
 
 	@SCJAllowed
-	@RunsIn(UNKNOWN)
-	public static Object newArrayInArea(Object object, Class clazz, int size)
+	@RunsIn(CALLER)
+	public static Object newArrayInArea(@Scope(UNKNOWN) Object object, @Scope(UNKNOWN) Class clazz, int size)
 			throws IllegalAccessException {
 		return getMemoryArea(object).newArray(clazz, size);
 	}
 
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
-	@RunsIn(UNKNOWN)
-	public static Object newInstanceInArea(Object object, Class clazz)
+	@RunsIn(CALLER)
+	public static Object newInstanceInArea(@Scope(UNKNOWN) Object object, @Scope(UNKNOWN) Class clazz)
 			throws InstantiationException, IllegalAccessException {
 		return getMemoryArea(object).newInstance(clazz);
 	}

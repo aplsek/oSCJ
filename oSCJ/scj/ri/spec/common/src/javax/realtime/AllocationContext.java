@@ -20,13 +20,15 @@
  */
 package javax.realtime;
 
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+import static javax.safetycritical.annotate.Scope.CALLER;
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
+
 import java.lang.reflect.InvocationTargetException;
 
-import javax.safetycritical.annotate.SCJAllowed;
-import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
-
-import static javax.safetycritical.annotate.Scope.UNKNOWN;
 import javax.safetycritical.annotate.RunsIn;
+import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.Scope;
 
 //import java.lang.reflect.Constructor;
 //import java.lang.reflect.InvocationTargetException;
@@ -108,9 +110,9 @@ public interface AllocationContext
    *
    *
    */
-  @RunsIn(UNKNOWN)
+  @RunsIn(CALLER)
   @SCJAllowed
-  public Object newArray(Class type, int number)
+  public Object newArray(@Scope(UNKNOWN) Class type, int number)
     throws IllegalArgumentException, IllegalAccessException;
 
   /**
@@ -238,9 +240,9 @@ public interface AllocationContext
  * @throws InstantiationException
  * @throws IllegalAccessException
    */
-  @RunsIn(UNKNOWN)
+  @RunsIn(CALLER)
   @SCJAllowed
-  public Object newInstance(Class type) throws IllegalAccessException, InstantiationException,
+  public Object newInstance(@Scope(UNKNOWN) Class type) throws IllegalAccessException, InstantiationException,
   	ExceptionInInitializerError, InvocationTargetException;
 
 

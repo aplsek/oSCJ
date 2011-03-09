@@ -22,6 +22,7 @@ package javax.safetycritical;
 
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Scope.CALLER;
 import static javax.safetycritical.annotate.Scope.UNKNOWN;
 
 import javax.realtime.LTMemory;
@@ -30,6 +31,7 @@ import javax.realtime.SizeEstimator;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.Scope;
 
 @SCJAllowed
 public abstract class ManagedMemory extends LTMemory {
@@ -158,15 +160,15 @@ public abstract class ManagedMemory extends LTMemory {
 	 * @param logic
 	 */
 	@SCJAllowed
-	@RunsIn(UNKNOWN)
-	public void enterPrivateMemory(long size, SCJRunnable logic) {
+	@RunsIn(CALLER)
+	public void enterPrivateMemory(long size, @Scope(UNKNOWN) SCJRunnable logic) {
 
 	}
 
 	@SCJAllowed(LEVEL_1)
 	@SCJRestricted(maySelfSuspend = false)
-	@RunsIn(UNKNOWN)
-	public static void executeInArea(SCJRunnable logic) { }
+	@RunsIn(CALLER)
+	public static void executeInArea(@Scope(UNKNOWN) SCJRunnable logic) { }
 
 	/**
 	 *
@@ -190,8 +192,8 @@ public abstract class ManagedMemory extends LTMemory {
 	 * @param cs
 	 * @return
 	 */
-	@RunsIn(UNKNOWN)
-	public static boolean allocInSame(Object obj1, Object obj2) {
+	@RunsIn(CALLER)
+	public static boolean allocInSame(@Scope(UNKNOWN) Object obj1, @Scope(UNKNOWN) Object obj2) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -204,8 +206,8 @@ public abstract class ManagedMemory extends LTMemory {
 	 * @param cs
 	 * @return
 	 */
-	@RunsIn(UNKNOWN)
-	public static boolean allocInParent(Object obj1, Object obj2) {
+	@RunsIn(CALLER)
+	public static boolean allocInParent(@Scope(UNKNOWN) Object obj1, @Scope(UNKNOWN) Object obj2) {
 		// TODO Auto-generated method stub
 		return false;
 	}

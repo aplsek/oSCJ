@@ -22,11 +22,13 @@
 package javax.realtime;
 
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+import static javax.safetycritical.annotate.Scope.CALLER;
 import static javax.safetycritical.annotate.Scope.UNKNOWN;
 
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.Scope;
 
 @SCJAllowed
 public abstract class ScopedMemory extends MemoryArea implements ScopedAllocationContext {
@@ -81,8 +83,8 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	}
 
 	@Override
-	@RunsIn(UNKNOWN)
-	public void executeInArea(Runnable logic) {
+	@RunsIn(CALLER)
+	public void executeInArea(@Scope(UNKNOWN) Runnable logic) {
 		if (logic == null)
 			throw new IllegalArgumentException("null logic not permitted");
 		RealtimeThread current = RealtimeThread.currentRealtimeThread();
@@ -91,8 +93,8 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	}
 
 	@Override
-	@RunsIn(UNKNOWN)
-	public Object newArray(Class type, int number)
+	@RunsIn(CALLER)
+	public Object newArray(@Scope(UNKNOWN) Class type, int number)
 			throws NegativeArraySizeException, IllegalAccessException {
 		RealtimeThread current = RealtimeThread.currentRealtimeThread();
 		checkAccessible(current);
@@ -100,8 +102,8 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	}
 
 	@Override
-	@RunsIn(UNKNOWN)
-	public Object newInstance(Class klass) throws InstantiationException,
+	@RunsIn(CALLER)
+	public Object newInstance(@Scope(UNKNOWN) Class klass) throws InstantiationException,
 			IllegalAccessException {
 		RealtimeThread current = RealtimeThread.currentRealtimeThread();
 		checkAccessible(current);
