@@ -50,7 +50,6 @@ public abstract class MemoryArea implements AllocationContext {
 	@SCJAllowed(INFRASTRUCTURE)
 	protected MemoryArea() {
 		//TODO:??
-
 	}
 
 	/** For ScopedMemory use only. The backing store will be allocated at enter. */
@@ -103,7 +102,7 @@ public abstract class MemoryArea implements AllocationContext {
     @SCJAllowed()
     @SCJRestricted(maySelfSuspend = false)
     @RunsIn(UNKNOWN)
-    public void executeInArea(SCJRunnable logic) throws InaccessibleAreaException {
+    public static void executeInArea(SCJRunnable logic) throws InaccessibleAreaException {
         //...
     }
 
