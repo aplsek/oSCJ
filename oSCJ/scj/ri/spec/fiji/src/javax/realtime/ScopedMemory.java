@@ -103,6 +103,7 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 
 	@Override
 	@RunsIn(CALLER)
+	@SCJAllowed
 	public Object newInstance(@Scope(UNKNOWN) Class klass) throws InstantiationException,
 			IllegalAccessException {
 		RealtimeThread current = RealtimeThread.currentRealtimeThread();
