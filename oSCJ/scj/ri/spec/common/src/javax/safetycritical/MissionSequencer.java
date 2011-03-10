@@ -39,75 +39,98 @@ import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 @SCJAllowed
 public abstract class MissionSequencer extends BoundAsyncEventHandler {
 
-	/**
-	 * NOTE!!! 
-	 * We create a MemoryArea with a "dummy size" = 0, since the mission memory is 
-	 * created only once in the lifetime of the application ... and we reuse it for different mission
-	 * when calling handleAsyncEvent we first resize the mission memory to the actual size needed
-	 * by the mission being executed and then we enter this resized area!.
-	 */
-	private MissionMemory _mem = new MissionMemory(0);
-	private MissionWrapper _wrapper = new MissionWrapper();
-	private Mission _mission;
+    /**
+     * NOTE!!! 
+     * We create a MemoryArea with a "dummy size" = 0, since the mission memory is 
+     * created only once in the lifetime of the application ... and we reuse it for different mission
+     * when calling handleAsyncEvent we first resize the mission memory to the actual size needed
+     * by the mission being executed and then we enter this resized area!.
+     */
+    private MissionMemory _mem = new MissionMemory(0);
+    private MissionWrapper _wrapper = new MissionWrapper();
+    private Mission _mission;
 
-	class MissionWrapper implements Runnable {
+    class MissionWrapper implements Runnable {
 
-		private Mission _mission;
+        private Mission _mission;
 
-		void setMission(Mission mission) {
-			_mission = mission;
-		}
+        void setMission(Mission mission) {
+            _mission = mission;
+        }
 
-		public void run() {
-			_mission.run();
-		}
-	}
+        public void run() {
+            _mission.run();
+        }
+    }
 
-	// TODO FIXME: StorageParameters are not used!!!?
-	@SCJRestricted(INITIALIZATION)
-	public MissionSequencer(PriorityParameters priority,
-			StorageParameters storage) {
-		super(priority, null, null, null, null, true, null);
-		MemoryArea mem = RealtimeThread.getCurrentMemoryArea();
-	}
+    // TODO FIXME: StorageParameters are not used!!!?
+    @SCJRestricted(INITIALIZATION)
+    public MissionSequencer(PriorityParameters priority,
+            StorageParameters storage) {
+        super(priority, null, null, null, null, true, null);
+        MemoryArea mem = RealtimeThread.getCurrentMemoryArea();
+    }
 
-	/** user can call this method on Level 2 */
-	@SCJAllowed(LEVEL_2)
-	public final void start() {
-		// TODO: note this does not work for nested mission on Level 2
-		handleAsyncEvent();
-	}
+    
+    /**
+     * The constructor just sets the initial state.
+     * @param priority 
+     * @param storage 
+     * @param name 
+     */
+    @SCJAllowed
+    @SCJRestricted(INITIALIZATION)
+    public MissionSequencer(PriorityParameters priority,
+                            StorageParameters storage,
+                            String name)
+    {
+      super(priority, null, storage, name);
+    }
+    
+    /** user can call this method on Level 2 */
+    @SCJAllowed(LEVEL_2)
+    public final void start() {
+        // TODO: note this does not work for nested mission on Level 2
+        handleAsyncEvent();
+    }
 
-	@SCJAllowed(INFRASTRUCTURE)
-	public final void handleAsyncEvent() {
-	    
-	    _mission = getInitialMission();
-		while (_mission != null) {
-		    _wrapper.setMission(_mission);
-			_mem.resize(_mission.missionMemorySize());
-			_mem.enter(_wrapper);
-			
-			if (_mission._terminateAll) {
-				break;
-			}
-			_mission = getNextMission();
-		}
-	}
+    @SCJAllowed(INFRASTRUCTURE)
+    public final void handleAsyncEvent() {
 
-	@SCJAllowed(LEVEL_2)
-	public final void requestSequenceTermination() {
-		_mission.requestSequenceTermination();
-	}
+        _mission = getInitialMission();
+        while (_mission != null) {
+            _wrapper.setMission(_mission);
+            _mem.resize(_mission.missionMemorySize());
+            _mem.enter(_wrapper);
 
-	@SCJAllowed(LEVEL_2)
-	public final boolean sequenceTerminationPending() {
-	    return false;
-	}
-	
+            if (_mission._terminateAll) {
+                break;
+            }
+            _mission = getNextMission();
+        }
+    }
 
-	@SCJAllowed(SUPPORT)
-	protected abstract Mission getInitialMission();
+    @SCJAllowed(LEVEL_2)
+    public final void requestSequenceTermination() {
+        _mission.requestSequenceTermination();
+    }
 
-	@SCJAllowed(SUPPORT)
-	protected abstract Mission getNextMission();
+    @SCJAllowed(LEVEL_2)
+    public final boolean sequenceTerminationPending() {
+        return false;
+    }
+
+
+    @SCJAllowed(SUPPORT)
+    protected abstract Mission getInitialMission();
+
+    @SCJAllowed(SUPPORT)
+    protected abstract Mission getNextMission();
+
+    //@Override
+    @SCJAllowed
+    @SCJRestricted(value = INITIALIZATION)
+    public final void register()
+    {
+    }
 }
