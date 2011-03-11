@@ -65,6 +65,7 @@ public abstract class Mission {
 	}
 
 	@SCJAllowed
+	@RunsIn(CALLER)
 	public void requestTermination() {
 		if (_phase != Phase.TERMINATED) {
 			_phase = Phase.TERMINATED;

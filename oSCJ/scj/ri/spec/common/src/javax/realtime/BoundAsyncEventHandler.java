@@ -21,6 +21,7 @@
 
 package javax.realtime;
 
+import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.SCJAllowed;
 
 /**
@@ -35,10 +36,16 @@ import javax.safetycritical.annotate.SCJAllowed;
 @SCJAllowed
 public class BoundAsyncEventHandler extends AsyncEventHandler {
 
-	public BoundAsyncEventHandler(SchedulingParameters scheduling,
-			ReleaseParameters release, MemoryParameters memory,
-			MemoryArea area, ProcessingGroupParameters group, boolean nonheap,
-			Runnable logic) {
-		super(scheduling, release, memory, area, group, logic);
-	}
+    public BoundAsyncEventHandler(SchedulingParameters scheduling,
+            ReleaseParameters release, MemoryParameters memory,
+            MemoryArea area, ProcessingGroupParameters group, boolean nonheap,
+            Runnable logic) {
+        super(scheduling, release, memory, area, group, logic);
+    }
+
+    // TODO:
+    public BoundAsyncEventHandler(PriorityParameters priority, Object object,
+            StorageParameters storage, String name) {
+        super(null, null, null, null, null, null);
+    }
 }
