@@ -2,7 +2,9 @@
 
 package javax.realtime;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Level.SUPPORT;
 
 import java.util.ArrayList;
 
@@ -43,7 +45,8 @@ public abstract class InterruptServiceRoutine
    * A subclass defines this to give the proper behavior.  No code
    * that could block or call dynamic methods may be called here.
    */
-  @SCJAllowed(LEVEL_1)
+  @SCJAllowed(SUPPORT)  // LEVEL_1
+  @SCJRestricted(maySelfSuspend = false)
   protected abstract void handle();
 
   /**
