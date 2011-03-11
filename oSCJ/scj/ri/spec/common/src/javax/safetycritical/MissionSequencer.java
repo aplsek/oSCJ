@@ -129,7 +129,7 @@ public abstract class MissionSequencer extends BoundAsyncEventHandler {
 
     //@Override
     @SCJAllowed
-    @SCJRestricted(value = INITIALIZATION)
+    @SCJRestricted(INITIALIZATION)
     public final void register()
     {
     }
