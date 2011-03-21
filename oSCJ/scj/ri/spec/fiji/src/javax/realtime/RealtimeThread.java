@@ -28,6 +28,7 @@ import javax.safetycritical.annotate.SCJRestricted;
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 import static javax.safetycritical.annotate.Level.LEVEL_2;
+import static javax.safetycritical.annotate.Level.SUPPORT;
 import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 import edu.purdue.scj.utils.Utils;
@@ -289,6 +290,7 @@ public class RealtimeThread extends Thread implements Schedulable {
 	// RealtimeThread. So what we should do is to clearly document this
 	// restriction.
 	@Override
+	@SCJAllowed(SUPPORT)
 	public void run() {
 
 		//////Utils.debugPrint("[SCJ][  " + getCurrentMemoryArea()
