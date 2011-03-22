@@ -54,7 +54,6 @@ public abstract class Mission {
 		public final static int TERMINATED = -2;
 	}
 
-
 	@SCJAllowed
 	@Scope(UNKNOWN) @RunsIn(CALLER) 
 	public static Mission getCurrentMission() {
