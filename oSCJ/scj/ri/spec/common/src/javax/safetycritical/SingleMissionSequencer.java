@@ -42,12 +42,6 @@ public class SingleMissionSequencer extends MissionSequencer {
 
     @SCJAllowed
     @Override
-    protected Mission getInitialMission() {
-        return _mission;
-    }
-
-    @SCJAllowed
-    @Override
     @SCJRestricted()
     protected Mission getNextMission() {
         return _mission;

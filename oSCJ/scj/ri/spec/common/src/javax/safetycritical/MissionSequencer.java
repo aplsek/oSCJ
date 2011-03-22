@@ -112,7 +112,7 @@ public abstract class MissionSequencer extends BoundAsyncEventHandler {
     @SCJAllowed(INFRASTRUCTURE)
     public final void handleAsyncEvent() {
 
-        _mission = getInitialMission();
+        _mission = getNextMission();
         while (_mission != null) {
             _wrapper.setMission(_mission);
             _mem.resize(_mission.missionMemorySize());
@@ -134,10 +134,6 @@ public abstract class MissionSequencer extends BoundAsyncEventHandler {
     public final boolean sequenceTerminationPending() {
         return false;
     }
-
-
-    @SCJAllowed(SUPPORT)
-    protected abstract Mission getInitialMission();
 
     @SCJAllowed(SUPPORT)
     protected abstract Mission getNextMission();
