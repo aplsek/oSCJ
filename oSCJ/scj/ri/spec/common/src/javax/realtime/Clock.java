@@ -199,11 +199,6 @@ public abstract class Clock {
 	@SCJRestricted(maySelfSuspend = false)
 	public abstract AbsoluteTime getTime();
 
-	@SCJAllowed
-	@SCJRestricted(maySelfSuspend = false)
-	public abstract AbsoluteTime getTimePrecise();
-
-	
 	/**
 	 * 
 	 * @param time
