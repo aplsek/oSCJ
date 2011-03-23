@@ -20,23 +20,17 @@
  */
 package javax.safetycritical;
 
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
+import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Scope.CALLER;
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
+
 import javax.realtime.MemoryArea;
 import javax.realtime.RealtimeThread;
-import javax.safetycritical.annotate.SCJAllowed;
-import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
-import javax.safetycritical.annotate.Level;
-
-import static javax.safetycritical.annotate.Level.LEVEL_1;
-import javax.safetycritical.annotate.SCJAllowed;
-import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.RunsIn;
+import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.Scope;
 
-import static javax.safetycritical.annotate.Scope.UNKNOWN;
-import static javax.safetycritical.annotate.Scope.CALLER;
-import static javax.safetycritical.annotate.Level.SUPPORT;
-import static javax.safetycritical.annotate.Phase.CLEANUP;
-import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import edu.purdue.scj.utils.Utils;
 
 @SCJAllowed
