@@ -1,10 +1,11 @@
 package bench;
 import javax.realtime.ImmortalMemory;
 import javax.realtime.RealtimeThread;
+import javax.safetycritical.annotate.SCJAllowed;
 import cdx.Constants;
 import cdx.ImmortalEntry;
 
-
+@SCJAllowed(members=true)
 public class BenchMem {
 
     static private int             OVERRUN = 2;
@@ -46,7 +47,7 @@ public class BenchMem {
     }
     
     public static void setMemUsage(long mem) {
-        
+        /*
 		if (traces < maxTraces ) {
           long missionMem = RealtimeThread.getOuterMemoryArea(1).memoryConsumed();
           privateMemUsage[traces] = mem ;
@@ -62,7 +63,7 @@ public class BenchMem {
             traces++;
             err = true;
         }
-		 
+		 */
     }
     
     

@@ -70,16 +70,16 @@ public class TransientDetectorScopeEntry implements Runnable {
         }
 
         Benchmarker.set(Benchmarker.RAPITA_REDUCER_INIT);
-        BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         final Reducer reducer = new Reducer(voxelSize);
-        BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         Benchmarker.done(Benchmarker.RAPITA_REDUCER_INIT);
 
         
         Benchmarker.set(Benchmarker.LOOK_FOR_COLLISIONS);
-        BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         int numberOfCollisions = lookForCollisions(reducer, createMotions());
-        BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
         Benchmarker.done(Benchmarker.LOOK_FOR_COLLISIONS);
 
         if (cdx.ImmortalEntry.recordedRuns < cdx.ImmortalEntry.maxDetectorRuns) {
@@ -95,7 +95,7 @@ public class TransientDetectorScopeEntry implements Runnable {
         
         Benchmarker.done(1);
         
-        BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
     }
 
     public int lookForCollisions(final Reducer reducer, final List motions) {

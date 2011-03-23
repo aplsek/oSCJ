@@ -22,6 +22,7 @@
  */
 package cdx;
 
+import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import javax.realtime.ImmortalMemory;
 import javax.realtime.MemoryArea;
 import javax.realtime.RealtimeThread;
@@ -35,6 +36,7 @@ import bench.BenchMem;
 import cdx.unannotated.NanoClock;
 import edu.purdue.scj.VMSupport;
 
+import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 import javax.safetycritical.annotate.RunsIn;
 
@@ -48,6 +50,7 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
 
     public boolean stop = false;
 
+    @SCJRestricted(INITIALIZATION)
     public CollisionDetectorHandler() {
 
         // these very large limits are reported to work with stack traces... of
@@ -103,7 +106,7 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
 
     public void handleAsyncEvent() {
         
-        BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+        //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
             
         try {
             if (!stop) {
@@ -122,7 +125,7 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
             e.printStackTrace();
         }
         
-        BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+       // BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
     }
 
     

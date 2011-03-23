@@ -20,12 +20,16 @@
  *
  *   See: http://sss.cs.purdue.edu/projects/oscj/
  */
+import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import javax.safetycritical.Safelet;
+import javax.safetycritical.annotate.SCJRestricted;
 
 import cdx.Constants;
 import cdx.Level0Safelet;
 
 public class Launcher {
+    
+    @SCJRestricted(INITIALIZATION)
     public static void main(final String[] args) {
         if (args.length > 0)
             Constants.NUMBER_OF_PLANES = Integer.parseInt(args[0]);
@@ -39,6 +43,6 @@ public class Launcher {
         Safelet safelet = new Level0Safelet();
         safelet.setUp();
         safelet.getSequencer().start();
-        safelet.tearDown();
+        //safelet.tearDown();   // TOOD: this is @SCJRestricted(CLEANUP)
     }
 }
