@@ -102,7 +102,7 @@ public abstract class MemoryArea implements AllocationContext {
     @SCJAllowed()
     @SCJRestricted(maySelfSuspend = false)
     @RunsIn(CALLER)
-    public void executeInArea(SCJRunnable logic) throws InaccessibleAreaException {
+    public void executeInArea(@Scope(UNKNOWN) SCJRunnable logic) throws InaccessibleAreaException {
         //...
     }
 
