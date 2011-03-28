@@ -102,12 +102,14 @@ public abstract class HighResolutionTime implements Comparable {
 
     @SCJAllowed
     @SCJRestricted()
+    @RunsIn(CALLER) @Scope(UNKNOWN)
     public Clock getClock() {
         return _clock;
     }
 
     @SCJAllowed
     @SCJRestricted(maySelfSuspend = false)
+    @RunsIn(CALLER)
     public int hashCode() {
         // what would be a good hashcode?
         return (int) (_milliseconds ^ _nanoseconds ^ _clock.hashCode());
