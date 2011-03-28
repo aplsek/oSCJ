@@ -120,25 +120,28 @@ public abstract class HighResolutionTime implements Comparable {
 
     @SCJAllowed
     @SCJRestricted(maySelfSuspend = false)
-      @RunsIn(CALLER)
+    @RunsIn(CALLER)
     public final int getNanoseconds() {
         return _nanoseconds;
     }
 
     @SCJAllowed
     @SCJRestricted()
+    @RunsIn(CALLER)
     public void set(HighResolutionTime time) {
     	//TODO:
     }
     
     @SCJAllowed
     @SCJRestricted()
+    @RunsIn(CALLER)
     public void set(long millis) {
     	//TODO:
     }
     
     @SCJAllowed
     @SCJRestricted()
+    @RunsIn(CALLER)
     public void set(long millis, int nanos) {
     	//TODO:
     }
