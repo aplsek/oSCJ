@@ -24,6 +24,7 @@ import javax.realtime.BoundAsyncEventHandler;
 import javax.realtime.MemoryArea;
 import javax.realtime.PriorityParameters;
 import javax.realtime.RealtimeThread;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
@@ -34,6 +35,7 @@ import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import static javax.safetycritical.annotate.Level.LEVEL_2;
 import static javax.safetycritical.annotate.Level.SUPPORT;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
+import static javax.safetycritical.annotate.Scope.CALLER;
 
 /**
  * MissionSequencer (what the Spec says:): In the case that a MissionSequencer is the outermost
@@ -126,6 +128,7 @@ public abstract class MissionSequencer extends BoundAsyncEventHandler {
     }
 
     @SCJAllowed(LEVEL_2)
+    @RunsIn(CALLER)
     public final void requestSequenceTermination() {
         _mission.requestSequenceTermination();
     }

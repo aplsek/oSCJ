@@ -22,10 +22,13 @@
 package javax.realtime;
 
 import static javax.safetycritical.annotate.Level.LEVEL_2;
+
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.SCJAllowed;
-
-
+import static javax.safetycritical.annotate.Scope.CALLER;
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
+import javax.safetycritical.annotate.Scope;
 
 @SCJAllowed
 public abstract class HighResolutionTime implements Comparable {
@@ -60,7 +63,8 @@ public abstract class HighResolutionTime implements Comparable {
     
     @SCJRestricted(maySelfSuspend = false)
     @SCJAllowed
-    public int compareTo(HighResolutionTime time) {
+    @RunsIn(CALLER)
+    public int compareTo(@Scope(UNKNOWN) HighResolutionTime time) {
         if (time == null)
             throw new IllegalArgumentException("null parameter");
         if (getClass() != time.getClass())
@@ -111,30 +115,35 @@ public abstract class HighResolutionTime implements Comparable {
 
     @SCJAllowed
     @SCJRestricted(maySelfSuspend = false)
+    @RunsIn(CALLER)
     public final long getMilliseconds() {
         return _milliseconds;
     }
 
     @SCJAllowed
     @SCJRestricted(maySelfSuspend = false)
+    @RunsIn(CALLER)
     public final int getNanoseconds() {
         return _nanoseconds;
     }
 
     @SCJAllowed
     @SCJRestricted()
+    @RunsIn(CALLER)
     public void set(HighResolutionTime time) {
     	//TODO:
     }
     
     @SCJAllowed
     @SCJRestricted()
+    @RunsIn(CALLER)
     public void set(long millis) {
     	//TODO:
     }
     
     @SCJAllowed
     @SCJRestricted()
+    @RunsIn(CALLER)
     public void set(long millis, int nanos) {
     	//TODO:
     }
