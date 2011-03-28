@@ -13,3 +13,4 @@ tester-output.conf
 reports
 .DS_Store
 jdk.jar
+build.properties
