@@ -22,9 +22,11 @@
 package javax.realtime;
 
 import static javax.safetycritical.annotate.Level.LEVEL_2;
+
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.SCJAllowed;
-
+import static javax.safetycritical.annotate.Scope.CALLER;
 
 
 @SCJAllowed
@@ -111,12 +113,14 @@ public abstract class HighResolutionTime implements Comparable {
 
     @SCJAllowed
     @SCJRestricted(maySelfSuspend = false)
+    @RunsIn(CALLER)
     public final long getMilliseconds() {
         return _milliseconds;
     }
 
     @SCJAllowed
     @SCJRestricted(maySelfSuspend = false)
+      @RunsIn(CALLER)
     public final int getNanoseconds() {
         return _nanoseconds;
     }
