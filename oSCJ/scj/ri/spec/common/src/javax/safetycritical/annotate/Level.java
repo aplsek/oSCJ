@@ -21,6 +21,9 @@
 
 package javax.safetycritical.annotate;
 
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
+
+@Scope(IMMORTAL)
 @SCJAllowed
 public enum Level
 {
