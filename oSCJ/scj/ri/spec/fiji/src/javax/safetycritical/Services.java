@@ -28,7 +28,10 @@ import javax.safetycritical.annotate.SCJAllowed;
 
 import static javax.safetycritical.annotate.Level.LEVEL_2;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
-		
+import static javax.safetycritical.annotate.Scope.CALLER;
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
+import javax.safetycritical.annotate.Scope;		
+import javax.safetycritical.annotate.RunsIn;
 
 /**
  * This class provides a collection of static helper methods.
@@ -42,6 +45,7 @@ public class Services {
 	 *  The default ceiling priority is the PrioritySched- uler.getMaxPriority.4
 	 */
 	@SCJAllowed(LEVEL_1)
+	@RunsIn(CALLER)
 	public static int getDefaultCeiling() {
 		return 0;
 	}
@@ -54,7 +58,8 @@ public class Services {
 	 * @param pri
 	 */
 	@SCJAllowed(LEVEL_1)
-	public static void setCeiling(Object o, int pri) {}
+	@RunsIn(CALLER)
+	public static void setCeiling(@Scope(UNKNOWN) Object o, int pri) {}
 	
 	/**
 	 * Captures the stack back trace for the current thread into its
@@ -92,6 +97,7 @@ public class Services {
 	 * 
 	 */
 	@SCJAllowed(LEVEL_1)
+	@RunsIn(CALLER)
 	public static int getInterruptPriority(int InterruptId) {
 		return 0;
 	}
@@ -120,6 +126,7 @@ public class Services {
 	 * @param delay
 	 */
 	@SCJAllowed(LEVEL_2) 
+	@RunsIn(CALLER)
 	public static void delay(int delay) {}
 	
 	/**
@@ -135,6 +142,7 @@ public class Services {
 	
 	
 	@SCJAllowed(LEVEL_1) 
+	@RunsIn(CALLER)
 	public static void spin(int nanos) {}
 	
 	 @SCJAllowed
@@ -148,11 +156,13 @@ public class Services {
 	}
 
 	@SCJAllowed
+	@RunsIn(CALLER)
 	public static Level getDeploymentLevel() {
 		return Level.HIDDEN;
 	}
 
 	@SCJAllowed(LEVEL_1)
+	@RunsIn(CALLER)
 	public static void nanoSpin(int i) {
 		
 	}
