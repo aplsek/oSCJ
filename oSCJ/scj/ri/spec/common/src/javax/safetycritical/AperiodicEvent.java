@@ -24,6 +24,8 @@ import static javax.safetycritical.annotate.Level.LEVEL_1;
 
 import javax.realtime.AsyncEvent;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.RunsIn;
+import static javax.safetycritical.annotate.Scope.CALLER;
 
 @SCJAllowed(LEVEL_1)
 public class AperiodicEvent extends AsyncEvent {
@@ -38,6 +40,7 @@ public class AperiodicEvent extends AsyncEvent {
     }
 
     @SCJAllowed(LEVEL_1)
+    @RunsIn(CALLER)
     public void fire() {
         super.fire();
     }
