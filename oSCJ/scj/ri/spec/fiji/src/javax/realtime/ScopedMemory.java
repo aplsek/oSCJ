@@ -117,6 +117,7 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 		//}
 	}
 
+	@SCJAllowed
 	public Object getPortal() {
 		// TODO: checks all commented out now
 
@@ -137,6 +138,7 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 		// throw new IllegalAssignmentError("portal object inaccessible");
 	}
 
+	@SCJAllowed
 	public void setPortal(Object o) {
 		// TODO: checks all commented out now
 

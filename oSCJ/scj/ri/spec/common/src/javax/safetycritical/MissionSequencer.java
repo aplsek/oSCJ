@@ -38,14 +38,16 @@ import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import static javax.safetycritical.annotate.Scope.CALLER;
 
 /**
- * MissionSequencer (what the Spec says:): In the case that a MissionSequencer is the outermost
+ * MissionSequencer (what the Spec says:): In the case that a MissionSequencer is
+ *  the outermost
  * MissionSequencer for a given SCJ application, the Safelet’s execution thread
  * causes the independent thread that is associated with the MissionSequencer to
- * be- gin executing. The thread’s storage resource requirements are specified
+ * begin executing. The thread’s storage resource requirements are specified
  * by the StorageParameters argument to the MissionSequencer construc- tor.
  * These resources are taken from the storage resources of the appli- cation’s
- * initialization thread. Note that the Safelet’s MissionSequencer, which is an
- * extension of BoundAsynchronousEventHandler, is instan- tiated and starts up
+ * initialization thread. 
+ * Note that the Safelet’s MissionSequencer, which is an
+ * extension of BoundAsynchronousEventHandler, is instantiated and starts up
  * outside of an enclosing Mission. This is the only circumstance under which a
  * BoundAsynchronousEventHandler may be instantiated outside of a Mission’s
  * initialize method.

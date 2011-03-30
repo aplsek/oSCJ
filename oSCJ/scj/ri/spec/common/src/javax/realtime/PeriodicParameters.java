@@ -52,7 +52,7 @@ public class PeriodicParameters extends ReleaseParameters {
     }
 
     @SCJAllowed(LEVEL_1)
-     @SCJRestricted()
+    @SCJRestricted()
     public RelativeTime getPeriod() {
         return _period;
     }

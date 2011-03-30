@@ -19,7 +19,6 @@
  *   @authors  Lei Zhao, Ales Plsek
  */
 
-
 package javax.safetycritical;
 
 import javax.safetycritical.annotate.SCJAllowed;
@@ -28,22 +27,70 @@ import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import static javax.safetycritical.annotate.Phase.CLEANUP;
 import static javax.safetycritical.annotate.Level.SUPPORT;
 import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.RunsIn;
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
+/**
+ * A safety-critical application consists of one or more missions, executed
+ * concurrently or in sequence. Every safety-critical application is represented
+ * by an implementa- tion of Safelet which identifies the outer-most
+ * MissionSequencer.
+ * 
+ * @author plsek
+ * 
+ */
 @SCJAllowed
 public interface Safelet {
 
-//	@SCJAllowed
-//	public Level getLevel();
+    // @SCJAllowed
+    // public Level getLevel();
 
-	@SCJAllowed(SUPPORT)
-	@SCJRestricted(INITIALIZATION)
-	public MissionSequencer getSequencer();
+    /**
+     * Returns the MissionSequencer responsible for selecting the sequence of
+     * Missions that represent this SCJ application. The infrastructure invokes
+     * getSequencer to obtain the MissionSequencer that oversees execution of
+     * Missions for this applica- tion. The returned MissionSequencer resides in
+     * ImmortalMemoryArea. Note that MissionSequencer is an extension of
+     * BoundAsynchronousEventHandler. The Stor- ageParameters resources for the
+     * MissionSequencer’s bound thread are taken from the StorageParameters
+     * resources for the Safelet’s initialization thread. The initial- ization
+     * infrastructure arranges to start up the corresponding BoundAsynchronous-
+     * EventHandler and causes its event handling code to execute in the
+     * corresponding bound Thread. The event handling code, provided in the
+     * MissionSequencer’s final handleAsyncEvent() method, begins executing with
+     * ImmortalMemoryArea as its cur- rent allocation area.
+     * 
+     * @return The returned MissionSequencer resides in ImmortalMemoryArea.
+     */
+    @SCJAllowed(SUPPORT)
+    @SCJRestricted(INITIALIZATION)
+    @Scope(IMMORTAL)
+    @RunsIn(IMMORTAL)
+    public MissionSequencer getSequencer();
 
-	@SCJAllowed(SUPPORT)
-	@SCJRestricted(INITIALIZATION)
-	public void setUp();
+    /**
+     * The infrastructure invokes setUp before invoking getSequencer.
+     * Application de- velopers place code to be executed before the
+     * MissionSequencer begins to execute within this method. Upon entry into
+     * this method, the current allocation context is ImmortalMemoryArea. User
+     * code may introduce nested PrivateMemory areas for temporary computations.
+     */
+    @SCJAllowed(SUPPORT)
+    @SCJRestricted(INITIALIZATION)
+    @RunsIn(IMMORTAL)
+    public void setUp();
 
-	@SCJAllowed(SUPPORT)
-	@SCJRestricted(CLEANUP)
-	public void tearDown();
+    /**
+     * The infrastructure invokes tearDown after the MissionSequencer returned
+     * from get- Sequencer completes its execution. Application developers place
+     * code to be exe- cuted following MissionSequencer execution within this
+     * method. Upon entry into this method, the current allocation context is
+     * ImmortalMemoryArea. User code may introduce nested PrivateMemory areas
+     * for temporary computations.
+     */
+    @SCJAllowed(SUPPORT)
+    @SCJRestricted(CLEANUP)
+    @RunsIn(IMMORTAL)
+    public void tearDown();
 }
