@@ -44,6 +44,7 @@ public class PriorityScheduler extends Scheduler {
 
 	protected static final PriorityScheduler _instance = new PriorityScheduler();
 
+	@SCJAllowed(LEVEL_1)
 	public static PriorityScheduler instance() {
 		return _instance;
 	}
