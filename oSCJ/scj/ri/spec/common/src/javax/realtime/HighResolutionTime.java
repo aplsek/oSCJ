@@ -214,6 +214,7 @@ public abstract class HighResolutionTime implements Comparable {
      *         returned then the millisecond and nanosecond components of this
      *         are unchanged.
      */
+    @RunsIn(CALLER)
     final boolean setNormalized(final long millis, final long nanos) {
         final long millis_in_nanos = nanos / NANOS_PER_MILLI;
         final int nanosleft = (int) (nanos % NANOS_PER_MILLI);

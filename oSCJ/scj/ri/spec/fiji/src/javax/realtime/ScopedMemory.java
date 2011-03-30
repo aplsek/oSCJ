@@ -118,6 +118,7 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	}
 
 	@SCJAllowed
+	@RunsIn(CALLER)
 	public Object getPortal() {
 		// TODO: checks all commented out now
 
@@ -139,7 +140,8 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	}
 
 	@SCJAllowed
-	public void setPortal(Object o) {
+	@RunsIn(CALLER)
+	public void setPortal(@Scope(UNKNOWN) Object o) {
 		// TODO: checks all commented out now
 
 		// RealtimeThread current = RealtimeThread.currentRealtimeThread();
