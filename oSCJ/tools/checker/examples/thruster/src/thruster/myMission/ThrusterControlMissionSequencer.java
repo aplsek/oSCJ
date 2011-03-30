@@ -1,6 +1,7 @@
-package thruster;
+package thruster.myMission;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Level.SUPPORT;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 
 import javax.realtime.PriorityParameters;
@@ -8,8 +9,13 @@ import javax.realtime.PriorityScheduler;
 import javax.safetycritical.Mission;
 import javax.safetycritical.MissionSequencer;
 import javax.safetycritical.StorageParameters;
+import javax.safetycritical.annotate.DefineScope;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.Scope;
+
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
 /**
  * This mission sequencer managed three missions: MyMission runs a PEH and an
@@ -22,6 +28,8 @@ import javax.safetycritical.annotate.SCJRestricted;
  *
  */
 @SCJAllowed(value = LEVEL_1, members = true)
+@Scope(IMMORTAL)
+@DefineScope(name = "ThrusterControl", parent = IMMORTAL)
 public class ThrusterControlMissionSequencer extends MissionSequencer {
 
     private static final int NORM_PRIORITY = PriorityScheduler.instance()
@@ -61,6 +69,9 @@ public class ThrusterControlMissionSequencer extends MissionSequencer {
     }
 
     @Override
+    @SCJAllowed(SUPPORT)
+    @RunsIn("ThrusterControl")
+    @Scope("ThrusterControl")
     protected Mission getNextMission() {
         /*
          * Use boolean instead of MyMission reference here, because Immortal
@@ -72,9 +83,11 @@ public class ThrusterControlMissionSequencer extends MissionSequencer {
         case NO_MISSION:
             return new MyMission();
         case NORMAL_MISSION:
-            return new MyTerminatorMission();
+            return null;
+            //return new MyTerminatorMission();
         case TERMINATOR_MISSION:
-            return new MyDummyMission();
+            return null;
+            //return new MyDummyMission();
         case DUMMY_MISSION:
             return null;
         default:
