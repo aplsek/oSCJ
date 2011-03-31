@@ -25,6 +25,10 @@ import javax.safetycritical.annotate.SCJAllowed;
 
 
 import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.RunsIn;
+import static javax.safetycritical.annotate.Scope.CALLER;
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
 
 /**
  * An object that represents a time interval milliseconds/103 + nanoseconds/109
@@ -68,7 +72,8 @@ public class RelativeTime extends HighResolutionTime {
 
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
-	public RelativeTime add(RelativeTime time) {
+	@RunsIn(CALLER) @Scope(CALLER)
+	public RelativeTime add(@Scope(UNKNOWN) RelativeTime time) {
 		if (time == null || time._clock != _clock)
 			throw new IllegalArgumentException("null arg or different clock");
 
@@ -85,13 +90,15 @@ public class RelativeTime extends HighResolutionTime {
 
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
-	public RelativeTime subtract(RelativeTime time) {
+	@RunsIn(CALLER) @Scope(CALLER)
+	public RelativeTime subtract(@Scope(UNKNOWN) RelativeTime time) {
 		if (time == null || time._clock != _clock)
 			throw new IllegalArgumentException("null arg or different clock");
 
 		return add(-time._milliseconds, -time._nanoseconds);
 	}
 
+	@RunsIn(CALLER) 
 	private static long getMillisNonNull(RelativeTime time) {
 		if (time == null)
 			throw new IllegalArgumentException("null parameter");
