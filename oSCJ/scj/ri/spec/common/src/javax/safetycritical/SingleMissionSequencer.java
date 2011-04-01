@@ -21,6 +21,8 @@
 
 package javax.safetycritical;
 
+import static javax.safetycritical.annotate.Level.SUPPORT;
+
 import javax.realtime.PriorityParameters;
 import javax.safetycritical.annotate.SCJAllowed;
 
@@ -40,7 +42,7 @@ public class SingleMissionSequencer extends MissionSequencer {
         _mission = mission;
     }
 
-    @SCJAllowed
+    @SCJAllowed(SUPPORT)
     @Override
     @SCJRestricted()
     protected Mission getNextMission() {
