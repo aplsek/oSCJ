@@ -25,6 +25,10 @@ import static javax.safetycritical.annotate.Level.LEVEL_1;
 
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.RunsIn;
+import static javax.safetycritical.annotate.Scope.CALLER;
+import static javax.safetycritical.annotate.Scope.THIS;
+import javax.safetycritical.annotate.Scope;
 
 @SCJAllowed
 public class PeriodicParameters extends ReleaseParameters {
@@ -53,11 +57,13 @@ public class PeriodicParameters extends ReleaseParameters {
 
     @SCJAllowed(LEVEL_1)
     @SCJRestricted()
+    @RunsIn(CALLER) @Scope(THIS)
     public RelativeTime getPeriod() {
         return _period;
     }
 
     // avoid defensive copy
+    @RunsIn(CALLER) 
     long getPeriodNanos() {
         return _period.toNanos();
     }
