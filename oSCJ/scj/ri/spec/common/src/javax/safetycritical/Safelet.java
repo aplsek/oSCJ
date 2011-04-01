@@ -41,6 +41,7 @@ import static javax.safetycritical.annotate.Scope.IMMORTAL;
  * 
  */
 @SCJAllowed
+@Scope(IMMORTAL)
 public interface Safelet {
 
     // @SCJAllowed
@@ -65,8 +66,6 @@ public interface Safelet {
      */
     @SCJAllowed(SUPPORT)
     @SCJRestricted(INITIALIZATION)
-    @Scope(IMMORTAL)
-    @RunsIn(IMMORTAL)
     public MissionSequencer getSequencer();
 
     /**
@@ -78,7 +77,6 @@ public interface Safelet {
      */
     @SCJAllowed(SUPPORT)
     @SCJRestricted(INITIALIZATION)
-    @RunsIn(IMMORTAL)
     public void setUp();
 
     /**
@@ -91,6 +89,5 @@ public interface Safelet {
      */
     @SCJAllowed(SUPPORT)
     @SCJRestricted(CLEANUP)
-    @RunsIn(IMMORTAL)
     public void tearDown();
 }
