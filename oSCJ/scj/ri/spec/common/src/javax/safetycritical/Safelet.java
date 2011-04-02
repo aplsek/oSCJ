@@ -41,7 +41,6 @@ import static javax.safetycritical.annotate.Scope.IMMORTAL;
  * 
  */
 @SCJAllowed
-@Scope(IMMORTAL)
 public interface Safelet {
 
     // @SCJAllowed
