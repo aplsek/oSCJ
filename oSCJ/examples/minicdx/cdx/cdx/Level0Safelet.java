@@ -94,7 +94,7 @@ public class Level0Safelet extends CyclicExecutive {
 
         } catch (Throwable e) {
             System.out.println("e: " + e.getMessage());
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

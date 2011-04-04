@@ -120,16 +120,19 @@ class Collision {
     /** Returns a helpful description of this object. */
 
     public String toString() {
-        StringBuffer buf = new StringBuffer("Collision between ");
-        boolean first = true;
+        //StringBuffer buf = new StringBuffer("Collision between ");
+        //boolean first = true;
         /*for (Iterator iter = getAircraftInvolved().iterator(); iter.hasNext();) {
         	if (first) first = false;
         	else buf.append(", ");	    
         	buf.append(iter.next().toString());
         }  */
-        buf.append(_one.toString() + ", " + _two.toString());
-        buf.append(" at ");
-        buf.append(location.toString());
-        return buf.toString();
+        
+       // buf.append(_one.toString() + ", " + _two.toString());
+       // buf.append(" at ");
+       // buf.append(location.toString());
+       // 
+       // return buf.toString();
+        return null;
     }
 }

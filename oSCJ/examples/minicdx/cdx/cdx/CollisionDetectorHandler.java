@@ -117,7 +117,7 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
         } catch (Throwable e) {
             System.out.println("Exception thrown by runDetectorInScope: "
                     + e.getMessage());
-            e.printStackTrace();
+           // e.printStackTrace();
         }
         
        // BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
