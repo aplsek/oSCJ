@@ -165,7 +165,7 @@ public abstract class ManagedMemory extends LTMemory {
 
 	}
 
-	@SCJAllowed(LEVEL_1)
+	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
 	@RunsIn(CALLER)
 	public void executeInArea(@Scope(UNKNOWN) SCJRunnable logic) { }
