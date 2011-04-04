@@ -97,14 +97,6 @@ public abstract class MemoryArea implements AllocationContext {
 	// RealtimeThread thread = RealtimeThread.currentRealtimeThread();
 	// execInAreaImpl(thread, logic);
 	// }
-	
-
-    @SCJAllowed()
-    @SCJRestricted(maySelfSuspend = false)
-    @RunsIn(CALLER)
-    public void executeInArea(@Scope(UNKNOWN) SCJRunnable logic) throws InaccessibleAreaException {
-        //...
-    }
 
 	@SCJAllowed(INFRASTRUCTURE)
 	@SCJRestricted(maySelfSuspend = false)

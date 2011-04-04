@@ -23,6 +23,10 @@ import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
+import com.sun.source.tree.ArrayAccessTree;
+import com.sun.source.tree.ExpressionTree;
+import com.sun.source.tree.Tree.Kind;
+
 import checkers.scope.ScopeCheckerContext;
 import checkers.scope.ScopeInfo;
 import checkers.types.AnnotatedTypeMirror.AnnotatedDeclaredType;
@@ -197,6 +201,16 @@ public final class Utils {
     }
 
     /**
+     * Get the expression at the base of an array access or a chain of array
+     * accesses.
+     */
+    public static ExpressionTree getBaseTree(ExpressionTree tree) {
+        while (tree.getKind() == Kind.ARRAY_ACCESS)
+            tree = ((ArrayAccessTree) tree).getExpression();
+        return tree;
+    }
+
+    /**
      * Get the base component type of an array.
      * <p>
      * The base component type of int[][][] is int.
@@ -247,9 +261,8 @@ public final class Utils {
         Scope s = v.getAnnotation(Scope.class);
         if (s != null)
             return new ScopeInfo(s.value());
-        TypeMirror b = Utils.getBaseType(v.asType());
-        if (b.getKind() == TypeKind.DECLARED) {
-            TypeElement t = Utils.getTypeElement(b);
+        if (k == TypeKind.DECLARED) {
+            TypeElement t = Utils.getTypeElement(v.asType());
             ScopeInfo si = ctx.getClassScope(t);
             if (!si.isCaller())
                 return si;

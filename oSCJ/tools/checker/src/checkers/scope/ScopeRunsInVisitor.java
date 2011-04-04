@@ -354,7 +354,7 @@ public class ScopeRunsInVisitor extends SCJVisitor<Void, Void> {
             ret = defaultScope;
         else if (bmv.getKind() == TypeKind.TYPEVAR)
             ret = defaultScope;
-        else {
+        else if (mv.getKind() == TypeKind.DECLARED) {
             ScopeInfo stv = ctx.getClassScope(Utils.getTypeElement(bmv));
             if (stv.isCaller())
                 ret = defaultScope;
@@ -364,7 +364,21 @@ public class ScopeRunsInVisitor extends SCJVisitor<Void, Void> {
                             defaultScope, stv);
                 ret = stv;
             }
-        }
+        } else if (mv.getKind() == TypeKind.ARRAY) {
+            ret = defaultScope;
+            // If the array variable is a field in a parent scope of the base
+            // element type, it's illegal and this is how it's caught.
+            if (v.getKind() == ElementKind.FIELD) {
+                ScopeInfo classScope = ctx
+                        .getClassScope(Utils.getFieldClass(v));
+                ScopeInfo elemScope = ctx.getClassScope(Utils
+                        .getTypeElement(bmv));
+                if (scopeTree.isAncestorOf(elemScope, classScope))
+                    ret = elemScope;
+            }
+        } else
+            throw new RuntimeException("missing case");
+
         return ret;
     }
 
@@ -397,10 +411,14 @@ public class ScopeRunsInVisitor extends SCJVisitor<Void, Void> {
                     && Utils.isUserLevel(m) && !runsIn.isCaller())
                 fail(ERR_ILLEGAL_METHOD_RUNS_IN_OVERRIDE, node, errNode);
 
-            // if the eLEVEL is SUPPORT, then the mLEVEL must be also SUPPORT and:
-            // if the "e" has @RunsIn annotation, then the m must explicitly restate the @RunsIn or override it with a new @RunsIn
-            // if the "e" has no @RunsIn annotation, the annotation does not have to be restated
-            if (Utils.isSCJSupport(m, ats) && !eRunsIn.equals(runsIn) && ann == null && e.getAnnotation(RunsIn.class) != null) {
+            // If the eLevel is SUPPORT, then the mLevel must be also SUPPORT
+            // and:
+            // if the "e" has @RunsIn annotation, then the m must explicitly
+            // restate the @RunsIn or override it with a new @RunsIn
+            // if the "e" has no @RunsIn annotation, the annotation does not
+            // have to be restated
+            if (Utils.isSCJSupport(m, ats) && !eRunsIn.equals(runsIn)
+                    && ann == null && e.getAnnotation(RunsIn.class) != null) {
                 fail(ERR_ILLEGAL_METHOD_RUNS_IN_OVERRIDE_RESTATE, node, errNode);
             }
         }

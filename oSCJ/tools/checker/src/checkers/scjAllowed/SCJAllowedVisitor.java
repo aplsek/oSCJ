@@ -177,11 +177,10 @@ public class SCJAllowedVisitor<R, P> extends SCJVisitor<R, P> {
                     && level.compareTo(scjAllowedLevel(override, node)) > 0)
                 fail(ERR_BAD_OVERRIDE, node);
 
-            if (scjAllowedLevel(override, node).compareTo(SUPPORT) == 0) {
-                if (!level.equals(SUPPORT))
+            if (scjAllowedLevel(override, node) == SUPPORT) {
+                if (level != SUPPORT)
                     fail(ERR_BAD_OVERRIDE_SUPPORT, node);
             }
-
         }
 
         scjAllowedStack.push(level);
@@ -253,9 +252,6 @@ public class SCJAllowedVisitor<R, P> extends SCJVisitor<R, P> {
 
     @Override
     public R visitNewClass(NewClassTree node, P p) {
-
-        if (node.toString().contains("@SuppressSCJ"))
-            return null;
 
         ExecutableElement ctor = TreeUtils.elementFromUse(node);
 
