@@ -12,4 +12,4 @@ find ./simulator -name *.java >> list
 
 
 # check:
-$CHECKER/localbin/javac -proc:only -cp $CHECKER/lib/scj.jar:$CHECKER/lib/scj-checker.jar -processor checkers.SCJChecker `cat list`
+$CHECKER/localbin/javac $1 -proc:only -cp $CHECKER/lib/scj.jar:$CHECKER/lib/scj-checker.jar -processor checkers.SCJChecker `cat list`

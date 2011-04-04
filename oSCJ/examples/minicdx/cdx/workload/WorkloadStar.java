@@ -3,8 +3,10 @@ package workload;
 import javax.safetycritical.annotate.SCJAllowed;
 import cdx.Constants;
 import cdx.RawFrame;
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
+import javax.safetycritical.annotate.Scope;
 
-@javax.safetycritical.annotate.Scope("immortal")
+@Scope(IMMORTAL)
 @SCJAllowed(members=true)
 public class WorkloadStar extends FrameBuffer {
 

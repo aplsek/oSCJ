@@ -33,7 +33,6 @@ import javax.safetycritical.annotate.RunsIn;
  */
 @SCJAllowed(members=true)
 @Scope("cdx.Level0Safelet")
-@RunsIn("cdx.CollisionDetectorHandler")
 public class NoiseGenerator {
 
     private Object[] noiseRoot;
@@ -46,6 +45,7 @@ public class NoiseGenerator {
         }
     }
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     private void generateNoise() {
 
         for (int i = 0; i < Constants.DETECTOR_NOISE_ALLOCATE_POINTERS; i++) {
@@ -54,6 +54,7 @@ public class NoiseGenerator {
 
     }
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     private void generateNoiseWithVariableObjectSize() {
 
         int currentIncrement = 0;
@@ -66,6 +67,7 @@ public class NoiseGenerator {
         }
     }
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     public void generateNoiseIfEnabled() {
         if (Constants.DETECTOR_NOISE) {
 

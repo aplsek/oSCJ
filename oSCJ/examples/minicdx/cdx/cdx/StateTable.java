@@ -24,10 +24,14 @@ package cdx;
 
 import java.util.HashMap;
 import javax.realtime.MemoryArea;
+import javax.safetycritical.SCJRunnable;
+import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.Scope;
 import javax.safetycritical.annotate.RunsIn;
 import statetable.Vector3d;
+
+import static javax.safetycritical.annotate.Level.SUPPORT;
 
 /**
  * The instance lives and the constructor runs in the persistent detector scope. The put method and the get method are
@@ -36,7 +40,6 @@ import statetable.Vector3d;
  */
 @SCJAllowed(members=true)
 @Scope("cdx.Level0Safelet")
-@RunsIn("cdx.CollisionDetectorHandler")
 public class StateTable {
 
     final private static int MAX_AIRPLANES = 10000;
@@ -57,11 +60,12 @@ public class StateTable {
 
     @SCJAllowed(members=true)
     @Scope("cdx.Level0Safelet")
-    @RunsIn("cdx.Level0Safelet")
-    private class R implements Runnable {
+    private class R implements SCJRunnable {
         CallSign callsign;
         float    x, y, z;
 
+        @RunsIn("cdx.Level0Safelet")
+        @SCJAllowed(SUPPORT)
         public void run() {
             Vector3d v = (Vector3d) motionVectors.get(callsign);
             if (v == null) {
@@ -75,14 +79,16 @@ public class StateTable {
     }
     private final R r = new R();
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     public void put(final CallSign callsign, final float x, final float y, final float z) {
         r.callsign = callsign;
         r.x = x;
         r.y = y;
         r.z = z;
-        MemoryArea.getMemoryArea(this).executeInArea(r);
+        ((ManagedMemory) MemoryArea.getMemoryArea(this)).executeInArea(r);
     }
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     public Vector3d get(final CallSign callsign) {
         return (Vector3d) motionVectors.get(callsign);
     }

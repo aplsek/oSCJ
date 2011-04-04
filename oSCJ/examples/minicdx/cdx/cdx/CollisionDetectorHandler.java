@@ -31,10 +31,12 @@ import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.DefineScope;
 import cdx.unannotated.NanoClock;
 
 @SCJAllowed(members=true)
 @Scope("cdx.Level0Safelet")
+@DefineScope(name="cdx.CollisionDetectorHandler",parent="cdx.Level0Safelet")
 public class CollisionDetectorHandler extends PeriodicEventHandler {
     private final TransientDetectorScopeEntry cd = new TransientDetectorScopeEntry(
             new StateTable(), Constants.GOOD_VOXEL_SIZE);

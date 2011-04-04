@@ -1,6 +1,8 @@
 package workload;
 
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.Scope;
 import cdx.Constants;
 import cdx.RawFrame;
 
@@ -11,7 +13,7 @@ import cdx.RawFrame;
  * (intentionally) not synchronized. In a weird combination of priorities that is not intended to be used, buffer frames
  * could be overwritten.
  */
-@javax.safetycritical.annotate.Scope("immortal")
+@Scope(IMMORTAL)
 @SCJAllowed(members=true)
 public abstract class FrameBuffer {
 

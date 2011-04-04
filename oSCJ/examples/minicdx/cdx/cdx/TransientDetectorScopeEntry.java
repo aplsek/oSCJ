@@ -46,7 +46,7 @@ import collision.Vector3d;
 
 @SCJAllowed(members=true)
 @Scope("cdx.Level0Safelet")
-public class TransientDetectorScopeEntry implements Runnable {
+public class TransientDetectorScopeEntry implements SCJRunnable {
 
     private StateTable state;
     private float voxelSize;

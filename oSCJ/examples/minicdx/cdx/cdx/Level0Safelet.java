@@ -23,6 +23,7 @@
 package cdx;
 
 import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
 import immortal.Simulator;
 import javax.realtime.AbsoluteTime;
 import javax.realtime.Clock;
@@ -30,6 +31,7 @@ import javax.realtime.RelativeTime;
 import javax.safetycritical.CyclicExecutive;
 import javax.safetycritical.CyclicSchedule;
 import javax.safetycritical.PeriodicEventHandler;
+import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.Scope;
@@ -37,7 +39,8 @@ import cdx.unannotated.NanoClock;
 
 
 @SCJAllowed(members=true)
-@Scope("immortal")
+@Scope(IMMORTAL)
+@DefineScope(name="cdx.Level0Safelet",parent=IMMORTAL)
 public class Level0Safelet extends CyclicExecutive {
     
     public Level0Safelet() {

@@ -28,14 +28,14 @@ import workload.FrameBuffer;
 import workload.WorkloadStar;
 import javax.safetycritical.annotate.Scope;
 import javax.safetycritical.annotate.RunsIn;
-
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
 /**
  * This thread runs only during start-up to run other threads. It runs in immortal memory, is allocated in immortal
  * memory, and it's constructor runs in immortal memory. It is a singleton, allocation from the Main class Ales: this
  * thread allocates - the scopes - the PersistentDetectorScope and TransientDetectorScope -
  */
 @SCJAllowed(members=true)
-@Scope("immortal")
+@Scope(IMMORTAL)
 public class ImmortalEntry implements Runnable {
 
     static public Object           initMonitor                  = new Object();
