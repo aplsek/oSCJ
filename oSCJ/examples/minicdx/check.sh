@@ -7,7 +7,7 @@ CHECKER=../../tools/checker/
 
 
 # get source
-find ./cdx -name *.java > list
+find ./cdx -name *.java -not -path "*bench*" > list
 find ./simulator -name *.java >> list
 
 

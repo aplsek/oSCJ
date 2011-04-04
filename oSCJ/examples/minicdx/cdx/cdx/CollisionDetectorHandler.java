@@ -22,27 +22,19 @@
  */
 package cdx;
 
+import static javax.safetycritical.annotate.Level.SUPPORT;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
-import javax.realtime.ImmortalMemory;
-import javax.realtime.MemoryArea;
-import javax.realtime.RealtimeThread;
 import javax.safetycritical.Mission;
 import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.StorageParameters;
-import javax.safetycritical.Terminal;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
-import bench.BenchMem;
-
-import cdx.unannotated.NanoClock;
-import edu.purdue.scj.VMSupport;
-
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
-import javax.safetycritical.annotate.RunsIn;
+import cdx.unannotated.NanoClock;
 
 @SCJAllowed(members=true)
 @Scope("cdx.Level0Safelet")
-@RunsIn("cdx.CollisionDetectorHandler")
 public class CollisionDetectorHandler extends PeriodicEventHandler {
     private final TransientDetectorScopeEntry cd = new TransientDetectorScopeEntry(
             new StateTable(), Constants.GOOD_VOXEL_SIZE);
@@ -59,6 +51,7 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
         super(null, null, new StorageParameters(Constants.TRANSIENT_DETECTOR_SCOPE_SIZE,0,0));
     }
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     public void runDetectorInScope(final TransientDetectorScopeEntry cd) {
         Benchmarker.set(14);
 
@@ -104,6 +97,8 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
         Benchmarker.done(14);
     }
 
+    @SCJAllowed(SUPPORT)
+    @RunsIn("cdx.CollisionDetectorHandler")
     public void handleAsyncEvent() {
         
         //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
@@ -129,18 +124,7 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
     }
 
     
-    
-    
-    
-    
-    
+    @SCJAllowed(SUPPORT)
     public void cleanUp() {
     }
-
-
-
-    public StorageParameters getThreadConfigurationParameters() {
-        return null;
-    }
-
 }

@@ -22,33 +22,23 @@
  */
 package cdx;
 
+import static javax.safetycritical.annotate.Level.SUPPORT;
 import immortal.Simulator;
-
-import java.io.PrintWriter;
-import java.math.BigInteger;
-
 import javax.realtime.AbsoluteTime;
 import javax.realtime.Clock;
-import javax.realtime.ImmortalMemory;
-import javax.realtime.MemoryArea;
-import javax.realtime.RealtimeThread;
 import javax.realtime.RelativeTime;
 import javax.safetycritical.CyclicExecutive;
 import javax.safetycritical.CyclicSchedule;
 import javax.safetycritical.PeriodicEventHandler;
-import javax.safetycritical.annotate.SCJAllowed;
-import bench.BenchMem;
-
-import cdx.unannotated.NanoClock;
-import edu.purdue.scj.VMSupport;
-import javax.safetycritical.annotate.Scope;
 import javax.safetycritical.annotate.RunsIn;
+import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.Scope;
+import cdx.unannotated.NanoClock;
 
 
 @SCJAllowed(members=true)
 @Scope("immortal")
 public class Level0Safelet extends CyclicExecutive {
-    
     
     public Level0Safelet() {
         super(null);
@@ -57,24 +47,24 @@ public class Level0Safelet extends CyclicExecutive {
     private static long memSetup;
     private static long memSetupEnd ;
 
+    @SCJAllowed(SUPPORT)
     public void setUp() {
        
         ////////////////////////////////
         //  MEMORY BENCHMARK INIT
-        BenchMem.init();
-     
-        
-        
+        //BenchMem.init();
         
         Constants.PRESIMULATE = true;
         new ImmortalEntry().run();
         new Simulator().generate();
     }
 
+    @SCJAllowed(SUPPORT)
     public void tearDown() {
-        dumpResults();
+       // dumpResults();
     }
 
+    @SCJAllowed(SUPPORT)
     public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) {
         CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
         frames[0] = new CyclicSchedule.Frame(new RelativeTime(Constants.DETECTOR_PERIOD, 0), handlers);
@@ -82,7 +72,8 @@ public class Level0Safelet extends CyclicExecutive {
         return schedule;
     }
 
-    @javax.safetycritical.annotate.RunsIn("cdx.Level0Safelet")
+    @RunsIn("cdx.Level0Safelet")
+    @SCJAllowed(SUPPORT)
     protected void initialize() {
         try {
             ImmortalEntry.detectorThreadStart = NanoClock.now();
@@ -93,12 +84,12 @@ public class Level0Safelet extends CyclicExecutive {
             new CollisionDetectorHandler();
             
             if (Constants.DEBUG_DETECTOR) {
-                System.out.println("Detector thread is " + Thread.currentThread());
-                System.out
-                    .println("Entering detector loop, detector thread priority is "
-                            + +Thread.currentThread().getPriority() + " (NORM_PRIORITY is " + Thread.NORM_PRIORITY
-                            + ", MIN_PRIORITY is " + Thread.MIN_PRIORITY + ", MAX_PRIORITY is " + Thread.MAX_PRIORITY
-                            + ")");
+              //  System.out.println("Detector thread is " + Thread.currentThread());
+              //  System.out
+              //      .println("Entering detector loop, detector thread priority is "
+              //              + +Thread.currentThread().getPriority() + " (NORM_PRIORITY is " + Thread.NORM_PRIORITY
+              //              + ", MIN_PRIORITY is " + Thread.MIN_PRIORITY + ", MAX_PRIORITY is " + Thread.MAX_PRIORITY
+              //              + ")");
             }
 
         } catch (Throwable e) {
@@ -108,18 +99,11 @@ public class Level0Safelet extends CyclicExecutive {
     }
 
     
-    public void method() {
-        
-    }
-    
-    
-    
     public long missionMemorySize() {
         return Constants.PERSISTENT_DETECTOR_SCOPE_SIZE;
     }
     
-    
-    
+    /*
     public static void dumpResults() {
         
         String space = " ";
@@ -174,11 +158,6 @@ public class Level0Safelet extends CyclicExecutive {
             System.out.println("=====DETECTOR-RELEASE-STATS-END-ABOVE====");
         }
         
-        
-        
-        BenchMem.dumpMemoryUsage();
-        
-        
-    }
-
+        //BenchMem.dumpMemoryUsage();
+    }*/
 }

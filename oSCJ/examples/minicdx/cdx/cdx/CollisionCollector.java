@@ -22,12 +22,11 @@
  */
 package cdx;
 
-import javax.safetycritical.annotate.SCJAllowed;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.Scope;
-import javax.safetycritical.annotate.RunsIn;
 
 /**
  * Collects collisions in lists and then returns a list of collisions where no two are equal.

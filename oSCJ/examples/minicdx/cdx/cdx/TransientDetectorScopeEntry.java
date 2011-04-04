@@ -23,19 +23,19 @@
  
  package cdx;
 
+import static javax.safetycritical.annotate.Level.SUPPORT;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import javax.realtime.MemoryArea;
-import javax.realtime.RealtimeThread;
+import javax.safetycritical.ManagedMemory;
+import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
-import bench.BenchMem;
-import collision.Vector3d;
 import javax.safetycritical.annotate.Scope;
-import javax.safetycritical.annotate.RunsIn;
+import collision.Vector3d;
 
 /**
  * The constructor runs and the instance lives in the persistent detector scope.
@@ -46,7 +46,6 @@ import javax.safetycritical.annotate.RunsIn;
 
 @SCJAllowed(members=true)
 @Scope("cdx.Level0Safelet")
-@RunsIn("cdx.CollisionDetectorHandler")
 public class TransientDetectorScopeEntry implements Runnable {
 
     private StateTable state;
@@ -63,6 +62,7 @@ public class TransientDetectorScopeEntry implements Runnable {
         this.voxelSize = voxelSize;
     }
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     public void run() {
         Benchmarker.set(1);
         if (Constants.SYNCHRONOUS_DETECTOR || Constants.DEBUG_DETECTOR) {
@@ -98,6 +98,7 @@ public class TransientDetectorScopeEntry implements Runnable {
         //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
     }
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     public int lookForCollisions(final Reducer reducer, final List motions) {
         Benchmarker.set(2);
         final List check = reduceCollisionSet(reducer, motions);
@@ -131,6 +132,7 @@ public class TransientDetectorScopeEntry implements Runnable {
      * the inner lists implement RandomAccess. Each Vector of Motions that is
      * returned represents a set of Motions that might have collisions.
      */
+    @RunsIn("cdx.CollisionDetectorHandler")
     public List reduceCollisionSet(final Reducer it, final List motions) {
         Benchmarker.set(3);
         final HashMap voxel_map = new HashMap();
@@ -151,6 +153,7 @@ public class TransientDetectorScopeEntry implements Runnable {
         return ret;
     }
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     public boolean checkForDuplicates(final List collisions, Motion one,
             Motion two) {
         // (Peta) I have also changed the comparison employed in this method as
@@ -170,6 +173,7 @@ public class TransientDetectorScopeEntry implements Runnable {
         return true;
     }
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     public int determineCollisions(final List motions, List ret) {
         // (Peta) changed to iterators so that it's not killing the algorithm
         Benchmarker.set(5);
@@ -195,6 +199,7 @@ public class TransientDetectorScopeEntry implements Runnable {
         return _ret;
     }
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     public void dumpFrame(String debugPrefix) {
 
         String prefix = debugPrefix + frameno + " ";
@@ -232,6 +237,7 @@ public class TransientDetectorScopeEntry implements Runnable {
      * 
      * @return
      */
+    @RunsIn("cdx.CollisionDetectorHandler")
     public List createMotions() {
         Benchmarker.set(6);
         final List ret = new LinkedList();
@@ -282,21 +288,19 @@ public class TransientDetectorScopeEntry implements Runnable {
         Benchmarker.done(6);
         return ret;
     }
-    
-    
-  
         
     /**
      * This Runnable enters the StateTable in order to allocate the callsign in
      * the PersistentScope
      */
-    @javax.safetycritical.annotate.Scope("cdx.Level0Safelet")
-    @javax.safetycritical.annotate.RunsIn("cdx.Level0Safelet")
+    @Scope("cdx.Level0Safelet")
     @SCJAllowed(members=true)
-    static class R implements Runnable {
+    static class R implements SCJRunnable {
         CallSign c;
         byte[] cs;
 
+        @SCJAllowed(SUPPORT)
+        @RunsIn("cdx.Level0Safelet")
         public void run() {
             c = new CallSign(cs);
         }
@@ -304,6 +308,7 @@ public class TransientDetectorScopeEntry implements Runnable {
 
     private final R r = new R();
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     CallSign mkCallsignInPersistentScope(final byte[] cs) {
         try {
             r.cs = (byte[]) MemoryArea.newArrayInArea(r, byte.class, cs.length);
@@ -313,8 +318,7 @@ public class TransientDetectorScopeEntry implements Runnable {
         for (int i = 0; i < cs.length; i++)
             r.cs[i] = cs[i];
         
-        MemoryArea.getMemoryArea(state).executeInArea(r);
+        ((ManagedMemory) ManagedMemory.getMemoryArea(state)).executeInArea(r);
         return r.c;
     }
-
 }
