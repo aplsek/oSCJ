@@ -110,7 +110,7 @@ public abstract class MemoryArea implements AllocationContext {
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
 	@RunsIn(CALLER)
-	public Object newInstance(@Scope(UNKNOWN) Class clazz) throws InstantiationException,
+	public Object newInstance(Class clazz) throws InstantiationException,
 			IllegalAccessException {
 		RealtimeThread thread = RealtimeThread.currentRealtimeThread();
 		return newInstanceImpl(thread, clazz);
@@ -119,7 +119,7 @@ public abstract class MemoryArea implements AllocationContext {
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
 	@RunsIn(CALLER)
-	public Object newArray(@Scope(UNKNOWN) Class clazz, int number)
+	public Object newArray(Class clazz, int number)
 			throws NegativeArraySizeException, IllegalAccessException {
 		RealtimeThread thread = RealtimeThread.currentRealtimeThread();
 		return newArrayImpl(thread, clazz, number);
@@ -127,7 +127,7 @@ public abstract class MemoryArea implements AllocationContext {
 
 	@SCJAllowed
 	@RunsIn(CALLER)
-	public static Object newArrayInArea(@Scope(UNKNOWN) Object object, @Scope(UNKNOWN) Class clazz, int size)
+	public static Object newArrayInArea(@Scope(UNKNOWN) Object object, Class clazz, int size)
 			throws IllegalAccessException {
 		return getMemoryArea(object).newArray(clazz, size);
 	}
@@ -135,7 +135,7 @@ public abstract class MemoryArea implements AllocationContext {
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
 	@RunsIn(CALLER)
-	public static Object newInstanceInArea(@Scope(UNKNOWN) Object object, @Scope(UNKNOWN) Class clazz)
+	public static Object newInstanceInArea(@Scope(UNKNOWN) Object object, Class clazz)
 			throws InstantiationException, IllegalAccessException {
 		return getMemoryArea(object).newInstance(clazz);
 	}

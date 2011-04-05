@@ -112,7 +112,7 @@ public interface AllocationContext
    */
   @RunsIn(CALLER)
   @SCJAllowed
-  public Object newArray(@Scope(UNKNOWN) Class type, int number)
+  public Object newArray(Class type, int number)
     throws IllegalArgumentException, IllegalAccessException;
 
   /**
@@ -242,7 +242,7 @@ public interface AllocationContext
    */
   @RunsIn(CALLER)
   @SCJAllowed
-  public Object newInstance(@Scope(UNKNOWN) Class type) throws IllegalAccessException, InstantiationException,
+  public Object newInstance(Class type) throws IllegalAccessException, InstantiationException,
   	ExceptionInInitializerError, InvocationTargetException;
 
 

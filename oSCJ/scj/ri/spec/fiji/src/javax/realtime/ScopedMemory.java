@@ -94,7 +94,7 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 
 	@Override
 	@RunsIn(CALLER)
-	public Object newArray(@Scope(UNKNOWN) Class type, int number)
+	public Object newArray(Class type, int number)
 			throws NegativeArraySizeException, IllegalAccessException {
 		RealtimeThread current = RealtimeThread.currentRealtimeThread();
 		checkAccessible(current);
@@ -104,7 +104,7 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	@Override
 	@RunsIn(CALLER)
 	@SCJAllowed
-	public Object newInstance(@Scope(UNKNOWN) Class klass) throws InstantiationException,
+	public Object newInstance(Class klass) throws InstantiationException,
 			IllegalAccessException {
 		RealtimeThread current = RealtimeThread.currentRealtimeThread();
 		checkAccessible(current);
