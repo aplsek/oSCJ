@@ -134,7 +134,7 @@ class Reducer {
         Vector2d tmp = new Vector2d();
 
         if (!graph_colors.containsKey(next_voxel) && isInVoxel(next_voxel, motion)) {
-            graph_colors.put(new Vector2d(next_voxel), "");
+            graph_colors.put(new Vector2d(next_voxel), new String(""));
             putIntoMap(voxel_map, next_voxel, motion);
 
             // left boundary

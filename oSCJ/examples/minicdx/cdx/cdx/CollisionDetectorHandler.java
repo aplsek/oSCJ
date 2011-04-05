@@ -71,7 +71,7 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
             return;
         } // should not be needed, anyway
 
-        noiseGenerator.generateNoiseIfEnabled();
+        //noiseGenerator.generateNoiseIfEnabled();
         Benchmarker.set(Benchmarker.RAPITA_SETFRAME);
         cd.setFrame(f);
         Benchmarker.done(Benchmarker.RAPITA_SETFRAME);
@@ -80,9 +80,6 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
         cd.run();
         final long timeAfter = NanoClock.now();
         //final long heapFreeAfter = Runtime.getRuntime().freeMemory();
-
-        
-        
         
         if (ImmortalEntry.recordedRuns < ImmortalEntry.maxDetectorRuns) {
             ImmortalEntry.timesBefore[ImmortalEntry.recordedRuns] = timeBefore;

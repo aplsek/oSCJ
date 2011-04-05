@@ -5,9 +5,11 @@ set -x
 
 CHECKER=../../tools/checker/
 
+M_PWD=`pwd`
+cd $CHECKER && ant jar && cd $M_PWD
 
 # get source
-find ./cdx -name *.java -not -path "*bench*" > list
+find ./cdx -name *.java -not -path "*bench*" -not -name "Launcher.java" > list
 find ./simulator -name *.java >> list
 
 

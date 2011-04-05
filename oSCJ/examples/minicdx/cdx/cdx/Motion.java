@@ -73,8 +73,8 @@ class Motion {
     }
 
     public String toString() {
-        return "MOTION of " + getAircraft().toString() + " from " + getFirstPosition().toString() + " to "
-                + getSecondPosition().toString();
+        return new String("MOTION of " + getAircraft().toString() + " from " + getFirstPosition().toString() + " to "
+                + getSecondPosition().toString());
     }
 
     /**

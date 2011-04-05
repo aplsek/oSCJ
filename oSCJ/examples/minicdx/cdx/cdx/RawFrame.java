@@ -22,7 +22,10 @@
  */
 package cdx;
 
+import static javax.safetycritical.annotate.Scope.UNKNOWN;
+import static javax.safetycritical.annotate.Scope.CALLER;
 import static javax.safetycritical.annotate.Scope.IMMORTAL;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
@@ -39,8 +42,9 @@ public class RawFrame {
     public int           planeCnt;
 
     @SCJRestricted(mayAllocate=false)
-    @javax.safetycritical.annotate.RunsIn("cdx.CollisionDetectorHandler")
-    public void copy(final int[] lengths_, final byte[] signs_, final float[] positions_) {
+    //@RunsIn("cdx.CollisionDetectorHandler")
+    @RunsIn(CALLER)
+    public void copy(@Scope(UNKNOWN) final int[] lengths_,@Scope(UNKNOWN) final byte[] signs_,@Scope(UNKNOWN) final float[] positions_) {
         for (int i = 0, pos = 0, pos2 = 0, pos3 = 0, pos4 = 0; i < lengths_.length; i++) {
             lengths[pos++] = lengths_[i];
             positions[pos2++] = positions_[3 * i];

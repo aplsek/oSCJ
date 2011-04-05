@@ -91,7 +91,7 @@ public class NanoClock {
     public static String asString(long relativeNanos) {
 
         if (relativeNanos < 0) {
-            if (relativeNanos == -1) { return "NA"; }
+            if (relativeNanos == -1) { return new String("NA"); }
         }
 
         long millis = baseMillis + relativeNanos / 1000000L;
@@ -105,7 +105,7 @@ public class NanoClock {
         StringBuffer result = new StringBuffer(Long.toString(millis));
 
         while (zeros-- > 0) {
-            result = result.append("0");
+            result = result.append(new String("0"));
         }
 
         result = result.append(ns);

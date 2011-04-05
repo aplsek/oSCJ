@@ -46,7 +46,7 @@ import collision.Vector3d;
 
 @SCJAllowed(members=true)
 @Scope("cdx.Level0Safelet")
-public class TransientDetectorScopeEntry implements SCJRunnable {
+public class TransientDetectorScopeEntry /*implements SCJRunnable*/ {
 
     private StateTable state;
     private float voxelSize;
@@ -62,11 +62,12 @@ public class TransientDetectorScopeEntry implements SCJRunnable {
         this.voxelSize = voxelSize;
     }
 
+    //@SCJAllowed(SUPPORT)
     @RunsIn("cdx.CollisionDetectorHandler")
     public void run() {
         Benchmarker.set(1);
         if (Constants.SYNCHRONOUS_DETECTOR || Constants.DEBUG_DETECTOR) {
-            dumpFrame("CD-PROCESSING-FRAME (indexed as received): ");
+            dumpFrame(new String("CD-PROCESSING-FRAME (indexed as received): "));
         }
 
         Benchmarker.set(Benchmarker.RAPITA_REDUCER_INIT);
@@ -218,6 +219,7 @@ public class TransientDetectorScopeEntry implements SCJRunnable {
 
     int frameno = -1; // just for debug
 
+    @RunsIn("cdx.CollisionDetectorHandler")
     public void setFrame(final RawFrame f) {
         if (Constants.DEBUG_DETECTOR || Constants.DUMP_RECEIVED_FRAMES
                 || Constants.SYNCHRONOUS_DETECTOR) {
@@ -225,7 +227,7 @@ public class TransientDetectorScopeEntry implements SCJRunnable {
         }
         currentFrame = f;
         if (Constants.DUMP_RECEIVED_FRAMES) {
-            dumpFrame("CD-R-FRAME: ");
+            dumpFrame(new String("CD-R-FRAME: "));
         }
 
     }

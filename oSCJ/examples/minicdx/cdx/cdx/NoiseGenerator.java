@@ -45,16 +45,13 @@ public class NoiseGenerator {
         }
     }
 
-    @RunsIn("cdx.CollisionDetectorHandler")
     private void generateNoise() {
-
         for (int i = 0; i < Constants.DETECTOR_NOISE_ALLOCATE_POINTERS; i++) {
             noiseRoot[(noisePtr++) % noiseRoot.length] = new byte[Constants.DETECTOR_NOISE_ALLOCATION_SIZE];
         }
 
     }
 
-    @RunsIn("cdx.CollisionDetectorHandler")
     private void generateNoiseWithVariableObjectSize() {
 
         int currentIncrement = 0;
@@ -67,7 +64,6 @@ public class NoiseGenerator {
         }
     }
 
-    @RunsIn("cdx.CollisionDetectorHandler")
     public void generateNoiseIfEnabled() {
         if (Constants.DETECTOR_NOISE) {
 

@@ -1,8 +1,10 @@
 package workload;
 
+import static javax.safetycritical.annotate.Scope.CALLER;
 import static javax.safetycritical.annotate.Scope.IMMORTAL;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.RunsIn;
 import cdx.Constants;
 import cdx.RawFrame;
 
@@ -49,7 +51,8 @@ public abstract class FrameBuffer {
 
     public abstract void putFrame(final float[] positions_, final int[] lengths_, final byte[] callsigns_);
 
-    /*@javax.safetycritical.annotate.RunsIn("cdx.CollisionDetectorHandler")*/
+    /*/////@RunsIn("cdx.CollisionDetectorHandler")*/
+    @RunsIn(CALLER)
     public abstract RawFrame getFrame();
     
 }
