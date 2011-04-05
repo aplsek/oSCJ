@@ -80,7 +80,7 @@ public class StateTable {
     private final R r = new R();
 
     @RunsIn("cdx.CollisionDetectorHandler")
-    public void put(final CallSign callsign, final float x, final float y, final float z) {
+    public void put(@Scope("cdx.Level0Safelet") final CallSign callsign, final float x, final float y, final float z) {
         r.callsign = callsign;
         r.x = x;
         r.y = y;

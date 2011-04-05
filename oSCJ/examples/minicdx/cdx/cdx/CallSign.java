@@ -30,7 +30,7 @@ import javax.safetycritical.annotate.Scope;
  * signs can be linked in the (persistent) state - StateTable.
  */
 @SCJAllowed(members=true)
-@Scope("cdx.Level0Safelet")
+////@Scope("cdx.Level0Safelet")
 public class CallSign {
 
     final private byte[] val;

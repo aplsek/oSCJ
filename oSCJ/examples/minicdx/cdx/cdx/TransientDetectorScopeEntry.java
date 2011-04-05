@@ -310,7 +310,7 @@ public class TransientDetectorScopeEntry /*implements SCJRunnable*/ {
 
     private final R r = new R();
 
-    @RunsIn("cdx.CollisionDetectorHandler")
+    @RunsIn("cdx.CollisionDetectorHandler") @Scope("cdx.Level0Safelet")
     CallSign mkCallsignInPersistentScope(final byte[] cs) {
         try {
             r.cs = (byte[]) MemoryArea.newArrayInArea(r, byte.class, cs.length);
