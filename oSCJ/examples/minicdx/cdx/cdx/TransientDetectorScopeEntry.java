@@ -315,7 +315,9 @@ public class TransientDetectorScopeEntry /*implements SCJRunnable*/ {
         try {
             r.cs = (byte[]) MemoryArea.newArrayInArea(r, byte.class, cs.length);
         } catch (IllegalAccessException e) {
-            e.printStackTrace();
+            e.toString();
+            // TODO: print error!
+            //e.printStackTrace();
         }
         for (int i = 0; i < cs.length; i++)
             r.cs[i] = cs[i];
