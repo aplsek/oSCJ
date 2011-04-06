@@ -38,6 +38,7 @@ public abstract class PrecompiledSimulator {
     protected Object[] callsigns;
 
     // args .. ignored
+    @RunsIn(IMMORTAL)
     public static void generate(final String[] args) {
 
         (new Simulator()).generate();
