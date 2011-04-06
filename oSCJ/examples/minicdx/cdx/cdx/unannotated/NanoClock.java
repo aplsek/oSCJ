@@ -25,6 +25,7 @@ package cdx.unannotated;
 import javax.realtime.AbsoluteTime;
 import javax.realtime.Clock;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 import cdx.Constants;
 
 @SCJAllowed(members=true)
@@ -88,6 +89,7 @@ public class NanoClock {
         return nanos / 1000;
     }
 
+    @SCJRestricted(maySelfSuspend = true)
     public static String asString(long relativeNanos) {
 
         if (relativeNanos < 0) {
@@ -102,7 +104,7 @@ public class NanoClock {
 
         String ns = Integer.toString(nanos);
         int zeros = 6 - ns.length();
-        StringBuffer result = new StringBuffer(Long.toString(millis));
+        StringBuilder result = new StringBuilder(Long.toString(millis));
 
         while (zeros-- > 0) {
             result = result.append(new String("0"));
