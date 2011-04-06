@@ -21,7 +21,6 @@
 
 package javax.safetycritical;
 
-
 import javax.realtime.AbsoluteTime;
 import javax.realtime.Clock;
 import javax.realtime.HighResolutionTime;
@@ -45,160 +44,154 @@ import edu.purdue.scj.utils.Utils;
 @SCJAllowed
 public abstract class CyclicExecutive extends Mission implements Safelet {
 
-	private MissionSequencer _sequencer;
-	private static final int NANOS_PER_MILLI = 1000 * 1000;
+    private MissionSequencer _sequencer;
+    private static final int NANOS_PER_MILLI = 1000 * 1000;
 
-	@SCJAllowed
-	public CyclicExecutive(PriorityParameters priority, StorageParameters storage) {
-		_sequencer = new SingleMissionSequencer(priority, storage, this);
-	}
-	
-	@SCJAllowed
-	public CyclicExecutive(StorageParameters storage) {
-		_sequencer = new SingleMissionSequencer(null, storage, this);
-	}
+    @SCJAllowed
+    public CyclicExecutive(PriorityParameters priority,
+            StorageParameters storage) {
+        _sequencer = new SingleMissionSequencer(priority, storage, this);
+    }
 
-	@SCJAllowed(SUPPORT)
+    @SCJAllowed
+    public CyclicExecutive(StorageParameters storage) {
+        _sequencer = new SingleMissionSequencer(null, storage, this);
+    }
+
+    @SCJAllowed(SUPPORT)
     @SCJRestricted(INITIALIZATION)
-	public MissionSequencer getSequencer() {
-		return _sequencer;
-	}
+    public MissionSequencer getSequencer() {
+        return _sequencer;
+    }
 
-	@SCJAllowed(SUPPORT)
-	public abstract CyclicSchedule getSchedule(PeriodicEventHandler[] peh);
+    @SCJAllowed(SUPPORT)
+    public abstract CyclicSchedule getSchedule(PeriodicEventHandler[] peh);
 
-	/** Do the Cyclic Execution. */
-	protected final void exec(MissionManager manager) {
-	        //Utils.debugIndentIncrement("###[SCJ] CyclicExecutive.exec");
-	    
-	    
-		if (manager.getHandlers() == 0) {
-			// Mission has nothing to do, it should terminate!
-			_terminateAll = true;
-			
-			//<FIXME> add error messages
-			System.out.println("[SCJ] No Handlers Specified!");
-			System.out.println("[SCJ] Mission terminates, this mission: " +  this);
-			return;
-		}
+    /** Do the Cyclic Execution. */
+    protected final void exec(MissionManager manager) {
 
-		PeriodicEventHandler[] handlers = new PeriodicEventHandler[manager
-				.getHandlers()];
-		PeriodicEventHandler handler = (PeriodicEventHandler) manager
-				.getFirstHandler();
-		int iter = 0;
-		while (handler != null) {
-			handlers[iter] = handler;
-			handler = (PeriodicEventHandler) handler.getNext();
-			iter++;
-		}
+        if (manager.getHandlers() == 0) {
+            // Mission has nothing to do, terminate.
+            _terminateAll = true;
 
-		CyclicSchedule schedule = getSchedule(handlers);
-		CyclicSchedule.Frame[] frames = schedule.getFrames();
+            // <FIXME> add error messages
+            System.out.println("[SCJ] No Handlers Specified!");
+            System.out.println("[SCJ] Mission terminates, this mission: "
+                    + this);
+            return;
+        }
 
-		Wrapper wrapper = new Wrapper();
-		AbsoluteTime targetTime = Clock.getRealtimeClock().getTime();
+        PeriodicEventHandler[] handlers = new PeriodicEventHandler[manager
+                .getHandlers()];
+        PeriodicEventHandler handler = (PeriodicEventHandler) manager
+                .getFirstHandler();
+        int iter = 0;
+        while (handler != null) {
+            handlers[iter] = handler;
+            handler = (PeriodicEventHandler) handler.getNext();
+            iter++;
+        }
 
-		while (_phase == Mission.Phase.EXECUTE) {
-			for (int i = 0; i < frames.length; i++) {
-				targetTime.add(frames[i].getDuration(), targetTime);
-				PeriodicEventHandler[] frameHandlers = frames[i].getHandlers();
-				for (int j = 0; j < frameHandlers.length; j++) {
-					if (frameHandlers[j] != null) { 
-						wrapper._handler = frameHandlers[j];
-						wrapper.runInItsInitArea();
-					}
-				}
-				if (_phase != Mission.Phase.EXECUTE)
-					break;
-				else
-					waitForNextFrame(targetTime);
-			}
-		}
-		
-		//FIXME: cleanup the handlers, TODO: they should run in their memory areas??
-		//System.out.println("[SCJ] - Handlers finished");
-		//TerminationWrapper tWrapper = new TerminationWrapper();
-		for(PeriodicEventHandler hnd : handlers) {
-			//tWrapper._handler = hnd;
-			//tWrapper.runInItsInitArea();
-			hnd.cleanUp();
-		}
-		
-                //Utils.decreaseIndent();
-	}
+        CyclicSchedule schedule = getSchedule(handlers);
+        CyclicSchedule.Frame[] frames = schedule.getFrames();
 
-	private static void waitForNextFrame(AbsoluteTime targetTime) {
-		int result;
-		//Utils.debugPrintln("###[SCJ] CyclicExecutive: wait for the next frame");
-		
-		while (true) {
-			result = VMSupport.delayCurrentThreadAbsolute(toNanos(targetTime));
-			if (result == -1) {
-				break;
-			} else if (result == 0)
-				break;
-			// TODO: here, result == 1, the sleep is interrupted, try to sleep
-			// again.
-		}
-	}
+        Wrapper wrapper = new Wrapper();
+        AbsoluteTime targetTime = Clock.getRealtimeClock().getTime();
 
-	static long toNanos(HighResolutionTime time) {
-		long nanos = time.getMilliseconds() * NANOS_PER_MILLI
-				+ time.getNanoseconds();
-		if (nanos < 0)
-			nanos = Long.MAX_VALUE;
+        while (_phase == Mission.Phase.EXECUTE) {
+            for (int i = 0; i < frames.length; i++) {
+                targetTime.add(frames[i].getDuration(), targetTime);
+                PeriodicEventHandler[] frameHandlers = frames[i].getHandlers();
+                for (int j = 0; j < frameHandlers.length; j++) {
+                    if (frameHandlers[j] != null) {
+                        wrapper._handler = frameHandlers[j];
+                        wrapper.runInItsInitArea();
+                    }
+                }
+                if (_phase != Mission.Phase.EXECUTE)
+                    break;
+                else
+                    waitForNextFrame(targetTime);
+            }
+        }
 
-		return nanos;
-	}
+        // FIXME: cleanup the handlers, TODO: they should run in their memory
+        // areas??
+        // TerminationWrapper tWrapper = new TerminationWrapper();
+        for (PeriodicEventHandler hnd : handlers) {
+            // tWrapper._handler = hnd;
+            // tWrapper.runInItsInitArea();
+            hnd.cleanUp();
+        }
+    }
 
-	/** For making every handler run in its own PrivateMemory */
-	class Wrapper implements Runnable {
+    private static void waitForNextFrame(AbsoluteTime targetTime) {
+        int result;
 
-		PeriodicEventHandler _handler = null;
+        while (true) {
+            result = VMSupport.delayCurrentThreadAbsolute(toNanos(targetTime));
+            if (result == -1) {
+                break;
+            } else if (result == 0)
+                break;
+            // TODO: here, result == 1, the sleep is interrupted, try to sleep
+            // again.
+        }
+    }
 
-		void runInItsInitArea() {
-			if (_handler != null) // TODO: if we will use the "maxHandlers"
-									// fields in MissionManager, we dont need
-									// this.
-				_handler.getInitArea().enter(this);
-			else {
-				Utils.panic("ERROR: handler is null");
-			}
-		}
+    static long toNanos(HighResolutionTime time) {
+        long nanos = time.getMilliseconds() * NANOS_PER_MILLI
+                + time.getNanoseconds();
+        if (nanos < 0)
+            nanos = Long.MAX_VALUE;
 
-		public void run() {
-			try {
-				//System.out.println("[SCJ] running hadnerl...");
-				_handler.handleAsyncEvent();
-			} catch (Throwable t) {
-				////Utils.debugPrintln(t.toString());
-				t.printStackTrace();
-			}
-		}
-	}
-	
-	/** For making every handler run in its own PrivateMemory */
-	class TerminationWrapper implements Runnable {
+        return nanos;
+    }
 
-		PeriodicEventHandler _handler = null;
+    /** For making every handler run in its own PrivateMemory */
+    class Wrapper implements Runnable {
 
-		void runInItsInitArea() {
-			if (_handler != null) // TODO: if we will use the "maxHandlers"
-									// fields in MissionManager, we dont need
-									// this.
-				_handler.getInitArea().enter(this);
-			else {
-				Utils.panic("ERROR: handler is null");
-			}
-		}
+        PeriodicEventHandler _handler = null;
 
-		public void run() {
-			try {
-				_handler.cleanUp();
-			} catch (Throwable t) {
-				t.printStackTrace();
-			}
-		}
-	}
+        void runInItsInitArea() {
+            if (_handler != null) {
+                _handler.getInitArea().enter(this);
+            } else {
+                Utils.panic("ERROR: handler is null");
+            }
+        }
+
+        public void run() {
+            try {
+                _handler.handleAsyncEvent();
+            } catch (Throwable t) {
+                Utils.debugPrintln(t.toString());
+                t.printStackTrace();
+            }
+        }
+    }
+
+    /** For making every handler run in its own PrivateMemory */
+    class TerminationWrapper implements Runnable {
+
+        PeriodicEventHandler _handler = null;
+
+        void runInItsInitArea() {
+            if (_handler != null) // TODO: if we will use the "maxHandlers"
+                // fields in MissionManager, we dont need
+                // this.
+                _handler.getInitArea().enter(this);
+            else {
+                Utils.panic("ERROR: handler is null");
+            }
+        }
+
+        public void run() {
+            try {
+                _handler.cleanUp();
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+        }
+    }
 }
