@@ -259,7 +259,7 @@ public class TransientDetectorScopeEntry /*implements SCJRunnable*/ {
             new_pos = new Vector3d(x, y, z);
 
             poked.add(craft);
-            final statetable.Vector3d old_pos = state
+            @Scope("cdx.Level0Safelet") final statetable.Vector3d old_pos = state
                     .get(new CallSign(craft.getCallsign()));
 
             if (old_pos == null) {

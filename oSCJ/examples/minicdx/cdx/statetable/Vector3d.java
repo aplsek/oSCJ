@@ -22,7 +22,10 @@
  */
 package statetable;
 
+import javax.safetycritical.annotate.RunsIn;
+import static javax.safetycritical.annotate.Scope.CALLER;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 
 /**
  * The <code>Vector3d</code> class implements a 3-dimensional vector that can represent the position or velocity of an
@@ -83,7 +86,8 @@ public final class Vector3d {
      * @param z
      *            the coordinate on the z (elevation) axis
      */
-    @javax.safetycritical.annotate.SCJRestricted(mayAllocate=false)
+    @SCJRestricted(mayAllocate=false)
+    @RunsIn(CALLER)
     public void set(float x, float y, float z) {
         this.x = x;
         this.y = y;

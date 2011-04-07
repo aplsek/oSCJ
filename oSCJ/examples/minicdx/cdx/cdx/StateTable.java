@@ -30,7 +30,7 @@ import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.Scope;
 import javax.safetycritical.annotate.RunsIn;
 import statetable.Vector3d;
-
+import static javax.safetycritical.annotate.Scope.THIS;
 import static javax.safetycritical.annotate.Level.SUPPORT;
 
 /**
@@ -88,7 +88,7 @@ public class StateTable {
         ((ManagedMemory) MemoryArea.getMemoryArea(this)).executeInArea(r);
     }
 
-    @RunsIn("cdx.CollisionDetectorHandler")
+    @RunsIn("cdx.CollisionDetectorHandler") @Scope(THIS)
     public Vector3d get(final CallSign callsign) {
         return (Vector3d) motionVectors.get(callsign);
     }
