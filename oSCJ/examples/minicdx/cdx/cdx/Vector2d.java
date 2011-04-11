@@ -116,6 +116,6 @@ final class Vector2d {
     }
 
     public String toString() {
-        return new String("(" + x + ", " + y + ")");
+        return "(" + x + ", " + y + ")";
     }
 }
