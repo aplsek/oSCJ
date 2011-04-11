@@ -13,7 +13,7 @@ import javax.safetycritical.annotate.SCJRestricted;
 
 @SCJAllowed(LEVEL_2)
 public class ManagedThread extends NoHeapRealtimeThread implements
-		ManagedSchedulable {
+		ManagedSchedulable, SCJRunnable {
 	/**
 	 * Does not allow this to escape local variables. Creates a link from the
 	 * constructed object to the priority parameter. Thus, priority must reside
