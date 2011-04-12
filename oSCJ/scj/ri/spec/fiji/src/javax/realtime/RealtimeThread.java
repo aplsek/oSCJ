@@ -290,7 +290,7 @@ public class RealtimeThread extends Thread implements Schedulable {
 	// RealtimeThread. So what we should do is to clearly document this
 	// restriction.
 	@Override
-	@SCJAllowed(SUPPORT)
+	@SCJAllowed(INFRASTRUCTURE)
 	public void run() {
 
 		//////Utils.debugPrint("[SCJ][  " + getCurrentMemoryArea()
