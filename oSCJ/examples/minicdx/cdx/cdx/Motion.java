@@ -24,7 +24,10 @@ package cdx;
 
 import javax.safetycritical.annotate.SCJAllowed;
 import collision.Vector3d;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.Scope;
+import static javax.safetycritical.annotate.Scope.CALLER;
+
 
 /**
  * Objects of the <code>Motion</code> class provide all a-priori known information about what the Aircraft was doing
@@ -72,9 +75,10 @@ class Motion {
         return pos_two;
     }
 
+    @RunsIn(CALLER)
     public String toString() {
-        return new String("MOTION of " + getAircraft().toString() + " from " + getFirstPosition().toString() + " to "
-                + getSecondPosition().toString());
+        return "MOTION of " + getAircraft().toString() + " from " + getFirstPosition().toString() + " to "
+                + getSecondPosition().toString();
     }
 
     /**
