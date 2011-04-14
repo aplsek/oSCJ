@@ -71,9 +71,7 @@ public class ManagedThread implements
 		return null;
 	}
 
-    @Override
     @SCJAllowed(SUPPORT)
     public void run() {
-        
     }
 }
