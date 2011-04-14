@@ -24,9 +24,8 @@ package javax.safetycritical;
 import static javax.safetycritical.annotate.Level.LEVEL_2;
 
 import javax.safetycritical.annotate.SCJAllowed;
-import javax.safetycritical.annotate.SCJRestricted;
 		
 
 @SCJAllowed
-public interface Schedulable extends Runnable {
+public interface Schedulable extends SCJRunnable {
 }

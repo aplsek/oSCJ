@@ -1,6 +1,7 @@
 package javax.safetycritical;
 
 import static javax.safetycritical.annotate.Level.LEVEL_2;
+import static javax.safetycritical.annotate.Level.SUPPORT;
 // import javax.safetycritical.annotate.BlockFree;
 
 import javax.realtime.PriorityParameters;
