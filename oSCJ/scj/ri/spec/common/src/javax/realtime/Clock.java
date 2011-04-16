@@ -52,7 +52,7 @@ public abstract class Clock {
 			//return VMSupport.getCurrentTime();
 			return VMSupport.getCurrentTimePrecise();
 		}
-
+		
 		static long getResolutionNanos() {
 			return resolution.toNanos();
 		}
@@ -210,6 +210,15 @@ public abstract class Clock {
 	@SCJRestricted(maySelfSuspend = false, mayAllocate = false)
 	public abstract AbsoluteTime getTime(AbsoluteTime time);
 
+	
+	@SCJAllowed
+	@SCJRestricted(maySelfSuspend = false)
+	public AbsoluteTime getTimePrecise() {
+	    // DUMMY implementation, override in case you want to use this method.
+	    // specially needed for FijiVM running on the board.
+	    return null;
+	}
+	
 	 /**
 	   * Returns true if and only if this Clock is able to trigger the
 	   * execution of time-driven activities. Some user-defined clocks may
