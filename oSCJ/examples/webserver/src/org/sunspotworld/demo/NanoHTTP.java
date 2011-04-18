@@ -2,7 +2,7 @@ package org.sunspotworld.demo;
 
 import java.io.*;
 import java.util.*;
-import com.sun.squawk.util.StringTokenizer;
+//import com.sun.squawk.util.StringTokenizer;
 
 /**
  * A simple, tiny, nicely embeddable HTTP 1.0 server in Java

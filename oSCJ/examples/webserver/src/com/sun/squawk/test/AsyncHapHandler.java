@@ -8,8 +8,6 @@ import javax.safetycritical.AperiodicEventHandler;
 import javax.safetycritical.ManagedAutonomousHappening;
 import javax.safetycritical.StorageParameters;
 
-import com.sun.squawk.BackingStore;
-
 /**
  * The asynchronous handler for POSIX SIGQUIT. When receiving signal, disable
  * printers, print the backing store tree, and count down to terminate the
@@ -27,7 +25,7 @@ public class AsyncHapHandler extends AperiodicEventHandler {
 
     public AsyncHapHandler(PriorityParameters priority, AperiodicParameters aperiod,
             StorageParameters storage, long initMemSize) {
-        super(priority, aperiod, storage, initMemSize);
+        super(priority, aperiod, storage);
         new AsyncHappening(this).register();
     }
 

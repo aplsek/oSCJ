@@ -5,9 +5,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.microedition.io.StreamConnection;
+import javax.realtime.PeriodicParameters;
+import javax.realtime.PriorityParameters;
 import javax.realtime.RealtimeThread;
+import javax.realtime.RelativeTime;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.PeriodicEventHandler;
+import javax.safetycritical.StorageParameters;
 
 //import com.sun.squawk.BackingStore;
 import com.sun.squawk.test.Config;
@@ -21,8 +25,15 @@ public class WorkerThread extends PeriodicEventHandler {
     WorkerThread next;
 
     WorkerThread(WebServer server, SynchronizedSocket notifier) {
-        super(Config.priority, Config.period, Config.storage, Config.initPrivateSize, "Worker-"
+        super(Config.priority, Config.period, Config.storage, "Worker-"
                 + workerCounter++);
+       /* 
+        super(new PriorityParameters(Config.priority),
+                new PeriodicParameters(new RelativeTime(0, 0), new RelativeTime(
+                        Config.period, 0)),
+                        new StorageParameters(Config.storage, 1000L, 1000L),
+                        "Worker-" + workerCounter++);
+        */
         this.server = server;
         this.notifier = notifier;
     }
