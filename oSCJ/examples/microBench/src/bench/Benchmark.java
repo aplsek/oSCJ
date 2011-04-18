@@ -12,7 +12,6 @@ public class Benchmark {
 
 	static public int              recordedRuns                 = 0;
 
-
 	public Benchmark() {
 	}
 	

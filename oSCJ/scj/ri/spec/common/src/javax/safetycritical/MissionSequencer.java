@@ -114,7 +114,7 @@ public abstract class MissionSequencer extends BoundAsyncEventHandler {
     }
 
     @SCJAllowed(INFRASTRUCTURE)
-    public void handleAsyncEvent() {
+    public final void handleAsyncEvent() {
         _mission = getNextMission();
         while (_mission != null) {
             _wrapper.setMission(_mission);
