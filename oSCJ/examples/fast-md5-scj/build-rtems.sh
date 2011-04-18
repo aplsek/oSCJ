@@ -29,7 +29,7 @@ rm -rf list
 # 
 
 # COMPILE FIJI
-$FIJI_HOME/bin/fivmc -o md5-rtems $FIJIFLAGS $SCJFLAGS $RTEMSFLAGS md5.jar 
+$FIJI_HOME/bin/fivmc -o md5-rtems --scj-safelet md5scj.MD5SCJ $FIJIFLAGS $SCJFLAGS $RTEMSFLAGS md5.jar 
 
 
 echo "compilation completed"
