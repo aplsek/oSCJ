@@ -29,7 +29,7 @@ rm -rf list
 # 
 
 # COMPILE FIJI
-$FIJI_HOME/bin/fivmc -o minicdx-rtems $FIJIFLAGS $RTEMSFLAGS $SCJFLAGS minicdx.jar
+$FIJI_HOME/bin/fivmc -o minicdx-rtems --scj-safelet cdx.Level0Safelet $FIJIFLAGS $RTEMSFLAGS $SCJFLAGS minicdx.jar
 	
 	
 # RUN:	
