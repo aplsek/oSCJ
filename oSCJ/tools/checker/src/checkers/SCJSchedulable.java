@@ -1,6 +1,5 @@
 package checkers;
 
-import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
@@ -28,7 +27,7 @@ public enum SCJSchedulable {
             Types types) {
 
         for (SCJSchedulable sm : SCJSchedulable.values()) {
-            if (sm == null || sm.equals(DEFAULT))
+            if (sm == null || sm == DEFAULT)
                 continue;
             TypeMirror schedulable = Utils.getTypeMirror(elements, sm.clazz);
             if (types.isSubtype(m, schedulable))

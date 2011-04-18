@@ -1,6 +1,5 @@
 package checkers;
 
-import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeMirror;
 import javax.safetycritical.annotate.Scope;
@@ -108,5 +107,5 @@ public class SCJVisitor<R, P> extends SourceVisitor<R, P> {
      * DEBUG : this is just useful...
      * @param str
      */
-    void pln(String str) {System.out.println("\t"+ str);}
+    protected void pln(String str) {System.out.println("\t"+ str);}
 }

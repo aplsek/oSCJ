@@ -64,7 +64,7 @@ public class Level0Safelet extends CyclicExecutive {
 
     @SCJAllowed(SUPPORT)
     public void tearDown() {
-       // dumpResults();
+        dumpResults();
     }
 
     @SCJAllowed(SUPPORT)
@@ -106,7 +106,7 @@ public class Level0Safelet extends CyclicExecutive {
         return Constants.PERSISTENT_DETECTOR_SCOPE_SIZE;
     }
     
-    /*
+    
     public static void dumpResults() {
         
         String space = " ";
@@ -162,5 +162,5 @@ public class Level0Safelet extends CyclicExecutive {
         }
         
         //BenchMem.dumpMemoryUsage();
-    }*/
+    }
 }

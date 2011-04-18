@@ -6,8 +6,8 @@ set -x
 
 
 FIJI_HOME="../../../../"
-SCJFLAGS="--scj --scj-scope-backing 13500k --g-def-immortal-mem 10430k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
-FIJIFLAGS="--max-threads 5 --more-opt --uniprocessor"  # -v 1
+SCJFLAGS="--scj --scj-scope-backing 13500k --g-def-immortal-mem 10430k --pollcheck-mode none"   #700 scope, 500 imm
+FIJIFLAGS="--max-threads 3 --more-opt --uniprocessor"  # -v 1
 RTEMSFLAGS="--target sparc-rtems4.9"
 
 # rebuild SCJ.jar                                                                                  
@@ -29,11 +29,11 @@ rm -rf list
 # 
 
 # COMPILE FIJI
-$FIJI_HOME/bin/fivmc -o minicdx-rtems $FIJIFLAGS $RTEMSFLAGS $SCJFLAGS minicdx.jar
+$FIJI_HOME/bin/fivmc -o minicdx-rtems-scope-checks $FIJIFLAGS $RTEMSFLAGS $SCJFLAGS minicdx.jar
 	
 	
 # RUN:	
-sparc-rtems4.9-run minicdx-rtems | tee output-rtems.cap
+sparc-rtems4.9-run minicdx-rtems-scope-checks | tee output-rtems.cap
 
 
 

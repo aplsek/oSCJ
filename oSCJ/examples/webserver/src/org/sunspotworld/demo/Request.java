@@ -1,8 +1,13 @@
 package org.sunspotworld.demo;
 
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * HTTP request.
  */
+@SCJAllowed(value=LEVEL_1, members=true)
 public class Request {
     
     public Request(String method, String uri) {

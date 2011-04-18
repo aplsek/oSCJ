@@ -1,8 +1,13 @@
 package org.sunspotworld.demo;
 
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+
+import javax.safetycritical.annotate.SCJAllowed;
+
 /**
  * Interface defining an Application for the NanoHTTP server.
  */
+@SCJAllowed(value=LEVEL_1, members=true)
 public interface WebApplication {
 
     /**

@@ -1,5 +1,10 @@
 package org.sunspotworld.demo;
 
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+
+import javax.safetycritical.annotate.SCJAllowed;
+
+@SCJAllowed(value=LEVEL_1, members=true)
 public class AppListServer implements WebApplication {
 
     private String myText;

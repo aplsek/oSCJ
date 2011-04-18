@@ -1,21 +1,29 @@
 package org.sunspotworld.demo;
 
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Scope.CALLER;
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.microedition.io.StreamConnection;
-import javax.realtime.PeriodicParameters;
-import javax.realtime.PriorityParameters;
 import javax.realtime.RealtimeThread;
-import javax.realtime.RelativeTime;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.PeriodicEventHandler;
-import javax.safetycritical.StorageParameters;
+import javax.safetycritical.SCJRunnable;
+import javax.safetycritical.annotate.DefineScope;
+import javax.safetycritical.annotate.RunsIn;
+import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.Scope;
 
-//import com.sun.squawk.BackingStore;
 import com.sun.squawk.test.Config;
 
+@Scope(IMMORTAL)
+@SCJAllowed(value=LEVEL_1, members=true)
+@DefineScope(name="WorkerThread", parent=IMMORTAL)
 public class WorkerThread extends PeriodicEventHandler {
 
     private static int workerCounter = 0;
@@ -38,7 +46,12 @@ public class WorkerThread extends PeriodicEventHandler {
         this.notifier = notifier;
     }
 
+    @RunsIn("OneMission")
+    @SCJAllowed(SUPPORT)
     public void handleAsyncEvent() {
+        
+        @Scope("")
+        @DefineScope(name="WorkerThread", parent="")
         ManagedMemory mm = (ManagedMemory) RealtimeThread.getCurrentMemoryArea();
         while (true) {
             mm.enterPrivateMemory(Config.privateSize, session);
@@ -46,8 +59,11 @@ public class WorkerThread extends PeriodicEventHandler {
         }
     }
 
-    class HTTPSession implements Runnable {
+    @DefineScope(name="HTTPSession", parent="WorkerThread")
+    class HTTPSession implements SCJRunnable {
 
+        @RunsIn("HTTPSession")
+        @SCJAllowed(SUPPORT)
         public void run() {
             debug(getName() + " is running ...");
 
@@ -95,6 +111,7 @@ public class WorkerThread extends PeriodicEventHandler {
         }
     }
 
+    @RunsIn(CALLER)
     private static void debug(String s) {
         System.err.println(s);
     }

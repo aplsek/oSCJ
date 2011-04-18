@@ -79,14 +79,14 @@ public class SCJAllowedVisitor<R, P> extends SCJVisitor<R, P> {
         Level superLevel = getSuperTypeLevel(t);
 
         if (!isSCJAllowed(t)) {
-                if (superLevel != HIDDEN) {
-                    fail(ERR_BAD_SUBCLASS, node);
-                    debugIndentDecrement();
-                    return null;
-                } else if (!isEnclosingSCJAllowed(t.getEnclosingElement())) {
-                        debugIndentDecrement();
-                        return null;
-                }
+            if (superLevel != HIDDEN) {
+                fail(ERR_BAD_SUBCLASS, node);
+                debugIndentDecrement();
+                return null;
+            } else if (!isEnclosingSCJAllowed(t.getEnclosingElement())) {
+                debugIndentDecrement();
+                return null;
+            }
         }
 
         if (isEscaped(t.toString()) || escapeEnum(node)
@@ -231,8 +231,6 @@ public class SCJAllowedVisitor<R, P> extends SCJVisitor<R, P> {
         debugIndentDecrement();
         return r;
     }
-
-    void pln(String str) {System.out.println("\t" + str);}
 
     /**
      * A legal sequence of overrides is Level 1 (user code) ---> SUPPORT (scj
