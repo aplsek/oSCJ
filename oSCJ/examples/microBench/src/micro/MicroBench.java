@@ -98,11 +98,11 @@ public class MicroBench extends CyclicExecutive {
         	
         	
            long start = System.nanoTime();
-           BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+           //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
            //for (int i=0 ; i < Constants.MAX ; i++) {
         	   generate();
            //}
-           BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
+           //BenchMem.setMemUsage(RealtimeThread.getCurrentMemoryArea().memoryConsumed());
            long  end =   System.nanoTime();
            Benchmark.set(start, end);
            

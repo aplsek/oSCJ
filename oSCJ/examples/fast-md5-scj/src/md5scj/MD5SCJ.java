@@ -34,6 +34,7 @@ import edu.purdue.scj.VMSupport;
 
 import bench.Benchmark;
 import bench.Constants;
+import bench.NanoClock;
 
 public class MD5SCJ extends CyclicExecutive {
 
@@ -103,15 +104,14 @@ public class MD5SCJ extends CyclicExecutive {
 		}
 
 		/**
-		 * 
 		 * Testing Enter Private Memory
 		 * 
 		 */
 		public void handleAsyncEvent() {
 
-			long start = System.nanoTime();
+			long start = NanoClock.now();
 			doMD5work();
-			long end = System.nanoTime();
+			long end = NanoClock.now();
 			Benchmark.set(start, end);
 
 			if (count_-- == 0)
