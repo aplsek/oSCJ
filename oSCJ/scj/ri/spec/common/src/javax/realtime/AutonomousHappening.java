@@ -12,7 +12,7 @@
  *   GNU Lesser General Public License for more details.
  *
  *   You should have received a copy of the GNU Lesser General Public License
- *   along with oSCJ.  If not, see <http://www.gnu.org/licenses/>.
+ *   along with oSCJ.  If not, see <http: www.gnu.org/licenses/>.
  *
  *
  *   Copyright 2009, 2010 
@@ -26,33 +26,33 @@ import static javax.safetycritical.annotate.Level.LEVEL_1;
 /** TODO: implement it when necessary */
 @SCJAllowed(LEVEL_1)
 public class AutonomousHappening extends EventHappening {
-    //
-    // /**
-    // *
-    // */
-    // @SCJAllowed
-    // public AutonomousHappening() {
-    // };
-    //
-    // /**
-    // *
-    // */
-    // @SCJAllowed
-    // public AutonomousHappening(int id) {
-    // };
-    //
-    // /**
-    // *
-    // */
-    // @SCJAllowed
-    // public AutonomousHappening(int id, String name) {
-    // };
-    //
-    // /**
-    // *
-    // */
-    // @SCJAllowed
-    // public AutonomousHappening(String name) {
-    // };
+
+    /**
+      *
+      */
+    @SCJAllowed
+    public AutonomousHappening() {
+    };
+
+    /**
+      *
+      */
+    @SCJAllowed
+    public AutonomousHappening(int id) {
+    };
+
+    /**
+      *
+      */
+    @SCJAllowed
+    public AutonomousHappening(int id, String name) {
+    };
+
+    /**
+      *
+      */
+    @SCJAllowed
+    public AutonomousHappening(String name) {
+    };
 
 }
