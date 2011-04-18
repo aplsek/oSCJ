@@ -31,17 +31,29 @@
  */
 package com.sun.squawk.test;
 
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Phase.CLEANUP;
+import static javax.safetycritical.annotate.Phase.INITIALIZATION;
+
 import javax.safetycritical.MissionSequencer;
 import javax.safetycritical.Safelet;
+import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.Scope;
 
 //import com.sun.squawk.BackingStore;
 
+@SCJAllowed(value=LEVEL_1, members=true)
 public class MySafelet implements Safelet {
 
+    @SCJAllowed(SUPPORT)
     public MissionSequencer getSequencer() {
         return new MySequencer(Config.priority, Config.storage);
     }
 
+    @SCJAllowed(SUPPORT)
+    @SCJRestricted(INITIALIZATION)
     public void setUp() {
         System.out.println("[WebServer] Safelet setUp ... ");
         // This is NOT public API. Use it ONLY when you don't want to make your
@@ -50,6 +62,8 @@ public class MySafelet implements Safelet {
 //        BackingStore.disableScopeCheck();
     }
 
+    @SCJAllowed(SUPPORT)
+    @SCJRestricted(CLEANUP)
     public void tearDown() {
         System.out.println("[WebServer] Safelet tearDown ... ");
     }

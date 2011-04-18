@@ -1,11 +1,15 @@
 package com.sun.squawk.test;
 
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+
 import javax.realtime.AperiodicParameters;
 import javax.realtime.PeriodicParameters;
 import javax.realtime.PriorityParameters;
 import javax.realtime.RelativeTime;
 import javax.safetycritical.StorageParameters;
+import javax.safetycritical.annotate.SCJAllowed;
 
+@SCJAllowed(members=true)
 public class Config {
     public static boolean DEBUG = true;
 

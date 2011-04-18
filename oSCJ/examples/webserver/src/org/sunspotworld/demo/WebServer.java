@@ -8,13 +8,17 @@
  */
 package org.sunspotworld.demo;
 
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+
 import java.io.IOException;
 
 import javax.microedition.io.Connector;
 import javax.microedition.io.StreamConnectionNotifier;
+import javax.safetycritical.annotate.SCJAllowed;
 
 import com.sun.squawk.test.Config;
 
+@SCJAllowed(value=LEVEL_1, members=true)
 public class WebServer {
 
     NanoHTTP server;

@@ -1,12 +1,17 @@
 package org.sunspotworld.demo;
 
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+
 import java.io.*;
+
+import javax.safetycritical.annotate.SCJAllowed;
 
 
 /**
  * HTTP response.
  * Return one of these from serve().
  */
+@SCJAllowed(value=LEVEL_1, members=true)
 public class Response {
     
     /**

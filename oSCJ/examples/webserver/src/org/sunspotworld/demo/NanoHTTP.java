@@ -1,8 +1,12 @@
 package org.sunspotworld.demo;
 
+import static javax.safetycritical.annotate.Level.LEVEL_1;
+
 import java.io.*;
 import java.util.*;
 //import com.sun.squawk.util.StringTokenizer;
+
+import javax.safetycritical.annotate.SCJAllowed;
 
 /**
  * A simple, tiny, nicely embeddable HTTP 1.0 server in Java
@@ -28,6 +32,7 @@ import java.util.*;
  * See the end of the source file for distribution license (Modified BSD
  * licence)
  */
+@SCJAllowed(value=LEVEL_1, members=true)
 public class NanoHTTP {
     /*
      * private String connURL;
