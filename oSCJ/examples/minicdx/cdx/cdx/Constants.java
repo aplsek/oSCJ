@@ -50,9 +50,9 @@ public final class Constants {
     public static int           DETECTOR_PRIORITY                        = 9;                                       // DETECTOR_STARTUP_PRIORITY
                                                                                                                      // +
                                                                                                                      // 1;
-    public static long          PERSISTENT_DETECTOR_SCOPE_SIZE           = 260*1000; // v 245*1000   250     //5*1000*1000;
+    public static long          PERSISTENT_DETECTOR_SCOPE_SIZE           = 5*1000*1000; //260*1000; // v 245*1000   250     //5*1000*1000;
     public static long          DETECTOR_PERIOD                          = 50;
-    public static long          TRANSIENT_DETECTOR_SCOPE_SIZE            = 63*1000; //63  50     //5*1000*1000;
+    public static long          TRANSIENT_DETECTOR_SCOPE_SIZE            = 5*1000*1000;  //63*1000; //63  50     //5*1000*1000;
 
     public static int           MAX_FRAMES                               = 1000;
 

@@ -25,10 +25,12 @@ package cdx;
 import java.io.DataOutputStream;
 import javax.safetycritical.annotate.SCJAllowed;
 import workload.FrameBuffer;
+import workload.FrameBufferPLDI;
 import workload.WorkloadStar;
 import javax.safetycritical.annotate.Scope;
 import javax.safetycritical.annotate.RunsIn;
 import static javax.safetycritical.annotate.Scope.IMMORTAL;
+
 /**
  * This thread runs only during start-up to run other threads. It runs in immortal memory, is allocated in immortal
  * memory, and it's constructor runs in immortal memory. It is a singleton, allocation from the Main class Ales: this
@@ -92,9 +94,9 @@ public class ImmortalEntry implements Runnable {
         System.out.println("Detector: detector priority is " + Constants.DETECTOR_PRIORITY);
         System.out.println("Detector: detector period is " + Constants.DETECTOR_PERIOD);
 
-        //frameBuffer = new FrameBufferPLDI();
+        frameBuffer = new FrameBufferPLDI();
         
-        frameBuffer = new WorkloadStar();
+        //frameBuffer = new WorkloadStar();
         
         
         /* start the detector at rounded-up time, so that the measurements are not subject

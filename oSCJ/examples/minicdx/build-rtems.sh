@@ -6,8 +6,8 @@ set -x
 
 
 FIJI_HOME="../../../../"
-SCJFLAGS="--scj --scj-scope-backing 310k --g-def-immortal-mem 430k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
-FIJIFLAGS="--max-threads 5 --more-opt"  # -v 1
+SCJFLAGS="--scj --scj-scope-backing 13500k --g-def-immortal-mem 10430k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
+FIJIFLAGS="--max-threads 5 --more-opt --uniprocessor"  # -v 1
 RTEMSFLAGS="--target sparc-rtems4.9"
 
 # rebuild SCJ.jar                                                                                  
