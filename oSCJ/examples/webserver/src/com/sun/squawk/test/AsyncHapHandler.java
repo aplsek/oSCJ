@@ -23,7 +23,7 @@ import javax.safetycritical.annotate.Scope;
  */
 @Scope(">")
 @SCJAllowed(value=LEVEL_1, members=true)
-@DefineScope(name="?", parent=IMMORTAL)
+@DefineScope(name="??????", parent=IMMORTAL)
 public class AsyncHapHandler extends AperiodicEventHandler {
 
     static class AsyncHappening extends ManagedAutonomousHappening {
