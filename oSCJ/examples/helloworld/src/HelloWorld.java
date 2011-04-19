@@ -43,16 +43,16 @@ public class HelloWorld extends CyclicExecutive {
         super(null);
     }
 
-    public static void main(final String[] args) {
-        Safelet safelet = new HelloWorld();
-        safelet.setUp();
-        safelet.getSequencer().start();
-        safelet.tearDown();
-    }
+    //    public static void main(final String[] args) {
+    //    Safelet safelet = new HelloWorld();
+    //   safelet.setUp();
+    //   safelet.getSequencer().start();
+    //   safelet.tearDown();
+    // }
 
-    private static void writeln(String msg) {
+    // private static void writeln(String msg) {
 	// Terminal.getTerminal().writeln(msg);
-    }
+    // }
 
     public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) {
         CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
@@ -94,24 +94,24 @@ public class HelloWorld extends CyclicExecutive {
 
     
     
-    public class WordHandler extends PeriodicEventHandler {
+    // public class WordHandler extends PeriodicEventHandler {
 
-        private int count_;
+    //        private int count_;
  
-        private WordHandler(long psize, String name, int count) {
+    //  private WordHandler(long psize, String name, int count) {
             //super(null, null, null, psize, name);
-	    super(null, null, new StorageParameters(psize, 1000L , 1000L), name);
+    //	    super(null, null, new StorageParameters(psize, 1000L , 1000L), name);
 
-           count_ = count;
-        }
+    //     count_ = count;
+    //  }
 
-        /**
-         * 
-         * Testing Enter Private Memory
-         * 
-         */
-        public void handleAsyncEvent() {
-        	Terminal.getTerminal().write(getName());
+    //  /**
+    //   * 
+    //   * Testing Enter Private Memory
+    //   * 
+    //   */
+    //   public void handleAsyncEvent() {
+    //   	Terminal.getTerminal().write(getName());
 	    
 	    //System.out.println("HelloWorld test");
 
@@ -120,20 +120,20 @@ public class HelloWorld extends CyclicExecutive {
 		//
 		//System.out.println("Time is:" + t.getMilliseconds() + "ms ," + t.getNanoseconds());
 
-           if (count_-- == 0)
-               getCurrentMission().requestSequenceTermination();
-        }
+    //     if (count_-- == 0)
+    //          getCurrentMission().requestSequenceTermination();
+    //   }
 
         
         
-        public void cleanUp() {
-        }
+    //   public void cleanUp() {
+    //  }
 
     
-        public StorageParameters getThreadConfigurationParameters() {
-            return null;
-        }
-    }
+    //  public StorageParameters getThreadConfigurationParameters() {
+    //      return null;
+    //  }
+    // }
 
 
 
