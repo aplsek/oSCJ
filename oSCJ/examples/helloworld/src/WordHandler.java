@@ -15,41 +15,31 @@ import javax.safetycritical.Mission;
 
 public class WordHandler extends PeriodicEventHandler {
 
-    private int count_;
+	private int count_;
 
-    public WordHandler(long psize, String name, int count) {
-	//super(null, null, null, psize, name);                                                                                           
-	super(null, null, new StorageParameters(psize, 1000L , 1000L), name);
+	public WordHandler(long psize, String name, int count) {
 
-	count_ = count;
-    }
+		super(null, null, new StorageParameters(psize, 1000L, 1000L), name);
 
-    /**                                                                                                                                   
-     *                                                                                                                                    
-     * Testing Enter Private Memory                                                                                                       
-     *                                                                                                                                    
-     */
-    public void handleAsyncEvent() {
-	Terminal.getTerminal().write(getName());
+		count_ = count;
+	}
 
-	//System.out.println("HelloWorld test");                                                                                          
+	/**
+	 * 
+	 * Testing Enter Private Memory
+	 * 
+	 */
+	public void handleAsyncEvent() {
+		Terminal.getTerminal().write(getName());
 
-	//AbsoluteTime t = Clock.getRealtimeClock().getTime();                                                                        
-	//AbsoluteTime t = Clock.getRealtimeClock().getTimePrecise();                                                                 
-	//                                                                                                                            
-	//System.out.println("Time is:" + t.getMilliseconds() + "ms ," + t.getNanoseconds());                                         
+		if (count_-- == 0)
+			Mission.getCurrentMission().requestSequenceTermination();
+	}
 
-	if (count_-- == 0)
-	    Mission.getCurrentMission().requestSequenceTermination();
-    }
+	public void cleanUp() {
+	}
 
-
-
-    public void cleanUp() {
-    }
-
-
-    public StorageParameters getThreadConfigurationParameters() {
-	return null;
-    }
+	public StorageParameters getThreadConfigurationParameters() {
+		return null;
+	}
 }
