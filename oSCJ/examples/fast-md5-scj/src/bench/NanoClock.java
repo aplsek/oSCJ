@@ -27,8 +27,6 @@ import javax.realtime.Clock;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
-import micro.Constants;
-
 @SCJAllowed(members=true)
 public class NanoClock {
 
