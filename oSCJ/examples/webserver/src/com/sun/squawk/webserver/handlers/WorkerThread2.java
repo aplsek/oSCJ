@@ -11,10 +11,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.microedition.io.StreamConnection;
+import javax.realtime.PeriodicParameters;
+import javax.realtime.PriorityParameters;
 import javax.realtime.RealtimeThread;
+import javax.realtime.RelativeTime;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.SCJRunnable;
+import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
@@ -38,7 +42,12 @@ public class WorkerThread2 extends PeriodicEventHandler implements WorkerThread 
 
     @SCJRestricted(INITIALIZATION)
     public WorkerThread2(WebServer server, SynchronizedSocket notifier) {
-        super(Config.priority, Config.period, Config.storage, "Worker-"
+        super(new PriorityParameters(Thread.NORM_PRIORITY), 
+                new PeriodicParameters(new RelativeTime(Config.period_rel_0ms_0ns, 0), 
+                        new RelativeTime(Config.period_max,0)), 
+                new StorageParameters(Config.threadBackStoreSize, 0,
+                        Config.javaStackSize),
+                "Worker-"
                 + WorkerThreadConfig.workerCounter++);
        /* 
         super(new PriorityParameters(Config.priority),

@@ -1,6 +1,7 @@
 package org.sunspotworld.demo;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
 import java.io.*;
 import java.util.*;
@@ -8,6 +9,7 @@ import java.util.*;
 
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.Scope;
 import javax.safetycritical.io.SimpleInputStream;
 import javax.safetycritical.io.SimplePrintStream;
 
@@ -192,7 +194,7 @@ public class NanoHTTP {
                 Response response = found.serve(request);
                 sendResponse(outs, response);
             } else {
-                sendError(outs, HTTP_NOTFOUND, HTTP_NOTFOUND);
+                sendError(outs, HTTP_NOTFOUND, "404 Not Found");
             }
             pagesServed++;
         } catch (IllegalArgumentException iae) {
@@ -260,7 +262,7 @@ public class NanoHTTP {
     /**
      * Returns an error message as a HTTP response.
      */
-    private void sendError(OutputStream outs, String status, String msg)
+    private void sendError(OutputStream outs, @Scope(IMMORTAL) String status, String msg)
             throws IOException {
         sendResponse(outs, new Response(status, MIME_PLAINTEXT, msg));
     }
@@ -270,7 +272,7 @@ public class NanoHTTP {
      */
     private void sendResponse(OutputStream outs, Response response)
             throws IOException {
-        String status = response.status;
+        @Scope(IMMORTAL) String status = response.status;
         String mime = response.mimeType;
         Properties header = response.header;
         InputStream data = response.data;

@@ -46,7 +46,7 @@ public class AsyncHapHandler extends AperiodicEventHandler {
     public AsyncHapHandler(PriorityParameters priority, AperiodicParameters aperiod,
             StorageParameters storage, long initMemSize) {
         super(priority, aperiod, storage);
-        new AsyncHappening(this).register();
+        new AsyncHappening(this);
     }
 
     @RunsIn("AsyncHapHandler")

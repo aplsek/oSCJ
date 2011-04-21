@@ -9,6 +9,7 @@ import javax.safetycritical.Mission;
 import javax.safetycritical.SingleMissionSequencer;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.Scope;
 
@@ -20,6 +21,7 @@ public class MySequencer extends SingleMissionSequencer {
     private boolean first = true;
 
     @SCJAllowed(SUPPORT)
+    @RunsIn("MyMission")
     protected Mission getNextMission() {
         if (first) {
             first = false;

@@ -36,21 +36,26 @@ import static javax.safetycritical.annotate.Level.SUPPORT;
 import static javax.safetycritical.annotate.Phase.CLEANUP;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 
+import javax.realtime.PriorityParameters;
 import javax.safetycritical.MissionSequencer;
 import javax.safetycritical.Safelet;
+import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
-
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
 //import com.sun.squawk.BackingStore;
 
+@Scope(IMMORTAL)
 @SCJAllowed(value=LEVEL_1, members=true)
 public class MySafelet implements Safelet {
 
     @SCJAllowed(SUPPORT)
     @SCJRestricted(INITIALIZATION)
     public MissionSequencer getSequencer() {
-        return new MySequencer(Config.priority, Config.storage);
+        return new MySequencer(new PriorityParameters(Config.priority), 
+                new StorageParameters(Config.threadBackStoreSize, 0,
+                Config.javaStackSize));
     }
 
     @SCJAllowed(SUPPORT)

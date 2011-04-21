@@ -49,14 +49,14 @@ public class MyMission extends Mission {
             SynchronizedSocket notifier = new SynchronizedSocket(
                     (StreamConnectionNotifier) Connector.open("socket://:"
                             + port));
-            new WorkerThread1(server, notifier).register();
-            new WorkerThread2(server, notifier).register();
-            new WorkerThread3(server, notifier).register();
-            new WorkerThread4(server, notifier).register();
+            new WorkerThread1(server, notifier);
+            new WorkerThread2(server, notifier);
+            new WorkerThread3(server, notifier);
+            new WorkerThread4(server, notifier);
 
             // new AsyncHapHandler(Config.priority, Config.aperiod,
             // Config.storage,
-            // Config.initPrivateSize).register();
+            // Config.initPrivateSize);
         } catch (IOException e) {
             //System.err.println("Server initialization ");
             // e.printStackTrace();
