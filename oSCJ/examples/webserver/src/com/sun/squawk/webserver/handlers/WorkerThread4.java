@@ -27,7 +27,7 @@ import org.sunspotworld.demo.WebServer;
 import com.sun.squawk.webserver.Config;
 import com.sun.squawk.webserver.handlers.WorkerThread1.HTTPSession;
 
-@Scope(IMMORTAL)
+@Scope("MyMission")
 @SCJAllowed(value=LEVEL_1, members=true)
 @DefineScope(name="WorkerThread4", parent="MyMission")
 public class WorkerThread4 extends PeriodicEventHandler implements WorkerThread {
@@ -53,11 +53,11 @@ public class WorkerThread4 extends PeriodicEventHandler implements WorkerThread 
         this.notifier = notifier;
     }
 
-    @RunsIn("OneMission")
+    @RunsIn("WorkerThread4")
     @SCJAllowed(SUPPORT)
     public void handleAsyncEvent() {
         
-        @Scope("")
+        @Scope("MyMission")
         @DefineScope(name="WorkerThread4", parent="MyMission")
         ManagedMemory mm = (ManagedMemory) RealtimeThread.getCurrentMemoryArea();
         while (true) {
@@ -67,10 +67,10 @@ public class WorkerThread4 extends PeriodicEventHandler implements WorkerThread 
     }
     
     @SCJAllowed(value=LEVEL_1, members=true)
-    @DefineScope(name="HTTPSession", parent="WorkerThread4")
+    @DefineScope(name="HTTPSession4", parent="WorkerThread4")
     class HTTPSession implements SCJRunnable {
 
-        @RunsIn("HTTPSession")
+        @RunsIn("HTTPSession4")
         @SCJAllowed(SUPPORT)
         @SCJRestricted(maySelfSuspend = true)
         public void run() {

@@ -49,7 +49,7 @@ public class AsyncHapHandler extends AperiodicEventHandler {
         new AsyncHappening(this).register();
     }
 
-    @RunsIn("OneMission")
+    @RunsIn("AsyncHapHandler")
     @SCJAllowed(SUPPORT)
     public void handleAsyncEvent() {
         // This is NOT public API. Used only for debugging or for fun.
