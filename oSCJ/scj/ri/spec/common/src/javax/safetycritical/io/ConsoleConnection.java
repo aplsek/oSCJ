@@ -18,13 +18,11 @@ public class ConsoleConnection implements StreamConnection
   {
   }
 
-  @Override
   @SCJAllowed
   public void close() throws IOException
   {
   }
 
-  @Override
   @SCJAllowed
   public InputStream openInputStream()
     throws IOException
@@ -35,7 +33,6 @@ public class ConsoleConnection implements StreamConnection
   /* (non-Javadoc)
    * @see javax.microedition.io.OutputConnection#openOutputStream()
    */
-  @Override
   @SCJAllowed
   public OutputStream openOutputStream()
       throws IOException
