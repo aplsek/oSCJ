@@ -56,4 +56,8 @@ public class SimplePrintStream extends OutputStream
     throws IOException
   {
   }
+  
+  public void write(String str)
+{
+}
 }
