@@ -8,6 +8,8 @@ import java.util.*;
 
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.io.SimpleInputStream;
+import javax.safetycritical.io.SimplePrintStream;
 
 /**
  * A simple, tiny, nicely embeddable HTTP 1.0 server in Java
@@ -33,7 +35,7 @@ import javax.safetycritical.annotate.SCJRestricted;
  * See the end of the source file for distribution license (Modified BSD
  * licence)
  */
-@SCJAllowed(value=LEVEL_1, members=true)
+@SCJAllowed(value = LEVEL_1, members = true)
 public class NanoHTTP {
     /*
      * private String connURL;
@@ -47,14 +49,17 @@ public class NanoHTTP {
     /**
      * Some HTTP response status codes
      */
-    public static final String HTTP_OK = "200 OK", HTTP_REDIRECT = "301 Moved Permanently",
+    public static final String HTTP_OK = "200 OK",
+            HTTP_REDIRECT = "301 Moved Permanently",
             HTTP_FORBIDDEN = "403 Forbidden", HTTP_NOTFOUND = "404 Not Found",
-            HTTP_BADREQUEST = "400 Bad Request", HTTP_INTERNALERROR = "500 Internal Server Error",
+            HTTP_BADREQUEST = "400 Bad Request",
+            HTTP_INTERNALERROR = "500 Internal Server Error",
             HTTP_NOTIMPLEMENTED = "501 Not Implemented";
     /**
      * Common mime types for dynamic content
      */
-    public static final String MIME_PLAINTEXT = "text/plain", MIME_HTML = "text/html",
+    public static final String MIME_PLAINTEXT = "text/plain",
+            MIME_HTML = "text/html",
             MIME_DEFAULT_BINARY = "application/octet-stream";
     /**
      * Vector to store all registered Web Applications
@@ -74,17 +79,20 @@ public class NanoHTTP {
     }
 
     private void debugPrint(String uri, Properties header, Properties parms) {
-       // System.out.println("URI: '" + uri + "' ");
+        // System.out.println("URI: '" + uri + "' ");
 
-        Enumeration e = header.propertyNames();
-        while (e.hasMoreElements()) {
-            String value = (String) e.nextElement();
-         //   System.out.println("  HDR: '" + value + "' = '" + header.getProperty(value) + "'");
+        Set set = header.propertyNames();
+        Iterator e = set.iterator();
+        while (e.hasNext()) {
+            String value = (String) e.next();
+            // System.out.println("  HDR: '" + value + "' = '" +
+            // header.getProperty(value) + "'");
         }
-        e = parms.propertyNames();
-        while (e.hasMoreElements()) {
-            String value = (String) e.nextElement();
-            //System.out.println("  PRM: '" + value + "' = '" + parms.getProperty(value) + "'");
+        e = parms.propertyNames().iterator();
+        while (e.hasNext()) {
+            String value = (String) e.next();
+            // System.out.println("  PRM: '" + value + "' = '" +
+            // parms.getProperty(value) + "'");
         }
     }
 
@@ -92,7 +100,7 @@ public class NanoHTTP {
     // Socket & server code
     // ==================================================
     @SCJRestricted(maySelfSuspend = true)
-    private String readLine(Reader in) throws IOException {
+    private String readLine(SimpleInputStream in) throws IOException {
         StringBuilder res = new StringBuilder();
         int ch;
         while ((ch = in.read()) > 0) {
@@ -107,9 +115,10 @@ public class NanoHTTP {
     }
 
     @SCJRestricted(maySelfSuspend = true)
-    public void handleRequest(InputStream ins, OutputStream outs) throws IOException {
+    public void handleRequest(InputStream ins, OutputStream outs)
+            throws IOException {
         try {
-            Reader in = new InputStreamReader(ins);
+            SimpleInputStream in = new SimpleInputStream(ins);
 
             // Read the request line
             StringTokenizer st = new StringTokenizer(readLine(in));
@@ -149,7 +158,8 @@ public class NanoHTTP {
                 String line = readLine(in);
                 while (line.trim().length() > 0) {
                     int p = line.indexOf(':');
-                    request.header.put(line.substring(0, p).trim(), line.substring(p + 1).trim());
+                    request.header.put(line.substring(0, p).trim(), line
+                            .substring(p + 1).trim());
                     line = readLine(in);
                 }
             }
@@ -189,7 +199,7 @@ public class NanoHTTP {
             // sendError(outs, HTTP_BADREQUEST, iae.toString());
         } catch (Exception e) {
             debug("Handle request!");
-            //e.printStackTrace();
+            // e.printStackTrace();
             // sendError(outs, HTTP_INTERNALERROR,
             // "SERVER INTERNAL ERROR: Exception: " + e.toString());
         }
@@ -210,7 +220,8 @@ public class NanoHTTP {
                     sb.append(' ');
                     break;
                 case '%':
-                    sb.append((char) Integer.parseInt(str.substring(i + 1, i + 3), 16));
+                    sb.append((char) Integer.parseInt(
+                            str.substring(i + 1, i + 3), 16));
                     i += 2;
                     break;
                 default:
@@ -220,7 +231,8 @@ public class NanoHTTP {
             }
             return sb.toString();
         } catch (Exception e) {
-            throw new IllegalArgumentException("BAD REQUEST: Bad percent-encoding.");
+            throw new IllegalArgumentException(
+                    "BAD REQUEST: Bad percent-encoding.");
         }
     }
 
@@ -248,14 +260,16 @@ public class NanoHTTP {
     /**
      * Returns an error message as a HTTP response.
      */
-    private void sendError(OutputStream outs, String status, String msg) throws IOException {
+    private void sendError(OutputStream outs, String status, String msg)
+            throws IOException {
         sendResponse(outs, new Response(status, MIME_PLAINTEXT, msg));
     }
 
     /**
      * Sends given response to the socket.
      */
-    private void sendResponse(OutputStream outs, Response response) throws IOException {
+    private void sendResponse(OutputStream outs, Response response)
+            throws IOException {
         String status = response.status;
         String mime = response.mimeType;
         Properties header = response.header;
@@ -265,7 +279,7 @@ public class NanoHTTP {
         if (status == null) {
             throw new Error("sendResponse(): Status can't be null.");
         }
-        Writer out = new OutputStreamWriter(outs);
+        SimplePrintStream out = new SimplePrintStream(outs);
         out.write("HTTP/1.0 " + status + " \r\n");
 
         if (contentLength >= 0) {
@@ -277,9 +291,10 @@ public class NanoHTTP {
             // "Date" ) == null )
             // pw.print( "Date: " + gmtFrmt.format( new Date()) + "\r\n");
         }
-        Enumeration e = header.keys();
-        while (e.hasMoreElements()) {
-            String key = (String) e.nextElement();
+
+        Iterator e = header.keySet().iterator();
+        while (e.hasNext()) {
+            String key = (String) e.next();
             String value = header.getProperty(key);
             out.write(key + ": " + value + "\r\n");
         }
@@ -305,7 +320,7 @@ public class NanoHTTP {
      * Class representing a web application. Stores the URI prefix and the
      * associated handler.
      */
-    @SCJAllowed(value=LEVEL_1, members=true)
+    @SCJAllowed(value = LEVEL_1, members = true)
     private final class Application {
 
         private String uriPrefix;
@@ -349,6 +364,6 @@ public class NanoHTTP {
     }
 
     private static void debug(String s) {
-       // System.out.println(s);
+        // System.out.println(s);
     }
 }

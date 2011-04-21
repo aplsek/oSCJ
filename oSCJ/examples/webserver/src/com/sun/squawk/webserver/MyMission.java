@@ -58,7 +58,7 @@ public class MyMission extends Mission {
             // Config.storage,
             // Config.initPrivateSize).register();
         } catch (IOException e) {
-            System.err.println("Server initialization ");
+            //System.err.println("Server initialization ");
             // e.printStackTrace();
         }
     }
