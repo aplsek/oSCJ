@@ -12,11 +12,11 @@ import javax.safetycritical.annotate.SCJAllowed;
 public class SynchronizedSocket {
     StreamConnectionNotifier notifier;
 
-    SynchronizedSocket(StreamConnectionNotifier notifier) {
+    public SynchronizedSocket(StreamConnectionNotifier notifier) {
         this.notifier = notifier;
     }
 
-    synchronized StreamConnection acceptAndOpen(String who) throws IOException {
+    public synchronized StreamConnection acceptAndOpen(String who) throws IOException {
 //        System.err.print(who);
 //        System.err.println(" is listenning ...");
         StreamConnection ret = notifier.acceptAndOpen();

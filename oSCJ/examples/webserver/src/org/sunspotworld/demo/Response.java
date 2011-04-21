@@ -5,7 +5,8 @@ import static javax.safetycritical.annotate.Level.LEVEL_1;
 import java.io.*;
 
 import javax.safetycritical.annotate.SCJAllowed;
-
+import javax.safetycritical.annotate.Scope;
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
 /**
  * HTTP response.
@@ -24,7 +25,7 @@ public class Response {
     /**
      * Basic constructor.
      */
-    public Response( String status, String mimeType, InputStream data ) {
+    public Response(@Scope(IMMORTAL) String status, String mimeType, InputStream data ) {
         this.status = status;
         this.mimeType = mimeType;
         this.data = data;
@@ -33,7 +34,7 @@ public class Response {
     /**
      * Basic constructor. Use when content length is known.
      */
-    public Response( String status, String mimeType, InputStream data, int contentLength ) {
+    public Response(@Scope(IMMORTAL) String status, String mimeType, InputStream data, int contentLength ) {
         this.status = status;
         this.mimeType = mimeType;
         this.data = data;
@@ -44,7 +45,7 @@ public class Response {
      * Convenience method that makes an InputStream out of
      * given text.
      */
-    public Response( String status, String mimeType, String txt ) {
+    public Response(@Scope(IMMORTAL) String status, String mimeType, String txt ) {
         this(status, mimeType, new ByteArrayInputStream(txt.getBytes()), txt.length());
     }
 
@@ -58,7 +59,7 @@ public class Response {
     /**
      * HTTP status code after processing, e.g. "200 OK", HTTP_OK
      */
-    public String status;
+    @Scope(IMMORTAL) public String status;
     
     /**
      * MIME type of content, e.g. "text/html"
