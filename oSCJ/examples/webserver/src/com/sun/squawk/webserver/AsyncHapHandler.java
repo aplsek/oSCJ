@@ -1,7 +1,8 @@
-package com.sun.squawk.test;
+package com.sun.squawk.webserver;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
 import javax.realtime.AperiodicParameters;
@@ -14,6 +15,7 @@ import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
 /**
@@ -21,12 +23,18 @@ import javax.safetycritical.annotate.Scope;
  * printers, print the backing store tree, and count down to terminate the
  * program.
  */
-@Scope(">")
+@Scope("IMMORTAL")
 @SCJAllowed(value=LEVEL_1, members=true)
-@DefineScope(name="??????", parent=IMMORTAL)
+@DefineScope(name="AsyncHapHandler", parent=IMMORTAL)
 public class AsyncHapHandler extends AperiodicEventHandler {
 
+    
+    // XXX/TODO: this class is not used!!!s
+    
+    @SCJAllowed(value=LEVEL_1, members=true)
     static class AsyncHappening extends ManagedAutonomousHappening {
+       
+        @SCJRestricted(INITIALIZATION)
         public AsyncHappening(AperiodicEventHandler handler) {
             super(Config.SIGQUIT);
             AsyncEvent event = new AperiodicEvent(handler);
@@ -34,6 +42,7 @@ public class AsyncHapHandler extends AperiodicEventHandler {
         }
     }
 
+    @SCJRestricted(INITIALIZATION)
     public AsyncHapHandler(PriorityParameters priority, AperiodicParameters aperiod,
             StorageParameters storage, long initMemSize) {
         super(priority, aperiod, storage);

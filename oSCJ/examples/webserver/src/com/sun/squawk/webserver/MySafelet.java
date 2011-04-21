@@ -29,7 +29,7 @@
  * date: Sep 11, 2006 
  * updated: Jul 10, 2008
  */
-package com.sun.squawk.test;
+package com.sun.squawk.webserver;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 import static javax.safetycritical.annotate.Level.SUPPORT;
@@ -48,6 +48,7 @@ import javax.safetycritical.annotate.Scope;
 public class MySafelet implements Safelet {
 
     @SCJAllowed(SUPPORT)
+    @SCJRestricted(INITIALIZATION)
     public MissionSequencer getSequencer() {
         return new MySequencer(Config.priority, Config.storage);
     }

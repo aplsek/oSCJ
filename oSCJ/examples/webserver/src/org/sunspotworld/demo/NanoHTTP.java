@@ -7,6 +7,7 @@ import java.util.*;
 //import com.sun.squawk.util.StringTokenizer;
 
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 
 /**
  * A simple, tiny, nicely embeddable HTTP 1.0 server in Java
@@ -73,25 +74,26 @@ public class NanoHTTP {
     }
 
     private void debugPrint(String uri, Properties header, Properties parms) {
-        System.out.println("URI: '" + uri + "' ");
+       // System.out.println("URI: '" + uri + "' ");
 
         Enumeration e = header.propertyNames();
         while (e.hasMoreElements()) {
             String value = (String) e.nextElement();
-            System.out.println("  HDR: '" + value + "' = '" + header.getProperty(value) + "'");
+         //   System.out.println("  HDR: '" + value + "' = '" + header.getProperty(value) + "'");
         }
         e = parms.propertyNames();
         while (e.hasMoreElements()) {
             String value = (String) e.nextElement();
-            System.out.println("  PRM: '" + value + "' = '" + parms.getProperty(value) + "'");
+            //System.out.println("  PRM: '" + value + "' = '" + parms.getProperty(value) + "'");
         }
     }
 
     // ==================================================
     // Socket & server code
     // ==================================================
+    @SCJRestricted(maySelfSuspend = true)
     private String readLine(Reader in) throws IOException {
-        StringBuffer res = new StringBuffer();
+        StringBuilder res = new StringBuilder();
         int ch;
         while ((ch = in.read()) > 0) {
             if (ch == '\n') {
@@ -104,6 +106,7 @@ public class NanoHTTP {
         return res.toString();
     }
 
+    @SCJRestricted(maySelfSuspend = true)
     public void handleRequest(InputStream ins, OutputStream outs) throws IOException {
         try {
             Reader in = new InputStreamReader(ins);
@@ -186,7 +189,7 @@ public class NanoHTTP {
             // sendError(outs, HTTP_BADREQUEST, iae.toString());
         } catch (Exception e) {
             debug("Handle request!");
-            e.printStackTrace();
+            //e.printStackTrace();
             // sendError(outs, HTTP_INTERNALERROR,
             // "SERVER INTERNAL ERROR: Exception: " + e.toString());
         }
@@ -196,9 +199,10 @@ public class NanoHTTP {
      * Decodes the percent encoding scheme. <br/>
      * For example: "an+example%20string" -> "an example string"
      */
+    @SCJRestricted(maySelfSuspend = true)
     private String decodePercent(String str) throws IllegalArgumentException {
         try {
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             for (int i = 0; i < str.length(); i++) {
                 char c = str.charAt(i);
                 switch (c) {
@@ -225,6 +229,7 @@ public class NanoHTTP {
      * "name=Jack%20Daniels&pass=Single%20Malt" ) and adds them to given
      * Properties.
      */
+    @SCJRestricted(maySelfSuspend = true)
     private void decodeParms(String parms, Properties p) {
         if (parms == null) {
             return;
@@ -300,6 +305,7 @@ public class NanoHTTP {
      * Class representing a web application. Stores the URI prefix and the
      * associated handler.
      */
+    @SCJAllowed(value=LEVEL_1, members=true)
     private final class Application {
 
         private String uriPrefix;
@@ -343,6 +349,6 @@ public class NanoHTTP {
     }
 
     private static void debug(String s) {
-        System.out.println(s);
+       // System.out.println(s);
     }
 }

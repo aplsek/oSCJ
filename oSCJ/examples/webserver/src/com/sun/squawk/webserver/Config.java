@@ -1,4 +1,4 @@
-package com.sun.squawk.test;
+package com.sun.squawk.webserver;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 
@@ -9,7 +9,7 @@ import javax.realtime.RelativeTime;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.SCJAllowed;
 
-@SCJAllowed(members=true)
+@SCJAllowed(value=LEVEL_1, members=true)
 public class Config {
     public static boolean DEBUG = true;
 

@@ -1,7 +1,8 @@
-package org.sunspotworld.demo;
+package com.sun.squawk.webserver.handlers;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import static javax.safetycritical.annotate.Scope.CALLER;
 import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
@@ -17,24 +18,28 @@ import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
-import com.sun.squawk.test.Config;
+import org.sunspotworld.demo.SynchronizedSocket;
+import org.sunspotworld.demo.WebServer;
+
+import com.sun.squawk.webserver.Config;
 
 @Scope(IMMORTAL)
 @SCJAllowed(value=LEVEL_1, members=true)
-@DefineScope(name="WorkerThread", parent=IMMORTAL)
-public class WorkerThread extends PeriodicEventHandler {
+@DefineScope(name="WorkerThread2", parent="MyMission")
+public class WorkerThread2 extends PeriodicEventHandler implements WorkerThread {
 
-    private static int workerCounter = 0;
     WebServer server;
     SynchronizedSocket notifier;
     HTTPSession session = new HTTPSession();
-    WorkerThread next;
+    WorkerThread2 next;
 
-    WorkerThread(WebServer server, SynchronizedSocket notifier) {
+    @SCJRestricted(INITIALIZATION)
+    public WorkerThread2(WebServer server, SynchronizedSocket notifier) {
         super(Config.priority, Config.period, Config.storage, "Worker-"
-                + workerCounter++);
+                + WorkerThreadConfig.workerCounter++);
        /* 
         super(new PriorityParameters(Config.priority),
                 new PeriodicParameters(new RelativeTime(0, 0), new RelativeTime(
@@ -51,7 +56,7 @@ public class WorkerThread extends PeriodicEventHandler {
     public void handleAsyncEvent() {
         
         @Scope("")
-        @DefineScope(name="WorkerThread", parent="")
+        @DefineScope(name="WorkerThread2", parent="")
         ManagedMemory mm = (ManagedMemory) RealtimeThread.getCurrentMemoryArea();
         while (true) {
             mm.enterPrivateMemory(Config.privateSize, session);
@@ -59,11 +64,13 @@ public class WorkerThread extends PeriodicEventHandler {
         }
     }
 
-    @DefineScope(name="HTTPSession", parent="WorkerThread")
+    @SCJAllowed(value=LEVEL_1, members=true)
+    @DefineScope(name="HTTPSession", parent="WorkerThread2")
     class HTTPSession implements SCJRunnable {
 
         @RunsIn("HTTPSession")
         @SCJAllowed(SUPPORT)
+        @SCJRestricted(maySelfSuspend = true)
         public void run() {
             debug(getName() + " is running ...");
 
@@ -72,7 +79,7 @@ public class WorkerThread extends PeriodicEventHandler {
                 conn = notifier.acceptAndOpen(getName());
             } catch (IOException e) {
                 debug("Error in accept:");
-                e.printStackTrace();
+                //e.printStackTrace();
             }
 
             InputStream is;
@@ -96,14 +103,14 @@ public class WorkerThread extends PeriodicEventHandler {
                 os.close();
             } catch (IOException e) {
                 debug("Closing connection!");
-                e.printStackTrace();
+                //e.printStackTrace();
             }
             try {
                 conn.close();
                 server.openConnections--;
             } catch (IOException ioe) {
                 debug("Error in closing connection!");
-                ioe.printStackTrace();
+                //ioe.printStackTrace();
             }
 
 //            if (Config.DEBUG)
@@ -113,6 +120,6 @@ public class WorkerThread extends PeriodicEventHandler {
 
     @RunsIn(CALLER)
     private static void debug(String s) {
-        System.err.println(s);
+        //System.err.println(s);
     }
 }

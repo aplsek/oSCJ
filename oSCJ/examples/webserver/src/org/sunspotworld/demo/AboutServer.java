@@ -8,6 +8,7 @@ package org.sunspotworld.demo;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 
 @SCJAllowed(value=LEVEL_1, members=true)
 public class AboutServer implements WebApplication {
@@ -18,8 +19,9 @@ public class AboutServer implements WebApplication {
         this.myText = myText;
     }
 
+    @SCJRestricted(maySelfSuspend = true)
     public Response serve(Request request) {
-        StringBuffer res = new StringBuffer();
+        StringBuilder res = new StringBuilder();
         res.append("<html>\n<head><title>" + myText + "</title></head>\n");
         res.append("<body>\n<font face=\"arial narrow\" color=\"000000\">\n");
         res.append("<h1><font face=\"arial\" color=\"5382a1\">About This Web Server</font></h1>");

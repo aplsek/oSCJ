@@ -1,4 +1,4 @@
-package com.sun.squawk.test;
+package com.sun.squawk.webserver;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 import static javax.safetycritical.annotate.Level.SUPPORT;
@@ -12,9 +12,9 @@ import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.Scope;
 
-@Scope(">")
+@Scope(IMMORTAL)
 @SCJAllowed(value=LEVEL_1, members=true)
-@DefineScope(name="??????", parent=IMMORTAL)
+@DefineScope(name="MyMission", parent=IMMORTAL)
 public class MySequencer extends SingleMissionSequencer {
 
     private boolean first = true;
