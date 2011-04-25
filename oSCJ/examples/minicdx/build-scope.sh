@@ -5,7 +5,7 @@ set -x
 
 
 FIJI_HOME="../../../../"
-SCJFLAGS="--scj --scj-scope-backing 15000k --g-def-immortal-mem 12330k --g-scope-checks no --pollcheck-mode none"   #700 scope, 500 imm
+SCJFLAGS="--scj --scj-scope-backing 1500k --g-def-immortal-mem 2330k --g-scope-checks yes --pollcheck-mode none"   #700 scope, 500 imm
 FIJIFLAGS="--max-threads 3 --more-opt"  # -v 1
 
 # rebuild SCJ.jar                 
@@ -13,9 +13,6 @@ SCJ="../../scj/ri"
 CWD=`pwd`
 cd $SCJ && make scj.jar && cd $CWD
 
-# CLEAN-UP
-rm -rf build
-mkdir build
 
 # COMPILE & JAR
 find ./cdx -name *.java > list
@@ -27,7 +24,7 @@ rm -rf list
 # 
 
 # COMPILE FIJI
-$FIJI_HOME/bin/fivmc -o minicdx --scj-safelet cdx.Level0Safelet $FIJIFLAGS $SCJFLAGS minicdx.jar
+$FIJI_HOME/bin/fivmc -o minicdx-scope --scj-safelet cdx.Level0Safelet $FIJIFLAGS $SCJFLAGS minicdx.jar
 	
 	
 # RUN:	
