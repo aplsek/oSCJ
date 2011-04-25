@@ -10,6 +10,7 @@ import static javax.safetycritical.annotate.Level.LEVEL_1;
 import java.io.*;
 import javax.microedition.io.*;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 
 /**
  * 
@@ -21,11 +22,12 @@ public class FileServer implements WebApplication {
     public FileServer() {
     }
 
+    @SCJRestricted(maySelfSuspend = true)
     public Response serve(Request request) {
         try {
             StreamConnection conn = null;
             InputStream is = null;
-            StringBuffer res = new StringBuffer();
+            StringBuilder res = new StringBuilder();
             String fileName = request.uri;
             if (fileName.indexOf("/") == 0) {
                 fileName = fileName.substring(1);
@@ -51,7 +53,7 @@ public class FileServer implements WebApplication {
             }
 
         } catch (IOException ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
             return new Response(NanoHTTP.HTTP_INTERNALERROR, NanoHTTP.MIME_PLAINTEXT, ex.toString());
         }
     }

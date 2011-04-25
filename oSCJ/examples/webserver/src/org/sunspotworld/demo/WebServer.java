@@ -12,16 +12,12 @@ import static javax.safetycritical.annotate.Level.LEVEL_1;
 
 import java.io.IOException;
 
-import javax.microedition.io.Connector;
-import javax.microedition.io.StreamConnectionNotifier;
 import javax.safetycritical.annotate.SCJAllowed;
-
-import com.sun.squawk.test.Config;
 
 @SCJAllowed(value=LEVEL_1, members=true)
 public class WebServer {
 
-    NanoHTTP server;
+    public NanoHTTP server;
     public int openConnections;
     private int port;
 
@@ -32,12 +28,5 @@ public class WebServer {
         server.addApplication("/about", new AboutServer("iPod Touch"));
         server.addApplication("/stats", new VMStatsServer("iPod Touch"));
         server.addApplication("/files", new FileServer());
-    }
-
-    public void initialize() throws IOException {
-        SynchronizedSocket notifier = new SynchronizedSocket((StreamConnectionNotifier) Connector
-                .open("socket://:" + port));
-        for (int i = 0; i < Config.threadPoolSize; i++)
-            new WorkerThread(this, notifier).register();
     }
 }

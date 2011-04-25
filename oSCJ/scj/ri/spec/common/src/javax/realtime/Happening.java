@@ -22,7 +22,10 @@
 package javax.realtime;
 
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
+
 import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 
 /**
  * 
@@ -84,6 +87,7 @@ public abstract class Happening {
     /**
 	  *
 	 */
+    @SCJRestricted(INITIALIZATION)
     public final void register() {
     }
 
