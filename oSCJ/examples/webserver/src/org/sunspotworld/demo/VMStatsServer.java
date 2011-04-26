@@ -11,8 +11,6 @@ import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
-//import com.sun.squawk.VM;
-
 /**
  *
  * @author dw29446
