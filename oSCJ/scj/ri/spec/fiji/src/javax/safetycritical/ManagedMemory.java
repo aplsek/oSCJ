@@ -194,7 +194,7 @@ public abstract class ManagedMemory extends LTMemory {
 	 */
 	@RunsIn(CALLER)
 	@SCJAllowed
-	public static boolean allocInSame(@Scope(UNKNOWN) Object obj1, @Scope(UNKNOWN) Object obj2) {
+	public static boolean allocatedInSame(@Scope(UNKNOWN) Object obj1, @Scope(UNKNOWN) Object obj2) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -209,7 +209,7 @@ public abstract class ManagedMemory extends LTMemory {
 	 */
 	@RunsIn(CALLER)
 	@SCJAllowed
-	public static boolean allocInParent(@Scope(UNKNOWN) Object obj1, @Scope(UNKNOWN) Object obj2) {
+	public static boolean allocatedInParent(@Scope(UNKNOWN) Object obj1, @Scope(UNKNOWN) Object obj2) {
 		// TODO Auto-generated method stub
 		return false;
 	}

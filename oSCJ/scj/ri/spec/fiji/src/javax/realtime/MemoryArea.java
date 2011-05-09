@@ -127,7 +127,7 @@ public abstract class MemoryArea implements AllocationContext {
 
 	@SCJAllowed
 	@RunsIn(CALLER)
-	public static Object newArrayInArea(@Scope(UNKNOWN) Object object, Class clazz, int size)
+	public Object newArrayInArea(@Scope(UNKNOWN) Object object, Class clazz, int size)
 			throws IllegalAccessException {
 		return getMemoryArea(object).newArray(clazz, size);
 	}
