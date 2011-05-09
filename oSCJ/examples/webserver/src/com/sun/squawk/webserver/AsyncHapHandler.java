@@ -27,7 +27,6 @@ import javax.safetycritical.annotate.Scope;
 @SCJAllowed(value=LEVEL_1, members=true)
 @DefineScope(name="AsyncHapHandler", parent=IMMORTAL)
 public class AsyncHapHandler extends AperiodicEventHandler {
-
     
     // XXX/TODO: this class is not used!!!s
     
