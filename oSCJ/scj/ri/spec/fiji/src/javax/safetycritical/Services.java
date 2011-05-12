@@ -132,7 +132,7 @@ public class Services {
 	/**
 	 * Busy wait spinning loop.
 	 * Parameter if delay is a RelativeTime type then it represents 
-	 * the number of millisec- onds and nanoseconds to spin. 
+	 * the number of milliseconds and nanoseconds to spin. 
 	 * If it is an AbsoluteTime type then delay is the absolute time at which the spin finishes. If delay is time in the past, the method returns imme- diately.
 	 * @param delay
 	 */
