@@ -13,7 +13,7 @@ import javax.safetycritical.annotate.SCJRestricted;
 
 @SCJAllowed(LEVEL_2)
 public class ManagedThread implements
-		ManagedSchedulable, SCJRunnable {
+		ManagedSchedulable {
     
     NoHeapRealtimeThread nhrt;
     

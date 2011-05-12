@@ -165,10 +165,24 @@ public abstract class ManagedMemory extends LTMemory {
 
 	}
 
+	/**
+	 * This method requires that the "this" argument reside in a scope that encloses the scope of the "logic" argument.
+	 * 
+	 * @param logic
+	 */
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
 	@RunsIn(CALLER)
-	public void executeInArea(@Scope(UNKNOWN) SCJRunnable logic) { }
+	public void executeInArea(@Scope(UNKNOWN) SCJRunnable logic) { 
+	    // TODO: use the executeInArea implementation from the MemoryArea
+	    if (logic == null)
+            throw new IllegalArgumentException("null logic not permitted");
+        RealtimeThread thread = RealtimeThread.currentRealtimeThread();
+        
+        //TODO: fix this method:
+        //execInAreaImpl(thread, logic);
+        System.err.println("[SCJ] ManagedMemory.executeInArea() is not implemented yet.");
+	}
 
 	/**
 	 *
