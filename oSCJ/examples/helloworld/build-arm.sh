@@ -39,5 +39,5 @@ CLASS=`find $HELLO_BUILD -name "*.class" `
 echo $CLASS
 
 
-$FIJI_HOME/bin/fivmc -o hello-arm --scj-safelet $SAFELET  $SCJFLAGS  $FIJIFLAGS $CLASS
+$FIJI_HOME/bin/fivmc -o hello-arm --scj-safelet $SAFELET $TARGET  $SCJFLAGS  $FIJIFLAGS $CLASS
 
