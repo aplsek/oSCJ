@@ -39,31 +39,76 @@ public class RawMemoryHandler extends PeriodicEventHandler {
 		//String input = "/dev/ttyS2";
 		String input = "./input";
 
-		int fd = RawMemoryAccess.open(input, 0, 6322);
-		if (fd < 0 ) {
-		    System.out.println("RAW: ERROR: " + fd);
-		    Mission.getCurrentMission().requestSequenceTermination();
-		    return;
-		} else
-		    System.out.println("RAW: OK!!, value:" + fd);
 
-		//RawMemoryAccess.mmap(0,4,0,0,fd,0);
-
-		byte b = 'h';
-		byte end = '\n';
-		RawMemoryAccess.writeByte(fd,b);
-		RawMemoryAccess.writeByte(fd,b);
-		RawMemoryAccess.writeByte(fd,b);
-		RawMemoryAccess.writeByte(fd,b);
-		RawMemoryAccess.writeByte(fd,end);
-
-		RawMemoryAccess.close(fd);
+        Terminal.getTerminal().write("[SCJ-APP] byte-char test\n");
 		
 		
-		//if (count_-- == 0)
-			Mission.getCurrentMission().requestSequenceTermination();
+
+        Terminal.getTerminal().write("------------\n\n");
+        
+        
+		Terminal.getTerminal().write("[SCJ-APP] Write2Serial test:\n");
+		writeToSerial(input);
+		
+		Terminal.getTerminal().write("[SCJ-APP] ReadFromSerial test:\n");
+        readFromSerial(input);
+        
+		
+		
+		
+		Mission.getCurrentMission().requestSequenceTermination();
 
 		Terminal.getTerminal().write("Handler: end\n");
+	}
+	
+	
+	private void writeToSerial(String input) {
+
+        int fd = RawMemoryAccess.open(input, 0, 6322);
+        if (fd < 0 ) {
+            System.out.println("RAW: ERROR: " + fd);
+            Mission.getCurrentMission().requestSequenceTermination();
+            return;
+        } else
+            System.out.println("RAW: OK!!, value:" + fd);
+
+
+        byte b = 'h';
+        byte end = '\n';
+        RawMemoryAccess.writeByte(fd,b);
+        b= 'e';
+        RawMemoryAccess.writeByte(fd,b);
+        b = 'l';
+        RawMemoryAccess.writeByte(fd,b);
+        RawMemoryAccess.writeByte(fd,b);
+        b = 'o';
+        RawMemoryAccess.writeByte(fd,b);
+        RawMemoryAccess.writeByte(fd,end);
+    
+        RawMemoryAccess.close(fd);        
+	}
+	
+	private void readFromSerial(String input) {
+
+        int fd = RawMemoryAccess.open(input, 0, 6322);
+        if (fd < 0 ) {
+            System.out.println("RAW: ERROR: " + fd);
+            Mission.getCurrentMission().requestSequenceTermination();
+            return;
+        } else
+            System.out.println("RAW: OK!!, value:" + fd);
+
+        byte b = RawMemoryAccess.readByte(fd);
+        while(b > 0) {
+            char c = (char) b;
+            Terminal.getTerminal().write("Raw READ:"+b);
+            Terminal.getTerminal().write("  , (char):"+c + "\n");
+            b = RawMemoryAccess.readByte(fd);
+        }
+        
+      
+    
+        RawMemoryAccess.close(fd);        
 	}
 
 	public void cleanUp() {
