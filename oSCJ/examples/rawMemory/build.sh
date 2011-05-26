@@ -5,8 +5,8 @@ set -x
 
 
 FIJI_HOME="../../../../"
-SCJFLAGS="--scj --scj-scope-backing 3100k --g-def-immortal-mem 5000k --more-opt"   #700 scope, 500 imm
-FIJIFLAGS="--max-threads 3"  # -v 1
+SCJFLAGS="--scj --scj-scope-backing 3100k --g-def-immortal-mem 5000k"   #700 scope, 500 imm
+FIJIFLAGS="--max-threads 3 --no-inline --no-opt --no-c-opt --c-debug yes"  # -v 1
 
 # rebuild SCJ.jar
 SCJ="../../scj/ri"

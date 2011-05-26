@@ -40,18 +40,18 @@ public class RawMemoryHandler extends PeriodicEventHandler {
 		String input = "./input";
 
 
-        Terminal.getTerminal().write("[SCJ-APP] byte-char test\n");
+		Terminal.getTerminal().write("[SCJ-APP] byte-char test\n");
 		
 		
 
-        Terminal.getTerminal().write("------------\n\n");
+		Terminal.getTerminal().write("------------\n\n");
         
         
 		Terminal.getTerminal().write("[SCJ-APP] Write2Serial test:\n");
 		writeToSerial(input);
 		
 		Terminal.getTerminal().write("[SCJ-APP] ReadFromSerial test:\n");
-        readFromSerial(input);
+		readFromSerial(input);
         
 		
 		
