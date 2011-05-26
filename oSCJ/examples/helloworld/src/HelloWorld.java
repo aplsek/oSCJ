@@ -50,7 +50,7 @@ public class HelloWorld extends CyclicExecutive {
 	}
 
 	public void initialize() {
-		new WordHandler(100000, "HelloWorld TIMER.\n", 1);
+		new WordHandler(100000, "HelloWorld.\n", 1);
 	}
 
 	/**
@@ -64,13 +64,7 @@ public class HelloWorld extends CyclicExecutive {
 	}
 
 	public void setUp() {
-		Terminal.getTerminal().write("setUp Timer.\n");
-		System.out.println("Ok,setup, get time...");
-		AbsoluteTime t = Clock.getRealtimeClock().getTimePrecise();
-
-		System.out.println("Time is:" + t.getMilliseconds() + "ms ,"
-				+ t.getNanoseconds());
-
+	    	Terminal.getTerminal().write("setUp.\n");
 	}
 
 	public void tearDown() {
