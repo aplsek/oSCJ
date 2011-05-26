@@ -53,6 +53,7 @@ public class RawMemory {
 	/*@SCJAllowed(LEVEL_0)*/
 	public static final RawMemoryName IO_MEM_MAPPED = null;
 	
+
 	/**
 	 * 
 	 * Create (or find) an immortal instance of a class that implements 
