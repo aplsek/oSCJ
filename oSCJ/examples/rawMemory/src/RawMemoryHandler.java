@@ -16,11 +16,11 @@ import javax.safetycritical.Mission;
 import javax.realtime.RawMemoryAccess;
 
 
-public class WordHandler extends PeriodicEventHandler {
+public class RawMemoryHandler extends PeriodicEventHandler {
 
 	private int count_;
 
-	public WordHandler(long psize, String name, int count) {
+	public RawMemoryHandler(long psize, String name, int count) {
 
 		super(null, null, new StorageParameters(psize, 1000L, 1000L), name);
 
