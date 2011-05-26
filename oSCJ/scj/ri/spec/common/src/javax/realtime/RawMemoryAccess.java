@@ -71,12 +71,17 @@ public class RawMemoryAccess implements RawIntegralAccess {
     private long mappedSize;
     private final Object type;
 
+    
+    public static final int O_RDWR = 2;
+    
     @SCJAllowed(LEVEL_0)
     public static final RawMemoryName IO_ACCESS = null;
 
     @SCJAllowed(LEVEL_0)
     public static final RawMemoryName MEM_ACCESS = null;
 
+    
+    
     
     /**
      * Testing Raw Memory access.

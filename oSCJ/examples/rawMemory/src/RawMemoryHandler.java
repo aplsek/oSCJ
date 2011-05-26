@@ -64,39 +64,42 @@ public class RawMemoryHandler extends PeriodicEventHandler {
 	
 	private void writeToSerial(String input) {
 
-        int fd = RawMemoryAccess.open(input, 0, 6322);
+        int fd = RawMemoryAccess.open(input, RawMemoryAccess.O_RDWR, 6322);
         if (fd < 0 ) {
             System.out.println("RAW: ERROR: " + fd);
             Mission.getCurrentMission().requestSequenceTermination();
             return;
         } else
-            System.out.println("RAW: OK!!, value:" + fd);
+            Terminal.getTerminal().write("RAW Open-File: OK, value:" + fd);
 
-
+        // TODO: we should be testing the return value from the writeByte()
         byte b = 'h';
         byte end = '\n';
-        RawMemoryAccess.writeByte(fd,b);
+        int i = 0;
+        i += RawMemoryAccess.writeByte(fd,b);
         b= 'e';
-        RawMemoryAccess.writeByte(fd,b);
+        i += RawMemoryAccess.writeByte(fd,b);
         b = 'l';
-        RawMemoryAccess.writeByte(fd,b);
-        RawMemoryAccess.writeByte(fd,b);
+        i += RawMemoryAccess.writeByte(fd,b);
+        i += RawMemoryAccess.writeByte(fd,b);
         b = 'o';
-        RawMemoryAccess.writeByte(fd,b);
-        RawMemoryAccess.writeByte(fd,end);
+        i += RawMemoryAccess.writeByte(fd,b);
+        i += RawMemoryAccess.writeByte(fd,end);
     
+        Terminal.getTerminal().write("[SCJ] Wrote bytes:" + i);
+        
         RawMemoryAccess.close(fd);        
 	}
 	
 	private void readFromSerial(String input) {
 
-        int fd = RawMemoryAccess.open(input, 0, 6322);
+        int fd = RawMemoryAccess.open(input, RawMemoryAccess.O_RDWR, 6322);
         if (fd < 0 ) {
-            System.out.println("RAW: ERROR: " + fd);
+            Terminal.getTerminal().write("RAW: ERROR: " + fd);
             Mission.getCurrentMission().requestSequenceTermination();
             return;
         } else
-            System.out.println("RAW: OK!!, value:" + fd);
+            Terminal.getTerminal().write("RAW Open-File: OK, value: " + fd);
 
         byte b = RawMemoryAccess.readByte(fd);
         while(b > 0) {
