@@ -6,8 +6,8 @@ set -x
 
 FIJI_HOME="../../../../"
 TARGET="--target ARMv7"
-SCJFLAGS="--scj --scj-scope-backing 3100k --g-def-immortal-mem 5000k --more-opt"   #700 scope, 500 imm
-FIJIFLAGS="--max-threads 3"  # -v 1
+SCJFLAGS="--scj-L0 --scj-scope-backing 3100k --g-def-immortal-mem 5000k --more-opt"   #700 scope, 500 imm
+FIJIFLAGS="--max-threads 3 --no-inline --c-debug yes --pollcheck-mode none --g-scope-checks no"  # -v 1
 
 # rebuild SCJ.jar
 SCJ="../../scj/ri"
@@ -39,5 +39,6 @@ CLASS=`find $HELLO_BUILD -name "*.class" `
 echo $CLASS
 
 
-$FIJI_HOME/bin/fivmc -o hello-arm --scj-safelet $SAFELET $TARGET  $SCJFLAGS  $FIJIFLAGS $CLASS
+$FIJI_HOME/bin/fivmc -o hello-arm-scj --scj-safelet $SAFELET $TARGET  $SCJFLAGS  $FIJIFLAGS $CLASS
 
+scp hello-arm-scj root@192.168.0.2:~/ales/
