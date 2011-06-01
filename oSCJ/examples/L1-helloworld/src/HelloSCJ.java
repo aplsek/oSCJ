@@ -29,23 +29,20 @@ import edu.purdue.scj.utils.Utils;
 
 public class HelloSCJ extends Mission implements Safelet {
 
-	static SimplePrintStream out;
-
 	// From Mission
 	protected void initialize() {
 
 		OutputStream os = null;
 		try {
-		    //os = Connector.openOutputStream("console:");
-              		Connector a = Connector.newInstance();
+               		Connector a = Connector.newInstance();
                         os = a.openOutputStream("console:");
 		} catch (IOException e) {
 			throw new Error("No console available");
 		} catch (ConnectionNotFoundException e) {
 		}
-		out = new SimplePrintStream(os);
+		//out = new SimplePrintStream(os);
 
-		PeriodicEventHandler peh = new MyHandler(new PriorityParameters(11),
+		PeriodicEventHandler peh = new MyHandler(new SimplePrintStream(os), new PriorityParameters(11),
 				new PeriodicParameters(new RelativeTime(0, 0),
 						new RelativeTime(1000, 0)), new StorageParameters(
 						10000, 1000, 1000));

@@ -2,17 +2,17 @@ import javax.realtime.PeriodicParameters;
 import javax.realtime.PriorityParameters;
 import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.StorageParameters;
-
+import javax.safetycritical.io.SimplePrintStream;
 class MyHandler extends PeriodicEventHandler {
-	public MyHandler(PriorityParameters prio, PeriodicParameters peri, StorageParameters stor) 
+        public MyHandler(SimplePrintStream out, PriorityParameters prio, PeriodicParameters peri, StorageParameters stor) 
 	{super(prio, peri, stor);
-	//out = myout;
+	myout = out;
 	}
 	int cnt;
-	//	PrintStream out;
+		SimplePrintStream myout;
 			
 		public void handleAsyncEvent(){
-			HelloSCJ.out.println("Ping " + cnt);
+			myout.println("Ping " + cnt);
 			++cnt;
 			}
 		}
