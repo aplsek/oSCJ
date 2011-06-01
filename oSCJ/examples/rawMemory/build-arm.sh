@@ -39,6 +39,6 @@ CLASS=`find $HELLO_BUILD -name "*.class" `
 echo $CLASS
 
 
-$FIJI_HOME/bin/fivmc -o hello-arm-scj --scj-safelet $SAFELET $TARGET  $SCJFLAGS  $FIJIFLAGS $CLASS
+$FIJI_HOME/bin/fivmc -o serial-arm-scj --scj-safelet $SAFELET $TARGET  $SCJFLAGS  $FIJIFLAGS $CLASS
 
-scp hello-arm-scj root@192.168.0.2:~/ales/
+scp serial-arm-scj root@192.168.0.2:~/ales/

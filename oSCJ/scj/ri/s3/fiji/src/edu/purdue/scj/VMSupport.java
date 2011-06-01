@@ -196,6 +196,20 @@ public class VMSupport {
 	
     /* RawMemory Access */
 	
+    public static native int open(String filename, int flags, int mode);
+    
+    public static native void close(int address);
+    
+    public static native int readByte(int address);
+    
+    public static native int writeByte(int address, int b);
+    
+    public static native void mmap(int address, int len, int prot, int flags, int fd, int off);
+    
+    /* RawMemory Access - the original implementation*/
+    
+    
+    
     /**
      * Get the byte at the given address with an atomic load.
      * 

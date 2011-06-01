@@ -30,15 +30,40 @@ import static javax.safetycritical.annotate.Level.SUPPORT;
  * cre- ated (during the initialization phase). The binding is permanent. Thus,
  * the AsyncEvent- Handler constructors are hidden from public view in the SCJ
  * specification.
- *
- *
+ * 
+ * 
  * TODO: AEH here has a dedicated real-time thread, which does not follow the
  * spec. We do this for simplicity, but it is expected that bounding should be
  * done dynamically.
- *
+ * 
  * LEVEL: is defined at LEVEL 0 just because of the class structure
  * (PeriodicEventHandler and MissionSequencer extend this ) - other than this
  * class-hierarchy, AsynchEvents are used at LEVEL 1
+ * 
+ * 
+ * I would like to throw in > a request for a method that would solve most of my
+ * issues: 
+ *   on javax.safetycritical.AperiodicEventHandler: 
+ *     final public void release() {} 
+   which releases the handler. That method shall be interrupt safe.
+ * 
+ * Just read forward if you're
+ * interested in the interaction with > between SCJ and RTSJ. >
+ * ============================================== 
+ * > > On a SCJ on top of RTSJ
+ * the implementation of release() > is straightforward: > > Within the scj.AEH
+ * constructor create a private AsyncEvent > _myEvent and register the
+ * underlying RTSJ BAEH to that > event: 
+ *     _myEvent.addHandler(this); 
+ *     As events and handlers is a m:n mapping this > additional event 
+ *     for that handler is feasible. The > implementation of release is:
+    
+    final public void release() { 
+      _myEvent.fire(); 
+    }
+ * 
+ * 
+ * 
  */
 @SCJAllowed
 public class AsyncEventHandler extends AbstractAsyncEventHandler implements Schedulable {

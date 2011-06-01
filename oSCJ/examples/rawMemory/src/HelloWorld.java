@@ -50,7 +50,7 @@ public class HelloWorld extends CyclicExecutive {
 	}
 
 	public void initialize() {
-		new WordHandler(100000, "HelloWorld.\n", 1);
+		new RawMemoryHandler(100000, "HelloWorld\n", 1);
 	}
 
 	/**
@@ -64,8 +64,8 @@ public class HelloWorld extends CyclicExecutive {
 	}
 
 	public void setUp() {
-	    	Terminal.getTerminal().write("setUp.\n");
-	}
+	    Terminal.getTerminal().write("setUp.\n");
+     	}
 
 	public void tearDown() {
 		Terminal.getTerminal().write("teardown.\n");
