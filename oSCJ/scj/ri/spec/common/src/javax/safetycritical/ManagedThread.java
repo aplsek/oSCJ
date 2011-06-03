@@ -12,10 +12,9 @@ import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
 @SCJAllowed(LEVEL_2)
-public class ManagedThread implements
-		ManagedSchedulable {
+public class ManagedThread extends NoHeapRealtimeThread
+        implements ManagedSchedulable {
     
-    NoHeapRealtimeThread nhrt;
     
 	/**
 	 * Does not allow this to escape local variables. Creates a link from the
@@ -32,7 +31,7 @@ public class ManagedThread implements
 	@SCJAllowed(LEVEL_2)
 	@SCJRestricted(INITIALIZATION)
 	public ManagedThread(PriorityParameters priority, StorageParameters storage) {
-		//super(priority, (MemoryArea) null);
+		super(priority, (MemoryArea) null);
 	}
 
 	/**
@@ -50,7 +49,7 @@ public class ManagedThread implements
 	@SCJRestricted(INITIALIZATION)
 	public ManagedThread(PriorityParameters priority,
 			StorageParameters mem_info, Runnable logic) {
-		//super(priority, (MemoryArea) null); // super(schedule, null, null, area,
+		super(priority, (MemoryArea) null); // super(schedule, null, null, area,
 											// null, null);
 	}
 
@@ -70,8 +69,7 @@ public class ManagedThread implements
 	public StorageParameters getThreadConfigurationParameters() {
 		return null;
 	}
-
-    @SCJAllowed(SUPPORT)
-    public void run() {
-    }
+	
+	//@SCJAllowed(SUPPORT)
+    //public void run() { }
 }
