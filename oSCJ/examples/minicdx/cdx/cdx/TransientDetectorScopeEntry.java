@@ -31,10 +31,10 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.realtime.MemoryArea;
 import javax.safetycritical.ManagedMemory;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.DefineScope;
 import collision.Vector3d;
 
 /**
@@ -297,7 +297,7 @@ public class TransientDetectorScopeEntry /*implements SCJRunnable*/ {
      */
     @Scope("cdx.Level0Safelet")
     @SCJAllowed(members=true)
-    static class R implements SCJRunnable {
+    static class R implements Runnable {
         CallSign c;
         byte[] cs;
 
@@ -313,7 +313,10 @@ public class TransientDetectorScopeEntry /*implements SCJRunnable*/ {
     @RunsIn("cdx.CollisionDetectorHandler") @Scope("cdx.Level0Safelet")
     CallSign mkCallsignInPersistentScope(final byte[] cs) {
         try {
-            r.cs = (byte[]) MemoryArea.newArrayInArea(r, byte.class, cs.length);
+            @Scope("cdx.Level0Safelet")
+            @DefineScope(name="cdx.CollisionDetectorHandler",parent="cdx.Level0Safelet")
+            ManagedMemory mem = ManagedMemory.getCurrentManagedMemory();
+            r.cs = (byte[]) mem.newArrayInArea(r, byte.class, cs.length);
         } catch (IllegalAccessException e) {
             e.toString();
             // TODO: print error!
