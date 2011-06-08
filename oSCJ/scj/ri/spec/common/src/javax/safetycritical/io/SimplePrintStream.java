@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.RunsIn;
+import static javax.safetycritical.annotate.Scope.CALLER;
 
 /**
  * A version of {@link OutputStream} that can format {@link CharSequence}s
@@ -48,8 +50,10 @@ public class SimplePrintStream extends OutputStream
    */
   public synchronized void print(CharSequence sequence) {}
 
+  
   public void println() {}
 
+  @RunsIn(CALLER)
   public void println(CharSequence sequence) {}
 
   public void write(int b)

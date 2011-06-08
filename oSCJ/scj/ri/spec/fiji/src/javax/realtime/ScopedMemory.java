@@ -93,6 +93,7 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	}
 
 	@Override
+	@SCJAllowed
 	@RunsIn(CALLER)
 	public Object newArray(Class type, int number)
 			throws NegativeArraySizeException, IllegalAccessException {

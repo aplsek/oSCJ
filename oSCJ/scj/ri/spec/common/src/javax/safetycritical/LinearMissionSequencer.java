@@ -10,47 +10,41 @@ import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 
 /**
  * LinearMissionSequencer
- *
+ * 
  * @param <SpecificMission>
  */
 @SCJAllowed
-public class LinearMissionSequencer
-extends MissionSequencer
-{
+public class LinearMissionSequencer extends MissionSequencer {
     boolean returnedInitialMission;
 
     /**
-     * Throws IllegalStateException if invoked during initialization of
-     * a level-zero or level-one mission.
+     * Throws IllegalStateException if invoked during initialization of a
+     * level-zero or level-one mission.
      * 
-     * @param priority 
-     * @param storage 
-     * @param m 
+     * @param priority
+     * @param storage
+     * @param m
      */
     @SCJAllowed
     @SCJRestricted(value = INITIALIZATION, maySelfSuspend = false)
     public LinearMissionSequencer(PriorityParameters priority,
-            StorageParameters storage,
-            Mission m)
-    {
+            StorageParameters storage, Mission m) {
         super(priority, storage);
         returnedInitialMission = false;
     }
 
     /**
-     * Throws IllegalStateException if invoked during initialization of
-     * a level-zero or level-one mission.
+     * Throws IllegalStateException if invoked during initialization of a
+     * level-zero or level-one mission.
      * 
-     * @param priority 
-     * @param storage 
-     * @param missions 
+     * @param priority
+     * @param storage
+     * @param missions
      */
     @SCJAllowed
     @SCJRestricted(value = INITIALIZATION, maySelfSuspend = false)
     public LinearMissionSequencer(PriorityParameters priority,
-            StorageParameters storage,
-            Mission [] missions)
-    {
+            StorageParameters storage, Mission[] missions) {
         super(priority, storage);
         returnedInitialMission = false;
     }
@@ -59,11 +53,9 @@ extends MissionSequencer
      * @see javax.safetycritical.MissionSequencer#getNextMission()
      */
     @SCJAllowed(SUPPORT)
-    @SCJRestricted(value =  INITIALIZATION, maySelfSuspend = false)
+    @SCJRestricted(value = INITIALIZATION, maySelfSuspend = false)
     @Override
-    protected Mission getNextMission()
-    {
+    protected Mission getNextMission() {
         return null;
     }
 }
-

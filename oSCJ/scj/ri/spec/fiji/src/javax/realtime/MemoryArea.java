@@ -27,7 +27,6 @@ import static javax.safetycritical.annotate.Scope.UNKNOWN;
 
 import java.lang.reflect.Array;
 
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
