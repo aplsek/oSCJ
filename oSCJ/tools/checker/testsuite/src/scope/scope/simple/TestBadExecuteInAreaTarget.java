@@ -4,15 +4,15 @@ import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
 import javax.safetycritical.ManagedMemory;
-import javax.safetycritical.Mission;
 import javax.safetycritical.MissionSequencer;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
+import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
-@Scope("a")
+@SCJAllowed(members = true)
+@Scope(IMMORTAL)
 @DefineScope(name="a", parent=IMMORTAL)
 public abstract class TestBadExecuteInAreaTarget extends MissionSequencer {
 
@@ -20,18 +20,27 @@ public abstract class TestBadExecuteInAreaTarget extends MissionSequencer {
     public TestBadExecuteInAreaTarget() {super(null, null);}
 
     @Scope("c")
-    @DefineScope(name="c", parent="b")
-    static abstract class X extends MissionSequencer {
+    static abstract class X { }
+
+    @Scope("a")
+    @DefineScope(name="b", parent="a")
+    @SCJAllowed(members = true)
+    static abstract class MS extends MissionSequencer {
         @SCJRestricted(INITIALIZATION)
-        public X() {super(null, null);}
+        public MS() {super(null, null);}
+    }
+
+    @Scope("b")
+    @DefineScope(name="c", parent="b")
+    static abstract class MS2 extends MissionSequencer {
+        @SCJRestricted(INITIALIZATION)
+        public MS2() {super(null, null);}
 
     }
 
     @Scope("b")
-    @DefineScope(name="b", parent="a")
-    static abstract class Y extends MissionSequencer {
-        @SCJRestricted(INITIALIZATION)
-        public Y() {super(null, null);}
+    @SCJAllowed(members = true)
+    static abstract class Y {
 
         @DefineScope(name="a", parent=IMMORTAL)
         @Scope(IMMORTAL)
@@ -41,6 +50,7 @@ public abstract class TestBadExecuteInAreaTarget extends MissionSequencer {
         @Scope("b")
         ManagedMemory c;
 
+        @RunsIn("b")
         public void m() {
             Run r = new Run();
             a.executeInArea(r);
@@ -53,13 +63,15 @@ public abstract class TestBadExecuteInAreaTarget extends MissionSequencer {
     }
 
     @Scope("b")
-    static class Run implements SCJRunnable {
+    @SCJAllowed(members = true)
+    static class Run implements Runnable {
         @RunsIn("a")
         public void run() { }
     }
 
     @Scope("b")
-    static class Run2 implements SCJRunnable {
+    @SCJAllowed(members = true)
+    static class Run2 implements Runnable {
         @RunsIn("c")
         public void run() { }
     }

@@ -50,8 +50,6 @@ public class SCJVisitor<R, P> extends SourceVisitor<R, P> {
             "javax.safetycritical.Mission");
     protected final TypeMirror noHeapRealtimeThread = Utils.getTypeMirror(
             elements, "javax.realtime.NoHeapRealtimeThread");
-    protected final TypeMirror scjRunnable = Utils.getTypeMirror(
-            elements, "javax.safetycritical.SCJRunnable");
     protected final TypeMirror missionSequencer = Utils.getTypeMirror(
             elements, "javax.safetycritical.MissionSequencer");
     protected final TypeMirror cyclicExecutive = Utils.getTypeMirror(
@@ -62,6 +60,8 @@ public class SCJVisitor<R, P> extends SourceVisitor<R, P> {
 
     protected final TypeMirror runnable = Utils.getTypeMirror(
             elements, "java.lang.Runnable");
+    protected final TypeMirror managedThread = Utils.getTypeMirror(
+            elements, "javax.safetycritical.ManagedThread");
 
     protected boolean alwaysImplicitlyDefinesScope(TypeElement t) {
         TypeMirror m = t.asType();
@@ -75,15 +75,29 @@ public class SCJVisitor<R, P> extends SourceVisitor<R, P> {
 
     protected boolean implicitlyDefinesScope(TypeElement t) {
         TypeMirror m = t.asType();
-        return alwaysImplicitlyDefinesScope(t)
-                || types.isSubtype(m, runnable)
-                || types.isSubtype(m, scjRunnable);
+        return alwaysImplicitlyDefinesScope(t);
+    }
+
+    protected boolean isSubtypeOfRunnable(TypeElement t) {
+        TypeMirror m = t.asType();
+        return types.isSubtype(m, runnable);
     }
 
     protected boolean isSchedulable(TypeElement t) {
         TypeMirror m = t.asType();
         return types.isSubtype(m, schedulable);
     }
+
+    protected boolean isMissionSequencer(TypeElement t) {
+        TypeMirror m = t.asType();
+        return types.isSubtype(m, missionSequencer);
+    }
+
+    protected boolean isCyclicExecutive(TypeElement t) {
+        TypeMirror m = t.asType();
+        return types.isSubtype(m, cyclicExecutive);
+    }
+
 
     protected boolean needsDefineScope(TypeElement t) {
         return implementsAllocationContext(t);
@@ -105,9 +119,20 @@ public class SCJVisitor<R, P> extends SourceVisitor<R, P> {
         return types.isSameType(t.asType(), runnable);
     }
 
+    protected boolean isRunnableSubtype(TypeElement t) {
+        return types.isSubtype(t.asType(), runnable);
+    }
+
+    protected boolean isManagedThread(TypeElement t) {
+        return types.isSubtype(t.asType(), managedThread);
+    }
+
     protected static ScopeInfo scopeOfClassDefinition(TypeElement t) {
         Scope scopeAnn = t.getAnnotation(Scope.class);
         return scopeAnn != null ? new ScopeInfo(scopeAnn.value())
                 : ScopeInfo.CALLER;
     }
+
+    //DEBUG:
+    protected void pln(String str) {System.out.println("\t" + str);}
 }

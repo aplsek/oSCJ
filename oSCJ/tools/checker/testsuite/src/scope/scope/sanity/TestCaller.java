@@ -15,7 +15,7 @@ import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
-@Scope("D")
+@Scope(IMMORTAL)
 @DefineScope(name = "D", parent = IMMORTAL)
 @SCJAllowed(members = true)
 public class TestCaller extends MissionSequencer {
@@ -28,18 +28,16 @@ public class TestCaller extends MissionSequencer {
 
     // called periodically by the GPS Driver
     @RunsIn(CALLER)
-    synchronized void updatePosition(@Scope(UNKNOWN) AbsoluteTime time_stamp) {
-        //## checkers.scope.ScopeChecker.ERR_BAD_METHOD_INVOKE
+    synchronized void updatePosition(@Scope(CALLER) AbsoluteTime time_stamp) {
         update_time.set(time_stamp);
 
-        //## checkers.scope.ScopeChecker.ERR_BAD_METHOD_INVOKE
         update_time.set(0, 0);
     }
 
     @Override
     @SCJAllowed(SUPPORT)
+    @RunsIn("D")
     protected Mission getNextMission() {
-        // TODO Auto-generated method stub
         return null;
     }
 }

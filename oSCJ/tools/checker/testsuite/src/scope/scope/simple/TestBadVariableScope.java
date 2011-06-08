@@ -6,9 +6,11 @@ import static javax.safetycritical.annotate.Scope.IMMORTAL;
 import javax.safetycritical.Mission;
 import javax.safetycritical.MissionSequencer;
 import javax.safetycritical.annotate.DefineScope;
+import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
+@SCJAllowed(members = true)
 public class TestBadVariableScope {
 
     @Scope(IMMORTAL)
@@ -20,10 +22,14 @@ public class TestBadVariableScope {
     }
 
     @Scope("a")
+    static class X {}
+
+
+    @Scope(IMMORTAL)
     @DefineScope(name="a", parent=IMMORTAL)
-    static abstract class X extends MissionSequencer {
+    static abstract class MS extends MissionSequencer {
 
         @SCJRestricted(INITIALIZATION)
-        public X() {super(null, null);}
+        public MS() {super(null, null);}
     }
 }

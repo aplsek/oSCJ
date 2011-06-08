@@ -9,16 +9,19 @@ import javax.safetycritical.Mission;
 import javax.safetycritical.MissionSequencer;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
+import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
+@SCJAllowed(members = true)
 @DefineScope(name="a", parent=IMMORTAL)
-@Scope("a")
+@Scope(IMMORTAL)
 public abstract class TestBadGetMemoryArea2 extends MissionSequencer {
 
     @SCJRestricted(INITIALIZATION)
     public TestBadGetMemoryArea2() {super(null, null);}
 
+    @SCJAllowed(members = true)
     @Scope("a")
     @DefineScope(name="b", parent="a")
     static abstract class X extends MissionSequencer {

@@ -138,61 +138,145 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
         debugIndent("> lhs : " + lhs.getScope());
         debugIndent("> rhs : " + rhs.getScope());
 
+        if (!lhs.equals(rhs) || lhs.isUnknown() || rhs.getRepresentedScope() != null)
+            checkAssignment(lhs, rhs, node);
         checkUpcast(node);
 
-        if (!lhs.equals(rhs) || lhs.isUnknown())
-            checkAssignment(lhs, rhs, node);
         debugIndentDecrement();
         return lhs;
     }
 
     private void checkUpcast(Tree node) {
-        pln("\n Check UPCAST: " + node);
 
-        AnnotatedTypeMirror castType = null;
-        AnnotatedTypeMirror exprType = null;
-
-        if (node.getKind() == Kind.ASSIGNMENT) {
+        if (node.getKind() == Kind.PRIMITIVE_TYPE) {
+            return;
+        } else if (node.getKind() == Kind.ASSIGNMENT) {
             AssignmentTree tree = (AssignmentTree) node;
-            castType = atypeFactory.getAnnotatedType(tree);
-            exprType = atypeFactory.getAnnotatedType(tree.getExpression());
+
+            TypeMirror cT = InternalUtils.typeOf(tree);
+            TypeMirror eT = InternalUtils.typeOf(tree.getExpression());
+
+            checkUpcastTypes(cT, eT, node);
+
         } else if (node.getKind() == Kind.VARIABLE) {
             VariableTree tree = (VariableTree) node;
-            castType = atypeFactory.getAnnotatedType(tree);
-            exprType = atypeFactory.getAnnotatedType(tree.getInitializer());
+
+            TypeMirror cT = InternalUtils.typeOf(tree);
+            TypeMirror eT = InternalUtils.typeOf(tree.getInitializer());
+
+            checkUpcastTypes(cT, eT, node);
+
         } else if (node.getKind() == Kind.TYPE_CAST) {
+
             TypeCastTree tree = (TypeCastTree) node;
-            castType = atypeFactory.getAnnotatedType(tree);
-            exprType = atypeFactory.getAnnotatedType(tree.getExpression());
+
+            TypeMirror cT = InternalUtils.typeOf(tree);
+            TypeMirror eT = InternalUtils.typeOf(tree.getExpression());
+            checkUpcastTypes(cT, eT, node);
+
+        } else if (node.getKind() == Kind.METHOD_INVOCATION) {
+            MethodInvocationTree tree = (MethodInvocationTree) node;
+
+            if (!Utils.isUserLevel(TreeUtils.elementFromUse(tree)))
+                return;
+
+            // executeInArea and enterPrivateMemory can upcast as they want:
+            switch (SCJMethod.fromMethod(TreeUtils.elementFromUse(tree),
+                    elements, types)) {
+            case ENTER_PRIVATE_MEMORY:
+            case EXECUTE_IN_AREA:
+                return;
+            default:
+                List<? extends VariableElement> params = TreeUtils
+                        .elementFromUse(tree).getParameters();
+                List<? extends ExpressionTree> args = tree.getArguments();
+
+                checkMethodArgsForUpcast(params, args, node);
+            }
+        } else if (node.getKind() == Kind.NEW_CLASS) {
+            List<? extends VariableElement> params = TreeUtils.elementFromUse(
+                    (NewClassTree) node).getParameters();
+            List<? extends ExpressionTree> args = ((NewClassTree) node)
+                    .getArguments();
+
+            checkMethodArgsForUpcast(params, args, node);
+
+        } else if (node.getKind() == Kind.NEW_ARRAY) {
+            // TODO:
+            throw new RuntimeException("Unexpected assignment AST node: "
+                    + node.getKind());
+        } else if (node.getKind() == Kind.RETURN) {
+            ReturnTree tree = (ReturnTree) node;
+
+            MethodTree enclosingMethod = TreeUtils
+                    .enclosingMethod(getCurrentPath());
+            ExecutableElement m = TreeUtils
+                    .elementFromDeclaration(enclosingMethod);
+
+            if (m.getReturnType().getKind().isPrimitive())
+                return;
+
+            TypeMirror cT = m.getReturnType();
+            TypeMirror eT = InternalUtils.typeOf(tree.getExpression());
+
+            checkUpcastTypes(cT, eT, node);
         } else
             throw new RuntimeException("Unexpected assignment AST node: "
                     + node.getKind());
 
-        // ignore "upcasting" to the same type
-        if (Utils.areSameType(exprType, castType)) {
-            pln("\t SAME :" + exprType  + "  == "  + castType);
+    }
+
+    private void checkMethodArgsForUpcast(
+            List<? extends VariableElement> params,
+            List<? extends ExpressionTree> args, Tree node) {
+        for (int i = 0; i < args.size(); i++) {
+            TypeMirror cT = params.get(i).asType();
+            TypeMirror eT = InternalUtils.typeOf(args.get(i));
+
+            checkUpcastTypes(cT, eT, node);
+        }
+    }
+
+    private void checkUpcastTypes(TypeMirror castType, TypeMirror exprType, Tree node) {
+
+        castType = Utils.getBaseType(castType);
+        exprType = Utils.getBaseType(exprType);
+
+        if (castType.getKind().isPrimitive())
             return;
+
+        if (castType.toString().equals(exprType.toString())) {
+            // ignore "upcasting" to the same type
+            // NOTE 1: this test is faster then calling "types.isSameType(exprType, castType))"
+            //   which was causing unncessary delays. SEe the ALTERNATIVE
+            // Note 2: this is actually only a heuristic, if this condition fails
+            //    we still check "isRunnable(castType)" which is what we need.
+            return;
+
+            // ALTERNATIVE
+            //if (types.isSameType(exprType, castType)) {
+            //    // ignore "upcasting" to the same type
+            //   return;
+            //}
         }
 
-        if (isRunnable(Utils.getTypeElement(castType.getUnderlyingType()))) {
-            pln("\t is RUNNABLE:" + castType);
-
-            if (hasRunsIn(exprType.getUnderlyingType().toString())) {
-                pln("\t rhs type:" + exprType);
-                pln("\t lhs type:" + castType);
-                fail(ERR_BAD_RUNNABLE_UPCAST, node, exprType.getUnderlyingType().toString(),
-                        castType.getUnderlyingType().toString());
+        if (isRunnable(Utils.getTypeElement(castType))) {
+            if (hasRunsIn(exprType.toString())) {
+                fail(ERR_BAD_RUNNABLE_UPCAST, node, exprType.toString(),
+                        castType.toString());
             }
         }
     }
 
     /**
-     * @return - true if the clazz's run() method has a @RunsIn annotation with a named scope.
+     * @return - true if the clazz's run() method has a @RunsIn annotation with
+     *         a named scope.
      */
     private boolean hasRunsIn(String clazz) {
         ScopeInfo runsIn = ctx.getMethodRunsIn(clazz, "run");
-        pln("\t runsIn:" + runsIn);
-        if (runsIn != null && !runsIn.isNull() && !runsIn.isCaller() && !runsIn.isThis())
+        // pln("\t runsIn:" + runsIn);
+        if (runsIn != null && !runsIn.isNull() && !runsIn.isCaller()
+                && !runsIn.isThis())
             return true;
         return false;
     }
@@ -241,8 +325,8 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
         varScopes.addVariableScope("this", scope);
 
         // TODO: assume defaults for inner classes?
-        Utils.debugPrintln("Seen class " + t.getQualifiedName() + ": @Scope("
-                + scope + ")");
+        debugIndent("Seen class " + t.getQualifiedName() + ": @Scope(" + scope
+                + ")");
 
         currentRunsIn = scope;
         super.visitClass(node, p);
@@ -355,8 +439,10 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
             // If we're visiting an identifer that's a class, then it's
             // probably being used in a static field member select.
             ret = ScopeInfo.IMMORTAL;
-        else
+        else {
+            // TODO: this should throw exception!!
             debugIndent("\t identifier scope [NO CASE]:" + null);
+        }
         debugIndentDecrement();
         return ret;
     }
@@ -386,12 +472,9 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
         if (node.getValue() == null) {
             ret = ScopeInfo.NULL;
         } else if (node.getValue() instanceof String) {
-            // TODO I foresee much sadness in this later on. Strings can't
-            // really interact between IMMORTAL and other scopes if it's not
-            // RunsIn(UNKNOWN).
+            // STRING LITERALS - instead of making them IMMORTAL, we inferer
+            // their scope to be the "current scope".
 
-            // TODO:
-            // ret = ScopeInfo.IMMORTAL;
             debugIndent("  string literal, currentScope: " + currentScope());
             ret = currentScope();
         }
@@ -497,6 +580,10 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
                     scope)))
                 fail(ERR_BAD_ALLOCATION_ARRAY, node, scope);
         }
+
+        // TODO: check upcast for new array
+        // checkUpcast(node);
+
         super.visitNewArray(node, p);
         debugIndentDecrement();
         return currentScope();
@@ -512,11 +599,15 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
         ExecutableElement ctorElement = TreeUtils.elementFromUse(node);
         ScopeInfo nodeClassScope = ctx.getClassScope(Utils
                 .getMethodClass(ctorElement));
+
         if (nodeClassScope != null && !currentScope().equals(nodeClassScope)
                 && !nodeClassScope.isCaller())
             // Can't call new unless the type has the same scope as the
             // current context
             fail(ERR_BAD_ALLOCATION, node, currentScope(), nodeClassScope);
+
+        checkUpcast(node);
+
         super.visitNewClass(node, p);
         debugIndentDecrement();
         return currentScope();
@@ -542,9 +633,13 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
         ScopeInfo returnScope = ctx.getMethodScope(m);
         ScopeInfo exprScope = node.getExpression().accept(this, p);
 
-        debugIndent("\t expected return scope is: " + returnScope);
-        debugIndent("\t actual return scope is:" + exprScope);
+        // debugIndent("\t expected return scope is: " + returnScope);
+        // debugIndent("\t actual return scope is:" + exprScope);
+
         checkReturnScope(exprScope, returnScope, node);
+
+        checkUpcast(node);
+
         debugIndentDecrement();
         return returnScope;
     }
@@ -569,8 +664,6 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
     @Override
     public ScopeInfo visitTypeCast(TypeCastTree node, P p) {
         debugIndentIncrement("visitTypeCast " + node);
-
-        pln("visitTypeCast :" + node);
 
         if (isPrimitiveExpression(node)) {
             debugIndentDecrement();
@@ -628,8 +721,8 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
 
         if (node.getInitializer() != null) {
             ScopeInfo rhs = node.getInitializer().accept(this, p);
-            checkUpcast(node);
             checkAssignment(lhs, rhs, node);
+            checkUpcast(node);
         }
 
         currentRunsIn = oldRunsIn;
@@ -812,8 +905,6 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
         return null;
     }
 
-
-
     private void checkLocalAssignment(ScopeInfo lhs, ScopeInfo rhs, Tree node) {
         if (lhs.isUnknown() || rhs.isNull())
             return;
@@ -837,8 +928,7 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
             MethodInvocationTree node) {
         ScopeInfo target = recvScope.getRepresentedScope();
         ExpressionTree arg = node.getArguments().get(1);
-        ScopeInfo argRunsIn = getRunsInFromSCJRunnable(arg);
-        // ScopeInfo runnableScope = getRunnnableScope(arg);
+        ScopeInfo argRunsIn = getRunsInFromRunnable(arg);
 
         if (!scopeTree.isParentOf(argRunsIn, currentScope()))
             fail(ERR_BAD_ENTER_PRIVATE_MEMORY_RUNS_IN_NO_MATCH, node,
@@ -847,7 +937,13 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
         if (!scopeTree.isParentOf(argRunsIn, target))
             fail(ERR_BAD_ENTER_PRIVATE_MEMORY_TARGET, node, argRunsIn, target);
 
-        // NOTE: uncomment this to enforce @Scope annotation on SCJRunnable
+        // pln("\n EPM");
+        // pln(" target:" + target);
+        // pln(" argRunsIn:" + argRunsIn);
+        // pln(" current:" + currentScope());
+
+        // NOTE: uncomment this to enforce @Scope annotation on the Runnable
+        // ScopeInfo runnableScope = getRunnnableScope(arg);
         // if (runnableScope.isCaller() || !runnableScope.equals(target))
         // fail(ERR_SCJ_RUNNABLE_BAD_SCOPE, node, argRunsIn, target);
     }
@@ -856,8 +952,7 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
             MethodInvocationTree node) {
         ScopeInfo target = recvScope.getRepresentedScope();
         ExpressionTree arg = node.getArguments().get(0);
-        ScopeInfo argRunsIn = getRunsInFromSCJRunnable(arg);
-        // ScopeInfo runnableScope = getRunnnableScope(arg);
+        ScopeInfo argRunsIn = getRunsInFromRunnable(arg);
 
         if (!scopeTree.isAncestorOf(currentScope(), target))
             // the executeInArea must target an Ancestor scope
@@ -867,7 +962,9 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
             // target and @RunsIn on runnable must be the same
             fail(ERR_BAD_EXECUTE_IN_AREA_RUNS_IN, node, target, argRunsIn);
 
-        // NOTE: uncomment this to enforce @Scope annotation on SCJRunnable
+        // NOTE: uncomment this to enforce @Scope annotation on Runnables used
+        // for executeInAre
+        // ScopeInfo runnableScope = getRunnnableScope(arg);
         // if (runnableScope.isCaller() ||
         // !runnableScope.equals(currentScope()))
         // fail(ERR_SCJ_RUNNABLE_BAD_SCOPE, node, argRunsIn, target);
@@ -923,10 +1020,6 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
         }
     }
 
-    void pln(String str) {
-        System.out.println("\t" + str);
-    }
-
     private ScopeInfo checkMethodInvocation(ExecutableElement m,
             ScopeInfo recvScope, List<ScopeInfo> argScopes,
             MethodInvocationTree node) {
@@ -945,9 +1038,6 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
         case EXECUTE_IN_AREA:
             if (isCallerContext(currentScope(), node))
                 checkExecuteInArea(recvScope, node);
-            return null;
-        case ENTER:
-            // this method cannot be invoked by user
             return null;
         case NEW_INSTANCE:
             return checkNewInstance(recvScope, node.getArguments().get(0), node);
@@ -981,9 +1071,12 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
 
     private void checkMethodParameters(ExecutableElement m,
             List<ScopeInfo> argScopes, MethodInvocationTree node) {
+
         List<ScopeInfo> paramScopes = ctx.getParameterScopes(m);
         for (int i = 0; i < paramScopes.size(); i++)
             checkLocalAssignment(paramScopes.get(i), argScopes.get(i), node);
+
+        checkUpcast(node);
     }
 
     /**
@@ -1100,13 +1193,18 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
 
     private ScopeInfo checkGetMemoryArea(ScopeInfo scope,
             MethodInvocationTree node) {
-        // TODO: CALLER is also illegal if it can't be made into a concrete
-        // scope name.
-        if (scope.isUnknown()) {
+
+        scope = concretize(scope);
+        if (scope.isUnknown() || scope.isCaller()) {
+            // CALLER is also illegal if it can't be made into a concrete
+            // scope name.
+
             fail(ERR_BAD_GET_MEMORY_AREA, node);
             return ScopeInfo.UNKNOWN;
         }
-        scope = concretize(scope);
+        if (scope.isImmortal())
+            return new ScopeInfo(ScopeInfo.IMMORTAL.toString(), ScopeInfo.IMMORTAL);
+
         ScopeInfo parent = scopeTree.getParent(scope);
 
         return new ScopeInfo(parent.getScope(), scope);
@@ -1179,7 +1277,7 @@ public class ScopeVisitor<P> extends SCJVisitor<ScopeInfo, P> {
      *            - the variable passed into the
      *            enterPrivateMemory/executeInArea call as parameter
      */
-    private ScopeInfo getRunsInFromSCJRunnable(ExpressionTree expressionTree) {
+    private ScopeInfo getRunsInFromRunnable(ExpressionTree expressionTree) {
         TypeMirror runnableType = InternalUtils.typeOf(expressionTree);
         TypeElement t = Utils.getTypeElement(runnableType);
         return ctx.getMethodRunsIn(t.getQualifiedName().toString(), "run");

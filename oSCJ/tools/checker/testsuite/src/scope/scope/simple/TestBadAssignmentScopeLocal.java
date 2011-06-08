@@ -6,20 +6,28 @@ import static javax.safetycritical.annotate.Scope.IMMORTAL;
 import javax.safetycritical.Mission;
 import javax.safetycritical.MissionSequencer;
 import javax.safetycritical.annotate.DefineScope;
+import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
+@SCJAllowed(members = true)
 public class TestBadAssignmentScopeLocal {
+
+    @SCJAllowed(members = true)
+    @Scope(IMMORTAL)
     @DefineScope(name="a", parent=IMMORTAL)
-    static abstract class X extends MissionSequencer {
+    static abstract class MS extends MissionSequencer {
 
         @SCJRestricted(INITIALIZATION)
-        public X() {super(null, null);}
+        public MS() {super(null, null);}
+    }
 
+    static class X {
         Y y1;
         @Scope(IMMORTAL) Y y2;
         static Y y3;
     }
+
     static class Y { }
 
     void foo(X x, Y y, @Scope(IMMORTAL) Y yImm) {

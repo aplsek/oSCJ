@@ -3,6 +3,7 @@ package scope.scopeRunsIn.sanity;
 import javax.realtime.PriorityParameters;
 
 import javax.safetycritical.ManagedThread;
+import javax.safetycritical.MissionSequencer;
 import javax.safetycritical.StorageParameters;
 
 import javax.safetycritical.annotate.DefineScope;
@@ -12,21 +13,37 @@ import javax.safetycritical.annotate.Scope;
 import javax.safetycritical.annotate.SCJAllowed;
 import static javax.safetycritical.annotate.Level.LEVEL_2;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
-import static javax.safetycritical.annotate.Scope.IMMORTAL;
 import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
-@Scope("D")
-@DefineScope(name="D", parent=IMMORTAL)
+
 @SCJAllowed(value=LEVEL_2, members=true)
-public class TestRunOverride extends ManagedThread {
+@Scope(IMMORTAL)
+@DefineScope(name="D", parent=IMMORTAL)
+public abstract class TestRunOverride extends MissionSequencer {
 
     @SCJRestricted(INITIALIZATION)
     public TestRunOverride(int priority) {
         super(new PriorityParameters(priority), new StorageParameters(0, 0, 0));
     }
 
-    @Override
-    @RunsIn("D")
-    @SCJAllowed(SUPPORT)
-    public void run() { }
+    @Scope("D")
+    @DefineScope(name="C", parent="D")
+    @SCJAllowed(value=LEVEL_2, members=true)
+    class MyThread extends ManagedThread {
+
+        @SCJRestricted(INITIALIZATION)
+        public MyThread(int priority) {
+            super(new PriorityParameters(priority), new StorageParameters(0, 0, 0));
+        }
+
+        @Override
+        @RunsIn("C")
+        public void run() { }
+    }
+
+    class MyRun implements Runnable {
+        @RunsIn("C")
+        public void run() {}
+    }
 }

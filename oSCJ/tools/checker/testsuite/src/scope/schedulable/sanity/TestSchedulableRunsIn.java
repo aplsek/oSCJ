@@ -17,6 +17,7 @@ import javax.safetycritical.annotate.RunsIn;
 import static javax.safetycritical.annotate.Level.SUPPORT;
 
 @DefineScope(name = "a", parent = IMMORTAL)
+@Scope(IMMORTAL)
 @SCJAllowed(members=true)
 public abstract class TestSchedulableRunsIn extends MissionSequencer {
 

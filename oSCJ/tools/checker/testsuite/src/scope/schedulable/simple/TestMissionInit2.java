@@ -1,5 +1,7 @@
 package scope.schedulable.simple;
 
+
+import static javax.safetycritical.annotate.Phase.CLEANUP;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
@@ -44,17 +46,19 @@ public class TestMissionInit2 extends CyclicExecutive {
 
     @SCJRestricted(INITIALIZATION)
     private void method() {
-        /// ERROR
+        //## checkers.scope.SchedulableChecker.ERR_SCHED_INIT_OUT_OF_INIT_METH
         new PEH(null,null,null);
     }
 
     @Override
     @SCJAllowed(SUPPORT)
+    @SCJRestricted(INITIALIZATION)
     public void setUp() {
     }
 
     @Override
     @SCJAllowed(SUPPORT)
+    @SCJRestricted(CLEANUP)
     public void tearDown() {
     }
 

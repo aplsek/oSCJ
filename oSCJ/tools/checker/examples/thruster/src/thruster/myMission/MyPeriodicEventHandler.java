@@ -11,7 +11,6 @@ import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.Mission;
 import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.PrivateMemory;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
@@ -90,10 +89,9 @@ public class MyPeriodicEventHandler extends PeriodicEventHandler {
 
     @SCJAllowed(value = LEVEL_1, members=true)
     @DefineScope(name = "child-scope11", parent = "MyPeriodicEventHandler")
-    class Runnable11 implements SCJRunnable {
+    class Runnable11 implements Runnable {
 
         @RunsIn("child-scope11")
-        @SCJAllowed(SUPPORT)
         public void run() {
 
             @DefineScope(name = "child-scope11", parent = "MyPeriodicEventHandler")
@@ -110,10 +108,9 @@ public class MyPeriodicEventHandler extends PeriodicEventHandler {
 
     @SCJAllowed(value = LEVEL_1, members=true)
     @DefineScope(name = "child-scope12", parent = "MyPeriodicEventHandler")
-    class Runnable12 implements SCJRunnable {
+    class Runnable12 implements Runnable {
 
         @RunsIn("child-scope12")
-        @SCJAllowed(SUPPORT)
         public void run() {
             @DefineScope(name = "child-scope12", parent = "MyPeriodicEventHandler")
             @Scope("MyPeriodicEventHandler")

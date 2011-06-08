@@ -7,16 +7,19 @@ import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.Mission;
 import javax.safetycritical.MissionSequencer;
 import javax.safetycritical.annotate.DefineScope;
+import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
+@SCJAllowed(members = true)
 @DefineScope(name="a", parent=IMMORTAL)
-@Scope("a")
+@Scope(IMMORTAL)
 public abstract class TestBadNewInstanceVariable extends MissionSequencer  {
 
     @SCJRestricted(INITIALIZATION)
     public TestBadNewInstanceVariable() {super(null, null);}
 
+    @SCJAllowed(members = true)
     @Scope("a")
     @DefineScope(name="b", parent="a")
     static abstract class X extends MissionSequencer {
@@ -32,7 +35,7 @@ public abstract class TestBadNewInstanceVariable extends MissionSequencer  {
                 //## checkers.scope.ScopeChecker.ERR_BAD_NEW_INSTANCE
                 mem.newInstance(Y.class);
             } catch (Exception e) {
-                e.printStackTrace();
+                // exception handling...
             }
         }
     }

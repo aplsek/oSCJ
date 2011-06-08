@@ -11,7 +11,6 @@ import javax.safetycritical.CyclicExecutive;
 import javax.safetycritical.CyclicSchedule;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.PeriodicEventHandler;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
@@ -90,7 +89,7 @@ public class CDMission extends CyclicExecutive {
 @SCJAllowed(members=true)
 @Scope("CDMission")
 @DefineScope(name="CDMissionInit", parent="CDMission")
-class MIRun implements SCJRunnable {
+class MIRun implements Runnable {
     @RunsIn("CDMissionInit")
     @SCJAllowed(SUPPORT)
     public void run() {

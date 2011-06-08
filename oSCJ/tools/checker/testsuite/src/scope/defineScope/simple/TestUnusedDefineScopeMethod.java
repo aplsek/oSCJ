@@ -6,11 +6,13 @@ import static javax.safetycritical.annotate.Scope.IMMORTAL;
 import javax.safetycritical.Mission;
 import javax.safetycritical.MissionSequencer;
 import javax.safetycritical.annotate.DefineScope;
+import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
+@SCJAllowed(members=true)
 @DefineScope(name="a", parent=IMMORTAL)
-@Scope("a")
+@Scope(IMMORTAL)
 public abstract class TestUnusedDefineScopeMethod extends MissionSequencer {
     @SCJRestricted(INITIALIZATION)
     public TestUnusedDefineScopeMethod() {super(null, null);}

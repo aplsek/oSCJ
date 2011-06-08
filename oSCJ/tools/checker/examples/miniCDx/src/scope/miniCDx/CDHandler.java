@@ -12,7 +12,6 @@ import javax.realtime.RelativeTime;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.Mission;
 import javax.safetycritical.PeriodicEventHandler;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
@@ -121,7 +120,7 @@ public class CDHandler extends PeriodicEventHandler {
     }
 
     @Scope("CDMission")
-    class CallsignRunnable implements SCJRunnable {
+    class CallsignRunnable implements Runnable {
         byte[] cs;
         Callsign result;
 
@@ -133,7 +132,7 @@ public class CDHandler extends PeriodicEventHandler {
     }
 
     @Scope("CDMission")
-    class PutCallsignRunnable implements SCJRunnable {
+    class PutCallsignRunnable implements Runnable {
         Callsign callsign;
 
         @RunsIn("CDMission")

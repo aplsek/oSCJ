@@ -9,7 +9,6 @@ import javax.realtime.PriorityParameters;
 import javax.realtime.RelativeTime;
 import javax.safetycritical.Mission;
 import javax.safetycritical.PeriodicEventHandler;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
@@ -60,7 +59,7 @@ class MyPEH2 extends PeriodicEventHandler {
 
 @SCJAllowed(members = true)
 @DefineScope(name = "new-scope", parent = "MyPEH1")
-class MyRunnable implements SCJRunnable {
+class MyRunnable implements Runnable {
 
     @SCJAllowed(SUPPORT)
     @RunsIn("new-scope")

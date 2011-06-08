@@ -3,41 +3,65 @@ package scope.scope.simple;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
+import javax.realtime.PriorityParameters;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.Mission;
 import javax.safetycritical.MissionSequencer;
-import javax.safetycritical.SCJRunnable;
+import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
+import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
-@Scope("a")
-@DefineScope(name="a", parent=IMMORTAL)
+@SCJAllowed(members = true)
+@Scope(IMMORTAL)
+@DefineScope(name="A", parent=IMMORTAL)
 public abstract class TestBadExecuteInAreaRunsIn extends MissionSequencer {
 
     @SCJRestricted(INITIALIZATION)
     public TestBadExecuteInAreaRunsIn() {super(null, null);}
 
-    @Scope("c")
-    @DefineScope(name="c", parent="b")
-    static abstract class X extends Mission { }
+    @Scope("C")
+    static class X {
+    }
 
-    @Scope("b")
-    @DefineScope(name="b", parent="a")
-    static abstract class Y extends MissionSequencer {
+    @Scope("A")
+    @DefineScope(name="B", parent="A")
+    @SCJAllowed(members = true)
+    static abstract class MS2 extends MissionSequencer {
 
         @SCJRestricted(INITIALIZATION)
-        public Y() {super(null, null);}
+        public MS2(PriorityParameters priority, StorageParameters storage) {
+            super(priority, storage);
+        }
+    }
 
-        @DefineScope(name="a", parent=IMMORTAL)
+    @Scope("B")
+    @DefineScope(name="C", parent="B")
+    @SCJAllowed(members = true)
+    static abstract class MS extends MissionSequencer {
+
+        @SCJRestricted(INITIALIZATION)
+        public MS(PriorityParameters priority, StorageParameters storage) {
+            super(priority, storage);
+        }
+    }
+
+
+    @SCJAllowed(members = true)
+    @Scope("B")
+    static class Y {
+
+        @DefineScope(name="A", parent=IMMORTAL)
         @Scope(IMMORTAL)
         ManagedMemory a;
 
-        @DefineScope(name="c", parent="b")
-        @Scope("b")
+        @DefineScope(name="C", parent="B")
+        @Scope("B")
         ManagedMemory c;
 
+        @RunsIn("B")
         public void m() {
             Run r = new Run();
             a.executeInArea(r);
@@ -49,13 +73,13 @@ public abstract class TestBadExecuteInAreaRunsIn extends MissionSequencer {
         }
     }
 
-    @Scope("b")
-    static class Run implements SCJRunnable {
-        @RunsIn("a")
+    @Scope("B")
+    static class Run implements Runnable {
+        @RunsIn("A")
         public void run() { }
     }
-    static class Run2 implements SCJRunnable {
-        @RunsIn("b")
+    static class Run2 implements Runnable {
+        @RunsIn("B")
         public void run() { }
     }
 }

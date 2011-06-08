@@ -11,23 +11,40 @@ import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
-@Scope("D")
+@Scope(IMMORTAL)
 @DefineScope(name="D", parent=IMMORTAL)
 @SCJAllowed(members = true)
 public abstract class TestUpcast2 extends MissionSequencer {
+
+    @Scope("D")
+    class Test {
+        //## checkers.scope.ScopeChecker.ERR_BAD_RUNNABLE_UPCAST
+        Runnable r = new Y();
+    }
 
     @SCJRestricted(INITIALIZATION)
     public TestUpcast2() {
         super(null, null);
     }
 
+    @RunsIn("D")
     public void bar() {
         Y y = new Y();
+
+        //## checkers.scope.ScopeChecker.ERR_BAD_RUNNABLE_UPCAST
+        bar(y);
+
+        //## checkers.scope.ScopeChecker.ERR_BAD_RUNNABLE_UPCAST
+        bar(y);
+
         @Scope(IMMORTAL)
         @DefineScope(name = "D", parent = IMMORTAL)
         ManagedMemory mem = null;
         mem.enterPrivateMemory(1000, y);
     }
+
+    @RunsIn("D")
+    public void bar(Runnable run) {}
 
 
     @SCJAllowed(members = true)
@@ -35,7 +52,6 @@ public abstract class TestUpcast2 extends MissionSequencer {
     @DefineScope(name = "C", parent = "D")
     static class Y implements Runnable {
         @RunsIn("C")
-        public void run() {
-        }
+        public void run() {}
     }
 }

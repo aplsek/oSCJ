@@ -24,7 +24,6 @@ package cdx;
 
 import java.util.HashMap;
 import javax.realtime.MemoryArea;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.Scope;
@@ -60,7 +59,7 @@ public class StateTable {
 
     @SCJAllowed(members=true)
     @Scope("cdx.Level0Safelet")
-    private class R implements SCJRunnable {
+    private class R implements Runnable {
         CallSign callsign;
         float    x, y, z;
 

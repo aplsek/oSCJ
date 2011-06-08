@@ -8,16 +8,19 @@ import javax.safetycritical.Mission;
 import javax.safetycritical.MissionSequencer;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
+import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
+@SCJAllowed(members = true)
 @DefineScope(name="a", parent=IMMORTAL)
-@Scope("a")
+@Scope(IMMORTAL)
 public abstract class TestBadMethodInvoke extends MissionSequencer {
 
     @SCJRestricted(INITIALIZATION)
     public TestBadMethodInvoke() {super(null, null);}
 
+    @SCJAllowed(members = true)
     @Scope("a")
     @DefineScope(name="b", parent="a")
     static abstract class X extends MissionSequencer {
@@ -60,7 +63,8 @@ public abstract class TestBadMethodInvoke extends MissionSequencer {
         void methodRunsInC() { }
     }
 
-    @Scope("c")
+    @SCJAllowed(members = true)
+    @Scope("b")
     @DefineScope(name="c", parent="b")
     static abstract class W extends MissionSequencer {
         @SCJRestricted(INITIALIZATION)

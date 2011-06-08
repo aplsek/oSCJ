@@ -8,7 +8,6 @@ import javax.realtime.PriorityParameters;
 import javax.safetycritical.AperiodicEventHandler;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.PrivateMemory;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
@@ -81,7 +80,7 @@ public class MyAperiodicEventHandler extends AperiodicEventHandler {
 
     @SCJAllowed(value = LEVEL_1, members=true)
     @DefineScope(name = "aperiodic-child-scope-1", parent = "MyAperiodicEventHandler")
-    class MyRunnable1 implements SCJRunnable {
+    class MyRunnable1 implements Runnable {
 
         @RunsIn("aperiodic-child-scope-1")
         @SCJAllowed(SUPPORT)
@@ -108,7 +107,7 @@ public class MyAperiodicEventHandler extends AperiodicEventHandler {
 
     @SCJAllowed(value = LEVEL_1, members=true)
     @DefineScope(name = "aperiodic-child-scope-2", parent = "MyAperiodicEventHandler")
-    class MyRunnable2 implements SCJRunnable {
+    class MyRunnable2 implements Runnable {
 
         @RunsIn("aperiodic-child-scope-2")
         @SCJAllowed(SUPPORT)

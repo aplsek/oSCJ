@@ -13,7 +13,6 @@ import javax.realtime.RelativeTime;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.Mission;
 import javax.safetycritical.PeriodicEventHandler;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
@@ -69,7 +68,7 @@ public class MyPEH extends PeriodicEventHandler {
 
     @SCJAllowed(members=true)
     @DefineScope(name="RunScope", parent ="MyPEH")
-    static class MySCJRunnable implements SCJRunnable {
+    static class MySCJRunnable implements Runnable {
         public long times[];
         long median;
 

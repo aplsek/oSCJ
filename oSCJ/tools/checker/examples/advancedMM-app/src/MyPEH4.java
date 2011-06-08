@@ -11,7 +11,6 @@ import javax.realtime.PriorityParameters;
 import javax.realtime.RelativeTime;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.PeriodicEventHandler;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
@@ -66,7 +65,7 @@ public class MyPEH4 extends PeriodicEventHandler {
 
     @SCJAllowed(members=true)
     @DefineScope(name="APP",parent=IMMORTAL)
-    class MySCJRunnable implements SCJRunnable {
+    class MySCJRunnable implements Runnable {
         @SCJAllowed(SUPPORT)
         @RunsIn("APP")
         public void run() {

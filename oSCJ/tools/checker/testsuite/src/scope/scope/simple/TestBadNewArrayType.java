@@ -7,16 +7,19 @@ import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.Mission;
 import javax.safetycritical.MissionSequencer;
 import javax.safetycritical.annotate.DefineScope;
+import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
+@SCJAllowed(members = true)
 @DefineScope(name="a", parent=IMMORTAL)
-@Scope("a")
+@Scope(IMMORTAL)
 public abstract class TestBadNewArrayType extends MissionSequencer {
 
     @SCJRestricted(INITIALIZATION)
     public TestBadNewArrayType() {super(null, null);}
 
+    @SCJAllowed(members = true)
     @Scope("a")
     @DefineScope(name="b", parent="a")
     static abstract class X extends MissionSequencer {
@@ -38,7 +41,7 @@ public abstract class TestBadNewArrayType extends MissionSequencer {
                 //mem.newArray(void.class, 1);
                 mem.newArray(int.class, 1);
             } catch (Exception e) {
-                e.printStackTrace();
+                // ....
             }
         }
     }

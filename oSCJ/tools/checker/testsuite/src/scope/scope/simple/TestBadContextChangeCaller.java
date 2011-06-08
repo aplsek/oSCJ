@@ -2,26 +2,39 @@ package scope.scope.simple;
 
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import static javax.safetycritical.annotate.Scope.IMMORTAL;
+
+import javax.realtime.ImmortalMemory;
+import javax.realtime.MemoryArea;
+import javax.realtime.PriorityParameters;
 import javax.safetycritical.annotate.RunsIn;
+import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
 import static javax.safetycritical.annotate.Scope.CALLER;
 import javax.safetycritical.annotate.Scope;
 
 import javax.safetycritical.ManagedMemory;
-import javax.safetycritical.Mission;
 import javax.safetycritical.MissionSequencer;
-import javax.safetycritical.SCJRunnable;
+import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 
-@DefineScope(name="a", parent=IMMORTAL)
+@SCJAllowed(members = true)
 @Scope("a")
-public abstract class TestBadContextChangeCaller extends MissionSequencer {
+public abstract class TestBadContextChangeCaller {
     MyRun1 runnable1 = new MyRun1();
     MyRun2 runnable2 = new MyRun2();
 
-    @SCJRestricted(INITIALIZATION)
-    public TestBadContextChangeCaller() {super(null, null);}
+    @DefineScope(name="a", parent=IMMORTAL)
+    @Scope(IMMORTAL)
+    @SCJAllowed(members = true)
+    static abstract class MS extends MissionSequencer {
+        @SCJRestricted(INITIALIZATION)
+        public MS(PriorityParameters priority, StorageParameters storage) {
+            super(priority, storage);
+        }
+    }
+
+    MS ms;
 
     @RunsIn(CALLER)
     public void method() {
@@ -32,6 +45,7 @@ public abstract class TestBadContextChangeCaller extends MissionSequencer {
         m.enterPrivateMemory(1000, runnable1);
     }
 
+
     @RunsIn(CALLER)
     public void method2() {
         @DefineScope(name="a", parent=IMMORTAL)
@@ -41,13 +55,23 @@ public abstract class TestBadContextChangeCaller extends MissionSequencer {
         m.executeInArea(runnable2);
     }
 
+    public void method3() {
+        @DefineScope(name=IMMORTAL,parent=IMMORTAL)
+        @Scope(IMMORTAL)
+        MemoryArea m = ManagedMemory.getMemoryArea(ms);
+
+        @DefineScope(name="a",parent=IMMORTAL)
+        @Scope(IMMORTAL)
+        ImmortalMemory imm = (ImmortalMemory) m;
+    }
+
     @DefineScope(name="child", parent="a")
-    static class MyRun1 implements SCJRunnable {
+    static class MyRun1 implements Runnable {
         @RunsIn("child")
         public void run() {  }
     }
 
-    static class MyRun2 implements SCJRunnable {
+    static class MyRun2 implements Runnable {
         @RunsIn("a")
         public void run() {  }
     }

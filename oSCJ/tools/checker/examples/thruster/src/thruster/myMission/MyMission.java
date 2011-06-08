@@ -13,7 +13,6 @@ import javax.safetycritical.AperiodicEvent;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.Mission;
 import javax.safetycritical.PrivateMemory;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.MissionMemory;
 import javax.safetycritical.annotate.DefineScope;
@@ -129,7 +128,7 @@ public class MyMission extends Mission {
 
     @SCJAllowed(value = LEVEL_1, members=true)
     @DefineScope(name = "MyMission-child", parent = "ThrusterControl")
-    class MyRunnable implements SCJRunnable {
+    class MyRunnable implements Runnable {
         @RunsIn("MyMission-child")
         @SCJAllowed(SUPPORT)
         public void run() {

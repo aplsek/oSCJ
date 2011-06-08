@@ -6,31 +6,31 @@ import static javax.safetycritical.annotate.Scope.IMMORTAL;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.Mission;
 import javax.safetycritical.MissionSequencer;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
+@SCJAllowed(members = true)
 @DefineScope(name="a", parent=IMMORTAL)
-@Scope("a")
-public abstract class TestBadEnterPrivateMemorySCJRunnableScope extends MissionSequencer {
+@Scope(IMMORTAL)
+public abstract class TestBadEnterPrivateMemoryRunnableScope extends MissionSequencer {
 
     @SCJRestricted(INITIALIZATION)
-    public TestBadEnterPrivateMemorySCJRunnableScope() {super(null, null);}
+    public TestBadEnterPrivateMemoryRunnableScope() {super(null, null);}
 
-
+    @RunsIn("a")
     public void bar() {
 
         @Scope(IMMORTAL)
         @DefineScope(name="a", parent=IMMORTAL)
         ManagedMemory mem = null;
         Y y = new Y();
-        //## checkers.scope.ScopeChecker.ERR_SCJ_RUNNABLE_BAD_SCOPE
         mem.enterPrivateMemory(1000, y);
     }
 
+    @SCJAllowed(members = true)
     @Scope("a")
     @DefineScope(name="b", parent="a")
     static abstract class X extends MissionSequencer {
@@ -42,7 +42,7 @@ public abstract class TestBadEnterPrivateMemorySCJRunnableScope extends MissionS
 
     @SCJAllowed(members=true)
     @DefineScope(name="c", parent="a")
-    static class Y implements SCJRunnable {
+    static class Y implements Runnable {
         @RunsIn("c")
         public void run() {
         }
