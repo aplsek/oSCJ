@@ -1,4 +1,4 @@
-package example;
+package purdue;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 import static javax.safetycritical.annotate.Level.SUPPORT;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
@@ -21,8 +21,8 @@ import javax.safetycritical.io.SimplePrintStream;
  * 
  */
 @SCJAllowed(value=LEVEL_1, members=true)
-@Scope("MISSION")
-@DefineScope(name="HANDLER",parent="MISSION")
+@Scope("A")
+@DefineScope(name="H",parent="A")
 class MyHandler extends PeriodicEventHandler {
     
     @SCJRestricted(INITIALIZATION)
@@ -35,7 +35,7 @@ class MyHandler extends PeriodicEventHandler {
     int cnt;
     SimplePrintStream myout;
 
-    @RunsIn("HANDLER")
+    @RunsIn("H")
     @SCJAllowed(SUPPORT)
     public void handleAsyncEvent() {
         myout.println("Ping " + cnt);
