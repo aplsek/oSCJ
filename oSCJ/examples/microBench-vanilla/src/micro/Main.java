@@ -1,6 +1,5 @@
 package micro;
 import bench.Benchmark;
-import com.fiji.fivm.ThreadPriority;
 
 public class Main {
 
