@@ -12,23 +12,14 @@ import javax.safetycritical.annotate.RunsIn;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import javax.realtime.AbsoluteTime;
-import javax.realtime.Clock;
-import javax.realtime.ImmortalMemory;
-import javax.realtime.MemoryArea;
-import javax.realtime.RealtimeThread;
 import javax.realtime.RelativeTime;
 import javax.realtime.PriorityParameters;
 import javax.realtime.PeriodicParameters;
-import javax.safetycritical.CyclicExecutive;
-import javax.safetycritical.CyclicSchedule;
-import javax.safetycritical.MissionManager;
 import javax.safetycritical.MissionSequencer;
 import javax.safetycritical.Mission;
 import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.Safelet;
 import javax.safetycritical.StorageParameters;
-import javax.safetycritical.Terminal;
 import javax.safetycritical.LinearMissionSequencer;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
@@ -36,8 +27,6 @@ import javax.safetycritical.annotate.Scope;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.io.Connector;
 import javax.safetycritical.io.SimplePrintStream;
-
-import javax.microedition.io.Connection;
 import javax.microedition.io.ConnectionNotFoundException;
 
 
@@ -61,7 +50,6 @@ public class HelloSCJ extends Mission implements Safelet {
             throw new Error("No console available");
         } catch (ConnectionNotFoundException e) {
         }
-        // out = new SimplePrintStream(os);
 
         PeriodicEventHandler peh = new MyHandler(new SimplePrintStream(os),
                 new PriorityParameters(11), new PeriodicParameters(
@@ -72,7 +60,6 @@ public class HelloSCJ extends Mission implements Safelet {
 
     // @Override
     @SCJRestricted(INITIALIZATION)
-    @Scope(IMMORTAL)
     @SCJAllowed(SUPPORT)
     public MissionSequencer getSequencer() {
         // we assume this method is invoked only once

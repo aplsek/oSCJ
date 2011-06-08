@@ -74,6 +74,8 @@ public class RawMemoryAccess implements RawIntegralAccess {
     
     public static final int O_RDWR = 2;
     
+    
+    
     @SCJAllowed(LEVEL_0)
     public static final RawMemoryName IO_ACCESS = null;
 
