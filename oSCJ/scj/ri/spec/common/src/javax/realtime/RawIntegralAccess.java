@@ -42,9 +42,6 @@ import javax.safetycritical.annotate.SCJRestricted;
 @SCJAllowed(LEVEL_1)
 public interface RawIntegralAccess {
 
-  // TODO: throws an exception when close() fails.
-  public void close();
-    
 	@SCJAllowed(LEVEL_1)
   //@SCJRestricted{InterruptSafe}
   public byte getByte(long offset);

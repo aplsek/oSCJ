@@ -789,4 +789,8 @@ public class RawMemoryAccess implements RawIntegralAccess {
 
         return base + offset;
     }
+
+    public void close() {
+        // TODO Auto-generated method stub
+    }
 }
