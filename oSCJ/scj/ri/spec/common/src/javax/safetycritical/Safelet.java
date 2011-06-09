@@ -40,6 +40,7 @@ import static javax.safetycritical.annotate.Scope.IMMORTAL;
  * @author plsek
  * 
  */
+@Scope(IMMORTAL)
 @SCJAllowed
 public interface Safelet {
 

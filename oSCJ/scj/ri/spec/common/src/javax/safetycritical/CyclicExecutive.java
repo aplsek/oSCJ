@@ -27,9 +27,11 @@ import javax.realtime.HighResolutionTime;
 import javax.realtime.PriorityParameters;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.Scope;
 
 import static javax.safetycritical.annotate.Level.SUPPORT;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
 import edu.purdue.scj.VMSupport;
 import edu.purdue.scj.utils.Utils;
 
@@ -42,6 +44,7 @@ import edu.purdue.scj.utils.Utils;
  * 
  */
 @SCJAllowed
+@Scope(IMMORTAL)
 public abstract class CyclicExecutive extends Mission implements Safelet {
 
     private MissionSequencer _sequencer;

@@ -63,7 +63,13 @@ public enum Level
   }
   
   public boolean isHIDDEN() {
-      if (value() == 5)
+      if (value() == HIDDEN.value())
+         return true;
+      return false;
+  }
+  
+  public boolean isSUPPORT() {
+      if (value() == SUPPORT.value())
          return true;
       return false;
   }

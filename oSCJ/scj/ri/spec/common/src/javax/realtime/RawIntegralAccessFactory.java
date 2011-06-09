@@ -43,7 +43,7 @@ public interface RawIntegralAccessFactory {
   public RawMemoryName getName();
 
 	@SCJAllowed(LEVEL_1)
-  public RawIntegralAccess newIntegralAccess(long base, long size)/*
+  public RawIntegralAccess newIntegralAccess(long base, long size) throws Exception/*
          throws java.lang.SecurityException,
                 javax.realtime.OffsetOutOfBoundsException,
                 javax.realtime.SizeOutOfBoundsException,
