@@ -53,6 +53,38 @@ public class StorageParameters {
     int _messageLength;
     int _stackTraceLength;
 
+    
+    /**
+     * Sizes parameters for schedulable objects: event handlers, threads,
+     * and sequencers.  Passed as  parameter to the constructor of mission
+     *  sequencers and other SCJ schedulable objects. 
+     *
+     * @param totalBackingStore size of the backing store reservation
+     *        for worst-case scope usage in bytes.
+     *
+     * @param sizes is an array of parameters for configuring VM resources
+     *        such as native stack or java stack size.  The meaning of the
+     *        entries in the array are vendor specific.  The array passed
+     *        in is not stored in the object.
+     *
+     * @param messageLength length of the space in bytes dedicated to
+     *        message associated with this Schedulable object's
+     *        ThrowBoundaryError exception plus all the method  
+     *        names/identifiers in the stack backtrace
+     *
+     * @param stackTraceLength the number of byte for the
+     *        StackTraceElement array dedicated to stack backtrace associated
+     *        with this Schedulable object's ThrowBoundaryError exception. 
+     */
+    @SCJAllowed
+    public StorageParameters(long totalBackingStore,
+                             long[] sizes,
+                             int messageLength,
+                             int stackTraceLength)
+    {
+    }
+    
+    
     /**
      * Stack sizes for schedulable objects and sequencers. Passed as parameter
      * to the constructor of mission sequencers and schedulable objects.
