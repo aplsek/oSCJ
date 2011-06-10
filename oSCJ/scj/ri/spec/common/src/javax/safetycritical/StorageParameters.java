@@ -60,27 +60,55 @@ public class StorageParameters {
      *  sequencers and other SCJ schedulable objects. 
      *
      * @param totalBackingStore size of the backing store reservation
-     *        for worst-case scope usage in bytes.
+     *        for worst-case scope usage by the associated
+     *        ManagedSchedulable object, in bytes.
      *
      * @param sizes is an array of parameters for configuring VM resources
-     *        such as native stack or java stack size.  The meaning of the
+     *        such as native stack or java stack size.  The meanings of the
      *        entries in the array are vendor specific.  The array passed
      *        in is not stored in the object.
      *
-     * @param messageLength length of the space in bytes dedicated to
-     *        message associated with this Schedulable object's
-     *        ThrowBoundaryError exception plus all the method  
-     *        names/identifiers in the stack backtrace
+     * @param messageLength length of the space in bytes dedicated to the
+     *        message associated with this ManagedSchedulable object's
+     *        ThrowBoundaryError exception, plus all of the method  
+     *        names/identifiers in the stack backtrace (TBD: specify how
+     *        this buffer is divided between the message and method
+     *        "names/identifiers".  It seems wasteful that our model
+     *        should assume these names/identifiers are copied into this
+     *        buffer.  Presumably, if we have the names in order to
+     *        populate the stack backtrace, then we should be able to
+     *        link to those preexisting names rather than copying them
+     *        into this buffer.  should specify how this buffer is
+     *        represented to assure "portability".  Is this a single
+     *        array of char, with no padding?)
      *
-     * @param stackTraceLength the number of byte for the
+     * @param stackTraceLength the number of bytes for the
      *        StackTraceElement array dedicated to stack backtrace associated
-     *        with this Schedulable object's ThrowBoundaryError exception. 
+     *        with this Schedulable object's ThrowBoundaryError
+     *        exception. (TBD: wouldn't it make a lot more sense to
+     *        interpret this value as the number of StackTraceElements
+     *        that can be stored, rather than bytes?  another TBD: a
+     *        StackTraceElement does not represent the argument names or
+     *        argument values.  do we want to enable backtraces to
+     *        include this information?  Maybe StackTraceElements are
+     *        not the "best" way to efficiently abstract the information
+     *        we care about.) 
+     *       
      */
     @SCJAllowed
     public StorageParameters(long totalBackingStore,
                              long[] sizes,
                              int messageLength,
                              int stackTraceLength)
+    {
+    }
+    
+    
+    /**
+     * Equivalent to StorageParameters(totalBackingStore, sizes, 0, 0).
+     */
+    @SCJAllowed
+    public StorageParameters(long totalBackingStore, long[] sizes)
     {
     }
     
