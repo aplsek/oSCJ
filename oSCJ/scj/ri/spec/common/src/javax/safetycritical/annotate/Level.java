@@ -61,4 +61,16 @@ public enum Level
       throw new IllegalArgumentException("The value" + value +
                                          " is not a legal level.");
   }
+  
+  public boolean isHIDDEN() {
+      if (value() == HIDDEN.value())
+         return true;
+      return false;
+  }
+  
+  public boolean isSUPPORT() {
+      if (value() == SUPPORT.value())
+         return true;
+      return false;
+  }
 }

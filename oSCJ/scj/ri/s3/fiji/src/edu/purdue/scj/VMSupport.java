@@ -202,9 +202,12 @@ public class VMSupport {
     
     public static native int readByte(int address);
     
+    public static native byte getByte(long address, long offset);
+    public static native int setByte(long address, long offset, byte value);
+    
     public static native int writeByte(int address, int b);
     
-    public static native void mmap(int address, int len, int prot, int flags, int fd, int off);
+    public static native int mmap(long address, long len, int prot, int flags, int fd, long off);
     
     /* RawMemory Access - the original implementation*/
     

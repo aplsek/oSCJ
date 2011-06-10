@@ -134,4 +134,6 @@ public interface RawIntegralAccess {
   //@SCJRestricted{InterruptSafe} 
   public void setShorts(long offset, short[] shorts, int low, int number) /* throws javax.realtime.OffsetOutOfBoundsException,
          javax.realtime.SizeOutOfBoundsException*/;
+
+    public void close();
 }

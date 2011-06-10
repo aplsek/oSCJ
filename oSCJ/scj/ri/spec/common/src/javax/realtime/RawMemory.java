@@ -66,7 +66,7 @@ public class RawMemory {
 	 * @return an object that implements RawIntegralAccess and supports access to the 
 	 *  	 	specified range of physical memory.
 	 */
-	/*@SCJAllowed(LEVEL_0)*/
+	@SCJAllowed
 	public static RawIntegralAccess createRawIntegralInstance( RawMemoryName type, 
 			long base, long size) throws IllegalArgumentException, 
 			SecurityException, /*OffsetOutOfBoundsException, SizeOutOfBoundsException, 
@@ -76,6 +76,18 @@ public class RawMemory {
 		//TODO:
 		return null;
 	}
+	
+	@SCJAllowed
+    public static RawIntegralAccess createRawIntegralInstance(String file, RawMemoryName type, 
+            long address, long base, long size) throws IllegalArgumentException, 
+            SecurityException, /*OffsetOutOfBoundsException, SizeOutOfBoundsException, 
+            MemoryTypeConflictException,*/ OutOfMemoryError, InstantiationException, 
+            InvocationTargetException {
+        
+        //TODO:
+        return null;
+    }
+    
 	
 	public static void registerAccessFactory(RawIntegralAccessFactory factory) {}
 	
