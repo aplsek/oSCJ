@@ -35,15 +35,15 @@ public class BenchMem {
     
     public static boolean err = false;
     
-    public static ImmortalMemory immortal = ImmortalMemory.instance();
+    //public static ImmortalMemory immortal = ImmortalMemory.instance();
     
     
     static private long immortalConsumed    =    0;
     static private long heapConsumed        =    0;
     
     public static void init() {
-        immortalConsumed = immortal.memoryConsumed();
-        heapConsumed = Runtime.getRuntime().totalMemory();
+        immortalConsumed = ImmortalMemory.instance().memoryConsumed();
+        //heapConsumed = Runtime.getRuntime().totalMemory();
     }
     
     public static void setMemUsage(long mem) {
@@ -82,6 +82,7 @@ public class BenchMem {
     }
     
     public static void dumpMemoryUsage() {
+        /*
         if (err) {
             System.err.println("Memory Benchmark ERROR: Too many trace points! :" + traces);
             return;
@@ -136,6 +137,6 @@ public class BenchMem {
         
         System.out.println("Heap :" + heapConsumed);
         System.out.println("Imm :" + immortalConsumed);
-        
+        */
     }
 }

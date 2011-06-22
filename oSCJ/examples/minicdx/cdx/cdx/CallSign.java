@@ -22,6 +22,8 @@
  */
 package cdx;
 
+import static javax.safetycritical.annotate.Scope.CALLER;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.Scope;
 
@@ -49,6 +51,7 @@ public class CallSign {
     }
 
     /** Performs a comparison between this object and another. */
+    @RunsIn(CALLER)
     public boolean equals(final Object other) {
         if (other == this) return true;
         else if (other instanceof CallSign) {

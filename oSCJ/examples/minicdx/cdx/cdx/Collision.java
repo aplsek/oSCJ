@@ -22,6 +22,8 @@
  */
 package cdx;
 
+import static javax.safetycritical.annotate.Scope.CALLER;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import collision.Vector3d;
 import javax.safetycritical.annotate.Scope;
@@ -99,7 +101,7 @@ class Collision {
     }
 
     /** Determines collision equality. Two collisions are equal if they have the same aircraft. */
-
+    @RunsIn(CALLER)
     public boolean equals(Object _other) {
         if (_other == this) return true;
         if (!(_other instanceof Collision)) return false;
@@ -118,7 +120,6 @@ class Collision {
     }
 
     /** Returns a helpful description of this object. */
-
     public String toString() {
         //StringBuffer buf = new StringBuffer("Collision between ");
         //boolean first = true;
