@@ -301,7 +301,6 @@ public class TransientDetectorScopeEntry /*implements SCJRunnable*/ {
         CallSign c;
         byte[] cs;
 
-        @SCJAllowed(SUPPORT)
         @RunsIn("cdx.Level0Safelet")
         public void run() {
             c = new CallSign(cs);

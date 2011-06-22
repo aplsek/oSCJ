@@ -4,7 +4,6 @@ import static javax.safetycritical.annotate.Level.LEVEL_1;
 import static javax.safetycritical.annotate.Level.SUPPORT;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import static javax.safetycritical.annotate.Scope.CALLER;
-import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +16,6 @@ import javax.realtime.RealtimeThread;
 import javax.realtime.RelativeTime;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.PeriodicEventHandler;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
@@ -31,6 +29,8 @@ import org.sunspotworld.demo.WebServer;
 import com.sun.squawk.webserver.Config;
 import com.sun.squawk.webserver.handlers.WorkerThread1.HTTPSession;
 
+
+/*
 @Scope("MyMission")
 @SCJAllowed(value=LEVEL_1, members=true)
 @DefineScope(name="WorkerThread4", parent="MyMission")
@@ -51,13 +51,6 @@ public class WorkerThread4 extends PeriodicEventHandler implements WorkerThread 
                         Config.javaStackSize),
                 "Worker-"
                 + WorkerThreadConfig.workerCounter++);
-       /* 
-        super(new PriorityParameters(Config.priority),
-                new PeriodicParameters(new RelativeTime(0, 0), new RelativeTime(
-                        Config.period, 0)),
-                        new StorageParameters(Config.storage, 1000L, 1000L),
-                        "Worker-" + workerCounter++);
-        */
         this.server = server;
         this.notifier = notifier;
     }
@@ -75,12 +68,12 @@ public class WorkerThread4 extends PeriodicEventHandler implements WorkerThread 
         }
     }
     
+    @Scope("MyMission")
     @SCJAllowed(value=LEVEL_1, members=true)
     @DefineScope(name="HTTPSession4", parent="WorkerThread4")
-    class HTTPSession implements SCJRunnable {
+    class HTTPSession implements Runnable {
 
         @RunsIn("HTTPSession4")
-        @SCJAllowed(SUPPORT)
         @SCJRestricted(maySelfSuspend = true)
         public void run() {
             debug(getName() + " is running ...");
@@ -134,3 +127,4 @@ public class WorkerThread4 extends PeriodicEventHandler implements WorkerThread 
       //  System.err.println(s);
     }
 }
+*/

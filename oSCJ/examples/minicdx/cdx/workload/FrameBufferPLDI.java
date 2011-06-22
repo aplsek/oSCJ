@@ -1,8 +1,11 @@
 package workload;
 
+import static javax.safetycritical.annotate.Scope.IMMORTAL;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.Math;
+import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.Scope;
 
 import cdx.Constants;
 import cdx.ImmortalEntry;
@@ -17,6 +20,8 @@ import workload.FrameBuffer;
  * Note that the buffer is (intentionally) not synchronized. In a weird combination of priorities that is not
  * intended to be used, buffer frames could be overwritten.
  */
+@Scope(IMMORTAL)
+@SCJAllowed(members=true)
 public class FrameBufferPLDI extends FrameBuffer {
 	
 	// empty buffer ... first == last

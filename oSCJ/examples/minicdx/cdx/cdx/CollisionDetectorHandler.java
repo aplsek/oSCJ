@@ -23,6 +23,7 @@
 package cdx;
 
 import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Phase.CLEANUP;
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import javax.safetycritical.Mission;
 import javax.safetycritical.PeriodicEventHandler;
@@ -124,6 +125,7 @@ public class CollisionDetectorHandler extends PeriodicEventHandler {
 
     
     @SCJAllowed(SUPPORT)
+    @SCJRestricted(CLEANUP)
     public void cleanUp() {
     }
 }

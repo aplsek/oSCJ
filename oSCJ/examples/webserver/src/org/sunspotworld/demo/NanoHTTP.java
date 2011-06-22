@@ -10,6 +10,8 @@ import java.util.*;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
+import static javax.safetycritical.annotate.Scope.CALLER;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.io.SimpleInputStream;
 import javax.safetycritical.io.SimplePrintStream;
 
@@ -117,6 +119,7 @@ public class NanoHTTP {
     }
 
     @SCJRestricted(maySelfSuspend = true)
+    @RunsIn(CALLER)
     public void handleRequest(InputStream ins, OutputStream outs)
             throws IOException {
         try {

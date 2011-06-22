@@ -23,6 +23,7 @@
 package cdx;
 
 import static javax.safetycritical.annotate.Level.SUPPORT;
+import static javax.safetycritical.annotate.Phase.*;
 import static javax.safetycritical.annotate.Scope.IMMORTAL;
 import immortal.Simulator;
 import javax.realtime.AbsoluteTime;
@@ -34,6 +35,7 @@ import javax.safetycritical.PeriodicEventHandler;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 import cdx.unannotated.NanoClock;
 
@@ -51,6 +53,7 @@ public class Level0Safelet extends CyclicExecutive {
     private static long memSetupEnd ;
 
     @SCJAllowed(SUPPORT)
+    @SCJRestricted(INITIALIZATION)
     public void setUp() {
        
         ////////////////////////////////
@@ -63,11 +66,13 @@ public class Level0Safelet extends CyclicExecutive {
     }
 
     @SCJAllowed(SUPPORT)
+    @SCJRestricted(CLEANUP)
     public void tearDown() {
         dumpResults();
     }
 
     @SCJAllowed(SUPPORT)
+    @RunsIn("cdx.Level0Safelet")
     public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) {
         CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
         frames[0] = new CyclicSchedule.Frame(new RelativeTime(Constants.DETECTOR_PERIOD, 0), handlers);
@@ -108,7 +113,7 @@ public class Level0Safelet extends CyclicExecutive {
     
     
     public static void dumpResults() {
-        
+        /*
         String space = " ";
         String triZero = " 0 0 0 ";
 
@@ -160,7 +165,7 @@ public class Level0Safelet extends CyclicExecutive {
             }
             System.out.println("=====DETECTOR-RELEASE-STATS-END-ABOVE====");
         }
-        
+        */
         //BenchMem.dumpMemoryUsage();
     }
 }

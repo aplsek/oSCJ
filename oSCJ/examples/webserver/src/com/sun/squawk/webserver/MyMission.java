@@ -19,9 +19,6 @@ import org.sunspotworld.demo.SynchronizedSocket;
 import org.sunspotworld.demo.WebServer;
 
 import com.sun.squawk.webserver.handlers.WorkerThread1;
-import com.sun.squawk.webserver.handlers.WorkerThread2;
-import com.sun.squawk.webserver.handlers.WorkerThread3;
-import com.sun.squawk.webserver.handlers.WorkerThread4;
 
 @Scope("MyMission")
 @SCJAllowed(value = LEVEL_1, members = true)
@@ -50,9 +47,9 @@ public class MyMission extends Mission {
                     (StreamConnectionNotifier) Connector.open("socket://:"
                             + port));
             new WorkerThread1(server, notifier);
-            new WorkerThread2(server, notifier);
-            new WorkerThread3(server, notifier);
-            new WorkerThread4(server, notifier);
+            //new WorkerThread2(server, notifier);
+            //new WorkerThread3(server, notifier);
+            //new WorkerThread4(server, notifier);
 
             // new AsyncHapHandler(Config.priority, Config.aperiod,
             // Config.storage,
