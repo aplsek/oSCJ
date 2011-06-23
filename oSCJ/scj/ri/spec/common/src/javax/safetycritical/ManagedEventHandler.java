@@ -31,6 +31,9 @@ import javax.realtime.ReleaseParameters;
 import javax.safetycritical.annotate.Level;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
+import javax.safetycritical.annotate.Scope;
+import javax.safetycritical.annotate.RunsIn;
+import static javax.safetycritical.annotate.Scope.*;
 
 import edu.purdue.scj.VMSupport;
 
@@ -82,6 +85,7 @@ public abstract class ManagedEventHandler extends BoundAsyncEventHandler
 	}
 
 	@SCJAllowed
+	@RunsIn(CALLER) @Scope(THIS)
 	public String getName() {
 		return _name;
 	}

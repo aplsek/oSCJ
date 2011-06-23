@@ -23,7 +23,8 @@ package javax.realtime;
 
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
-
+import javax.safetycritical.annotate.Scope;
+import static javax.safetycritical.annotate.Scope.*;
 
 @SCJAllowed
 public class AbsoluteTime extends HighResolutionTime {
@@ -46,7 +47,7 @@ public class AbsoluteTime extends HighResolutionTime {
 
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
-	public AbsoluteTime(long millis, int nanos, Clock clock) {
+	public AbsoluteTime(long millis, int nanos,@Scope(UNKNOWN) Clock clock) {
 		super(millis, (long) nanos, clock);
 	}
 
