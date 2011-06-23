@@ -22,6 +22,8 @@
  */
 package cdx;
 
+import static javax.safetycritical.annotate.Scope.CALLER;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 
 /**
@@ -74,6 +76,7 @@ class Aircraft implements Comparable {
      */
 
     /** Performs a comparison between this object and another. */
+    @RunsIn(CALLER)
     public boolean equals(final Object other) {
         // my suspicion is that this is the problem
         if (other == this) return true;

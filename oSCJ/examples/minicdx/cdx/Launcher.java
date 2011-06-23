@@ -23,13 +23,16 @@
 import static javax.safetycritical.annotate.Phase.INITIALIZATION;
 import javax.safetycritical.Safelet;
 import javax.safetycritical.annotate.SCJRestricted;
-
+import javax.safetycritical.annotate.RunsIn;
+import javax.safetycritical.annotate.Scope;
+import static javax.safetycritical.annotate.Scope.*;
 import cdx.Constants;
 import cdx.Level0Safelet;
 
 public class Launcher {
     
     @SCJRestricted(INITIALIZATION)
+    @RunsIn(IMMORTAL)
     public static void main(final String[] args) {
         if (args.length > 0)
             Constants.NUMBER_OF_PLANES = Integer.parseInt(args[0]);

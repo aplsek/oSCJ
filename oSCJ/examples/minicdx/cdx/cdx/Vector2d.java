@@ -22,6 +22,8 @@
  */
 package cdx;
 
+import static javax.safetycritical.annotate.Scope.CALLER;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 
 import javax.safetycritical.annotate.Scope;
@@ -90,6 +92,7 @@ final class Vector2d {
         x = y = 0;
     }
 
+    @RunsIn(CALLER)
     public boolean equals(Object o) throws ClassCastException {
         try {
             return equals((Vector2d) o);
@@ -98,6 +101,7 @@ final class Vector2d {
         }
     }
 
+    @RunsIn(CALLER)
     public boolean equals(Vector2d b) {
         if (x != b.x) return false;
         if (y != b.y) return false;

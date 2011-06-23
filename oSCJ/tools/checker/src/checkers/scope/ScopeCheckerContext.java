@@ -358,8 +358,10 @@ public class ScopeCheckerContext {
     public ClassInfo getClassInfo(String clazz) {
         ClassInfo ci = classScopes.get(clazz);
         if (ci == null) {
-            // try to deal with generics
-            clazz = clazz.substring(0, clazz.indexOf("<"));
+            if (clazz.indexOf("<") > 0) {
+                // try to deal with generics
+                clazz = clazz.substring(0, clazz.indexOf("<"));
+            }
             ci = classScopes.get(clazz);
         }
         return ci;
@@ -374,11 +376,17 @@ public class ScopeCheckerContext {
         ClassInfo expr = getClassInfo(exprType.toString());
         ClassInfo cast = getClassInfo(castType.toString());
 
-        if (expr == null) {
+        if (expr == null ) {
             // TODO: this e.g. happens for generics!!!
             throw new RuntimeException("ClassScopes: given class is not in the map of the classscopes: " + exprType.toString());
         }
 
+        if (expr == null || cast == null) {
+            return true;
+            // TODO: this e.g. happens for generics!!!
+            //throw new RuntimeException("ClassScopes: given class is not in the map of the classscopes: " + castType.toString());
+
+        }
 
         if (!Utils.isUserLevel(exprType.toString()) && !Utils.isUserLevel(castType.toString())) {
             // ignore upcasting between SCJ classes (classes from javax.safetycritical and javax.realtime)
@@ -390,8 +398,17 @@ public class ScopeCheckerContext {
             if (expr.methodScopes.containsKey(e.getKey())) {            // TODO: check that its a signature
                 MethodScopeInfo eM = expr.methodScopes.get(e.getKey());
                 if (!e.getValue().runsIn.equals(eM.runsIn) ) {
-                    if (!isSupport(castType,e.getKey()))
+                    if (!isSupport(castType,e.getKey())) {
+                        //System.out.println("\nIllegal Upcast for :" + e.getKey());
+                        //System.out.println("\t expr class:" + exprType);
+                        //System.out.println("\t e @RI:" + e.getValue().runsIn);
+                        //System.out.println("\t eM @RI:" + eM.runsIn);
+                        //expr.dumpCSI();
+                        //System.out.println(" ------------------>>>>>>>>>> \n\n\n\n\n\n");
+                        //System.out.println("\t cast class:" + castType);
+                        //cast.dumpCSI();
                         return false;
+                    }
                 }
             }
         }

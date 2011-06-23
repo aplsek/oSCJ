@@ -22,8 +22,10 @@
  */
 package collision;
 
+import static javax.safetycritical.annotate.Scope.CALLER;
 import javax.safetycritical.PrivateMemory;
 import javax.safetycritical.annotate.DefineScope;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import cdx.ASCIIConverter;
 
@@ -108,6 +110,7 @@ public final class Vector3d {
         x = y = z = 0;
     }
 
+    @RunsIn(CALLER)
     public boolean equals(Object o) {
         try {
             return equals((Vector3d) o);
@@ -115,7 +118,8 @@ public final class Vector3d {
             return false;
         }
     }
-
+    
+    @RunsIn(CALLER)
     public boolean equals(Vector3d b) {
         if (x != b.x) return false;
         if (y != b.y) return false;

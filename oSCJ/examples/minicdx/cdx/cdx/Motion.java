@@ -75,7 +75,6 @@ class Motion {
         return pos_two;
     }
 
-    @RunsIn(CALLER)
     public String toString() {
         return "MOTION of " + getAircraft().toString() + " from " + getFirstPosition().toString() + " to "
                 + getSecondPosition().toString();

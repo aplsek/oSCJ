@@ -64,7 +64,6 @@ public class StateTable {
         float    x, y, z;
 
         @RunsIn("cdx.Level0Safelet")
-        @SCJAllowed(SUPPORT)
         public void run() {
             Vector3d v = (Vector3d) motionVectors.get(callsign);
             if (v == null) {

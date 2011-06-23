@@ -17,7 +17,6 @@ import javax.realtime.RealtimeThread;
 import javax.realtime.RelativeTime;
 import javax.safetycritical.ManagedMemory;
 import javax.safetycritical.PeriodicEventHandler;
-import javax.safetycritical.SCJRunnable;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.annotate.DefineScope;
 import javax.safetycritical.annotate.RunsIn;
@@ -30,6 +29,7 @@ import org.sunspotworld.demo.WebServer;
 
 import com.sun.squawk.webserver.Config;
 
+/*
 @Scope("MyMission")
 @SCJAllowed(value=LEVEL_1, members=true)
 @DefineScope(name="WorkerThread3", parent="MyMission")
@@ -49,13 +49,6 @@ public class WorkerThread3 extends PeriodicEventHandler implements WorkerThread 
                         Config.javaStackSize),
                 "Worker-"
                 + WorkerThreadConfig.workerCounter++);
-       /* 
-        super(new PriorityParameters(Config.priority),
-                new PeriodicParameters(new RelativeTime(0, 0), new RelativeTime(
-                        Config.period, 0)),
-                        new StorageParameters(Config.storage, 1000L, 1000L),
-                        "Worker-" + workerCounter++);
-        */
         this.server = server;
         this.notifier = notifier;
     }
@@ -73,12 +66,12 @@ public class WorkerThread3 extends PeriodicEventHandler implements WorkerThread 
         }
     }
 
+    @Scope("MyMission")
     @SCJAllowed(value=LEVEL_1, members=true)
     @DefineScope(name="HTTPSession3", parent="WorkerThread3")
-    class HTTPSession implements SCJRunnable {
+    class HTTPSession implements Runnable {
 
         @RunsIn("HTTPSession3")
-        @SCJAllowed(SUPPORT)
         @SCJRestricted(maySelfSuspend = true)
         public void run() {
             debug(getName() + " is running ...");
@@ -131,4 +124,4 @@ public class WorkerThread3 extends PeriodicEventHandler implements WorkerThread 
     private static void debug(String s) {
         //System.err.println(s);
     }
-}
+}*/
