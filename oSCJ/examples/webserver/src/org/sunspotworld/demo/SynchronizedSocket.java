@@ -1,9 +1,9 @@
 package org.sunspotworld.demo;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
-
+import static javax.safetycritical.annotate.Scope.CALLER;
 import java.io.IOException;
-
+import javax.safetycritical.annotate.RunsIn;
 import javax.microedition.io.StreamConnection;
 import javax.microedition.io.StreamConnectionNotifier;
 import javax.safetycritical.annotate.SCJAllowed;
@@ -16,6 +16,7 @@ public class SynchronizedSocket {
         this.notifier = notifier;
     }
 
+    @RunsIn(CALLER)
     public synchronized StreamConnection acceptAndOpen(String who) throws IOException {
         //System.err.print(who);
         //System.err.println(" is listenning ...");

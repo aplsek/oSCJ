@@ -276,7 +276,7 @@ public class NanoHTTP {
     private void sendResponse(OutputStream outs, Response response)
             throws IOException {
         @Scope(IMMORTAL) String status = response.status;
-        String mime = response.mimeType;
+        @Scope(IMMORTAL) String mime = response.mimeType;
         Properties header = response.header;
         InputStream data = response.data;
         int contentLength = response.contentLength;

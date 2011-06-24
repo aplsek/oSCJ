@@ -25,7 +25,7 @@ public class Response {
     /**
      * Basic constructor.
      */
-    public Response(@Scope(IMMORTAL) String status, String mimeType, InputStream data ) {
+    public Response(@Scope(IMMORTAL) String status,@Scope(IMMORTAL) String mimeType, InputStream data ) {
         this.status = status;
         this.mimeType = mimeType;
         this.data = data;
@@ -34,7 +34,7 @@ public class Response {
     /**
      * Basic constructor. Use when content length is known.
      */
-    public Response(@Scope(IMMORTAL) String status, String mimeType, InputStream data, int contentLength ) {
+    public Response(@Scope(IMMORTAL) String status,@Scope(IMMORTAL) String mimeType, InputStream data, int contentLength ) {
         this.status = status;
         this.mimeType = mimeType;
         this.data = data;
@@ -45,7 +45,7 @@ public class Response {
      * Convenience method that makes an InputStream out of
      * given text.
      */
-    public Response(@Scope(IMMORTAL) String status, String mimeType, String txt ) {
+    public Response(@Scope(IMMORTAL) String status,@Scope(IMMORTAL) String mimeType, String txt ) {
         this(status, mimeType, new ByteArrayInputStream(txt.getBytes()), txt.length());
     }
 
@@ -64,7 +64,7 @@ public class Response {
     /**
      * MIME type of content, e.g. "text/html"
      */
-    public String mimeType;
+    @Scope(IMMORTAL) public String mimeType;
     
     /**
      * Content length of the response or -1 if now known.
