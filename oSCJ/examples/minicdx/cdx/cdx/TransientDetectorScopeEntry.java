@@ -147,8 +147,9 @@ public class TransientDetectorScopeEntry /*implements SCJRunnable*/ {
         for (final Iterator iter = voxel_map.values().iterator(); iter
                 .hasNext();) {
             final List cur_set = (List) iter.next();
-            if (cur_set.size() > 1)
+            if (cur_set.size() > 1) {
                 ret.add(cur_set);
+            }
         }
         Benchmarker.done(3);
         return ret;

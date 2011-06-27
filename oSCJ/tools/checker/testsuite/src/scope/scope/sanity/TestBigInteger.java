@@ -114,7 +114,7 @@ public class TestBigInteger {
       @RunsIn("TM")
       public void run() {
         // copy bi into the "TM" scope (from the "TM.0" scope)
-        tm.crypto_key2 = new MBInt(bi);
+        //tm.crypto_key2 = new MBInt(bi);
 
         // or
         tm.crypto_key2 = bi.multiplyB(new MBInt(1));
@@ -153,7 +153,7 @@ public class TestBigInteger {
         @Scope(THIS)
         public MBInt multiplyA(MBInt bi) {
             try {
-                MBInt n_bi;
+                @Scope(THIS) MBInt n_bi;
                 n_bi = (MBInt) MemoryArea.newInstanceInArea(this,MBInt.class);
                 n_bi.deepCopy(bi);
                 return n_bi;

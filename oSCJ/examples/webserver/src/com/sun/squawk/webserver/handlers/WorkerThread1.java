@@ -79,7 +79,8 @@ public class WorkerThread1 extends PeriodicEventHandler implements WorkerThread 
 
             StreamConnection conn = null;
             try {
-                conn = notifier.acceptAndOpen(getName());
+                String string = new String(getName());
+                conn = notifier.acceptAndOpen(string);
             } catch (IOException e) {
                 debug("Error in accept:");
                 //e.printStackTrace();
