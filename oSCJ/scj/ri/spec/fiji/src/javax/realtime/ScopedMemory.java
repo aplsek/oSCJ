@@ -75,7 +75,7 @@ public abstract class ScopedMemory extends MemoryArea implements ScopedAllocatio
 	 * the right exceptions
 	 */
 	@Override
-	public void enter(Runnable logic) {
+	public void enter(@Scope(UNKNOWN) Runnable logic) {
 		if (logic == null)
 			throw new IllegalArgumentException("null logic not permitted");
 		RealtimeThread current = RealtimeThread.currentRealtimeThread();

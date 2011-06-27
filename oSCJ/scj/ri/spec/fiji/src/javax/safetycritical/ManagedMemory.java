@@ -84,7 +84,7 @@ public abstract class ManagedMemory extends LTMemory {
 	 */
 	@Override
     @SCJAllowed(INFRASTRUCTURE)
-	public void enter(Runnable logic) {
+	public void enter(@Scope(UNKNOWN) Runnable logic) {
 		super.enter(logic);
 		destroyChild();
 	}

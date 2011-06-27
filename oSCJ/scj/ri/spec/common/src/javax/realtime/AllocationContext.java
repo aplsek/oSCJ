@@ -21,13 +21,13 @@
 package javax.realtime;
 
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
-import static javax.safetycritical.annotate.Scope.CALLER;
-import static javax.safetycritical.annotate.Scope.UNKNOWN;
+import static javax.safetycritical.annotate.Scope.*;
 
 import java.lang.reflect.InvocationTargetException;
 
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
 
 //import java.lang.reflect.Constructor;
@@ -110,8 +110,9 @@ public interface AllocationContext
    *
    *
    */
-  @RunsIn(CALLER)
   @SCJAllowed
+  @SCJRestricted(maySelfSuspend = false)
+  @RunsIn(CALLER)
   public Object newArray(Class type, int number)
     throws IllegalArgumentException, IllegalAccessException;
 
@@ -231,7 +232,7 @@ public interface AllocationContext
    * Execute logic with this memory area as the current allocation context.
    */
   @SCJAllowed(INFRASTRUCTURE)
-  public void executeInArea(Runnable logic) ;
+  public void executeInArea(@Scope(UNKNOWN) Runnable logic) ;
 
   /**
    * Create an object of class type in this memory area.
