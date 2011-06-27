@@ -22,10 +22,13 @@
 package javax.realtime;
 
 import javax.safetycritical.annotate.DefineScope;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 import javax.safetycritical.annotate.Scope;
+
+import static javax.safetycritical.annotate.Scope.CALLER;
 import static javax.safetycritical.annotate.Scope.IMMORTAL;
 
 import edu.purdue.scj.VMSupport;
@@ -65,6 +68,7 @@ public final class ImmortalMemory extends MemoryArea {
     @SCJRestricted(maySelfSuspend = false)
     @Scope(IMMORTAL)
     @DefineScope(name=IMMORTAL, parent=IMMORTAL)
+    @RunsIn(CALLER)
     public static ImmortalMemory instance() {
         return _instance;
     }
@@ -77,18 +81,21 @@ public final class ImmortalMemory extends MemoryArea {
 
     @SCJAllowed
     @SCJRestricted(maySelfSuspend = false)
+    @RunsIn(CALLER)
     public long memoryConsumed() {
     	return VMSupport.memoryConsumed(_instance.get_scopeID());
     }
     
     @SCJAllowed
     @SCJRestricted(maySelfSuspend = false)
+    @RunsIn(CALLER)
     public long memoryRemaining() {
     	return VMSupport.memoryRemaining(_instance.get_scopeID());
     }
     
     @SCJAllowed
     @SCJRestricted(maySelfSuspend = false)
+    @RunsIn(CALLER)
     public long size() {
     	return VMSupport.getScopeSize(_instance.get_scopeID());
     }
