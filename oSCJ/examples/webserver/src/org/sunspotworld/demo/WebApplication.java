@@ -1,7 +1,9 @@
 package org.sunspotworld.demo;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Scope.CALLER;
 
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 
 /**
@@ -16,6 +18,7 @@ public interface WebApplication {
      * @param request not including the application specific prefix. 
      * @returns Response HTTP response
      */
+    @RunsIn(CALLER)
     public Response serve(Request request) throws Exception;
 
 }

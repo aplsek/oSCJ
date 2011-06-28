@@ -1,7 +1,7 @@
 package org.sunspotworld.demo;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
-import static javax.safetycritical.annotate.Scope.IMMORTAL;
+import static javax.safetycritical.annotate.Scope.*;
 
 import java.io.*;
 import java.util.*;
@@ -10,7 +10,6 @@ import java.util.*;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 import javax.safetycritical.annotate.Scope;
-import static javax.safetycritical.annotate.Scope.CALLER;
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.io.SimpleInputStream;
 import javax.safetycritical.io.SimplePrintStream;
@@ -104,6 +103,7 @@ public class NanoHTTP {
     // Socket & server code
     // ==================================================
     @SCJRestricted(maySelfSuspend = true)
+    @RunsIn(CALLER)
     private String readLine(SimpleInputStream in) throws IOException {
         StringBuilder res = new StringBuilder();
         int ch;
@@ -178,12 +178,12 @@ public class NanoHTTP {
             // debugPrint(uri, header, parms);
 
             // Ok, now do the serve()
-            Application found = null;
+            @Scope(THIS) Application found = null;
             int score = -1;
             int size = apps.size();
 
             for (int i = 0; i < size; i++) {
-                Application app = (Application) apps.elementAt(i);
+                @Scope(THIS) Application app = (Application) apps.elementAt(i);
                 int myScore = app.matchScore(uri);
                 // System.out.println("score for " + app + " = " + myScore +
                 // " for uri" + uri);
@@ -215,6 +215,7 @@ public class NanoHTTP {
      * For example: "an+example%20string" -> "an example string"
      */
     @SCJRestricted(maySelfSuspend = true)
+    @RunsIn(CALLER)
     private String decodePercent(String str) throws IllegalArgumentException {
         try {
             StringBuilder sb = new StringBuilder();
@@ -247,6 +248,7 @@ public class NanoHTTP {
      * Properties.
      */
     @SCJRestricted(maySelfSuspend = true)
+    @RunsIn(CALLER)
     private void decodeParms(String parms, Properties p) {
         if (parms == null) {
             return;
@@ -265,6 +267,7 @@ public class NanoHTTP {
     /**
      * Returns an error message as a HTTP response.
      */
+    @RunsIn(CALLER)
     private void sendError(OutputStream outs, @Scope(IMMORTAL) String status, String msg)
             throws IOException {
         sendResponse(outs, new Response(status, MIME_PLAINTEXT, msg));
@@ -273,6 +276,7 @@ public class NanoHTTP {
     /**
      * Sends given response to the socket.
      */
+    @RunsIn(CALLER)
     private void sendResponse(OutputStream outs, Response response)
             throws IOException {
         @Scope(IMMORTAL) String status = response.status;
@@ -349,9 +353,10 @@ public class NanoHTTP {
          * 
          * @returns -1 if the prefix doesn't match or the length of the prefix.
          */
+        @RunsIn(CALLER)
         public int matchScore(String uri) {
             int score = -1;
-            if (uri.startsWith(uriPrefix)) {
+            if (uri.startsWith(new String(uriPrefix))) {
                 score = prefixLength;
             }
             return score;
@@ -361,6 +366,7 @@ public class NanoHTTP {
          * Calls the WebApplication's serve method after stripping the URI
          * prefix.
          */
+        @RunsIn(CALLER)
         public Response serve(Request request) throws Exception {
             request.uriPrefix = request.uri.substring(0, prefixLength);
             request.uri = request.uri.substring(prefixLength);
