@@ -6,9 +6,11 @@
 package org.sunspotworld.demo;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Scope.CALLER;
 
 import java.io.*;
 import javax.microedition.io.*;
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
@@ -23,6 +25,7 @@ public class FileServer implements WebApplication {
     }
 
     @SCJRestricted(maySelfSuspend = true)
+    @RunsIn(CALLER)
     public Response serve(Request request) {
         try {
             StreamConnection conn = null;
@@ -33,7 +36,7 @@ public class FileServer implements WebApplication {
                 fileName = fileName.substring(1);
             }
             try {
-                System.out.println("Opening file \"" + fileName + "\"");
+                //System.out.println("Opening file \"" + fileName + "\"");
                 conn = (StreamConnection) Connector.open("file://" + fileName, Connector.READ);
 
                 is = conn.openInputStream();

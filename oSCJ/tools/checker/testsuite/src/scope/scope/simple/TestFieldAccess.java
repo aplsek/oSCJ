@@ -29,16 +29,27 @@ import javax.safetycritical.annotate.RunsIn;
 
 @SCJAllowed(members=true)
 @Scope(IMMORTAL)
-public class TestCaller2 {
+public class TestFieldAccess {
 
 
     @Scope(IMMORTAL)
     @SCJAllowed(members=true)
     @DefineScope(name="X", parent=IMMORTAL)
-    static abstract class MS extends MissionSequencer {
+    static abstract class X extends MissionSequencer {
 
         @SCJRestricted(INITIALIZATION)
-        public MS() {
+        public X() {
+            super(null, null);
+        }
+    }
+
+    @Scope("X")
+    @SCJAllowed(members=true)
+    @DefineScope(name="Y", parent="X")
+    static abstract class Y extends MissionSequencer {
+
+        @SCJRestricted(INITIALIZATION)
+        public Y() {
             super(null, null);
         }
     }
@@ -47,59 +58,51 @@ public class TestCaller2 {
     @SCJAllowed(members=true)
     static public class A {
 
-        F f =  new F();
-
-        C c = new C();
+        F f = new F();
 
         @RunsIn(CALLER)
         public void method (B b) {
+
             //## checkers.scope.ScopeChecker.ERR_BAD_METHOD_INVOKE
-            f.m();          // 1/3 ERR
+            f.b.c.m();                  // 1/3 ERR
 
-            //## checkers.scope.ScopeChecker.ERR_BAD_ASSIGNMENT_SCOPE
-            this.f = new F();   // 2/3 ERR
-
-            b.m();  // OK
-
-            L l = new L();
-            l.m();             // OK
-
+            F ff = new F();
+            ff.b.c.m();             // OK
         }
 
+        public void method2 (B b, @Scope(CALLER) C c, S s, SS ss) {
 
-        @RunsIn(CALLER)
-        public void method (B b, C c) {
+            f.b.c.m();
 
-            b.mm(c);                        // OK
+            //## checkers.scope.ScopeChecker.ERR_BAD_METHOD_INVOKE
+            s.f.b.c.m();            // 2/3 ERR
 
-            b.method();                     // OK
+            s.f.b.c.mmm();            // OK
 
-            L l = new L();
-            l.mm(c);                        // OK
+            s.mmm();                // OK
 
-            C cc = new C();
-            l.mm(cc);                       // OK
+            //## checkers.scope.ScopeChecker.ERR_BAD_METHOD_INVOKE
+            ss.s.m();               // 3/3 ERR
 
-            //## checkers.scope.ScopeChecker.ERR_BAD_ASSIGNMENT_SCOPE
-            l.mm(this.c);                   // 3/3 ERR
+            ss.s.mmm();             // OK
 
-            Object o = b.mmm();             // OK
+            ss.s.f.b.c.mmm();       // OK
 
-            B.method();                     //OK
+            ss.f.b.c.mmm();         // OK
         }
 
-        public void method2 (B b, @Scope(CALLER) C c) {
-            b.method();                      // OK
-
-            c.m();                           // OK
-
-            B.method();                     //OK
+        @RunsIn("Y")
+        public void m( SS ss) {
+            ss.f.m();               // OK
         }
 
     }
 
     @SCJAllowed(members=true)
-    static public class F{
+    static public class F {
+
+        B b = new B();
+
         public void m() {}
 
         public void mm(C c) {}
@@ -107,6 +110,9 @@ public class TestCaller2 {
 
     @SCJAllowed(members=true)
     static public class B{
+
+        C c = new C();
+
         public void m() {}
 
         public void mm(C c) {}
@@ -131,7 +137,34 @@ public class TestCaller2 {
     @SCJAllowed(members=true)
     static public class C{
         public void m() {}
+
+        @RunsIn(CALLER)
+        public void mmm() {
+        }
     }
 
+    @Scope("X")
+    @SCJAllowed(members=true)
+    static public class S {
+        F f = new F();
 
+        public void m() {
+        }
+
+        @RunsIn(CALLER)
+        public void mmm() {
+        }
+    }
+
+    @Scope("Y")
+    @SCJAllowed(members=true)
+    static public class SS {
+        S s;
+
+        F f = new F();
+
+        @RunsIn(CALLER)
+        public void mmm() {
+        }
+    }
 }

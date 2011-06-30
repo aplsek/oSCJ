@@ -29,7 +29,7 @@ import org.sunspotworld.demo.WebServer;
 
 import com.sun.squawk.webserver.Config;
 
-/*
+
 @Scope("MyMission")
 @SCJAllowed(value=LEVEL_1, members=true)
 @DefineScope(name="WorkerThread3", parent="MyMission")
@@ -78,7 +78,8 @@ public class WorkerThread3 extends PeriodicEventHandler implements WorkerThread 
 
             StreamConnection conn = null;
             try {
-                conn = notifier.acceptAndOpen(getName());
+                String string = new String(getName());
+                conn = notifier.acceptAndOpen(string);
             } catch (IOException e) {
                 debug("Error in accept:");
                 //e.printStackTrace();
@@ -124,4 +125,4 @@ public class WorkerThread3 extends PeriodicEventHandler implements WorkerThread 
     private static void debug(String s) {
         //System.err.println(s);
     }
-}*/
+}

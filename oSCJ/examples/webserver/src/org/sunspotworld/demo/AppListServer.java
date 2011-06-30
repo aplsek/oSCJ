@@ -1,7 +1,9 @@
 package org.sunspotworld.demo;
 
 import static javax.safetycritical.annotate.Level.LEVEL_1;
+import static javax.safetycritical.annotate.Scope.CALLER;
 
+import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
 import javax.safetycritical.annotate.SCJRestricted;
 
@@ -15,6 +17,7 @@ public class AppListServer implements WebApplication {
     }
 
     @SCJRestricted(maySelfSuspend = true)
+    @RunsIn(CALLER)
     public Response serve(Request request) {
         if (request.uri.length() != 0) {
             return new Response(NanoHTTP.HTTP_NOTFOUND, NanoHTTP.MIME_HTML,
