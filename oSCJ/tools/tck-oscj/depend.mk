@@ -1,0 +1,3 @@
+# generated file -- do not edit
+SRCFILES=\
+src/TestSchedule406.java src/TestPreciseTime.java src/WordHandler2.java src/TestSchedule404.java src/MyHandler.java src/HelloWorld.java src/TestCase.java src/MemoryTest.java src/SCJLock.java src/Properties.java src/TestPrimordial.java src/TestJNI900.java src/TestImmortal.java src/HelloSCJ.java src/MainSafelet.java src/Test_Exceptions.java src/TestSchedule400.java src/TestException000.java src/WordHandler.java src/ImmortalTest2.java src/TestSchedule405.java src/EnterPrivateTest.java src/Level0App.java src/TestClock600.java src/TestSchedule407.java src/TestMemory501.java src/TestMemory504.java src/TestSchedule409.java src/TestSchedule402.java

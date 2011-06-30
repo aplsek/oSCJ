@@ -1,0 +1,38 @@
+echo "# generated file -- do not edit" > depend.mk
+echo "SRCFILES=\\" >> depend.mk
+echo `find src/ | grep \\\.java$ | grep -v /ovm/` >> depend.mk
+echo recall
+recall
+rm -f .phony
+./config.status
+config.status: creating Makefile
+config.status: creating RealMakefile
+make -f RealMakefile recall
+make[1]: Entering directory `/home/wang/fiji/fivm-scj/scj/oSCJ/examples/testsuite'
+../../../..//testmake/bin/recall
+fivmc: could not infer Safelet class
+Could not find a class implementing the javax.realtime.Safelet interface
+in the given list of Jar files.  If you are sure that such a class exists,
+you may specify it using the --scj-safelet option.
+
+Failed to execute: /home/wang/fiji/fivm-scj/bin/fivmc -o hello --scj --scj-scope-backing 3100k --g-def-immortal-mem 5000k --more-opt --max-threads 3 "build/HelloWorld\$1.class" build/HelloWorld.class "build/HelloWorld\$WordHandler.class"
+Reason: could not infer Safelet class
+rm: cannot remove `immortal.build/findsafeletArglist.txt': Permission denied
+Failed to execute: /home/wang/fiji/fivm-scj/bin/fivmc -o immortal --scj --scj-scope-backing 3100k --g-def-immortal-mem 5000k --more-opt --max-threads 3 "build/TestImmortal\$1.class" build/TestImmortal.class "build/TestImmortal\$WordHandler.class"
+Reason: got unexpected result when running rm -rf "immortal.build": 256
+rm: cannot remove `primordial.build/findsafeletArglist.txt': Permission denied
+Failed to execute: /home/wang/fiji/fivm-scj/bin/fivmc -o primordial --scj --scj-scope-backing 3100k --g-def-immortal-mem 5000k --more-opt --max-threads 3 "build/TestPrimordial\$1.class" build/TestPrimordial.class "build/TestPrimordial\$WordHandler.class"
+Reason: got unexpected result when running rm -rf "primordial.build": 256
+rm: cannot remove `immortal2.build/findsafeletArglist.txt': Permission denied
+Failed to execute: /home/wang/fiji/fivm-scj/bin/fivmc -o immortal2 --scj --scj-scope-backing 3100k --g-def-immortal-mem 5000k --more-opt --max-threads 3 "build/ImmortalTest2\$1.class" build/ImmortalTest2.class "build/ImmortalTest2\$MyRunnable.class" "build/ImmortalTest2\$WordHandler.class"
+Reason: got unexpected result when running rm -rf "immortal2.build": 256
+rm: cannot remove `enter-private.build/findsafeletArglist.txt': Permission denied
+Failed to execute: /home/wang/fiji/fivm-scj/bin/fivmc -o enter-private --scj --scj-scope-backing 3100k --g-def-immortal-mem 5000k --more-opt --max-threads 3 "build/EnterPrivateTest\$1.class" build/EnterPrivateTest.class "build/EnterPrivateTest\$EnterPrivate.class" "build/EnterPrivateTest\$WordHandler.class"
+Reason: got unexpected result when running rm -rf "enter-private.build": 256
+rm: cannot remove `precise-time.build/findsafeletArglist.txt': Permission denied
+Failed to execute: /home/wang/fiji/fivm-scj/bin/fivmc -o precise-time --scj --scj-scope-backing 3100k --g-def-immortal-mem 5000k --more-opt --max-threads 3 "build/TestPreciseTime\$1.class" build/TestPreciseTime.class "build/TestPreciseTime\$WordHandler.class"
+Reason: got unexpected result when running rm -rf "precise-time.build": 256
+rm: cannot remove `lock.build/findsafeletArglist.txt': Permission denied
+Failed to execute: /home/wang/fiji/fivm-scj/bin/fivmc -o lock --scj --scj-scope-backing 3100k --g-def-immortal-mem 5000k --more-opt --max-threads 3 "build/SCJLock\$1.class" build/SCJLock.class "build/SCJLock\$WordHandler.class"
+Reason: got unexpected result when running rm -rf "lock.build": 256
+make[1]: Leaving directory `/home/wang/fiji/fivm-scj/scj/oSCJ/examples/testsuite'

@@ -19,8 +19,6 @@
  *   @authors  Lei Zhao, Ales Plsek
  */
 
-import javax.realtime.AbsoluteTime;
-import javax.realtime.Clock;
 import javax.realtime.ImmortalMemory;
 import javax.realtime.MemoryArea;
 import javax.realtime.RealtimeThread;
@@ -33,38 +31,54 @@ import javax.safetycritical.Safelet;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.Terminal;
 
+import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 import edu.purdue.scj.utils.Utils;
 
-public class HelloWorld extends CyclicExecutive {
+public class MemoryTest extends CyclicExecutive {
 
-	public HelloWorld() {
+	public MemoryTest() {
 		super(null);
+	}
+
+	private static void writeln(String msg) {
+		Terminal.getTerminal().writeln(msg);
 	}
 
 	public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) {
 		CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
 		CyclicSchedule schedule = new CyclicSchedule(frames);
-		frames[0] = new CyclicSchedule.Frame(new RelativeTime(200, 0), handlers);
+		frames[0] = new CyclicSchedule.Frame(new RelativeTime(200, 0),
+				handlers);
 		return schedule;
 	}
 
 	public void initialize() {
-	       		new WordHandler(100000, "HelloWorld.\n", 1);
+		new Handler(20000, "HelloWorld.\n", 1);
+
+
+		System.out.println(" total = " + Runtime.getRuntime().totalMemory());
+		System.out.println(" free = " + Runtime.getRuntime().freeMemory());
+		System.out.print("Initializing..");
+		printMem(ImmortalMemory.instance());
+		printMem(RealtimeThread.getCurrentMemoryArea());
+
+		System.out.println("Memory area is " + RealtimeThread.getCurrentMemoryArea());
 	}
 
 	/**
-	 * A method to query the maximum amount of memory needed by this mission.
+	 * A method to query the maximum amount of memory needed by this
+	 * mission.
 	 * 
 	 * @return the amount of memory needed
 	 */
 	// @Override
 	public long missionMemorySize() {
-		return 600000;
+		return 500000;
 	}
 
 	public void setUp() {
-	    	Terminal.getTerminal().write("setUp.\n");
+		Terminal.getTerminal().write("set-up.\n");
 	}
 
 	public void tearDown() {
@@ -75,4 +89,44 @@ public class HelloWorld extends CyclicExecutive {
 		Terminal.getTerminal().write("cleanUp.\n");
 	}
 
+	public class Handler extends PeriodicEventHandler {
+
+		private int count_;
+
+		private Handler(long psize, String name, int count) {
+			super(null, null, new StorageParameters(psize,0,0), name);
+			count_ = count;
+		}
+
+		/**
+		 * 
+		 * Testing Enter Private Memory
+		 * 
+		 */
+		public void handleAsyncEvent() {
+			Terminal.getTerminal().write(getName());
+
+			if (count_-- == 0)
+				getCurrentMission()
+						.requestSequenceTermination();
+		}
+
+		public void cleanUp() {
+		}
+
+		public StorageParameters getThreadConfigurationParameters() {
+			return null;
+		}
+	}
+
+	public final void printMem(MemoryArea area) {
+		System.out.print(" area = ");
+		System.out.println(area.toString());
+		System.out.print("   size = ");
+		System.out.println(Long.toString(area.size()));
+		System.out.print("   used = ");
+		System.out.println(Long.toString(area.memoryConsumed()));
+		System.out.print("   left = ");
+		System.out.println(Long.toString(area.memoryRemaining()));
+	}
 }

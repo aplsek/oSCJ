@@ -1,5 +1,5 @@
-JAVAC=@JAVAC@
-JAR=@JAR@
+JAVAC=javac
+JAR=jar
 
 include depend.mk
 
