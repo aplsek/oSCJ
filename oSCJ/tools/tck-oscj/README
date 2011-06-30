@@ -1,0 +1,33 @@
+SCJ test-make
+Date: 06/30/2011
+Authors: Jialiang Wang, Ales Plsek, Lei Zhao, Jan Vitek; PURDUE UNIVERSITY
+Web-Page:http://code.google.com/p/tck-oscj/
+Source Repository:  http://code.google.com/p/scj-jsr302/
+
+===============================================================================
+
+1. Download the test-make
+
+===========
+
+Check-out the latest sources:
+
+  $ cd /scj/oSCJ/tools/
+  $ hg clone https://wangjialiang529neu@tck-oscj.googlecode.com/hg/ tck-oscj
+
+
+===========
+
+2. execute:
+
+  $ autoconf
+  $ ./configure
+
+
+===========
+
+3. run the test-make 
+
+  $ make check-scj
+
+for the detialed results, please use command $ make recall after the step 3.
