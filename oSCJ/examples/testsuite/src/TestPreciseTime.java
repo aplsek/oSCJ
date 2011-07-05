@@ -43,12 +43,12 @@ public class TestPreciseTime extends CyclicExecutive {
         super(null);
     }
 
-    public static void main(final String[] args) {
-        Safelet safelet = new TestPreciseTime();
-        safelet.setUp();
-        safelet.getSequencer().start();
-        safelet.tearDown();
-    }
+    //    public static void main(final String[] args) {
+    //  Safelet safelet = new TestPreciseTime();
+    //  safelet.setUp();
+    //  safelet.getSequencer().start();
+    //  safelet.tearDown();
+    //}
 
     private static void writeln(String msg) {
 	// Terminal.getTerminal().writeln(msg);
@@ -109,9 +109,9 @@ public class TestPreciseTime extends CyclicExecutive {
         	
         	
 	        System.out.println("HelloWorld test");
-        	//AbsoluteTime t = Clock.getRealtimeClock().getTime();
-     	 	//AbsoluteTime t = Clock.getRealtimeClock().getTimePrecise();
-        	//System.out.println("Time is:" + t.getMilliseconds() + "ms ," + t.getNanoseconds());
+		//AbsoluteTime t = Clock.getRealtimeClock().getTime();
+     	 	AbsoluteTime t = Clock.getRealtimeClock().getTimePrecise();
+        	System.out.println("Time is:" + t.getMilliseconds() + "ms ," + t.getNanoseconds());
 
            if (count_-- == 0)
                getCurrentMission().requestSequenceTermination();
