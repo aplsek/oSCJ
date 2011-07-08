@@ -38,9 +38,9 @@ public class Test_Exceptions  extends CyclicExecutive {
         super(null);
     }
 
-    public static void main(final String[] args) {
+    //    public static void main(final String[] args) {
 
-         Utils.debugPrint("[OK] TEST: exceptions");
+    //   Utils.debugPrint("[OK] TEST: exceptions");
         // VMSupport.setCurrentArea(VMSupport.getImmortalArea());
         // Utils.debugPrint("[OK] immportal... ok.");
         //
@@ -52,12 +52,12 @@ public class Test_Exceptions  extends CyclicExecutive {
        // Utils.debugPrint("[OK] Class is a subclass of Safelet");
 
         
-        safelet.setUp();
-        safelet.getSequencer().start();
-        safelet.tearDown();
+    //  safelet.setUp();
+    //  safelet.getSequencer().start();
+    //  safelet.tearDown();
 
       
-    }
+    //}
 
     private static void writeln(String msg) {
         Terminal.getTerminal().writeln(msg);

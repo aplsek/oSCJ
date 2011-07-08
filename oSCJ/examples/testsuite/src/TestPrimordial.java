@@ -43,12 +43,12 @@ public class TestPrimordial extends CyclicExecutive {
         super(null);
     }
 
-    public static void main(final String[] args) {
-        Safelet safelet = new TestPrimordial();
-        safelet.setUp();
-        safelet.getSequencer().start();
-        safelet.tearDown();
-    }
+    //    public static void main(final String[] args) {
+    //   Safelet safelet = new TestPrimordial();
+    //  safelet.setUp();
+    //  safelet.getSequencer().start();
+    //  safelet.tearDown();
+    //}
 
     private static void writeln(String msg) {
 	// Terminal.getTerminal().writeln(msg);

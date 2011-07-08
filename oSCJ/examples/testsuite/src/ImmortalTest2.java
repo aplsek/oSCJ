@@ -17,12 +17,12 @@ public class ImmortalTest2 extends CyclicExecutive  {
         super(null);
     }
 
-    public static void main(final String[] args) {
-        Safelet safelet = new ImmortalTest2();
-        safelet.setUp();
-        safelet.getSequencer().start();
-        safelet.tearDown();
-    }
+    //    public static void main(final String[] args) {
+    //  Safelet safelet = new ImmortalTest2();
+    //  safelet.setUp();
+    //  safelet.getSequencer().start();
+    //  safelet.tearDown();
+    // }
 
     private static void writeln(String msg) {
         Terminal.getTerminal().writeln(msg);

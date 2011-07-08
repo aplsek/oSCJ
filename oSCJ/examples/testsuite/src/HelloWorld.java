@@ -1,4 +1,3 @@
-
 /**
  *  This file is part of oSCJ.
  *
@@ -20,6 +19,8 @@
  *   @authors  Lei Zhao, Ales Plsek
  */
 
+import javax.realtime.AbsoluteTime;
+import javax.realtime.Clock;
 import javax.realtime.ImmortalMemory;
 import javax.realtime.MemoryArea;
 import javax.realtime.RealtimeThread;
@@ -32,93 +33,46 @@ import javax.safetycritical.Safelet;
 import javax.safetycritical.StorageParameters;
 import javax.safetycritical.Terminal;
 
-import edu.purdue.scj.BackingStoreID;
 import edu.purdue.scj.VMSupport;
 import edu.purdue.scj.utils.Utils;
 
 public class HelloWorld extends CyclicExecutive {
 
-    public HelloWorld() {
-        super(null);
-    }
+	public HelloWorld() {
+		super(null);
+	}
 
-    public static void main(final String[] args) {
-        Safelet safelet = new HelloWorld();
-        safelet.setUp();
-        safelet.getSequencer().start();
-        safelet.tearDown();
-    }
+	public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) {
+		CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
+		CyclicSchedule schedule = new CyclicSchedule(frames);
+		frames[0] = new CyclicSchedule.Frame(new RelativeTime(200, 0), handlers);
+		return schedule;
+	}
 
-    private static void writeln(String msg) {
-        Terminal.getTerminal().writeln(msg);
-    }
+	public void initialize() {
+	       		new WordHandler(100000, "HelloWorld.\n", 1);
+	}
 
-    public CyclicSchedule getSchedule(PeriodicEventHandler[] handlers) {
-        CyclicSchedule.Frame[] frames = new CyclicSchedule.Frame[1];
-        CyclicSchedule schedule = new CyclicSchedule(frames);
-        frames[0] = new CyclicSchedule.Frame(new RelativeTime(200, 0), handlers);
-        return schedule;
-    }
+	/**
+	 * A method to query the maximum amount of memory needed by this mission.
+	 * 
+	 * @return the amount of memory needed
+	 */
+	// @Override
+	public long missionMemorySize() {
+		return 600000;
+	}
 
-    public void initialize() {
-        new WordHandler(20000, "HelloWorld.\n", 1);
-    }
+	public void setUp() {
+	    	Terminal.getTerminal().write("setUp.\n");
+	}
 
-    /**
-     * A method to query the maximum amount of memory needed by this mission.
-     * 
-     * @return the amount of memory needed
-     */
-    // @Override
-    public long missionMemorySize() {
-        return 500000;
-    }
+	public void tearDown() {
+		Terminal.getTerminal().write("teardown.\n");
+	}
 
-    public void setUp() {     
-        Terminal.getTerminal().write("set-up.\n"); 
-    }
-
-    public void tearDown() {
-        Terminal.getTerminal().write("teardown.\n");
-    }
-
-    public void cleanUp() {
-        Terminal.getTerminal().write("cleanUp.\n");
-    }
-
-    
-    
-    public class WordHandler extends PeriodicEventHandler {
-
-        private int count_;
-
-        private WordHandler(long psize, String name, int count) {
-            super(null, null, new StorageParameters(psize,0,0), name);
-            count_ = count;
-        }
-
-        /**
-         * 
-         * Testing Enter Private Memory
-         * 
-         */
-        public void handleAsyncEvent() {
-           Terminal.getTerminal().write(getName());
-          
-           if (count_-- == 0)
-               getCurrentMission().requestSequenceTermination();
-        }
-
-        
-        public void cleanUp() {
-        }
-
-    
-        public StorageParameters getThreadConfigurationParameters() {
-            return null;
-        }
-    }
-
-
+	public void cleanUp() {
+		Terminal.getTerminal().write("cleanUp.\n");
+	}
 
 }
