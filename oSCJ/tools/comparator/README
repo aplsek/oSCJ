@@ -1,0 +1,53 @@
+Comparator 1.0
+
+
+Author: Ales Plsek, <aplsek@purdue.edu>
+==========================================
+
+
+
+Description:
+--------------
+This tool verifies implementation of SCJ classes(TARGET) againts their specification (SOURCE).
+The tool verifies class/interface structures - their declarations, annotations, declarations of methods and their annotations. The method bodies are not considered.
+
+An Example of the tool output for 1 class is:   javax/realtime/RealtimeThread            Annotation missing : @SCJAllowed(LEVEL_1)        public static RealtimeThread currentRealtimeThread() :254:            Annotation missing : @BlockFree            Annotation missing : @SCJAllowed(LEVEL_2)        public static MemoryArea getCurrentMemoryArea() :259:            Annotation missing : @BlockFree            Annotation missing : @SCJAllowed(LEVEL_1)        public MemoryArea getMemoryArea()             Method not found.        public static void sleep(javax.realtime.HighResolutionTime) throws InterruptedException             Method not found.        Errors:7Furthermore, as SOURCE and TARGET you can use any pair of SCJ implementations,  so you can verify:Spec vs. RISpec vs oSCJ-OVMbut also:oSCJ-OVM vs. oSCJ-FijiRI vs. oSCJ-RTSJand you can also do: RI vs. Spec (which will tell you what you have in RI but its not contained in Spec.)etc.
+
+
+
+Reported are the following types of errors:
+----------
+	- mission annotations on classes/methods
+	- class/method declarations are not corresponding (between TARGET and SOURCE)
+	- missing methods
+
+
+
+ALGORITHM:
+----------The tool constructs an AST for each class in the SOURCE and in  TARGET and compares them. Also we can extend it as we want.
+
+
+Note:
+------
+- only classes/methods annotated with @SCJAllowed,@SCJProtected are considered
+
+
+
+Limitations:
+--------------
+- only packages javax.realtime and javax.safetycritical are being verified (the tool can be easily extended to verify more)
+
+
+
+
+Installation and Running
+-------------------------
+
+1. $ chmod 775 comparator.sh
+
+2. in the "comparator" script, modify the paths to the SOURCE and TARGET directories containing the .java source files.
+
+3. $ ./comparator.sh
+
+
+
