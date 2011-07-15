@@ -56,7 +56,7 @@ class MissionMemory extends ManagedMemory {
         //System.out.println("Creating a Mission memory. long:" + sizeInByte + "\n" + "\t parent is:" + RealtimeThread.getCurrentMemoryArea());
     }
 
-    SCJAllowed(INFRASTRUCTURE)
+    @SCJAllowed(INFRASTRUCTURE)
     public final void enter(Runnable logic) {
         super.enter(logic);
     }
