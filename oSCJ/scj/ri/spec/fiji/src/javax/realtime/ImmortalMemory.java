@@ -67,7 +67,6 @@ public final class ImmortalMemory extends MemoryArea {
     @SCJAllowed
     @SCJRestricted(maySelfSuspend = false)
     @Scope(IMMORTAL)
-    @DefineScope(name=IMMORTAL, parent=IMMORTAL)
     @RunsIn(CALLER)
     public static ImmortalMemory instance() {
         return _instance;
