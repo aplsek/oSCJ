@@ -243,7 +243,6 @@ public abstract class Clock {
 	 * @param clockEvent
 	 */
 	@SCJAllowed(LEVEL_1)
-	@SCJRestricted()
 	protected abstract void registerCallBack(AbsoluteTime time,
 			ClockCallBack clockEvent);
 
@@ -255,7 +254,6 @@ public abstract class Clock {
 	 * @return
 	 */
 	@SCJAllowed(LEVEL_1)
-	@SCJRestricted()
 	protected abstract boolean resetTargetTime(AbsoluteTime time);
 
 	/**
@@ -267,6 +265,5 @@ public abstract class Clock {
 	protected abstract void setResolution(javax.realtime.RelativeTime resolution);
 
 	@SCJAllowed
-	@SCJRestricted()
 	public abstract RelativeTime getEpochOffset();
 }

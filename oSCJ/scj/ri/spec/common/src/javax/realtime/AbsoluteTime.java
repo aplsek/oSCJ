@@ -108,7 +108,6 @@ public class AbsoluteTime extends HighResolutionTime {
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
 	public AbsoluteTime subtract(RelativeTime time) {
 		if (time == null || time._clock != this._clock)
 			throw new IllegalArgumentException("null arg or different clock");

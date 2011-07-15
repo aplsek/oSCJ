@@ -50,13 +50,11 @@ public class PeriodicParameters extends ReleaseParameters {
     }
 
     @SCJAllowed
-    @SCJRestricted()
     public HighResolutionTime getStart() {
         return _start;
     }
 
     @SCJAllowed(LEVEL_1)
-    @SCJRestricted()
     @RunsIn(CALLER) @Scope(THIS)
     public RelativeTime getPeriod() {
         return _period;

@@ -51,7 +51,6 @@ public class PriorityParameters extends SchedulingParameters {
 	}
 
 	@SCJAllowed
-	@SCJRestricted()
 	public int getPriority() {
 		return _priority;
 	}
