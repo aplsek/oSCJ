@@ -42,7 +42,7 @@ import javax.safetycritical.annotate.SCJRestricted;
  * TODO: implement this (currently we don't need this parameter at all)
  */
 @SCJAllowed(LEVEL_0)
-public abstract class ReleaseParameters {
+public abstract class ReleaseParameters implements java.lang.Cloneable  {
 
 //    @SCJProtected
 //    protected ReleaseParameters(RelativeTime cost, RelativeTime deadline,

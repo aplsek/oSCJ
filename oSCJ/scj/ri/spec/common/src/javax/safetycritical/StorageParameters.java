@@ -41,7 +41,7 @@ import javax.safetycritical.annotate.SCJAllowed;
  * 
  */
 @SCJAllowed
-public class StorageParameters {
+public final class StorageParameters {
 
     // TODO: what should the defaults be? Make them configurable?
     static int DEFAULT_MESSAGE_LENGTH = 0;

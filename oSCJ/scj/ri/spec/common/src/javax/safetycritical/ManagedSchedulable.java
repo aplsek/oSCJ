@@ -14,7 +14,7 @@ import javax.safetycritical.annotate.SCJRestricted;
  * 
  */
 @SCJAllowed
-public interface ManagedSchedulable extends Schedulable {
+public interface ManagedSchedulable extends javax.realtime.Schedulable {
 
     /**
      * Register this schedulable object with the current mission.

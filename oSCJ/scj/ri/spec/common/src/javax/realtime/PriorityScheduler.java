@@ -58,19 +58,16 @@ public class PriorityScheduler extends Scheduler {
 	 */
 
 	@SCJAllowed(LEVEL_1)
-	@SCJRestricted()
 	public int getMaxPriority() {
 		return MAX_PRIORITY;
 	}
 
 	@SCJAllowed(LEVEL_1)
-	@SCJRestricted()
 	public int getNormPriority() {
 		return NORM_PRIORITY;
 	}
 
 	@SCJAllowed(LEVEL_1)
-	@SCJRestricted()
 	public int getMinPriority() {
 		return MIN_PRIORITY;
 	}

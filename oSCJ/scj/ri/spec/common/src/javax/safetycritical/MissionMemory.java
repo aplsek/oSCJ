@@ -42,7 +42,7 @@ import javax.safetycritical.annotate.SCJAllowed;
  * 4. All schedulable objects will be allocated in MissionMemory
  */
 @SCJAllowed(LEVEL_0)
-public final class MissionMemory extends ManagedMemory {
+class MissionMemory extends ManagedMemory {
 
 
 	@SCJAllowed(LEVEL_1)

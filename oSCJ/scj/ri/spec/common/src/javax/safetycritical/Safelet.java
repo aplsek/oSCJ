@@ -42,7 +42,7 @@ import static javax.safetycritical.annotate.Scope.IMMORTAL;
  */
 @Scope(IMMORTAL)
 @SCJAllowed
-public interface Safelet {
+public interface Safelet<MissionLevel extends Mission>  {
 
     // @SCJAllowed
     // public Level getLevel();
