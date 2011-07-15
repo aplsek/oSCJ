@@ -1,15 +1,21 @@
 #!/bin/bash
 
-SPEC=/Users/plsek/_work/workspace_RT/jsr302-TCK/scj/specsrc
-RI=/Users/plsek/_work/workspace_RT/jsr302-patch/RI/src/java
-#/Users/plsek/workspace/jsr302-patch/RI
+set -e
+set -x
 
-oSCJ=/Users/plsek/workspace/scj-current/ri/spec/common/src/
+SPEC=~/_work/workspace_RT/jsr302-September/scj/specsrc/
+RI=~/_work/workspace_RT/jsr302-September/RI/src/java/
+oSCJ=/Users/plsek/fiji/scj-dan/oSCJ/tools/comparator/input/oSCJ
 
 
 LOG_RI=log-RI.txt
 LOG_oSCJ=log-Spec-VS-oSCJ.txt
 
-java -classpath lib/javaparser-1.0.8.jar -jar lib/comparator.jar $SPEC $oSCJ $LOG_oSCJ
+#java -classpath lib/javaparser-1.0.8.jar -jar lib/comparator.jar $SPEC $oSCJ $LOG_oSCJ
+#
+#java -classpath lib/javaparser-1.0.8.jar -jar lib/comparator.jar $SPEC $RI $LOG_RI
 
-java -classpath lib/javaparser-1.0.8.jar -jar lib/comparator.jar $SPEC $RI $LOG_RI
+java -classpath lib/javaparser-1.0.8.jar -jar lib/comparator.jar $oSCJ $SPEC log.txt
+
+
+java -classpath lib/javaparser-1.0.8.jar -jar lib/comparator.jar $oSCJ $RI logRI.txt
