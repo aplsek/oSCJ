@@ -30,7 +30,7 @@ import static javax.safetycritical.annotate.Level.SUPPORT;
 import static javax.safetycritical.annotate.Level.LEVEL_2;
 import static javax.safetycritical.annotate.Level.LEVEL_1;
 
-@SCJAllowed(LEVEL_2)
+@SCJAllowed(value = LEVEL_2, members = true)
 public class NoHeapRealtimeThread extends RealtimeThread {
 
     public NoHeapRealtimeThread(SchedulingParameters scheduling, MemoryArea area) {
@@ -52,7 +52,6 @@ public class NoHeapRealtimeThread extends RealtimeThread {
         return "NoHeap" + super.toString();
     }
     
-    @SCJAllowed(LEVEL_2)
     public void start() {
     }
 }

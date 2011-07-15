@@ -28,6 +28,7 @@ import javax.realtime.LTMemory;
 import javax.realtime.RealtimeThread;
 import javax.realtime.SizeEstimator;
 import javax.safetycritical.annotate.SCJAllowed;
+import javax.safetycritical.annotate.SCJRestricted;
 
 /**
  * Facts:
@@ -45,38 +46,56 @@ import javax.safetycritical.annotate.SCJAllowed;
 class MissionMemory extends ManagedMemory {
 
 
-	@SCJAllowed(LEVEL_1)
-	public MissionMemory(SizeEstimator size) {
-		super(size);
-	}
+    @SCJAllowed(LEVEL_1)
+    public MissionMemory(SizeEstimator size) {
+        super(size);
+    }
 
-	MissionMemory(long sizeInByte) {
-		super(sizeInByte);
-		//System.out.println("Creating a Mission memory. long:" + sizeInByte + "\n" + "\t parent is:" + RealtimeThread.getCurrentMemoryArea());
-	}
+    MissionMemory(long sizeInByte) {
+        super(sizeInByte);
+        //System.out.println("Creating a Mission memory. long:" + sizeInByte + "\n" + "\t parent is:" + RealtimeThread.getCurrentMemoryArea());
+    }
 
-	@SCJAllowed
-	public final void enter(Runnable logic) {
-		super.enter(logic);
-	}
+    SCJAllowed(INFRASTRUCTURE)
+    public final void enter(Runnable logic) {
+        super.enter(logic);
+    }
 
-	public void resize(long sizeInByte) {
-		setSize(sizeInByte);
-	}
+    public void resize(long sizeInByte) {
+        setSize(sizeInByte);
+    }
 
-	@SCJAllowed
-	public MissionManager getManager() {
-		//System.out.println("[Mission memory ] get memory manager!!!");
-		
-		// TODO: check type
-		return (MissionManager) getPortal();
-	}
+    @SCJRestricted(maySelfSuspend = false)
+    public MissionManager getManager() {
+        //System.out.println("[Mission memory ] get memory manager!!!");
 
-	@SCJAllowed(INFRASTRUCTURE)
-	void setManager(MissionManager manager) {
-		//System.out.println("[Mission memory ] set memory manager!!!");
-		
-		setPortal(manager);
-	}
-	
+        // TODO: check type
+        return (MissionManager) getPortal();
+    }
+
+    @SCJAllowed(INFRASTRUCTURE)
+    void setManager(MissionManager manager) {
+        //System.out.println("[Mission memory ] set memory manager!!!");
+
+        setPortal(manager);
+    }
+
+    /**
+     * Override the portal getter so that the portal object can be
+     * shared.
+     * <p>
+     * TBD: is this comment correct?  looks like a cut-and-paste error
+     * from setPortal().
+     */
+    @Override
+    @SCJAllowed(INFRASTRUCTURE)
+    public synchronized Object getPortal() { return null; }
+
+    /**
+     * Override the portal getter so that the portal object can be shared.
+     */
+    @Override
+    @SCJAllowed(INFRASTRUCTURE)
+    public synchronized void setPortal(Object value) {}
+
 }

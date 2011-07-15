@@ -36,92 +36,101 @@ import edu.purdue.scj.utils.Utils;
 @SCJAllowed
 public abstract class Mission {
 
-	boolean _terminateAll = false;
-	volatile int _phase = Phase.INACTIVE;
+    boolean _terminateAll = false;
+    volatile int _phase = Phase.INACTIVE;
 
+    public static class Phase {
+        public final static int INITIAL = 0;
+        public final static int EXECUTE = 1;
+        public final static int CLEANUP = 2;
+        public final static int INACTIVE = -1;
+        public final static int TERMINATED = -2;
+    }
 
-	public static class Phase {
-		public final static int INITIAL = 0;
-		public final static int EXECUTE = 1;
-		public final static int CLEANUP = 2;
-		public final static int INACTIVE = -1;
-		public final static int TERMINATED = -2;
-	}
+    @SCJAllowed
+    @Scope(UNKNOWN)
+    @RunsIn(CALLER)
+    public static Mission getCurrentMission() {
+        MemoryArea mem = RealtimeThread.getCurrentMemoryArea();
+        if (!(mem instanceof ManagedMemory))
+            throw new Error("Cannot get current mission in non-managed memory");
+        return ((ManagedMemory) mem).getManager().getMission();
+    }
 
-	@SCJAllowed
-	@Scope(UNKNOWN) @RunsIn(CALLER) 
-	public static Mission getCurrentMission() {
-		MemoryArea mem = RealtimeThread.getCurrentMemoryArea();
-		if (!(mem instanceof ManagedMemory))
-			throw new Error("Cannot get current mission in non-managed memory");
-		return ((ManagedMemory) mem).getManager().getMission();
-	}
+    @SCJAllowed
+    @RunsIn(CALLER)
+    public void requestTermination() {
+        if (_phase != Phase.TERMINATED) {
+            _phase = Phase.TERMINATED;
+        }
+    }
 
-	@SCJAllowed
-	@RunsIn(CALLER)
-	public void requestTermination() {
-		if (_phase != Phase.TERMINATED) {
-			_phase = Phase.TERMINATED;
-		}
-	}
+    @SCJAllowed
+    @RunsIn(CALLER)
+    public final void requestSequenceTermination() {
+        _terminateAll = true;
+        requestTermination();
+    }
 
-	@SCJAllowed
-	@RunsIn(CALLER)
-	public final void requestSequenceTermination() {
-		_terminateAll = true;
-		requestTermination();
-	}
+    /**
+     * This method is invoked by infrastructure to determine the desired size of
+     * this Mission's MissionMemory. At the time this method is invoked, all
+     * available backing store memory has been temporarily placed into the
+     * MissionMemory. Thus, no backing store memory is available to serve as
+     * PrivateMemory areas. For this reason, the missionMemorySize() method
+     * should not attempt to introduce a new PrivateMemory area. Any attempt to
+     * do so would result in an OutOfMemoryError exception.
+     */
+    @SCJAllowed(SUPPORT)
+    public abstract long missionMemorySize();
 
-	@SCJAllowed
-	public abstract long missionMemorySize();
+    @SCJAllowed(INFRASTRUCTURE)
+    final void run() {
+        // Utils.debugIndentIncrement("###[SCJ] Mission.run : ");
 
-	@SCJAllowed(INFRASTRUCTURE)
-	final void run() {
-	    //Utils.debugIndentIncrement("###[SCJ] Mission.run : ");
-	    
-		_terminateAll = false;
-		MemoryArea mem = RealtimeThread.getCurrentMemoryArea();
-		if (!(mem instanceof MissionMemory)) { 
-		    Utils.panic("Mission not run in mission memory"); 
-		}
+        _terminateAll = false;
+        MemoryArea mem = RealtimeThread.getCurrentMemoryArea();
+        if (!(mem instanceof MissionMemory)) {
+            Utils.panic("Mission not run in mission memory");
+        }
 
-		MissionManager mngr = new MissionManager(this);
-		((MissionMemory) mem).setManager(mngr);
+        MissionManager mngr = new MissionManager(this);
+        ((MissionMemory) mem).setManager(mngr);
 
-		//Utils.debugPrintln("###[SCJ] Mission.run : INIT");
-		_phase = Phase.INITIAL;
-		initialize();
-		
-		//Utils.debugPrintln("###[SCJ] Mission.run : EXECUTE");
-		_phase = Phase.EXECUTE;
-		exec(mngr);
-		
-		//Utils.debugPrintln("###[SCJ] Mission.run : CLEAN-UP");
-		_phase = Phase.CLEANUP;
-		cleanUp();
-		_phase = Phase.INACTIVE;
-		
-		//Utils.debugPrintln("###[SCJ] Mission.run : Mission INACTIVE");
-		//Utils.decreaseIndent();
-	}
+        // Utils.debugPrintln("###[SCJ] Mission.run : INIT");
+        _phase = Phase.INITIAL;
+        initialize();
 
-	protected void exec(MissionManager manager) {
-	}
+        // Utils.debugPrintln("###[SCJ] Mission.run : EXECUTE");
+        _phase = Phase.EXECUTE;
+        exec(mngr);
 
-	@SCJAllowed(SUPPORT)
-	protected abstract void initialize();
+        // Utils.debugPrintln("###[SCJ] Mission.run : CLEAN-UP");
+        _phase = Phase.CLEANUP;
+        cleanUp();
+        _phase = Phase.INACTIVE;
 
-	@SCJAllowed(SUPPORT)
-	protected void cleanUp() {
-	}
-	
-	@SCJAllowed
-	public final boolean terminationPending() {
-		return false;
-	}
-	
-	@SCJAllowed
-	public final boolean sequenceTerminationPending() {
-		return false;
-	}
+        // Utils.debugPrintln("###[SCJ] Mission.run : Mission INACTIVE");
+        // Utils.decreaseIndent();
+    }
+
+    protected void exec(MissionManager manager) {
+    }
+
+    @SCJAllowed(SUPPORT)
+    protected abstract void initialize();
+
+    @SCJAllowed(SUPPORT)
+    protected void cleanUp() {
+    }
+
+    @SCJAllowed
+    public final boolean terminationPending() {
+        return false;
+    }
+
+    @SCJAllowed
+    public final boolean sequenceTerminationPending() {
+        return false;
+    }
 }
