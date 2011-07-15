@@ -26,7 +26,7 @@ import javax.safetycritical.annotate.SCJAllowed;
  *
  */
 @SCJAllowed(LEVEL_0)
-public class RawMemory {
+public final class RawMemory {
 
 	/**
 	 * This raw memory name is used to call for access memory using DMA.

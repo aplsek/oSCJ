@@ -101,7 +101,6 @@ public abstract class HighResolutionTime implements Comparable {
     }
 
     @SCJAllowed
-    @SCJRestricted()
     @RunsIn(CALLER) @Scope(UNKNOWN)
     public Clock getClock() {
         return _clock;
@@ -130,21 +129,18 @@ public abstract class HighResolutionTime implements Comparable {
     }
 
     @SCJAllowed
-    @SCJRestricted()
     @RunsIn(CALLER)
     public void set(HighResolutionTime time) {
     	//TODO:
     }
     
     @SCJAllowed
-    @SCJRestricted()
     @RunsIn(CALLER)
     public void set(long millis) {
     	//TODO:
     }
     
     @SCJAllowed
-    @SCJRestricted()
     @RunsIn(CALLER)
     public void set(long millis, int nanos) {
     	//TODO:
@@ -155,7 +151,6 @@ public abstract class HighResolutionTime implements Comparable {
      * that it waits with a precision of <code>HighResolutionTime</code>.
      */
     @SCJAllowed(LEVEL_2)
-    @SCJRestricted()
     public static void waitForObject(java.lang.Object target,
             HighResolutionTime time) throws java.lang.InterruptedException {
         if (target == null)

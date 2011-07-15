@@ -35,7 +35,7 @@ import javax.safetycritical.annotate.SCJRestricted;
  * 
  */
 @SCJAllowed
-public class CyclicSchedule {
+public final class CyclicSchedule {
 
 	private Frame[] _frames;
 

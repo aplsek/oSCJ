@@ -15,7 +15,7 @@ import javax.safetycritical.annotate.SCJAllowed;
  *
  */
 @SCJAllowed
-public final class AffinitySet extends java.lang.Object {
+public final class AffinitySet {
 
 	/**
 	 * Returns an AffinitySet representing a subset of the processors in the system.

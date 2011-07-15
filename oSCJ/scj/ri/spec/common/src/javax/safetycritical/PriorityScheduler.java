@@ -24,7 +24,6 @@ public class PriorityScheduler extends javax.realtime.PriorityScheduler {
 	 * @return Returns the maximum hardware real-time priority supported by this virtual machine. @SCJAllowed
 	 */
 	@SCJAllowed(LEVEL_1) 
-	@SCJRestricted()
 	public int getMaxHardwarePriority() {
 		//TODO:
 		return 2000;
@@ -35,7 +34,6 @@ public class PriorityScheduler extends javax.realtime.PriorityScheduler {
 	 * Returns the minimum hardware real-time priority supported by this virtual machine.
 	 */
 	@SCJAllowed(LEVEL_1)
-	@SCJRestricted()
 	public int getMinHardwarePriority() {
 		//TODO:
 		return 1000;

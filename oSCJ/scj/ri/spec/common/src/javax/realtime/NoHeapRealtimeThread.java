@@ -53,8 +53,6 @@ public class NoHeapRealtimeThread extends RealtimeThread {
     }
     
     @SCJAllowed(LEVEL_2)
-	@SCJRestricted()
     public void start() {
-    	
     }
 }
