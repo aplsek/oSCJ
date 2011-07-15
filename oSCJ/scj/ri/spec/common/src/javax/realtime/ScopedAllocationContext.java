@@ -25,7 +25,7 @@ import static javax.safetycritical.annotate.Scope.CALLER;
 
 import javax.safetycritical.annotate.RunsIn;
 import javax.safetycritical.annotate.SCJAllowed;
-
+import static javax.safetycritical.annotate.Level.INFRASTRUCTURE;
 /**
  * This is the base interface for all scoped memory areas. Scoped memory is a
  * region based memory management strategy that can only be cleared when no
@@ -56,8 +56,7 @@ public interface ScopedAllocationContext extends AllocationContext {
      * @throws IllegalAssignmentError
      *             when caller is a Java thread.
      */
-    @SCJAllowed
-    @RunsIn(CALLER)
+    @SCJAllowed(INFRASTRUCTURE)
     public Object getPortal() throws MemoryAccessError, IllegalAssignmentError;
 
     /**
@@ -78,7 +77,7 @@ public interface ScopedAllocationContext extends AllocationContext {
      *             when the caller is a Schedulable object, this memory area is
      *             not in the caller's scope stack, and object is not null.
      */
-    @SCJAllowed
+    @SCJAllowed(INFRASTRUCTURE)
     public void setPortal(Object object) throws IllegalThreadStateException,
             IllegalAssignmentError, InaccessibleAreaException;
 
@@ -94,7 +93,7 @@ public interface ScopedAllocationContext extends AllocationContext {
      * @throws IllegalStateException
      *             when the area is not empty.
      */
-    @SCJAllowed
+    @SCJAllowed(INFRASTRUCTURE)
     public void resize(long size) throws IllegalStateException;
 
 }

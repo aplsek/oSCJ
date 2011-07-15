@@ -39,7 +39,6 @@ public abstract class Happening {
     /**
 	*
 	*/
-    @SCJAllowed
     public static Happening getHappening(String name) {
         return null;
     }
@@ -47,7 +46,6 @@ public abstract class Happening {
     /**
 	*
 	*/
-    @SCJAllowed
     public final int getId() {
         return 1;
     }
@@ -55,7 +53,6 @@ public abstract class Happening {
     /**
 	  *
 	  */
-    @SCJAllowed
     public static int getId(java.lang.String name) {
         return 1;
     }
@@ -63,7 +60,6 @@ public abstract class Happening {
     /**
 	  *
 	  */
-    @SCJAllowed
     public final String getName() {
         return "Happ";
     }
@@ -71,7 +67,6 @@ public abstract class Happening {
     /**
 	  *
 	  */
-    @SCJAllowed
     public static boolean isHappening(java.lang.String name) {
         return false;
     }
@@ -79,7 +74,6 @@ public abstract class Happening {
     /**
 	  *
 	  */
-    @SCJAllowed
     public boolean isRegistered() {
         return false;
     }
@@ -94,7 +88,6 @@ public abstract class Happening {
     /**
 	  *
 	  */
-    @SCJAllowed
     public static final boolean trigger(int happeningId) {
         return true;
     }
@@ -102,7 +95,6 @@ public abstract class Happening {
     /**
 	  *
 	  */
-    @SCJAllowed
     public final void unRegister() {
     }
 }

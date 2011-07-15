@@ -132,11 +132,14 @@ public abstract class ManagedMemory extends LTMemory {
 	 *
 	 * @param size
 	 * @param logic
+	 * 
+	 * TODO: make this method "static"
+	 * 
 	 */
 	@SCJAllowed
 	@RunsIn(CALLER)
 	@com.fiji.fivm.r1.NoScopeChecks
-	public void enterPrivateMemory(long size,@Scope(UNKNOWN) Runnable logic) {
+	public void enterPrivateMemory(long size, Runnable logic) {
 		if (size < 0)
 			throw new IllegalArgumentException(
 					"Mission memory size must be non-negative");

@@ -81,7 +81,7 @@ public abstract class MemoryArea implements AllocationContext {
 
 	@SCJAllowed(INFRASTRUCTURE)
 	@SCJRestricted(maySelfSuspend = false)
-	public void enter(@Scope(UNKNOWN) Runnable logic) {
+	public void enter(Runnable logic) {
 	    if (logic == null)
 			throw new IllegalArgumentException("null logic not permitted");
 		RealtimeThread thread = RealtimeThread.currentRealtimeThread();
@@ -142,18 +142,21 @@ public abstract class MemoryArea implements AllocationContext {
 
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
+	@RunsIn(CALLER)
 	public long memoryConsumed() {
 		return VMSupport.memoryConsumed(get_scopeID());
 	}
 
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
+	@RunsIn(CALLER)
 	public long memoryRemaining() {
 		return VMSupport.memoryRemaining(get_scopeID());
 	}
 
 	@SCJAllowed
 	@SCJRestricted(maySelfSuspend = false)
+	@RunsIn(CALLER)
 	public long size() {
 		return _size;
 	}
