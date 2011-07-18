@@ -13,7 +13,10 @@ public enum Phase
     CLEANUP        { @Override public int value() { return 2; } },
 
     @SCJAllowed
-    ALL            { @Override public int value() { return 3; } };
+    INTERRUPT_SERVICE_ROUTINE { @Override public int value() { return 3; } },
+
+    @SCJAllowed
+    ALL            { @Override public int value() { return 4; } };
     
     public abstract int value();
 }

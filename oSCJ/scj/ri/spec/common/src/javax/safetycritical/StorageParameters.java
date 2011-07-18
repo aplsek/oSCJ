@@ -54,6 +54,7 @@ public final class StorageParameters {
     int _stackTraceLength;
 
     
+    
     /**
      * Sizes parameters for schedulable objects: event handlers, threads,
      * and sequencers.  Passed as  parameter to the constructor of mission

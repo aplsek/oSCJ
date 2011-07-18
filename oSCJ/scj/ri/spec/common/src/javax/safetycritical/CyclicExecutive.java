@@ -45,7 +45,7 @@ import edu.purdue.scj.utils.Utils;
  */
 @SCJAllowed
 @Scope(IMMORTAL)
-public abstract class CyclicExecutive extends Mission implements Safelet {
+public abstract class CyclicExecutive extends Mission {
 
     private MissionSequencer _sequencer;
     private static final int NANOS_PER_MILLI = 1000 * 1000;

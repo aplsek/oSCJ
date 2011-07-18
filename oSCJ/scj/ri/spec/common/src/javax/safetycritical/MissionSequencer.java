@@ -56,7 +56,7 @@ import static javax.safetycritical.annotate.Scope.CALLER;
  * 
  */
 @SCJAllowed
-public abstract class MissionSequencer extends BoundAsyncEventHandler {
+public abstract class MissionSequencer<SpecificMission extends Mission> extends BoundAsyncEventHandler {
 
     /**
      * NOTE!!! 

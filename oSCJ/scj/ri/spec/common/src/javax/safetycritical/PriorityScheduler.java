@@ -12,6 +12,7 @@ import javax.safetycritical.annotate.SCJRestricted;
 @SCJAllowed(LEVEL_1)
 public class PriorityScheduler extends javax.realtime.PriorityScheduler {
 
+     @SCJAllowed(LEVEL_1)
 	 public static PriorityScheduler instance() { 
 		 //TODO:
 		 return null; 

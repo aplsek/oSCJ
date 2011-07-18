@@ -34,7 +34,7 @@ import static javax.safetycritical.annotate.Scope.IMMORTAL;
 /**
  * A safety-critical application consists of one or more missions, executed
  * concurrently or in sequence. Every safety-critical application is represented
- * by an implementa- tion of Safelet which identifies the outer-most
+ * by an implementation of Safelet which identifies the outer-most
  * MissionSequencer.
  * 
  * @author plsek
@@ -68,26 +68,6 @@ public interface Safelet<MissionLevel extends Mission>  {
     @SCJRestricted(INITIALIZATION)
     public MissionSequencer getSequencer();
 
-    /**
-     * The infrastructure invokes setUp before invoking getSequencer.
-     * Application de- velopers place code to be executed before the
-     * MissionSequencer begins to execute within this method. Upon entry into
-     * this method, the current allocation context is ImmortalMemoryArea. User
-     * code may introduce nested PrivateMemory areas for temporary computations.
-     */
     @SCJAllowed(SUPPORT)
-    @SCJRestricted(INITIALIZATION)
-    public void setUp();
-
-    /**
-     * The infrastructure invokes tearDown after the MissionSequencer returned
-     * from get- Sequencer completes its execution. Application developers place
-     * code to be exe- cuted following MissionSequencer execution within this
-     * method. Upon entry into this method, the current allocation context is
-     * ImmortalMemoryArea. User code may introduce nested PrivateMemory areas
-     * for temporary computations.
-     */
-    @SCJAllowed(SUPPORT)
-    @SCJRestricted(CLEANUP)
-    public void tearDown();
+    public long immortalMemorySize();
 }
