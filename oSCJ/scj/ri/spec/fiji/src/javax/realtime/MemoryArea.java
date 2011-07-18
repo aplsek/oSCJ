@@ -127,9 +127,17 @@ public abstract class MemoryArea implements AllocationContext {
 
 	@SCJAllowed
 	@RunsIn(CALLER)
-	public Object newArrayInArea(@Scope(UNKNOWN) Object object,Class clazz, int size)
-			throws IllegalAccessException {
-		return getMemoryArea(object).newArray(clazz, size);
+	public Object newArrayInArea(@Scope(UNKNOWN) Object object,Class clazz, int size) {
+		try {
+            return getMemoryArea(object).newArray(clazz, size);
+        } catch (NegativeArraySizeException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
 	}
 
 	@SCJAllowed
@@ -230,7 +238,7 @@ public abstract class MemoryArea implements AllocationContext {
 	}
 
 	final Object newInstanceImpl(RealtimeThread thread, Class clazz)
-			throws InstantiationException, IllegalAccessException {
+			throws InstantiationException {
 		ScopeStack stack = thread.getScopeStack();
 		int oldActivePointer = stack.getDepth(true);
 		int indexOfThis = stack.getIndex(this, true);
@@ -240,10 +248,13 @@ public abstract class MemoryArea implements AllocationContext {
 
 		try {
 			return clazz.newInstance();
-		} finally {
+		} catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } finally {
 			VMSupport.setCurrentArea(oldScope);
 			stack.setActivePointer(oldActivePointer);
 		}
+        return null;
 	}
 
 	@SCJRestricted(maySelfSuspend = false)

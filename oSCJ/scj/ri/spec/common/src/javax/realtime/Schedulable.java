@@ -28,6 +28,13 @@ import javax.safetycritical.annotate.SCJAllowed;
 @SCJAllowed
 public interface Schedulable extends Runnable {
 
+    /**
+     * Does not allocate memory. Does not allow this to escape local variables.
+     * Returns an object that resides in the corresponding thread's
+     * MissionMemory scope.
+     */
+    //public MemoryParameters getMemoryParameters();
+    
     @SCJAllowed(LEVEL_2)
     public ReleaseParameters getReleaseParameters();
 
