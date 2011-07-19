@@ -52,6 +52,14 @@ public class NoHeapRealtimeThread extends RealtimeThread {
         return "NoHeap" + super.toString();
     }
     
+    /** 
+     * <pre>\issue{
+     * the overriden method is "mayAllocate = false", so we are restating the 
+     * annotations on this method as well. 
+     * TBD: should this be really  "mayAllocate = false"?
+     * }</pre>
+     */
+    @SCJRestricted(mayAllocate = false)
     public void start() {
     }
 }
