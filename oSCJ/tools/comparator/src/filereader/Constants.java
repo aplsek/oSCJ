@@ -24,6 +24,7 @@ package filereader;
 public class Constants {
 
 	//packages of interest
-	public static String[] packages = { "javax/realtime", "javax/safetycritical" };
+	public static String[] packages = { "java/lang", "java/math", "java/util",
+	    "java/io" , "java/util/concurrent","java/net", "java/util/", "java/lang/reflect", "java/lang/annotation", "javax/realtime", "javax/safetycritical" };
 	
 }

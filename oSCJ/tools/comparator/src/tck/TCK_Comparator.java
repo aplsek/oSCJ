@@ -144,7 +144,7 @@ public class TCK_Comparator {
     		if (source != null && target != null) {
     			int err = source.compare(target);
     			total += err;
-    			Report.report("Errors:" + err);
+    			//Report.report("Errors:" + err);
     			Report.report("\n");
     		}
     		if (target == null) {
