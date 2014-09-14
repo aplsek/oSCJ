@@ -36,3 +36,6 @@ Ovm
 - You can check-out our Ovm distribution from :
 hg clone https://ovm.scj-jsr302.googlecode.com/hg/ ovm  
 See our OVM readme file for more details about installing and running oSCJ with Ovm.
+
+
+Origina oSCJ repository available at https://code.google.com/p/scj-jsr302/
